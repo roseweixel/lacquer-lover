@@ -1,0 +1,23 @@
+<h1>All of the Lacquers!</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Brand</th>
+			<th>Name</th>
+			<th>Color</th>
+			<th>Finish</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @lacquers.each do |lacquer| %>
+			<tr>
+				<td><%= lacquer.brand %></td>
+				<td><%= lacquer.name %></td>
+				<td><%= lacquer.color %></td>
+				<td><%= lacquer.finish %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
