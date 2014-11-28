@@ -1,9 +1,9 @@
 class LacquersController < ApplicationController
   def index
     @lacquer = Lacquer.new
-    @opi_lacquers = Lacquer.where(brand: "OPI").first
-    @essie_lacquers = Lacquer.where(brand: "Essie").first
-    @butter_lacquers = Lacquer.where(brand: "Butter London").first
-    @deborah_lacquers = Lacquer.where(brand: "Deborah Lippmann").first
+    @opi_lacquers = Brand.where(name: "OPI").first.lacquers
+    @essie_lacquers = Brand.where(name: "Essie").first.lacquers
+    @butter_lacquers = Brand.where(name: "Butter London").first.lacquers
+    @deborah_lacquers = Brand.where(name: "Deborah Lippmann").first.lacquers
   end
 end
