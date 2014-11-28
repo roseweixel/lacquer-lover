@@ -3,6 +3,11 @@ class UsersController < ApplicationController
   #   User.create(name: params[:name])
   # end
 
+  def index
+    @user = current_user
+    @users = User.all
+  end
+
   def show
     @user = current_user
   end
