@@ -8,4 +8,10 @@ class UserLacquersController < ApplicationController
     flash[:notice] = "#{lacquer.name} has been added to your collection!"
     redirect_to(:back)
   end
+
+  def destroy
+    user_lacquer = UserLacquer.where(user_id: params['user_id'], lacquer_id: params['lacquer_id']).first
+    user_lacquer.destroy
+    redirect_to(:back)
+  end
 end

@@ -2,6 +2,6 @@
 
 <ul>
 <% @user.lacquers.each do |lacquer| %>
-	<li><%= lacquer.name %></li>
+	<li><%= lacquer.name %> <%= link_to 'x', user_lacquer_path(:lacquer_id => lacquer.id, :user_id => @user.id), method: 'DELETE' %></li>
 <% end %>
 </ul>
