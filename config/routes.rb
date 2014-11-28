@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root 'lacquers#index'
 
+  resources :sessions, :only => [:create, :destroy]
+
   resources :lacquers
 
   resources :users
