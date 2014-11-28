@@ -1,1 +1,7 @@
-<h1><%= @hello %></h1>
+<h1>All the Lacquer Lovers</h1>
+
+<ul>
+<% @users.each do |user| %>
+	<li><%= user.name %> <%= link_to "Request Friendship",  %></li>
+<% end %>
+</ul>
