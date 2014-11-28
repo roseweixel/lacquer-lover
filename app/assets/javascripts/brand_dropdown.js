@@ -1,5 +1,5 @@
 $(function(){
-	$('.lacquer-dropdown').hide();
+	// $('.lacquer-dropdown').hide();
     $('#brand-selection').change(function(event){
         var brand = $(this).val();
         $('.lacquer-dropdown').hide();
