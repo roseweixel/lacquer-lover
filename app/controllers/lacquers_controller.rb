@@ -1,6 +1,7 @@
 class LacquersController < ApplicationController
   def index
     @lacquer = Lacquer.new
+    @user_lacquer = UserLacquer.new
     @opi_lacquers = Brand.where(name: "OPI").first.lacquers
     @essie_lacquers = Brand.where(name: "Essie").first.lacquers
     @butter_lacquers = Brand.where(name: "Butter London").first.lacquers
@@ -10,5 +11,9 @@ class LacquersController < ApplicationController
     else
       @user = User.new
     end
+  end
+
+  def create
+    binding.pry
   end
 end

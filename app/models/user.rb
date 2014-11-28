@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   has_many :user_lacquers
   has_many :lacquers, through: :user_lacquers
 
+  #accepts_nested_attributes_for :user_lacquers
+
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.provider = auth.provider
