@@ -14,4 +14,12 @@ class User < ActiveRecord::Base
       user.save!
     end
   end
+
+  def first_name
+    name.split.first
+  end
+
+  def last_name
+    name.split.last
+  end
 end

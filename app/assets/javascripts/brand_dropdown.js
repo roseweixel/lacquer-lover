@@ -2,7 +2,7 @@ $(function(){
 	$('.lacquer-dropdown').hide();
     $('#brand-selection').change(function(event){
         var brand = $(this).val();
-        // $('.lacquer-dropdown').hide();
+        $('.lacquer-dropdown').hide();
         $('.add-lacquer').addClass("disabled");
         if(brand == "OPI") {
             $('#opi-dropdown').show();
