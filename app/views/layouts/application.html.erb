@@ -9,6 +9,28 @@
 </head>
 <body>
 
+<nav class="nav navbar-default navbar-fixed-top" roll="navigation">
+  <div class="navbar-header">
+    <%= link_to("LacquerLover", root_path, class: "navbar-brand") %>
+  </div>
+  <% if session[:user_id] %>
+  	<ul class="nav navbar-nav">
+    	<li style="margin-left: 50px;">
+     		<%= link_to("Welcome, #{current_user.name}! See your collection.", user_path(@user))  %>
+    	</li> 
+
+    	<li><%= link_to("Sign Out", logout_path, id:"sign_out") %></li>
+    </ul>
+  <% else %>
+  	<div class="nav navbar-nav navbar-right">
+	    <li>
+	    	<%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+	    </li>
+	  </div>
+  <% end %>
+
+</nav>
+
 <%= yield %>
 
 </body>
