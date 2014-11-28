@@ -2,9 +2,6 @@ class UsersController < ApplicationController
   # def create
   #   User.create(name: params[:name])
   # end
-  def index
-    @hello = 'hello'
-  end
 
   def index
     @user = current_user
@@ -12,6 +9,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = current_user
+    @user = User.find(params[:id])
+    @friendship = current_user.friendships.new(friend: @user)
   end
 end

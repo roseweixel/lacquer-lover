@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :user_lacquers
 
-  #resources :friendships
+  resources :friendships
 
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
