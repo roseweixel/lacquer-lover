@@ -1,8 +1,8 @@
 $(function(){
-	// $('.lacquer-dropdown').hide();
+	$('.lacquer-dropdown').hide();
     $('#brand-selection').change(function(event){
         var brand = $(this).val();
-        $('.lacquer-dropdown').hide();
+        // $('.lacquer-dropdown').hide();
         $('.add-lacquer').addClass("disabled");
         if(brand == "OPI") {
             $('#opi-dropdown').show();
@@ -12,7 +12,7 @@ $(function(){
             $('#butter-dropdown').show();
         } else if(brand == "Deborah Lippmann") {
         	$('#deborah-dropdown').show();
-        }
+        };
     });
 
     $('.lacquer-dropdown').change(function(event){
