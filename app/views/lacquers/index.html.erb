@@ -1,23 +1,37 @@
-<h1>All of the Lacquers!</h1>
+<div class="dropdown" style="margin-top: 25px;">
+  <select id="brand-selection" class="btn-lg btn-default" style="width:55%;height:45px;">
+    <option value="hasnt-been-chosen">Choose your brand</option>
+    <option value="OPI">OPI</option>
+    <option value="Essie">Essie</option>
+    <option value="Butter London">Butter London</option>
+    <option value="Deborah Lippmann">Deborah Lippmann</option>
+  </select>
+</div>
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>Brand</th>
-			<th>Name</th>
-			<th>Color</th>
-			<th>Finish</th>
-		</tr>
-	</thead>
+<div class="lacquer-dropdown dropdown btn-lg" id="opi-dropdown">
+  <%= form_for @lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+    <%= f.collection_select :id, @opi_lacquers,:id,:name, {:prompt => "Select an OPI lacquer"}, :class => "btn-lg" %>
+      <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
+  <% end %>
+</div>
 
-	<tbody>
-		<% @lacquers.each do |lacquer| %>
-			<tr>
-				<td><%= lacquer.brand %></td>
-				<td><%= lacquer.name %></td>
-				<td><%= lacquer.color %></td>
-				<td><%= lacquer.finish %></td>
-			</tr>
-		<% end %>
-	</tbody>
-</table>
+<div class="lacquer-dropdown dropdown btn-lg" id="essie-dropdown">
+  <%= form_for @lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+    <%= f.collection_select :id, @essie_lacquers,:id,:name, {:prompt => "Select an Essie lacquer"}, :class => "btn-lg" %>
+    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
+  <% end %>
+</div>
+
+<div class="lacquer-dropdown dropdown btn-lg" id="butter-dropdown">
+  <%= form_for @lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+    <%= f.collection_select :id, @butter_lacquers,:id,:name, {:prompt => "Select a Butter London lacquer"}, :class => "btn-lg" %>
+    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
+  <% end %>
+</div>
+
+<div class="lacquer-dropdown dropdown btn-lg" id="deborah-dropdown">
+  <%= form_for @lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+    <%= f.collection_select :id, @deborah_lacquers,:id,:name, {:prompt => "Select a Deborah Lipmann lacquer"}, :class => "btn-lg" %>
+    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
+  <% end %>
+</div>

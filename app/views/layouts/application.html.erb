@@ -9,7 +9,41 @@
 </head>
 <body>
 
+<div class="container">
+
+<nav class="nav navbar-default navbar-fixed-top" roll="navigation">
+  <div class="navbar-header">
+    <%= link_to("LacquerLover", root_path, class: "navbar-brand navbar-left") %>
+  
+    <% if session[:user_id] %>
+      <ul class="nav navbar-nav">
+        <li>
+          <%= link_to("Welcome, #{current_user.first_name}! See your profile.", user_path(current_user))  %>
+        </li> 
+
+        <li><%= link_to("Sign Out", signout_path, id:"sign_out") %></li>
+
+        <li><%= link_to("Find a Friend", users_path) %></li>
+      </ul>
+    <% else %>
+      <ul class="nav navbar-nav">
+        <li>
+	    	  <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+        </li>
+        <li>
+          <%= form_for @user, :url => sessions_path, :html => { :style => "padding:15px;" } do |f| %>
+            <%= f.text_field :name, placeholder: "your name" %>
+            <%= f.submit "Sign In" %>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+</nav>
+<%= notice %>
 <%= yield %>
+
+</div>
 
 </body>
 </html>
