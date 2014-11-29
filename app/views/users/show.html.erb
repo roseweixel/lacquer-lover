@@ -68,6 +68,7 @@
 									<%= f.hidden_field :type, value: 'Loan' %>
 									<%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
 									<%= f.hidden_field :requester_id, value: current_user.id %>
+									<%= f.hidden_field :owner_id, value: @user.id %>
 									<%= f.submit 'Can I borrow this?' %>
 								<% end %>
 							<% else %>
@@ -117,13 +118,27 @@
 	<% end %>
 
 	<% if @user.owned_transactions.count > 0 %>
-	<h3>Transactions Awaiting Your Approval</h3>
-	<ul>
-	<% @user.owned_transactions.each do |transaction| %>
-		<% friend = User.find(transaction.requester_id) %>
-		<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-		<li><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>. <%= link_to "Accept Request", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %></li>
-	<% end %>
-	</ul>
+
+		<% if @user.transactions_for_your_approval.count > 0 %>
+			<h3>Transactions Awaiting Your Approval</h3>
+			<ul>
+			<% @user.owned_transactions.each do |transaction| %>
+				<% friend = User.find(transaction.requester_id) %>
+				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+				<li><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>. <%= link_to "Accept Request", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %></li>
+			<% end %>
+			</ul>
+		<% end %>
+
+		<% if @user.transactions_you_accepted.count > 0 %>
+			<h3>Transactions You Accepted</h3>
+			<ul>
+			<% @user.transactions_you_accepted.each do |transaction| %>
+				<% friend = User.find(transaction.requester_id) %>
+				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+				<li><%= link_to friend.name, user_path(friend) %> is borrowing <%= lacquer.name %>. <%= link_to "Conclude Request", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %></li>
+			<% end %>
+			</ul>
+		<% end %>
 	<% end %>
 <% end %>

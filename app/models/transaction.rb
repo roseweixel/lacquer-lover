@@ -3,6 +3,10 @@ class Transaction < ActiveRecord::Base
   belongs_to :requester, class_name: 'User', foreign_key: 'requester_id'
 
   validate :transaction_must_be_unique, :on => :create
+  
+  # before_save do
+  #   self.owner_id = username.gsub(" ", "-").downcase
+  # end
 
   def owner
     User.find(user_lacquer.user_id)

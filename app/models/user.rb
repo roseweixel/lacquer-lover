@@ -79,9 +79,25 @@ class User < ActiveRecord::Base
     Transaction.where(requester_id: self.id)
   end
 
+  def pending_requested_transactions
+    requested_transactions.where(state: 'pending')
+  end
+
+  def accepted_requested_transactions
+    requested_transactions.where(state: 'accepted')
+  end
+
   def owned_transactions
     #Brand.where(:subdomain => "coke").includes(:products).to_sql
-    Transaction.all.select{ |transaction| self.user_lacquers.ids.include?(transaction.user_lacquer_id) }
+    Transaction.where(owner_id: self.id)
+  end
+
+  def transactions_for_your_approval
+    owned_transactions.where(state: 'pending')
+  end
+
+  def transactions_you_accepted
+    owned_transactions.where(state: 'accepted')
   end
 
 end

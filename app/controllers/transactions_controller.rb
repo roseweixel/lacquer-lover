@@ -2,10 +2,11 @@ require 'date'
 
 class TransactionsController < ApplicationController
   def create
+    #binding.pry
     user_lacquer = UserLacquer.find(params[:transaction][:user_lacquer_id])
     owner = User.find(user_lacquer.user_id)
     lacquer = Lacquer.find(user_lacquer.lacquer_id)
-    transaction = Transaction.new(user_lacquer_id: params[:transaction][:user_lacquer_id], requester_id: params[:transaction][:requester_id], type: params[:transaction][:type])
+    transaction = Transaction.new(user_lacquer_id: params[:transaction][:user_lacquer_id], requester_id: params[:transaction][:requester_id], owner_id: params[:transaction][:owner_id], type: params[:transaction][:type])
     transaction.state = 'pending'
     if transaction.save
       flash[:notice] = "You've successfully asked #{owner.first_name} to loan you #{lacquer.name}"
