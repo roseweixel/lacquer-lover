@@ -1,13 +1,7 @@
 <h1><%= @user.first_name %>'s Profile</h1>
 	
 	<% if @user != current_user %>
-	<%= form_for @friendship, method: :post do |f| %>
-		<div class="form form-actions">
-			<%= f.hidden_field :friend_id, value: @user.id %>
-			<%= f.hidden_field :user_id, value: current_user.id %>
-			<%= submit_tag "Add Friend", class: 'btn btn-primary' %>
-		</div>
-	<% end %>
+		<%= link_to "Add Friend", new_friendship_path(friend_id: @user) %>
 	<% end %>
 
 <h3><%= @user.first_name %>'s Lacquers</h3>
@@ -17,9 +11,30 @@
 <% end %>
 </ul>
 
-<h3><%= @user.first_name %>'s Friends</h3>
+<% if @user.accepted_friends.count > 0 %>
+<h3>Friends</h3>
 <ul>
-<% @user.friends.each do |friend| %>
+<% @user.accepted_friends.each do |friend| %>
 	<li><%= link_to friend.name, user_path(friend) %></li>
 <% end %>
 </ul>
+<% end %>
+
+<% if @user.requested_friends_awaiting_approval.count > 0 %>
+<h3>Your Pending Friend Requests</h3>
+<ul>
+<% @user.requested_friends_awaiting_approval.each do |friend| %>
+	<li><%= link_to friend.name, user_path(friend) %></li>
+<% end %>
+</ul>
+<% end %>
+
+<% if @user.friends_for_your_approval.count > 0 %>
+<h3>Friendships Awaiting Your Approval</h3>
+<ul>
+<% @user.friends_for_your_approval.each do |friendship| %>
+	<% friend = User.find(friendship.user_id) %>
+	<li><%= link_to friend.name, user_path(friend) %> <%= link_to "Accept Friendship", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH"} %></li>
+<% end %>
+</ul>
+<% end %>
