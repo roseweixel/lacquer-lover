@@ -18,6 +18,44 @@
 	<div class="page-header">
 		<% if @user == current_user %>
 			<h3>Your Lacquers</h1>
+			<h4>Add A Lacquer</h4>
+			<div class="dropdown" style="margin-top: 25px;">
+			  <select id="brand-selection" class="btn-lg btn-default">
+			    <option value="hasnt-been-chosen">Choose your brand</option>
+			    <option value="OPI">OPI</option>
+			    <option value="Essie">Essie</option>
+			    <option value="Butter London">Butter London</option>
+			    <option value="Deborah Lippmann">Deborah Lippmann</option>
+			  </select>
+			</div>
+
+			<div class="lacquer-dropdown dropdown btn-lg" id="opi-dropdown">
+			  <%= form_for @new_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+			    <%= f.collection_select :id, @opi_lacquers,:id,:name, {:prompt => "Select an OPI lacquer"}, :class => "btn-lg" %>
+			      <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled	" %>
+			  <% end %>
+			</div>
+
+			<div class="lacquer-dropdown dropdown btn-lg" id="essie-dropdown">
+			  <%= form_for @new_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+			    <%= f.collection_select :id, @essie_lacquers,:id,:name, {:prompt => "Select an Essie lacquer"}, :class => "btn-lg" %>
+			    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
+			  <% end %>
+			</div>
+
+			<div class="lacquer-dropdown dropdown btn-lg" id="butter-dropdown">
+			  <%= form_for @new_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+			    <%= f.collection_select :id, @butter_lacquers,:id,:name, {:prompt => "Select a Butter London lacquer"}, :class => "btn-lg" %>
+			    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
+			  <% end %>
+			</div>
+
+			<div class="lacquer-dropdown dropdown btn-lg" id="deborah-dropdown">
+			  <%= form_for @new_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+			    <%= f.collection_select :id, @deborah_lacquers,:id,:name, {:prompt => "Select a Deborah Lipmann lacquer"}, :class => "btn-lg" %>
+			    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
+			  <% end %>
+			</div>
 		<% else %>
 			<h3><%= @user.first_name %>'s Lacquers</h3>
 		<% end %>
@@ -189,6 +227,32 @@
 				<% friend = User.find(transaction.owner_id) %>
 				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
 				<li><%= link_to friend.name, user_path(friend) %> has agreed to loan you <%= lacquer.name %>.</li>
+			<% end %>
+			</ul>
+		<% end %>
+
+		<% if @user.active_requested_transactions.count > 0 %>
+			<h3>Lacquers Currently Loaned Out to You</h3>
+			<ul>
+			<% @user.active_requested_transactions.each do |transaction| %>
+				<% friend = User.find(transaction.owner_id) %>
+				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+				<li>
+				<%= link_to friend.name, user_path(friend) %> gave you <%= lacquer.name %> on <%= transaction.date_became_active.strftime("%m/%d/%Y") %>.
+				<% if transaction.due_date %>
+					<% if transaction.overdue? %>
+						<div class="alert alert-danger" role="alert">
+						You're <%= pluralize(transaction.days_overdue, 'day') %> overdue to return this lacquer. Don't mess with karma - give it back!
+						</div>
+					<% elsif transaction.due_today? %>
+						Remember to give this lacquer back <strong>today</strong>!
+					<% elsif transaction.due_tomorrow? %>
+						Remember to give this lacquer back <strong>tomorrow</strong>!
+					<% else %>
+						The return date for this loan is <%= transaction.due_date.strftime("%m/%d/%Y") %>.
+					<% end %>
+				<% end %>
+				</li>
 			<% end %>
 			</ul>
 		<% end %>
