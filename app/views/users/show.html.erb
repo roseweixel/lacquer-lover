@@ -14,8 +14,14 @@
 	</div>
 
 <% if (@user == current_user) || (current_user.accepted_friends.include?(@user)) %>
-
-	<h3><%= @user.first_name %>'s Lacquers</h3>
+	<section>
+	<div class="page-header">
+		<% if @user == current_user %>
+			<h3>Your Lacquers</h1>
+		<% else %>
+			<h3><%= @user.first_name %>'s Lacquers</h3>
+		<% end %>
+	</div>
 	<table class="table" id="user-lacquer-collection">
 		<thead>
 			<tr>
@@ -24,25 +30,46 @@
 				<th>Color</th>
 				<th>Finish</th>
 				<% if @user == current_user %>
+					<th>Loanable?</th>
+					<th>On Loan?</th>
 					<th>DELETE</th>
+				<% else %>
+					<th>Loan Requests</th>
 				<% end %>
 			</tr>
 		</thead>
 		<tbody>
-		<% @user.lacquers.each do |lacquer| %>
+		<% @user.user_lacquers.each do |user_lacquer| %>
+			<% lacquer = Lacquer.find(user_lacquer.lacquer_id) %>
 			<tr>
 				<td><%= lacquer.brand.name %></td>
 				<td><%= lacquer.name %></td>
 				<td><%= lacquer.color_string %></td>
 				<td><%= lacquer.finish_string %></td>
 				<% if @user == current_user %>
+					<td>
+						<%= form_for(user_lacquer) do |f| %>
+							<%= f.check_box :loanable %>
+							<%= f.submit :class =>"btn btn-default btn-xs", :value => "update" %>
+						<% end %>
+					</td>
+					<td>
+						<%= form_for(user_lacquer) do |f| %>
+							<%= f.check_box :on_loan %>
+							<%= f.submit :class =>"btn btn-default btn-xs", :value => "update" %>
+						<% end %>
+					</td>
 					<td><%= link_to 'x', user_lacquer_path(:lacquer_id => lacquer.id, :user_id => @user.id), method: 'DELETE' %></td>
+				<% else %>
+					<% if user_lacquer.available? %>
+						
+					<% end %>
 				<% end %>
 			</tr>
 	<% end %>
 		</tbody>
 	</table>
-
+	</section>
 	<% if @user.accepted_friends.count > 0 %>
 	<h3>Friends</h3>
 	<ul>
@@ -68,7 +95,7 @@
 	<ul>
 	<% @user.friendships_for_your_approval.each do |friendship| %>
 		<% friend = User.find(friendship.user_id) %>
-		<li><%= link_to friend.name, user_path(friend) %> <%= link_to "Accept Friendship", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH"} %></li>
+		<li><%= link_to friend.name, user_path(friend) %> <%= link_to "Accept Friendship", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %></li>
 	<% end %>
 	</ul>
 	<% end %>
