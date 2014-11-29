@@ -38,12 +38,25 @@ class User < ActiveRecord::Base
     pending_friends
   end
 
-  def friends_for_your_approval
+  def friendships_for_your_approval
     pending_friendships = []
     Friendship.where(friend_id: self.id, state: 'pending').each do |friendship|
       pending_friendships << friendship
     end
     pending_friendships
+  end
+
+  def friends_for_your_approval
+    pending_friends = []
+    Friendship.where(friend_id: self.id, state: 'pending').each do |friendship|
+      friend = User.find(friendship.user_id)
+      pending_friends << friend
+    end
+    pending_friends
+  end
+
+  def all_friends
+    accepted_friends + requested_friends_awaiting_approval + friends_for_your_approval
   end
 
   def first_name

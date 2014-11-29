@@ -11,7 +11,12 @@ class UserLacquersController < ApplicationController
 
   def destroy
     user_lacquer = UserLacquer.where(user_id: params['user_id'], lacquer_id: params['lacquer_id']).first
-    user_lacquer.destroy
-    redirect_to(:back)
+    if params['user_id'] == current_user.id
+      user_lacquer.destroy
+      redirect_to(:back)
+    else
+      flash[:notice] = "You can't delete another user's lacquer!"
+      redirect_to(:back)
+    end
   end
 end
