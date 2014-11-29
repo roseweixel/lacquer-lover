@@ -62,7 +62,14 @@
 					<td><%= link_to 'x', user_lacquer_path(:lacquer_id => lacquer.id, :user_id => @user.id), method: 'DELETE' %></td>
 				<% else %>
 					<% if user_lacquer.available? %>
-						
+						<td>
+							<%= form_for(@transaction) do |f| %>
+								<%= f.hidden_field :type, value: 'Loan' %>
+								<%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
+								<%= f.hidden_field :requester_id, value: current_user.id %>
+								<%= f.submit 'Can I borrow this?' %>
+							<% end %>
+						</td>
 					<% end %>
 				<% end %>
 			</tr>

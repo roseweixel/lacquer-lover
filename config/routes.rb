@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :users
   
-
+  resources :transactions
 
   resources :user_lacquers
 
