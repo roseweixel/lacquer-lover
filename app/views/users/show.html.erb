@@ -63,7 +63,7 @@
 				<% else %>
 					<% if user_lacquer.available? %>
 						<td>
-							<% if Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id).empty? %>
+							<% if Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id, state:['pending', 'accepted']).empty? %>
 								<%= form_for(@transaction) do |f| %>
 									<%= f.hidden_field :type, value: 'Loan' %>
 									<%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
@@ -122,7 +122,7 @@
 		<% if @user.transactions_for_your_approval.count > 0 %>
 			<h3>Transactions Awaiting Your Approval</h3>
 			<ul>
-			<% @user.owned_transactions.each do |transaction| %>
+			<% @user.transactions_for_your_approval.each do |transaction| %>
 				<% friend = User.find(transaction.requester_id) %>
 				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
 				<li><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>. <%= link_to "Accept Request", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %></li>
