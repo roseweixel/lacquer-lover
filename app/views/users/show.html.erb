@@ -136,7 +136,42 @@
 			<% @user.transactions_you_accepted.each do |transaction| %>
 				<% friend = User.find(transaction.requester_id) %>
 				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-				<li><%= link_to friend.name, user_path(friend) %> is borrowing <%= lacquer.name %>. <%= link_to "Conclude Request", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %></li>
+				<li>
+					You've agreed to loan <%= lacquer.name %> out to <%= link_to friend.name, user_path(friend) %>. <%= link_to "I gave #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %>
+				</li>
+				<%= form_for transaction do |f| %>
+					<%= f.label :due_date, "Add or Update Due Date" %>
+					<%= f.date_field :due_date %>
+					<%= f.submit %>
+				<% end %> 
+			<% end %>
+			</ul>
+
+
+
+		<% end %>
+	<% end %>
+
+	<% if @user.requested_transactions.count > 0 %>
+
+		<% if @user.pending_requested_transactions.count > 0 %>
+			<h3>Pending Loan Requests</h3>
+			<ul>
+			<% @user.pending_requested_transactions.each do |transaction| %>
+				<% friend = User.find(transaction.owner_id) %>
+				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+				<li>You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= lacquer.name %></li>
+			<% end %>
+			</ul>
+		<% end %>
+
+		<% if @user.accepted_requested_transactions.count > 0 %>
+			<h3>Accepted Loan Requests</h3>
+			<ul>
+			<% @user.accepted_requested_transactions.each do |transaction| %>
+				<% friend = User.find(transaction.owner_id) %>
+				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+				<li><%= link_to friend.name, user_path(friend) %> has agreed to loan you <%= lacquer.name %>.</li>
 			<% end %>
 			</ul>
 		<% end %>
