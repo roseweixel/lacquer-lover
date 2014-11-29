@@ -115,4 +115,15 @@
 	<% end %>
 	</ul>
 	<% end %>
+
+	<% if @user.owned_transactions.count > 0 %>
+	<h3>Transactions Awaiting Your Approval</h3>
+	<ul>
+	<% @user.owned_transactions.each do |transaction| %>
+		<% friend = User.find(transaction.requester_id) %>
+		<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+		<li><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>. <%= link_to "Accept Request", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %></li>
+	<% end %>
+	</ul>
+	<% end %>
 <% end %>

@@ -20,7 +20,9 @@ ActiveRecord::Schema.define(version: 20141129041804) do
   end
 
   create_table "colors", force: true do |t|
-    t.string "name"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "finishes", force: true do |t|

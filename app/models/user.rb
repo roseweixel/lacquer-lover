@@ -23,6 +23,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def first_name
+    name.split.first
+  end
+
+  def last_name
+    name.split.last
+  end
+
   def accepted_friends
     accepted_friends = []
     Friendship.where(user_id: self.id, state: 'accepted').each do |friendship|
@@ -63,15 +71,17 @@ class User < ActiveRecord::Base
     accepted_friends + requested_friends_awaiting_approval + friends_for_your_approval
   end
 
-  def first_name
-    name.split.first
-  end
-
   def has_blocked?(other_user)
     blocked_friends.include?(other_user)
   end
 
-  def last_name
-    name.split.last
+  def requested_transactions
+    Transaction.where(requester_id: self.id)
   end
+
+  def owned_transactions
+    #Brand.where(:subdomain => "coke").includes(:products).to_sql
+    Transaction.all.select{ |transaction| self.user_lacquers.ids.include?(transaction.user_lacquer_id) }
+  end
+
 end
