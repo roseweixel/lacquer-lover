@@ -63,11 +63,20 @@
 				<% else %>
 					<% if user_lacquer.available? %>
 						<td>
-							<%= form_for(@transaction) do |f| %>
-								<%= f.hidden_field :type, value: 'Loan' %>
-								<%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
-								<%= f.hidden_field :requester_id, value: current_user.id %>
-								<%= f.submit 'Can I borrow this?' %>
+							<% if Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id).empty? %>
+								<%= form_for(@transaction) do |f| %>
+									<%= f.hidden_field :type, value: 'Loan' %>
+									<%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
+									<%= f.hidden_field :requester_id, value: current_user.id %>
+									<%= f.submit 'Can I borrow this?' %>
+								<% end %>
+							<% else %>
+								<% transaction = Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id).first %>
+								<% if transaction.state == 'pending' %>
+									<%= form_for(transaction, method: 'DELETE') do |f| %>
+									<%= f.submit 'delete pending request' %>
+								<% end %>
+								<% end %>
 							<% end %>
 						</td>
 					<% end %>
