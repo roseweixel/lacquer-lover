@@ -96,7 +96,6 @@ class User < ActiveRecord::Base
   end
 
   def owned_transactions
-    #Brand.where(:subdomain => "coke").includes(:products).to_sql
     Transaction.where(owner_id: self.id)
   end
 
@@ -106,6 +105,14 @@ class User < ActiveRecord::Base
 
   def transactions_you_accepted
     owned_transactions.where(state: 'accepted')
+  end
+
+  def active_owned_transactions
+    owned_transactions.where(state: 'active')
+  end
+
+  def concluded_owned_transactions
+    owned_transactions.where(state: 'completed')
   end
 
 end
