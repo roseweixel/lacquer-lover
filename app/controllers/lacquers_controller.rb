@@ -47,7 +47,7 @@ class LacquersController < ApplicationController
   end
 
   def update
-    binding.pry
+    #binding.pry
     @user = current_user
     @lacquer = Lacquer.find(params[:id])
     @lacquer.update(lacquer_params)
