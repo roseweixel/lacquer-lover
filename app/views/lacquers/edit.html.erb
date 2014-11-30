@@ -11,3 +11,12 @@
 	<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description %><br>
 	<%= f.submit %>
 <% end %>
+<br>
+<div class="well">
+	<h3>Upload a Swatch for <%= @lacquer.name %></h3>
+  <%= form_for @swatch, html: { multipart: true } do |f| %>
+    <%= f.label :attachment %>
+    <%= f.file_field :attachment %>
+    <%= f.submit "Save", class: "btn btn-primary" %>
+  <% end %>
+</div>

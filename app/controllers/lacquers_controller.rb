@@ -43,6 +43,7 @@ class LacquersController < ApplicationController
 
   def edit
     @lacquer = Lacquer.find(params[:id])
+    @swatch = @lacquer.swatches.new
   end
 
 end

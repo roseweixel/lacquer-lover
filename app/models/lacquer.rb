@@ -6,6 +6,7 @@ class Lacquer < ActiveRecord::Base
   has_many :finishes, through: :lacquer_finishes
   has_many :user_lacquers, dependent: :destroy
   has_many :users, through: :user_lacquers
+  has_many :swatches
 
   validates :name, :brand, presence: true
   validates :name, uniqueness: true
@@ -13,6 +14,7 @@ class Lacquer < ActiveRecord::Base
   accepts_nested_attributes_for :colors
   accepts_nested_attributes_for :finishes
   accepts_nested_attributes_for :user_lacquers
+  accepts_nested_attributes_for :swatches
 
   def color_string
     string_array = []

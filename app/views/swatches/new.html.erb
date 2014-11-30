@@ -1,0 +1,19 @@
+<h1>Create a New Swatch</h1>
+
+<% if !@swatch.errors.empty? %>
+  <div class="alert alert-error">
+    <ul>
+      <% @swatch.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="well">
+  <%= form_for @swatch, html: { multipart: true } do |f| %>
+    <%= f.label :attachment %>
+    <%= f.file_field :attachment %>
+    <%= f.submit "Save", class: "btn btn-primary" %>
+  <% end %>
+</div>
