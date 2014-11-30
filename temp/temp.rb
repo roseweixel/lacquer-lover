@@ -1,40 +1,49 @@
 class butterLondon
-  URL = "http://www.butterlondon.com/Lacquers/"
-  attr_accessor :url, :nokogiri_doc, :nail_urls
+  
+  URL = ["http://www.butterlondon.com/Lacquers/", "http://www.butterlondon.com/Lacquers/?range=49%2C96%2C123", "http://www.butterlondon.com/Lacquers/?range=97%2C123%2C123"]
+  attr_accessor :polish_urls, :polish_pics, :polish_names
 
   def initialize
-    @url = URL
-    @nokogiri_doc = Nokogiri::HTML(open(url))
     @polish_urls = []
     @polish_pics = []
     @polish_names = []
   end
 
   def item_url
-    item_url = nokogiri_doc.css('a.mini_category_cell_img')
-    item_url.each do |item|
-      url = item.attributes["href"].value
-      @polish_urls << url
-      puts "#{url}"
+    URL.each do |page|
+      nokogiri_doc = Nokogiri::HTML(open(page))
+      item_url = nokogiri_doc.css('a.mini_category_cell_img')
+      item_url.each do |item|
+        url = item.attributes["href"].value
+        @polish_urls << url
+        puts "#{url}"
+      end
     end
+    @polish_urls
   end
 
   def image
-    image_url = nokogiri_doc.css('div.mini_category_cell img')
-    image_url.each do |item|
-      polish_pic = item.attributes["src"].value
-      @polish_pics << polish_pic
-      puts "#{polish_pic}"
+    URL.each do |page|
+      nokogiri_doc = Nokogiri::HTML(open(page))
+      image_url = nokogiri_doc.css('div.mini_category_cell img')
+      image_url.each do |item|
+        polish_pic = item.attributes["src"].value
+        @polish_pics << polish_pic
+      end
     end
+    @polish_pics
   end
 
   def name
-    polish_name = nokogiri_doc.css('div.mini_cell_title h5')
-    polish_name.each do |item|
-      butter_name = item.text
-      @polish_names << butter_name
-      puts "#{butter_name}"
+    URL.each do |page|
+      nokogiri_doc = Nokogiri::HTML(open(page))
+      polish_name = nokogiri_doc.css('div.mini_cell_title h5')
+      polish_name.each do |item|
+        butter_name = item.text
+        @polish_names << butter_name
+      end
     end
+    @polish_names
   end
 
 end
