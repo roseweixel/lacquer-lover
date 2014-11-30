@@ -36,18 +36,20 @@
 			    <%= f.hidden_field :brand, value: "OPI", :class => "other-lacquer" %>
 			    <%= f.hidden_field :user_added_by_id, value: current_user.id, :class => "other-lacquer" %>
 			    <%= f.text_field :name, placeholder: "lacquer name", :class => "other-lacquer", :required => true %>
-			    <%= f.fields_for @color_1 do |color_form_1| %>
-			    	<%= color_form_1.select(:id[], Color.all.collect {|c| [c.name, c.id] }, {:prompt => "Select a color"}, :class => "other-lacquer btn", :required => true) %>
-			    <% end %>
-			    <%= f.fields_for @color_2 do |color_form_2| %>
-			    	<%= color_form_2.select(:id[], Color.all.collect {|c| [c.name, c.id] }, {:prompt => "secondary color (optional)"}, :class => "other-lacquer btn") %>
-			    <% end %>
-			    <%= f.fields_for @finish_1 do |finish_form_1| %>
-			    	<%= finish_form_1.select(:id[], Finish.all.collect {|f| [f.description, f.id] }, {:prompt => "Select a finish"}, :class => "other-lacquer btn", :required => true) %>
-			    <% end %>
-			    <%= f.fields_for @finish_2 do |finish_form_2| %>
-			    	<%= finish_form_2.select(:id[], Finish.all.collect {|f| [f.description, f.id] }, {:prompt => "secondary finish (optional)"}, :class => "other-lacquer btn",) %>
-			    <% end %>
+			    <a href="" class="dropdown-btn other-lacquer color-dropdown" data-toggle="dropdown">
+            Select Colors
+            <b class="caret"></b>
+          </a>
+ 					<div class="dropdown-menu" id="color-dropdown" style="padding: 10px;">
+    			<%= f.collection_check_boxes :color_ids, Color.all, :id, :name %>
+    			</div>
+    			<a href="" class="dropdown-btn other-lacquer finish-dropdown" data-toggle="dropdown">
+            Select Finishes
+            <b class="caret"></b>
+          </a>
+          <div class="dropdown-menu" id="finish-dropdown" style="padding: 10px;">
+    			<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description%><br>
+    			</div>
 			    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
 			  <% end %>
 			</div>

@@ -28,5 +28,16 @@ $(function(){
             $('.add-lacquer').removeClass("disabled");
         }
     });
+    
+    $('#finish-dropdown').hide();
+    $('#color-dropdown').hide();
+    
+    $('.color-dropdown').click(function(event){
+        $('#color-dropdown').toggle();
+    });
+
+    $('.finish-dropdown').click(function(event){
+        $('#finish-dropdown').toggle();
+    });
 
 });

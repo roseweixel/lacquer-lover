@@ -1,12 +1,28 @@
 class UserLacquersController < ApplicationController
 
   def create
-    binding.pry
+    #binding.pry
     user_id = current_user.id
     lacquer_id = params["lacquer"]["id"]
     if lacquer_id == "new"
       brand = Brand.find_by(name: params[:lacquer][:brand])
       lacquer = Lacquer.create(brand: brand, name: params[:lacquer][:name], user_added_by_id: params[:lacquer][:user_added_by_id])
+      if params[:lacquer][:color_ids]
+        params[:lacquer][:color_ids].each do |color_id|
+          if color_id != ""
+            color = Color.find(color_id)
+            lacquer.colors.push(color)
+          end
+        end
+      end
+      if params[:lacquer][:finish_ids]
+        params[:lacquer][:finish_ids].each do |finish_id|
+          if finish_id != ""
+            finish = Finish.find(finish_id)
+            lacquer.finishes.push(finish)
+          end
+        end
+      end
     else
       lacquer = Lacquer.find(lacquer_id)
     end
