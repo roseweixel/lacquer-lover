@@ -12,11 +12,10 @@ class butterLondon
   def item_url
     URL.each do |page|
       nokogiri_doc = Nokogiri::HTML(open(page))
-      item_url = nokogiri_doc.css('a.mini_category_cell_img')
-      item_url.each do |item|
+      polish_url = nokogiri_doc.css('a.mini_category_cell_img')
+      polish_url.each do |item|
         url = item.attributes["href"].value
         @polish_urls << url
-        puts "#{url}"
       end
     end
     @polish_urls
