@@ -11,7 +11,7 @@
 	<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description %><br>
 
 	<h3>Upload a Swatch for <%= @lacquer.name %></h3>
-	<%= f.fields_for :swatches, @lacquer.swatches, :html => { :multipart => true } do |swatch_form| %>
+	<%= f.fields_for :swatches, @lacquer.swatches.new, :html => { :multipart => true } do |swatch_form| %>
     <p>
     <%= swatch_form.hidden_field :user_id, value: current_user.id %>
     <%= swatch_form.file_field :image %>
@@ -20,6 +20,19 @@
   <%= f.submit %>
 <% end %>
 
-<% @lacquer.swatches.each do |swatch| %>
-	<%= image_tag swatch.image.url(:medium) %>
+<% if @lacquer.swatches.count > 0 %>
+<h3>Swatches for <%= @lacquer.name %></h3>
+	<div class="row">
+	<% @lacquer.swatches.each do |swatch| %>
+		<% if swatch.image.file? %>
+			<div class="col-3">
+			<%= image_tag swatch.image.url(:medium)%><br>
+			added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y at %I:%M%p")  %><br>
+			<% if swatch.user == current_user %>
+				<%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
+			<% end %>
+			</div>
+		<% end %>
+	<% end %>
+	</div>
 <% end %>
