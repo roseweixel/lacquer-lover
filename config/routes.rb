@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   resources :lacquers
 
+  resources :brands
+
   resources :users
   
   resources :transactions

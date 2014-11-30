@@ -1,3 +1,4 @@
+<% if current_user %>
 <div class="dropdown" style="margin-top: 25px;">
   <select id="brand-selection" class="btn-lg btn-default" style="width:55%;height:45px;">
     <option value="hasnt-been-chosen">Choose your brand</option>
@@ -9,29 +10,37 @@
 </div>
 
 <div class="lacquer-dropdown dropdown btn-lg" id="opi-dropdown">
-  <%= form_for @lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
-    <%= f.collection_select :id, @opi_lacquers,:id,:name, {:prompt => "Select an OPI lacquer"}, :class => "btn-lg" %>
+  <%= form_for @user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.collection_select :lacquer_id, @opi_lacquers,:id,:name, {:prompt => "Select an OPI lacquer"}, :class => "btn-lg" %>
       <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
   <% end %>
 </div>
 
 <div class="lacquer-dropdown dropdown btn-lg" id="essie-dropdown">
-  <%= form_for @lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
-    <%= f.collection_select :id, @essie_lacquers,:id,:name, {:prompt => "Select an Essie lacquer"}, :class => "btn-lg" %>
+  <%= form_for @user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.collection_select :lacquer_id, @essie_lacquers,:id,:name, {:prompt => "Select an Essie lacquer"}, :class => "btn-lg" %>
     <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
   <% end %>
 </div>
 
 <div class="lacquer-dropdown dropdown btn-lg" id="butter-dropdown">
-  <%= form_for @lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
-    <%= f.collection_select :id, @butter_lacquers,:id,:name, {:prompt => "Select a Butter London lacquer"}, :class => "btn-lg" %>
+  <%= form_for @user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.collection_select :lacquer_id, @butter_lacquers,:id,:name, {:prompt => "Select a Butter London lacquer"}, :class => "btn-lg" %>
     <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
   <% end %>
 </div>
 
 <div class="lacquer-dropdown dropdown btn-lg" id="deborah-dropdown">
-  <%= form_for @lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
-    <%= f.collection_select :id, @deborah_lacquers,:id,:name, {:prompt => "Select a Deborah Lipmann lacquer"}, :class => "btn-lg" %>
+  <%= form_for @user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.collection_select :lacquer_id, @deborah_lacquers,:id,:name, {:prompt => "Select a Deborah Lipmann lacquer"}, :class => "btn-lg" %>
     <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
   <% end %>
 </div>
+<% else %>
+<h1>Welcome to Lacquer Lover!</h1>
+<h2>Please sign in to get started.</h2>
+<% end %>

@@ -1,7 +1,6 @@
 class UserLacquersController < ApplicationController
 
   def create
-    binding.pry
     lacquer = Lacquer.find(params[:user_lacquer][:lacquer_id])
     UserLacquer.create(user_lacquer_params)
     flash[:notice] = "#{lacquer.name} has been added to your collection!"
@@ -9,14 +8,12 @@ class UserLacquersController < ApplicationController
   end
 
   def update
-    #binding.pry
     @user_lacquer = UserLacquer.find(params[:id])
     @user_lacquer.update(user_lacquer_params)
     redirect_to(:back)
   end
 
   def destroy
-    #binding.pry
     user_lacquer = UserLacquer.where(user_id: params['user_id'], lacquer_id: params['lacquer_id']).first
     if params['user_id'].to_i == current_user.id
       user_lacquer.destroy

@@ -37,4 +37,12 @@ class LacquersController < ApplicationController
     redirect_to(:back)
   end
 
+  def show
+    @lacquer = Lacquer.find(params[:id])
+  end
+
+  def edit
+    @lacquer = Lacquer.find(params[:id])
+  end
+
 end

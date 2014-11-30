@@ -1,0 +1,13 @@
+<h1>Edit <%= @lacquer.name %></h1>
+
+<%= form_for @lacquer do |f| %>
+	<%= f.label :name %><br>
+	<%= f.text_field :name %><br>
+	<%= f.label :brand %><br>
+	<%= f.collection_select :brand_id, Brand.all,:id,:name, :class => "btn" %><br>
+	<%= f.label :colors %><br>
+	<%= f.collection_check_boxes :color_ids, Color.all, :id, :name %><br>
+	<%= f.label :finishes %><br>
+	<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description %><br>
+	<%= f.submit %>
+<% end %>

@@ -247,7 +247,7 @@
 				<% if @user == current_user %>
 					<th>Loanable?</th>
 					<th>On Loan?</th>
-					<th>DELETE</th>
+					<th>Remove From<br>Your Collection</th>
 				<% else %>
 					<th>Loan Requests</th>
 				<% end %>
@@ -257,21 +257,27 @@
 		<% @user.user_lacquers.each do |user_lacquer| %>
 			<% lacquer = Lacquer.find(user_lacquer.lacquer_id) %>
 			<tr>
-				<td><%= lacquer.brand.name %></td>
-				<td><%= lacquer.name %></td>
+				<td><%= link_to lacquer.brand.name, brand_path(lacquer.brand.id) %></td>
+				<td><%= link_to lacquer.name, lacquer_path(lacquer.id) %> <%= link_to "edit", edit_lacquer_path(lacquer.id), :class => "btn btn-xs btn-default" %></td>
 				<td><%= lacquer.color_string %></td>
 				<td><%= lacquer.finish_string %></td>
 				<% if @user == current_user %>
 					<td>
 						<%= form_for(user_lacquer) do |f| %>
-							<%= f.check_box :loanable %>
-							<%= f.submit :class =>"btn btn-default btn-xs", :value => "update" %>
+							<% if user_lacquer.loanable %>
+								<%= button_to "✔", user_lacquer_path, params: {"user_lacquer[loanable]" => false}, :class => "btn btn-success btn-xs", method: 'PATCH'  %>
+							<% else %>
+								<%= button_to "✕", user_lacquer_path, params: {"user_lacquer[loanable]" => true}, :class => "btn btn-danger btn-xs", method: 'PATCH'  %>
+							<% end %>
 						<% end %>
 					</td>
 					<td>
 						<%= form_for(user_lacquer) do |f| %>
-							<%= f.check_box :on_loan %>
-							<%= f.submit :class =>"btn btn-default btn-xs", :value => "update" %>
+							<% if user_lacquer.on_loan %>
+								<%= button_to "✔", user_lacquer_path, params: {"user_lacquer[on_loan]" => false}, :class => "btn btn-success btn-xs", method: 'PATCH'  %>
+							<% else %>
+								<%= button_to "✕", user_lacquer_path, params: {"user_lacquer[on_loan]" => true}, :class => "btn btn-danger btn-xs", method: 'PATCH'  %>
+							<% end %>
 						<% end %>
 					</td>
 					<td><%= link_to 'x', user_lacquer_path(:lacquer_id => lacquer.id, :user_id => @user.id), method: 'DELETE' %></td>

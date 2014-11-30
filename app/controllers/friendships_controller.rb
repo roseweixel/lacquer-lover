@@ -5,7 +5,6 @@ class FriendshipsController < ApplicationController
     if params[:friend_id]
       @friend = User.find(params[:friend_id])
       @friendship = current_user.friendships.new(friend: @friend)
-      #binding.pry
     else
       flash[:notice] = "Friend required"
     end
