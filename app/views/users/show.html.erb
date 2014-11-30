@@ -10,7 +10,37 @@
 	
 	<div id="public-profile">
 		<h3>Lacquers: <%= @user.lacquers.count %></h3>
-		<h3>Friends: <%= @user.accepted_friends.count %></h3>	
+		<h3>Friends: <%= @user.accepted_friends.count %></h3>
+		<% if !@user.lacquers_added_by.empty? %>
+			<% if @user == current_user %>
+				<h3>Lacquers Added by You</h3>
+			<% else %>
+				<h3>Lacquers Added by <%= @user.name %></h3>
+			<% end %>
+			<ul>
+			<% @user.lacquers_added_by.each do |lacquer| %>
+				<li><%= link_to lacquer.name, lacquer_path(lacquer) %> (<%= link_to lacquer.brand.name, brand_path(lacquer.brand) %>)</li>
+			<% end %>
+			</ul>
+		<% end %>
+
+		<% if @user.owned_transactions %>
+			<% if @user == current_user %>
+				<h3>Your Loan Count: 
+			<% else %>
+				<h3><%= @user.name %>'s Loan Count: 
+			<% end %>
+			<%= @user.owned_transactions.count %></h3>
+		<% end %>
+
+		<% if @user.requested_transactions %>
+			<% if @user == current_user %>
+				<h3>Your Borrow Count: 
+			<% else %>
+				<h3><%= @user.name %>'s Borrow Count: 
+			<% end %>
+			<%= @user.requested_transactions.count %></h3>
+		<% end %>
 	</div>
 
 <% if (@user == current_user) || (current_user.accepted_friends.include?(@user)) %>
@@ -240,6 +270,7 @@
 	<table class="table" id="user-lacquer-collection">
 		<thead>
 			<tr>
+				<th>Swatch</th>
 				<th>Brand</th>
 				<th>Name</th>
 				<th>Color</th>
@@ -257,6 +288,19 @@
 		<% @user.user_lacquers.each do |user_lacquer| %>
 			<% lacquer = Lacquer.find(user_lacquer.lacquer_id) %>
 			<tr>
+				<td>
+				<% if !lacquer.swatches.empty? %>
+					<%= image_tag lacquer.swatches.first.image.url(:thumb) %>
+				<% else %>
+					<%= form_for lacquer.swatches.new, :html => { :multipart => true } do |f| %>
+						<h6>Add A Swatch!</h6>
+						<%= f.hidden_field :user_id, value: current_user.id %>
+						<%= f.hidden_field :lacquer_id, value: user_lacquer.lacquer_id %>
+    				<%= f.file_field :image %>
+    				<%= f.submit :class => 'btn btn-xs btn-default' %>
+					<% end %>
+				<% end %>
+				</td>
 				<td><%= link_to lacquer.brand.name, brand_path(lacquer.brand.id) %></td>
 				<td><%= link_to lacquer.name, lacquer_path(lacquer.id) %> <%= link_to "edit", edit_lacquer_path(lacquer.id), :class => "btn btn-xs btn-default" %></td>
 				<td><%= lacquer.color_string %></td>

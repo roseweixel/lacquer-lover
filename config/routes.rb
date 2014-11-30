@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  # get 'swatches/new'
+
+  # get 'swatches/create'
+
+  # get 'swatches/destroy'
+
+  resources :swatches, only: [:index, :new, :create, :destroy]
+
+
+
   root 'lacquers#index'
 
   resources :sessions, :only => [:create, :destroy]

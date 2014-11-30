@@ -43,6 +43,20 @@ class LacquersController < ApplicationController
 
   def edit
     @lacquer = Lacquer.find(params[:id])
+    @swatch = Swatch.new
   end
+
+  def update
+    #binding.pry
+    @user = current_user
+    @lacquer = Lacquer.find(params[:id])
+    @lacquer.update(lacquer_params)
+    redirect_to(:back)
+  end
+
+  private
+    def lacquer_params
+      params.require(:lacquer).permit(:name, :brand_id, :color_ids => [], :finish_ids => [], :swatches_attributes => [:image, :user_id, :delete_image])
+    end
 
 end
