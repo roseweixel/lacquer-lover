@@ -10,8 +10,8 @@ class SwatchesController < ApplicationController
   end
 
   def create
-    binding.pry
-    @swatch = Swatch.new(swatch_params)
+    @user = current_user
+    @swatch = Swatch.create(swatch_params)
     if @swatch.save
       flash[:notice] = "The swatch has been uploaded!"
     else
@@ -30,6 +30,6 @@ class SwatchesController < ApplicationController
 
   private
   def swatch_params
-    params.require(:swatch).permit(:user_id, :lacquer_id, :attachment)
+    params.require(:swatch).permit(:user_id, :lacquer_id, :image)
   end
 end

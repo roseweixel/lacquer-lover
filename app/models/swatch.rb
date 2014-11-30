@@ -1,7 +1,6 @@
 class Swatch < ActiveRecord::Base
-  mount_uploader :attachment, AttachmentUploader
-  
   belongs_to :lacquer
   belongs_to :user
-  validates :attachment, presence: true
+  has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+  validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
 end

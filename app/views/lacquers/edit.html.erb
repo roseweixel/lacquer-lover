@@ -9,14 +9,17 @@
 	<%= f.collection_check_boxes :color_ids, Color.all, :id, :name %><br>
 	<%= f.label :finishes %><br>
 	<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description %><br>
-	<%= f.submit %>
-<% end %>
-<br>
-<div class="well">
+
 	<h3>Upload a Swatch for <%= @lacquer.name %></h3>
-  <%= form_for @swatch, html: { multipart: true } do |f| %>
-    <%= f.label :attachment %>
-    <%= f.file_field :attachment %>
-    <%= f.submit "Save", class: "btn btn-primary" %>
+	<%= f.fields_for :swatches, @lacquer.swatches, :html => { :multipart => true } do |swatch_form| %>
+    <p>
+    <%= swatch_form.hidden_field :user_id, value: current_user.id %>
+    <%= swatch_form.file_field :image %>
+    </p>
   <% end %>
-</div>
+  <%= f.submit %>
+<% end %>
+
+<% @lacquer.swatches.each do |swatch| %>
+	<%= image_tag swatch.image.url(:medium) %>
+<% end %>
