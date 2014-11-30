@@ -29,4 +29,12 @@ class Lacquer < ActiveRecord::Base
     end
     string_array.join(", ")
   end
+
+  def self.user_added
+    Lacquer.where.not(user_added_by_id: nil)
+  end
+
+  def user_who_added_me
+    User.where(id: user_added_by_id).first
+  end
 end

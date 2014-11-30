@@ -115,4 +115,8 @@ class User < ActiveRecord::Base
     owned_transactions.where(state: 'completed')
   end
 
+  def lacquers_added_by
+    Lacquer.where(user_added_by_id: self.id).first
+  end
+
 end
