@@ -116,7 +116,8 @@ class User < ActiveRecord::Base
   end
 
   def lacquers_added_by
-    Lacquer.where(user_added_by_id: self.id).first
+    Lacquer.where(user_added_by_id: self.id)
   end
+
 
 end

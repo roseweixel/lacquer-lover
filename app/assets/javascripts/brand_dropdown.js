@@ -43,11 +43,11 @@ $(function(){
     
 
 
-    $('.finish-dropdown').click(function(event){
+    // $('.finish-dropdown').click(function(event){
 
-        $('#finish-dropdown').toggle();
+    //     $('#finish-dropdown').toggle();
 
-    });
+    // });
 
     $('.page-header').on("click", '.dropdown-menu', function(event){
         event.stopPropagation();

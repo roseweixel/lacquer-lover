@@ -10,17 +10,37 @@
 	
 	<div id="public-profile">
 		<h3>Lacquers: <%= @user.lacquers.count %></h3>
-		<h3>Friends: <%= @user.accepted_friends.count %></h3>	
-		<% if @user == current_user %>
-			<h3>Lacquers I've Added</h3>
-		<% else %>
-			<h3>Lacquers Added by <%= @user.name %></h3>
-		<% end %>
-		<ul>
-			<% @user.lacquers_added_by.each do |lacquer| %>
-				<%= %>
+		<h3>Friends: <%= @user.accepted_friends.count %></h3>
+		<% if @user.lacquers_added_by %>
+			<% if @user == current_user %>
+				<h3>Lacquers Added by You</h3>
+			<% else %>
+				<h3>Lacquers Added by <%= @user.name %></h3>
 			<% end %>
-		</ul>
+			<ul>
+			<% @user.lacquers_added_by.each do |lacquer| %>
+				<li><%= link_to lacquer.name, lacquer_path(lacquer) %> (<%= link_to lacquer.brand.name, brand_path(lacquer.brand) %>)</li>
+			<% end %>
+			</ul>
+		<% end %>
+
+		<% if @user.owned_transactions %>
+			<% if @user == current_user %>
+				<h3>Your Loan Count: 
+			<% else %>
+				<h3><%= @user.name %>'s Loan Count: 
+			<% end %>
+			<%= @user.owned_transactions.count %></h3>
+		<% end %>
+
+		<% if @user.requested_transactions %>
+			<% if @user == current_user %>
+				<h3>Your Borrow Count: 
+			<% else %>
+				<h3><%= @user.name %>'s Borrow Count: 
+			<% end %>
+			<%= @user.requested_transactions.count %></h3>
+		<% end %>
 	</div>
 
 <% if (@user == current_user) || (current_user.accepted_friends.include?(@user)) %>
