@@ -1,5 +1,6 @@
 $(function(){
 	$('.lacquer-dropdown').hide();
+    $('.other-lacquer').hide();
     $('#brand-selection').change(function(event){
         var brand = $(this).val();
         $('.lacquer-dropdown').hide();
@@ -16,9 +17,13 @@ $(function(){
     });
 
     $('.lacquer-dropdown').change(function(event){
+        $('.other-lacquer').hide();
         var lacquerID = $(this).find("select").val();
         if(lacquerID == "") {
             $('.add-lacquer').addClass("disabled");
+        } else if(lacquerID == "new") {
+            $('.other-lacquer').show();
+            $('.add-lacquer').removeClass("disabled");
         } else {
             $('.add-lacquer').removeClass("disabled");
         }

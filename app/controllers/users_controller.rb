@@ -11,6 +11,10 @@ class UsersController < ApplicationController
   def show
     @new_lacquer = Lacquer.new
     @new_user_lacquer = UserLacquer.new
+    @color_1 = Color.new(name: "new1")
+    @finish_1 = Finish.new(description: "new1")
+    @color_2 = Color.new(name: "new2")
+    @finish_2 = Finish.new(description: "new2")
     @opi_lacquers = Brand.where(name: "OPI").first.lacquers
     @essie_lacquers = Brand.where(name: "Essie").first.lacquers
     @butter_lacquers = Brand.where(name: "Butter London").first.lacquers

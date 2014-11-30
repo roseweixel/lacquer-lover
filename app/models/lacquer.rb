@@ -7,6 +7,12 @@ class Lacquer < ActiveRecord::Base
   has_many :user_lacquers
   has_many :users, through: :user_lacquers
 
+  validates :name, :brand, presence: true
+  validates :name, uniqueness: true
+
+  accepts_nested_attributes_for :colors
+  accepts_nested_attributes_for :finishes
+
   def color_string
     string_array = []
     colors.each do |color|
