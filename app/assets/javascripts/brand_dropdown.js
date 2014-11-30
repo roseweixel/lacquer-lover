@@ -2,8 +2,10 @@ $(function(){
 	$('.lacquer-dropdown').hide();
     $('.other-lacquer').hide();
     $('#brand-selection').change(function(event){
+        event.stopPropagation();
         var brand = $(this).val();
         $('.lacquer-dropdown').hide();
+        $('.other-lacquer').hide();
         $('.add-lacquer').addClass("disabled");
         if(brand == "OPI") {
             $('#opi-dropdown').show();
@@ -17,27 +19,41 @@ $(function(){
     });
 
     $('.lacquer-dropdown').change(function(event){
+        event.stopPropagation();
         $('.other-lacquer').hide();
+        var brand = $('#brand-selection').val();
         var lacquerID = $(this).find("select").val();
         if(lacquerID == "") {
             $('.add-lacquer').addClass("disabled");
         } else if(lacquerID == "new") {
-            $('.other-lacquer').show();
-            $('.add-lacquer').removeClass("disabled");
+            if(brand == "OPI") {
+                $('.other-lacquer#opi').show();
+            } else if(brand == "Essie") {
+                $('.other-lacquer#essie').show();
+            } else if(brand == "Butter London") {
+                $('.other-lacquer#butter').show();
+            } else if(brand == "Deborah Lippmann") {
+                $('.other-lacquer#deborah').show();
+            }
+            $('.add-lacquer').addClass("disabled");
         } else {
             $('.add-lacquer').removeClass("disabled");
         }
     });
     
-    $('#finish-dropdown').hide();
-    $('#color-dropdown').hide();
-    
-    $('.color-dropdown').click(function(event){
-        $('#color-dropdown').toggle();
-    });
+
 
     $('.finish-dropdown').click(function(event){
+
         $('#finish-dropdown').toggle();
+
     });
+
+    $('.page-header').on("click", '.dropdown-menu', function(event){
+        event.stopPropagation();
+        $('this').show();
+
+    });
+
 
 });

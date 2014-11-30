@@ -14,6 +14,27 @@ class LacquersController < ApplicationController
   end
 
   def create
-    #binding.pry
+    lacquer = Lacquer.create(name: params[:lacquer][:name], brand_id: params[:lacquer][:brand_id], user_added_by_id: params[:lacquer][:user_added_by_id])
+    if !lacquer.save
+      lacquer.errors.messages.each do |message|
+        flash[:notice] = message
+      end
+    else
+      params[:lacquer][:color_ids].each do |color_id|
+        if color_id != ""
+          lacquer.lacquer_colors.create(color_id: color_id)
+        end
+      end
+      params[:lacquer][:finish_ids].each do |finish_id|
+        if finish_id != ""
+          lacquer.lacquer_finishes.create(finish_id: finish_id)
+        end
+      end
+      if params[:user_id]
+        lacquer.user_lacquers.create(user_id: params[:user_id])
+      end
+    end
+    redirect_to(:back)
   end
+
 end
