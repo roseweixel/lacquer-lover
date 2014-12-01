@@ -177,7 +177,7 @@ class ButterLondon
       image_url = nokogiri_doc.css('div.mini_category_cell img')
       image_url.each do |item|
         polish_pic = item.attributes["src"].value
-        @polish_pics << polish_pic
+        @polish_pics << ("http://www.butterlondon.com" + "#{polish_pic}")
       end
     end
     @polish_pics
@@ -283,6 +283,7 @@ class Essie
     @nokogiri_doc = Nokogiri::HTML(open(URL))
     self.item_urls
     self.names
+    self.images
   end
 
   def item_urls
@@ -308,7 +309,9 @@ class Essie
       @polish_pics << image_url
     end
     @polish_urls
-    @polish_colors
+  end
+
+  def images
     @polish_pics
   end
 

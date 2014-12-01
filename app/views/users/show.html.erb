@@ -291,6 +291,7 @@
 				<% if !lacquer.swatches.empty? %>
 					<%= image_tag user_lacquer.swatch_image %>
 				<% else %>
+					<%= image_tag(lacquer.default_picture, :size => "45x90") %>
 					<%= form_for lacquer.swatches.new, :html => { :multipart => true } do |f| %>
 						<h6>Add A Swatch!</h6>
 						<%= f.hidden_field :user_id, value: current_user.id %>
