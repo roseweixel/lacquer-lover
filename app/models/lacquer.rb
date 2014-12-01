@@ -1,6 +1,8 @@
 class Lacquer < ActiveRecord::Base
   belongs_to :brand
   has_many :user_lacquers, dependent: :destroy
+  #has_many :user_lacquer_colors, through: :user_lacquers
+  #has_many :user_lacquer_finishes, through: :user_lacquers
   has_many :users, through: :user_lacquers
   has_many :swatches
 
@@ -9,7 +11,7 @@ class Lacquer < ActiveRecord::Base
 
   # accepts_nested_attributes_for :colors
   # accepts_nested_attributes_for :finishes
-  # accepts_nested_attributes_for :user_lacquers
+  accepts_nested_attributes_for :user_lacquers
   accepts_nested_attributes_for :swatches
 
   def color_string

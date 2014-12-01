@@ -1,14 +1,16 @@
 <h1>Edit <%= @lacquer.name %></h1>
 
 <%= form_for @lacquer do |f| %>
-	<%= f.label :name %><br>
-	<%= f.text_field :name %><br>
-	<%= f.label :brand %><br>
-	<%= f.collection_select :brand_id, Brand.all,:id,:name, :class => "btn" %><br>
-	<%= f.label :colors %><br>
-	<%= f.collection_check_boxes :color_ids, Color.all, :id, :name %><br>
-	<%= f.label :finishes %><br>
-	<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description %><br>
+	<% if current_user.id == @lacquer.user_added_by_id %>
+		<%= f.label :name %><br>
+		<%= f.text_field :name %><br>
+	<% end %>
+
+	<%= f.fields_for @user_lacquer do |user_lacquer_form| %>
+		<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name %><br>
+		<%= user_lacquer_form.label :finishes %><br>
+		<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description %><br>
+	<% end %>
 
 	<h3>Upload a Swatch for <%= @lacquer.name %></h3>
 	<%= f.fields_for :swatches, @lacquer.swatches.new, :html => { :multipart => true } do |swatch_form| %>
@@ -19,6 +21,8 @@
   <% end %>
   <%= f.submit %>
 <% end %>
+
+
 
 <% if @lacquer.swatches.count > 0 %>
 <h3>Swatches for <%= @lacquer.name %></h3>
