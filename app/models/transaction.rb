@@ -1,7 +1,7 @@
 class Transaction < ActiveRecord::Base
   belongs_to :user_lacquer
   belongs_to :requester, class_name: 'User', foreign_key: 'requester_id'
-
+  #belongs_to :user, through: :user_lacquer, dependent: :destroy
   validate :transaction_must_be_unique, :on => :create
   
   SECONDS_PER_DAY = 86400

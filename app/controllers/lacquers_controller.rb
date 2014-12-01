@@ -44,9 +44,11 @@ class LacquersController < ApplicationController
   end
 
   def edit
+    #binding.pry
     @user = current_user
     @lacquer = Lacquer.find(params[:id])
-    @user_lacquer = UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).first
+    @user_lacquer = UserLacquer.find(params[:user_lacquer_id])
+    session[:user_lacquer_id] = params[:user_lacquer_id]
     @swatch = Swatch.new
   end
 
@@ -54,7 +56,7 @@ class LacquersController < ApplicationController
     #binding.pry
     @user = current_user
     @lacquer = Lacquer.find(params[:id])
-    @user_lacquer = UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).first
+    @user_lacquer = UserLacquer.find(session[:user_lacquer_id])
     @lacquer.update(lacquer_params)
     if params[:lacquer][:user_lacquer][:color_ids]
       @user_lacquer.colors.clear
@@ -72,6 +74,7 @@ class LacquersController < ApplicationController
         end
       end
     end
+    flash[:notice] = "#{@lacquer.name} successfully updated!"
     redirect_to(:back)
   end
 

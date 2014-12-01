@@ -8,8 +8,10 @@ class UserLacquersController < ApplicationController
   end
 
   def update
+    #binding.pry
     @user_lacquer = UserLacquer.find(params[:id])
     @user_lacquer.update(user_lacquer_params)
+    flash[:notice] = "#{Lacquer.find(@user_lacquer.lacquer_id).name} successfully updated!"
     redirect_to(:back)
   end
 
@@ -21,6 +23,9 @@ class UserLacquersController < ApplicationController
     else
       flash[:notice] = "You can't delete another user's lacquer!"
       redirect_to(:back)
+    end
+    if user_lacquer.errors
+      flash[:notice] = "This lacquer cannot not be removed from your collect at this time. Make sure you've resolved any outstanding loans and then try again!"
     end
   end
 

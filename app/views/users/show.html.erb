@@ -302,7 +302,7 @@
 				<% end %>
 				</td>
 				<td><%= link_to lacquer.brand.name, brand_path(lacquer.brand.id) %></td>
-				<td><%= link_to lacquer.name, lacquer_path(lacquer.id) %> <%= link_to "edit", edit_lacquer_path(lacquer.id), :class => "btn btn-xs btn-default" %></td>
+				<td><%= link_to lacquer.name, lacquer_path(lacquer.id) %> <%= link_to "edit", edit_lacquer_path(lacquer.id, :params => { :user_lacquer_id => user_lacquer.id }), :class => "btn btn-xs btn-default" %></td>
 				<td>
 					<% user_lacquer.colors.each do |color| %> 
 						<%= color.name %><br>

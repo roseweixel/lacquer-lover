@@ -17,6 +17,12 @@ class UserLacquer < ActiveRecord::Base
   accepts_nested_attributes_for :user_lacquer_colors
   accepts_nested_attributes_for :user_lacquer_finishes
 
+  before_destroy :confirm_no_transaction_for
+
+  def confirm_no_transaction_for
+    self.transactions.empty?
+  end
+
   def available?
     loanable && !on_loan
   end
