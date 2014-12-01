@@ -108,9 +108,7 @@
 				    	Select Colors <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
+
 	    			</ul>
     			</div>
 
@@ -119,9 +117,7 @@
 				    	Select Finishes <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
+
 	    			</ul>
 	 
     			</div>
@@ -149,9 +145,7 @@
 				    	Select Colors <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
+
 	    			</ul>
     			</div>
 
@@ -160,9 +154,7 @@
 				    	Select Finishes <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
+
 	    			</ul>
 	 
     			</div>
@@ -190,9 +182,7 @@
 				    	Select Colors <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
+
 	    			</ul>
     			</div>
 
@@ -201,9 +191,7 @@
 				    	Select Finishes <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
+
 	    			</ul>
 	 
     			</div>
@@ -231,9 +219,7 @@
 				    	Select Colors <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
+
 	    			</ul>
     			</div>
 
@@ -303,8 +289,8 @@
 				</td>
 				<td><%= link_to lacquer.brand.name, brand_path(lacquer.brand.id) %></td>
 				<td><%= link_to lacquer.name, lacquer_path(lacquer.id) %> <%= link_to "edit", edit_lacquer_path(lacquer.id), :class => "btn btn-xs btn-default" %></td>
-				<td><%= lacquer.color_string %></td>
-				<td><%= lacquer.finish_string %></td>
+				<td> </td>
+				<td> </td>
 				<% if @user == current_user %>
 					<td>
 						<%= form_for(user_lacquer) do |f| %>
