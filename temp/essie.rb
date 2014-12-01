@@ -9,6 +9,8 @@ class Essie
     @polish_pics = []
     @polish_names = []
     @polish_colors = []
+    self.item_url
+    self.name
   end
 
   def item_url
