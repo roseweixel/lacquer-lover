@@ -20,7 +20,7 @@ class UserLacquer < ActiveRecord::Base
   before_destroy :confirm_no_transaction_for
 
   def confirm_no_transaction_for
-    self.transactions.empty?
+    self.transactions.where(state: ["pending", "accepted", "active"]).empty?
   end
 
   def available?

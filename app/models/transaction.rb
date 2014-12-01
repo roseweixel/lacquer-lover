@@ -11,7 +11,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def transaction_must_be_unique
-    if !Transaction.where(:user_lacquer_id => user_lacquer_id, :requester_id => requester_id, :state => ['pending', 'accepted']).empty?
+    if !Transaction.where(:user_lacquer_id => user_lacquer_id, :requester_id => requester_id, :state => ['pending', 'accepted', 'active']).empty?
       errors.add(:transaction, "This request already exists!")
     end
   end

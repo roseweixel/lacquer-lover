@@ -3,6 +3,7 @@ class Friendship < ActiveRecord::Base
   belongs_to :friend, class_name: 'User', foreign_key: 'friend_id'
 
   validate :is_not_duplicate, :on => :create
+  #validates_uniqueness_of :buddy_one, scope: :buddy_two
 
   def user
     User.find(self[:user_id])
