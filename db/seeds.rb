@@ -82,14 +82,14 @@ deborah.lacquers.create([
 
 
 ### Create LacquerColors && LacquerFinishes ###
-LACQUERS.each do |lacquer, attributes_hash|
-  lacquer_id = Lacquer.find_by(name: lacquer).id
-  attributes_hash[:colors].each do |color|
-    color_id = Color.find_by(name: color).id
-    LacquerColor.create(lacquer_id: lacquer_id, color_id: color_id)
-  end
-  attributes_hash[:finishes].each do |finish|
-    finish_id = Finish.find_by(description: finish).id
-    LacquerFinish.create(lacquer_id: lacquer_id, finish_id: finish_id)
-  end
-end
+# LACQUERS.each do |lacquer, attributes_hash|
+#   lacquer_id = Lacquer.find_by(name: lacquer).id
+#   attributes_hash[:colors].each do |color|
+#     color_id = Color.find_by(name: color).id
+#     LacquerColor.create(lacquer_id: lacquer_id, color_id: color_id)
+#   end
+#   attributes_hash[:finishes].each do |finish|
+#     finish_id = Finish.find_by(description: finish).id
+#     LacquerFinish.create(lacquer_id: lacquer_id, finish_id: finish_id)
+#   end
+# end

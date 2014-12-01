@@ -14,24 +14,26 @@ class LacquersController < ApplicationController
   end
 
   def create
+    #binding.pry
+    user = current_user
     lacquer = Lacquer.create(name: params[:lacquer][:name], brand_id: params[:lacquer][:brand_id], user_added_by_id: params[:lacquer][:user_added_by_id])
     if !lacquer.save
       lacquer.errors.messages.each do |message|
         flash[:notice] = message
       end
     else
-      params[:lacquer][:color_ids].each do |color_id|
-        if color_id != ""
-          lacquer.lacquer_colors.create(color_id: color_id)
+      if params[:user_lacquer]
+        user_lacquer = lacquer.user_lacquers.create(user_id: current_user.id)
+        params[:user_lacquer][:color_ids].each do |color_id|
+          if color_id != ""
+            user_lacquer.colors.push(Color.find(color_id))
+          end
         end
-      end
-      params[:lacquer][:finish_ids].each do |finish_id|
-        if finish_id != ""
-          lacquer.lacquer_finishes.create(finish_id: finish_id)
+        params[:user_lacquer][:finish_ids].each do |finish_id|
+          if finish_id != ""
+            user_lacquer.finishes.push(Finish.find(finish_id))
+          end
         end
-      end
-      if params[:user_id]
-        lacquer.user_lacquers.create(user_id: params[:user_id])
       end
     end
     redirect_to(:back)
@@ -42,7 +44,9 @@ class LacquersController < ApplicationController
   end
 
   def edit
+    @user = current_user
     @lacquer = Lacquer.find(params[:id])
+    @user_lacquer = UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).first
     @swatch = Swatch.new
   end
 
@@ -50,13 +54,31 @@ class LacquersController < ApplicationController
     #binding.pry
     @user = current_user
     @lacquer = Lacquer.find(params[:id])
+    @user_lacquer = UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).first
     @lacquer.update(lacquer_params)
+    if params[:lacquer][:user_lacquer][:color_ids]
+      @user_lacquer.colors.clear
+      params[:lacquer][:user_lacquer][:color_ids].each do |color_id|
+        if color_id != ""
+          @user_lacquer.colors.push(Color.find(color_id))
+        end
+      end
+    end
+    if params[:lacquer][:user_lacquer][:finish_ids]
+      @user_lacquer.finishes.clear
+      params[:lacquer][:user_lacquer][:finish_ids].each do |finish_id|
+        if finish_id != ""
+          @user_lacquer.finishes.push(Finish.find(finish_id))
+        end
+      end
+    end
     redirect_to(:back)
   end
 
   private
     def lacquer_params
-      params.require(:lacquer).permit(:name, :brand_id, :color_ids => [], :finish_ids => [], :swatches_attributes => [:image, :user_id, :delete_image])
+      params.require(:lacquer).permit(:name, :brand_id, :swatches_attributes => [:image, :user_id, :delete_image])
     end
+
 
 end

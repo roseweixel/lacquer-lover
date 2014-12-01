@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130203500) do
+ActiveRecord::Schema.define(version: 20141130233536) do
 
   create_table "brands", force: true do |t|
     t.string   "name"
@@ -39,16 +39,6 @@ ActiveRecord::Schema.define(version: 20141130203500) do
 
   add_index "friendships", ["state"], name: "index_friendships_on_state"
   add_index "friendships", ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id"
-
-  create_table "lacquer_colors", force: true do |t|
-    t.integer "lacquer_id"
-    t.integer "color_id"
-  end
-
-  create_table "lacquer_finishes", force: true do |t|
-    t.integer "lacquer_id"
-    t.integer "finish_id"
-  end
 
   create_table "lacquers", force: true do |t|
     t.string   "name"
@@ -80,6 +70,16 @@ ActiveRecord::Schema.define(version: 20141130203500) do
     t.integer  "owner_id"
     t.datetime "due_date"
     t.datetime "date_became_active"
+  end
+
+  create_table "user_lacquer_colors", force: true do |t|
+    t.integer "user_lacquer_id"
+    t.integer "color_id"
+  end
+
+  create_table "user_lacquer_finishes", force: true do |t|
+    t.integer "user_lacquer_id"
+    t.integer "finish_id"
   end
 
   create_table "user_lacquers", force: true do |t|

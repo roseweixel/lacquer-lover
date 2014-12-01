@@ -97,36 +97,36 @@
 			  <% end %>
 			</div>
 
-			<!-- ADD "OTHER" LACQUER FOR DEBORAH LIPPMANN -->
+			<!-- ADD "OTHER" LACQUER FOR DEBORAH -->
 			<div class="other-lacquer" id="deborah">
 				<%= form_for @new_deborah_lacquer, :url => url_for(:controller => 'lacquers', :action => 'create') do |f| %>
 					<%= f.label :name %>
 					<%= f.text_field :name, placeholder: "lacquer name", :required => true %>
 
+
+    			<%= fields_for @new_deborah_lacquer.user_lacquers.new do |user_lacquer_form| %>
 					<div class="btn-group">
 			    	<button type="button" class="btn btn-default dropdown-toggle color-dropdown" data-toggle="dropdown" aria-expanded="false">
 				    	Select Colors <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
+	 					<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
   							<%= b.check_box %> <%= b.label %><br>
 						<% end %>
 	    			</ul>
     			</div>
-
     			<div class="btn-group">
 			    	<button type="button" class="btn btn-default dropdown-toggle finish-dropdown" data-toggle="dropdown" aria-expanded="false">
 				    	Select Finishes <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
+	    			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
   							<%= b.check_box %> <%= b.label %><br>
 						<% end %>
 	    			</ul>
 	 
     			</div>
     			<div class="add-new-lacquer-to-collection">
-    			<%= fields_for @new_deborah_lacquer.user_lacquers.new do |user_lacquer_form| %>
 	 						<%= user_lacquer_form.label "Add this lacquer to my collection." %>
 	    				<%= check_box_tag :user_id, current_user.id, required: true %>
 	    		<% end %>	
@@ -136,38 +136,37 @@
 					<%= f.submit "Create Lacquer" %>
 				<% end %>
 			</div>
-			<!-- END OF ADD "OTHER" LACQUER FOR DEBORAH LIPPMAN -->
+			<!-- END OF ADD "OTHER" LACQUER FOR DEBORAH -->
 
-			<!-- ADD "OTHER" LACQUER FOR BUTTER LONDON -->
+			<!-- ADD "OTHER" LACQUER FOR BUTTER -->
 			<div class="other-lacquer" id="butter">
 				<%= form_for @new_butter_lacquer, :url => url_for(:controller => 'lacquers', :action => 'create') do |f| %>
 					<%= f.label :name %>
 					<%= f.text_field :name, placeholder: "lacquer name", :required => true %>
 
+    			<%= fields_for @new_butter_lacquer.user_lacquers.new do |user_lacquer_form| %>
 					<div class="btn-group">
 			    	<button type="button" class="btn btn-default dropdown-toggle color-dropdown" data-toggle="dropdown" aria-expanded="false">
 				    	Select Colors <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
+	 					<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
   							<%= b.check_box %> <%= b.label %><br>
 						<% end %>
 	    			</ul>
     			</div>
-
     			<div class="btn-group">
 			    	<button type="button" class="btn btn-default dropdown-toggle finish-dropdown" data-toggle="dropdown" aria-expanded="false">
 				    	Select Finishes <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
+	    			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
   							<%= b.check_box %> <%= b.label %><br>
 						<% end %>
 	    			</ul>
 	 
     			</div>
     			<div class="add-new-lacquer-to-collection">
-    			<%= fields_for @new_butter_lacquer.user_lacquers.new do |user_lacquer_form| %>
 	 						<%= user_lacquer_form.label "Add this lacquer to my collection." %>
 	    				<%= check_box_tag :user_id, current_user.id, required: true %>
 	    		<% end %>	
@@ -177,7 +176,7 @@
 					<%= f.submit "Create Lacquer" %>
 				<% end %>
 			</div>
-			<!-- END OF ADD "OTHER" LACQUER FOR BUTTER LONDON -->
+			<!-- END OF ADD "OTHER" LACQUER FOR BUTTER -->
 
 			<!-- ADD "OTHER" LACQUER FOR OPI -->
 			<div class="other-lacquer" id="opi">
@@ -185,30 +184,30 @@
 					<%= f.label :name %>
 					<%= f.text_field :name, placeholder: "lacquer name", :required => true %>
 
+
+    			<%= fields_for @new_opi_lacquer.user_lacquers.new do |user_lacquer_form| %>
 					<div class="btn-group">
 			    	<button type="button" class="btn btn-default dropdown-toggle color-dropdown" data-toggle="dropdown" aria-expanded="false">
 				    	Select Colors <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
+	 					<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
   							<%= b.check_box %> <%= b.label %><br>
 						<% end %>
 	    			</ul>
     			</div>
-
     			<div class="btn-group">
 			    	<button type="button" class="btn btn-default dropdown-toggle finish-dropdown" data-toggle="dropdown" aria-expanded="false">
 				    	Select Finishes <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
+	    			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
   							<%= b.check_box %> <%= b.label %><br>
 						<% end %>
 	    			</ul>
 	 
     			</div>
     			<div class="add-new-lacquer-to-collection">
-    			<%= fields_for @new_opi_lacquer.user_lacquers.new do |user_lacquer_form| %>
 	 						<%= user_lacquer_form.label "Add this lacquer to my collection." %>
 	    				<%= check_box_tag :user_id, current_user.id, required: true %>
 	    		<% end %>	
@@ -226,30 +225,30 @@
 					<%= f.label :name %>
 					<%= f.text_field :name, placeholder: "lacquer name", :required => true %>
 
+
+    			<%= fields_for @new_essie_lacquer.user_lacquers.new do |user_lacquer_form| %>
 					<div class="btn-group">
 			    	<button type="button" class="btn btn-default dropdown-toggle color-dropdown" data-toggle="dropdown" aria-expanded="false">
 				    	Select Colors <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
+	 					<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
   							<%= b.check_box %> <%= b.label %><br>
 						<% end %>
 	    			</ul>
     			</div>
-
     			<div class="btn-group">
 			    	<button type="button" class="btn btn-default dropdown-toggle finish-dropdown" data-toggle="dropdown" aria-expanded="false">
 				    	Select Finishes <span class="caret"></span>
   					</button>
 	 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-	    			<%= f.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
+	    			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
   							<%= b.check_box %> <%= b.label %><br>
 						<% end %>
 	    			</ul>
 	 
     			</div>
     			<div class="add-new-lacquer-to-collection">
-    			<%= fields_for @new_essie_lacquer.user_lacquers.new do |user_lacquer_form| %>
 	 						<%= user_lacquer_form.label "Add this lacquer to my collection." %>
 	    				<%= check_box_tag :user_id, current_user.id, required: true %>
 	    		<% end %>	
@@ -303,8 +302,16 @@
 				</td>
 				<td><%= link_to lacquer.brand.name, brand_path(lacquer.brand.id) %></td>
 				<td><%= link_to lacquer.name, lacquer_path(lacquer.id) %> <%= link_to "edit", edit_lacquer_path(lacquer.id), :class => "btn btn-xs btn-default" %></td>
-				<td><%= lacquer.color_string %></td>
-				<td><%= lacquer.finish_string %></td>
+				<td>
+					<% user_lacquer.colors.each do |color| %> 
+						<%= color.name %><br>
+					<% end %>
+				</td>
+				<td>
+					<% user_lacquer.finishes.each do |finish| %> 
+						<%= finish.description %><br>
+					<% end %>
+				</td>
 				<% if @user == current_user %>
 					<td>
 						<%= form_for(user_lacquer) do |f| %>
