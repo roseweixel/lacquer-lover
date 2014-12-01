@@ -5,15 +5,13 @@ class DeborahLippman
 
   def initialize
     @nokogiri_doc = Nokogiri::HTML(open(URL))
-    @polish_urls = []
-    @polish_pics = []
-    @polish_names = []
     self.item_url
     self.image
     self.name
   end
 
   def item_url
+    @polish_urls = []
     polish_url = nokogiri_doc.css('div.item-content a')
     polish_url.each do |item|
       url = item.attributes["href"].value
@@ -23,6 +21,7 @@ class DeborahLippman
   end
 
   def image
+    @polish_pics = []
     image_url = nokogiri_doc.css('div.popup-product-details div.popup-details-content div.left-section img.lazy-popup')
     image_url.each do |item|
       polish_pic = item.attributes["data-original"].value
@@ -32,6 +31,7 @@ class DeborahLippman
   end
 
   def name
+    @polish_names = []
     polish_name = nokogiri_doc.css('div.item-content a')
     polish_name.each do |item|
       deb_name = item.attributes["title"].value

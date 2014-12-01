@@ -5,15 +5,14 @@ class Essie
 
   def initialize
     @nokogiri_doc = Nokogiri::HTML(open(URL))
-    @polish_urls = []
-    @polish_pics = []
-    @polish_names = []
-    @polish_colors = []
-    self.item_url
-    self.name
+    self.item_urls
+    self.names
   end
 
-  def item_url
+  def item_urls
+    @polish_urls = []
+    @polish_pics = []
+    @polish_colors = []
     polish_url = nokogiri_doc.css('div.product-wrapper a.bottle')
     polish_url.each do |item|
       url = item.attributes["href"].value
@@ -37,10 +36,17 @@ class Essie
     @polish_pics
   end
 
-  def name
+  def names
+    @polish_names = []
     polish_name = nokogiri_doc.css('div.product-wrapper a.bottle')
     polish_name.each do |item|
-      essie_name = item.text
+      unformatted_name = item.text
+      formatted_name_array = []
+      unformatted_name_array = unformatted_name.split(" ")
+      unformatted_name_array.each do |word|
+        formatted_name_array << word.capitalize
+      end
+      essie_name = formatted_name_array.join(" ")
       @polish_names << essie_name
     end
     @polish_names

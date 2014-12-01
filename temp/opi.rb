@@ -5,13 +5,10 @@ class Opi
   attr_accessor :polish_urls, :polish_pics, :polish_names
 
   def initialize
-    @polish_urls = []
-    @polish_pics = []
-    @polish_names = []
     self.collection_urls
-    self.item_url
-    self.image
-    self.name
+    self.item_urls
+    self.images
+    self.names
   end
 
   def collection_urls
@@ -24,7 +21,8 @@ class Opi
     ALL_URLS
   end
 
-  def item_url
+  def item_urls
+    @polish_urls = []
     ALL_URLS.each do |page|
       nokogiri_doc = Nokogiri::HTML(open(page))
       polish_url = nokogiri_doc.css('div.product-container div.product-description .product-name a')
@@ -36,7 +34,8 @@ class Opi
     @polish_urls
   end
 
-  def image
+  def images
+    @polish_pics = []
     ALL_URLS.each do |page|
       nokogiri_doc = Nokogiri::HTML(open(page))
       image_url = nokogiri_doc.css('div.product-container div.product-shot img')
@@ -48,12 +47,19 @@ class Opi
     @polish_pics
   end
 
-  def name
+  def names
+    @polish_names = []
     ALL_URLS.each do |page|
       nokogiri_doc = Nokogiri::HTML(open(page))
       polish_name = nokogiri_doc.css('div.product-container div.product-description .product-name a')
       polish_name.each do |item|
-        opi_name = item.text
+        unformatted_name = item.text
+        formatted_name_array = []
+        unformatted_name_array = unformatted_name.split(" ")
+        unformatted_name_array.each do |word|
+          formatted_name_array << word.capitalize
+        end
+        opi_name = formatted_name_array.join(" ")
         @polish_names << opi_name
       end
     end
