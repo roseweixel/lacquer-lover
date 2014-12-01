@@ -14,6 +14,28 @@ class Lacquer < ActiveRecord::Base
   accepts_nested_attributes_for :user_lacquers
   accepts_nested_attributes_for :swatches
 
+  def color_tags
+    colors = []
+    @user_lacquers = UserLacquer.where(:lacquer_id => self.id)
+    @user_lacquers.each do |user_lacquer|
+      user_lacquer.colors.each do |color|
+        colors << color.name
+      end
+    end
+    colors
+  end
+
+  def finish_tags
+    finishes = []
+    @user_lacquers = UserLacquer.where(:lacquer_id => self.id)
+    @user_lacquers.each do |user_lacquer|
+      user_lacquer.finishes.each do |finish|
+        finishes << finish.description
+      end
+    end
+    finishes
+  end
+
   def color_string
     string_array = []
     colors.each do |color|

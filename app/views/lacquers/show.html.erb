@@ -1,1 +1,29 @@
-<h1><%= @lacquer.name %></h1>
+<h1><%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %></h1>
+
+<h3>Color Tags</h3>
+<% @lacquer.color_tags.each do |color_tag| %>
+	#<%= color_tag %> 
+<% end %>
+
+<h3>Finishes Tags</h3>
+<% @lacquer.finish_tags.each do |finish_tag| %>
+	#<%= finish_tag %> 
+<% end %>
+
+
+<h3>Swatches!</h3>
+<% if @lacquer.swatches.count > 0 %>
+	<div class="row">
+	<% @lacquer.swatches.each do |swatch| %>
+		<% if swatch.image.file? %>
+			<div class="col-md-3" style="margin: 10px;">
+			<%= image_tag swatch.image.url(:medium)%><br>
+			added by <%= link_to swatch.user.name, user_path(swatch.user) %><br>
+			<% if swatch.user == current_user %>
+				<%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
+			<% end %>
+			</div>
+		<% end %>
+	<% end %>
+	</div>
+<% end %>

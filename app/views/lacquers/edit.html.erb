@@ -22,14 +22,12 @@
   <%= f.submit %>
 <% end %>
 
-
-
 <% if @lacquer.swatches.count > 0 %>
 <h3>Swatches for <%= @lacquer.name %></h3>
 	<div class="row">
 	<% @lacquer.swatches.each do |swatch| %>
 		<% if swatch.image.file? %>
-			<div class="col-3">
+			<div class="col-md-3">
 			<%= image_tag swatch.image.url(:medium)%><br>
 			added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y at %I:%M%p")  %><br>
 			<% if swatch.user == current_user %>

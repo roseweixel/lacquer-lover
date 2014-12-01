@@ -289,7 +289,7 @@
 			<tr>
 				<td>
 				<% if !lacquer.swatches.empty? %>
-					<%= image_tag lacquer.swatches.first.image.url(:thumb) %>
+					<%= image_tag user_lacquer.swatch_image %>
 				<% else %>
 					<%= form_for lacquer.swatches.new, :html => { :multipart => true } do |f| %>
 						<h6>Add A Swatch!</h6>
