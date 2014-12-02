@@ -14,14 +14,48 @@ class SeedDatabase
       {name: 'Essie'},
       {name: 'OPI'},
       {name: 'Butter London'},
-      {name: 'Deborah Lippmann'}
-    ])
+      {name: 'Deborah Lippmann'},
+      {name: 'Zoya'},
+      {name: 'China Glaze'},
+      {name: 'I Love Nail Polish (ILNP)'},
+      {name: 'Dior'},
+      {name: 'Chanel'},
+      {name: 'Sephora Formula X'},
+      {name: 'Sephora'},
+      {name: 'Nails Inc.'},
+      {name: 'Lancome'},
+      {name: 'Nars'},
+      {name: 'Mac'},
+      {name: 'Nicole by OPI'},
+      {name: 'Sephora by OPI'},
+      {name: 'Sally Hansen'},
+      {name: 'Color Club'},
+      {name: 'Orly'},
+      {name: 'CND'},
+      {name: 'Maybelline'},
+      {name: "L'Oreal Paris"},
+      {name: 'Revlon'},
+      {name: 'CoverGirl'},
+      {name: 'I Love Nail Polish (ILNP)'}
+    ]).sort
   end
 
   def create_colors
     colors = Color.create([
       {name: 'red'},
+      {name: 'beige'},
+      {name: 'berry'},
+      {name: 'brown'},
       {name: 'orange'},
+      {name: 'coral'},
+      {name: 'cream'},
+      {name: 'fuchsia'},
+      {name: 'lilac'},
+      {name: 'mauve'},
+      {name: 'turquoise'},
+      {name: 'peach'},
+      {name: 'tan'},
+      {name: 'taupe'},
       {name: 'yellow'},
       {name: 'green'},
       {name: 'blue'},
@@ -29,15 +63,18 @@ class SeedDatabase
       {name: 'purple'},
       {name: 'magenta'},
       {name: 'pink'},
-      {name: 'grey'},
+      {name: 'gray'},
       {name: 'black'},
       {name: 'white'},
       {name: 'nude'},
       {name: 'gold'},
       {name: 'bronze'},
       {name: 'copper'},
-      {name: 'silver'}
-    ])
+      {name: 'silver'},
+      {name: 'neon'},
+      {name: 'bright'},
+      {name: 'dark'}
+    ]).sort
   end
 
   def create_finishes
@@ -47,8 +84,26 @@ class SeedDatabase
       {description: 'shimmer'},
       {description: 'glitter'},
       {description: 'jelly'},
-      {description: 'metallic'}
-    ])
+      {description: 'metallic'},
+      {description: 'duochrome'},
+      {description: 'holographic'},
+      {description: 'multichrome'},
+      {description: 'matte'},
+      {description: 'semi-matte'},
+      {description: 'frost'},
+      {description: 'pearl'},
+      {description: 'foil'},
+      {description: 'satin'},
+      {description: 'suede'},
+      {description: 'flakies'},
+      {description: 'iridiscent'},
+      {description: 'crackle'},
+      {description: 'splatter'},
+      {description: 'magnetic'},
+      {description: 'texture'},
+      {description: 'luminescent'},
+      {description: 'other nail effects'}
+    ]).sort
   end
 
   def seed_deborah
