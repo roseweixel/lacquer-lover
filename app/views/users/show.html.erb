@@ -4,11 +4,13 @@
 	<h1><%= @user.first_name %>'s Profile</h1>
 <% end %>
 
-	<% if (@user != current_user) && (!current_user.all_friends.include?(@user)) %>
-		<%= link_to "Add Friend", new_friendship_path(friend_id: @user) %><br>
-	<% end %>
-	
-	<div id="public-profile">
+<% if (@user != current_user) && (!current_user.all_friends.include?(@user)) %>
+	<%= link_to "Add Friend", new_friendship_path(friend_id: @user) %><br>
+<% end %>
+
+<div class="row">
+	<!-- PUBLIC PROFILE -->
+	<div class="col-md-4" id="public-profile">
 		<h3>Lacquers: <%= @user.lacquers.count %></h3>
 		<h3>Friends: <%= @user.accepted_friends.count %></h3>
 		<% if !@user.lacquers_added_by.empty? %>
@@ -42,6 +44,170 @@
 			<%= @user.requested_transactions.count %></h3>
 		<% end %>
 	</div>
+	<!-- END OF PUBLIC PROFILE -->
+
+
+	<!-- BEGINNING OF YOUR ALERTS & FRIENDSHIPS (IF YOU ARE THE CURRENT USER) -->
+	<% if @user == current_user %>
+
+		<% if @user.accepted_friends.count > 0 %>
+			<div class="col-md-3">
+				<h3>Friends</h3>
+				<ul>
+				<% @user.accepted_friends.each do |friend| %>
+					<li><%= link_to friend.name, user_path(friend) %></li>
+				<% end %>
+				</ul>
+			</div>
+		<% end %>
+
+		<div class="col-md-5">
+			<!-- FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
+			<% if @user.friendships_for_your_approval.count > 0 %>
+				<h3>Friendships Awaiting Your Approval</h3>
+				<ul>
+					<% @user.friendships_for_your_approval.each do |friendship| %>
+						<% friend = User.find(friendship.user_id) %>
+						<li><%= link_to friend.name, user_path(friend) %> <%= link_to "Accept Friendship", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %></li>
+					<% end %>
+				</ul>
+			<% end %>
+			<!-- END OF FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
+
+			<!-- FRIENDSHIPS YOU'VE REQUESTED NOT YET APPROVED -->
+			<% if @user.requested_friends_awaiting_approval.count > 0 %>
+				<h3>Your Pending Friend Requests</h3>
+				<ul>
+					<% @user.requested_friends_awaiting_approval.each do |friend| %>
+						<li><%= link_to friend.name, user_path(friend) %></li>
+					<% end %>
+				</ul>
+			<% end %>
+			<!-- END OF FRIENDSHIPS YOU'VE REQUESTED NOT YET APPROVED -->
+
+			<!-- TRANSACTIONS YOU OWN -->
+			<% if @user.owned_transactions.count > 0 %>
+
+				<!-- TRANSACTIONS AWAITING YOUR APPROVAL -->
+				<% if @user.transactions_for_your_approval.count > 0 %>
+					<h3>Transactions Awaiting Your Approval</h3>
+					<ul>
+					<% @user.transactions_for_your_approval.each do |transaction| %>
+						<% friend = User.find(transaction.requester_id) %>
+						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+						<li><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>. <%= link_to "Accept Request", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %></li>
+					<% end %>
+					</ul>
+				<% end %>
+				<!-- END OF TRANSACTIONS AWAITING YOUR APPROVAL -->
+
+				<!-- TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
+				<% if @user.transactions_you_accepted.count > 0 %>
+					<h3>Transactions You Accepted</h3>
+					<ul>
+					<% @user.transactions_you_accepted.each do |transaction| %>
+						<% friend = User.find(transaction.requester_id) %>
+						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+						<li>
+							You've agreed to loan <%= lacquer.name %> out to <%= link_to friend.name, user_path(friend) %>. <%= link_to "I gave #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %>
+						</li>
+						<%= form_for transaction do |f| %>
+							<%= f.label :due_date, "Add or Update Due Date" %>
+							<%= f.date_field :due_date %>
+							<%= f.submit %>
+						<% end %> 
+					<% end %>
+					</ul>
+				<% end %>
+				<!-- END OF TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
+
+				<!-- CURRENTLY LOANED OUT -->
+				<% if @user.active_owned_transactions.count > 0 %>
+					<h3>Lacquers Currenly on Loan</h3>
+					<ul>
+					<% @user.active_owned_transactions.each do |transaction| %>
+						<% friend = User.find(transaction.requester_id) %>
+						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+						<li>
+							Your <%= lacquer.name %> is currently loaned out to <%= link_to friend.name, user_path(friend) %>. <%= link_to "#{friend.name} gave #{lacquer.name} back", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %>
+						</li>
+						<%= form_for transaction do |f| %>
+							<%= f.label :due_date, "Add or Update Due Date" %>
+							<%= f.date_field :due_date %>
+							<%= f.submit %>
+						<% end %> 
+					<% end %>
+					</ul>
+				<% end %>
+				<!-- END OF CURRENTLY LOANED OUT -->
+			<% end %>
+			<!-- END OF TRANSACTIONS YOU OWN -->
+
+			<!-- TRANSACTIONS YOU'VE REQUESTED -->
+			<% if @user.requested_transactions.count > 0 %>
+			
+				<!-- CURRENTLY LOANED OUT TO YOU -->
+				<% if @user.active_requested_transactions.count > 0 %>
+					<h3>Lacquers Currently Loaned Out to You</h3>
+					<ul>
+						<% @user.active_requested_transactions.each do |transaction| %>
+							<% friend = User.find(transaction.owner_id) %>
+							<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+							<li>
+								<%= link_to friend.name, user_path(friend) %> gave you <%= lacquer.name %> on <%= transaction.date_became_active.strftime("%m/%d/%Y") %>.
+								<% if transaction.due_date %>
+									<% if transaction.overdue? %>
+										<div class="alert alert-danger" role="alert">
+										You're <%= pluralize(transaction.days_overdue, 'day') %> overdue to return this lacquer. Don't mess with karma - give it back!
+										</div>
+									<% elsif transaction.due_today? %>
+										Remember to give this lacquer back <strong>today</strong>!
+									<% elsif transaction.due_tomorrow? %>
+										Remember to give this lacquer back <strong>tomorrow</strong>!
+									<% else %>
+										The return date for this loan is <%= transaction.due_date.strftime("%m/%d/%Y") %>.
+									<% end %>
+								<% end %>
+							</li>
+						<% end %>
+					</ul>
+				<% end %>
+				<!-- END OF CURRENTLY LOANED OUT TO YOU -->
+
+				<!-- LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
+				<% if @user.accepted_requested_transactions.count > 0 %>
+					<h3>Accepted Loan Requests</h3>
+					<ul>
+					<% @user.accepted_requested_transactions.each do |transaction| %>
+						<% friend = User.find(transaction.owner_id) %>
+						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+						<li><%= link_to friend.name, user_path(friend) %> has agreed to loan you <%= lacquer.name %>.</li>
+					<% end %>
+					</ul>
+				<% end %>
+				<!-- END LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
+
+				<!-- LOANS REQUESTED PENDING -->
+				<% if @user.pending_requested_transactions.count > 0 %>
+					<h3>Pending Loan Requests</h3>
+					<ul>
+					<% @user.pending_requested_transactions.each do |transaction| %>
+						<% friend = User.find(transaction.owner_id) %>
+						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+						<li>You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= lacquer.name %></li>
+					<% end %>
+					</ul>
+				<% end %>
+				<!-- LOANS REQUESTED PENDING -->
+
+			<% end %>
+			<!-- END OF TRANSACTIONS YOU'VE REQUESTED -->
+		
+		</div>
+	<% end %>
+</div>
+<!-- END OF YOUR ALERTS (IF YOU ARE THE CURRENT USER) -->
+	
 
 <% if (@user == current_user) || (current_user.accepted_friends.include?(@user)) %>
 	<section>
@@ -52,213 +218,70 @@
 			<div class="dropdown">
 			  <select id="brand-selection" class="btn-default">
 			    <option value="hasnt-been-chosen">Choose your brand</option>
-			    <option value="OPI">OPI</option>
-			    <option value="Essie">Essie</option>
-			    <option value="Butter London">Butter London</option>
-			    <option value="Deborah Lippmann">Deborah Lippmann</option>
+			    <% Brand.all.each do |brand| %>
+			    	<option value="<%= brand.name %>"><%= brand.name %></option>
+			    <% end %>
 			  </select>
 			</div>
 
-			<div class="lacquer-dropdown dropdown btn" id="opi-dropdown">
-			  <%= form_for @new_user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+			<% Brand.all.each do |brand| %>
+				<div class="lacquer-dropdown dropdown btn" id="<%= brand.abbreviation %>-dropdown">
+				  <%= form_for @new_user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
 
-			  	<%= f.hidden_field :user_id, value: current_user.id %>
-			  	<%= f.select(:lacquer_id, @opi_lacquers.collect {|p| [ p.name, p.id ] } + [ [ 'other', 'new' ] ], {:prompt => "Select an OPI lacquer"}, :class => "btn") %>
+				  	<%= f.hidden_field :user_id, value: current_user.id %>
+				  	<%= f.select(:lacquer_id, brand.lacquers.collect {|p| [ p.name, p.id ] } + [ [ 'other', 'new' ] ], {:prompt => "Select an #{brand.name} lacquer"}, :class => "btn") %>
 
-			    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
-			  <% end %>
-			</div>
+				    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
+				  <% end %>
+				</div>
+			<% end %>
 
-			<div class="lacquer-dropdown dropdown btn" id="essie-dropdown">
-			  <%= form_for @new_user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
 
-			  	<%= f.hidden_field :user_id, value: current_user.id %>
-			    <%= f.select(:lacquer_id, @essie_lacquers.collect {|p| [ p.name, p.id ] } + [ [ 'other', 'new' ] ], {:prompt => "Select an Essie lacquer"}, :class => "btn") %>
-
-			    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
-			  <% end %>
-			</div>
-
-			<div class="lacquer-dropdown dropdown btn" id="butter-dropdown">
-			  <%= form_for @new_user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
-
-			  	<%= f.hidden_field :user_id, value: current_user.id %>
-			    <%= f.select(:lacquer_id, @butter_lacquers.collect {|p| [ p.name, p.id ] } + [ [ 'other', 'new' ] ], {:prompt => "Select a Butter London lacquer"}, :class => "btn") %>
-
-			    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
-			  <% end %>
-			</div>
-
-			<div class="lacquer-dropdown dropdown btn" id="deborah-dropdown">
-			  <%= form_for @new_user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
-			  	<%= f.hidden_field :user_id, value: current_user.id %>
-			    <%= f.select(:lacquer_id, @deborah_lacquers.collect {|p| [ p.name, p.id ] } + [ [ 'other', 'new' ] ], {:prompt => "Select a Deborah Lippmann lacquer"}, :class => "btn") %>
-			    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
-			  <% end %>
-			</div>
 
 			<!-- ADD "OTHER" LACQUER FOR DEBORAH -->
-			<div class="other-lacquer" id="deborah">
-				<%= form_for @new_deborah_lacquer, :url => url_for(:controller => 'lacquers', :action => 'create') do |f| %>
+			<% Brand.all.each do |brand| %>
+				<% new_lacquer = brand.lacquers.new %>
+			<div class="other-lacquer" id="<%= brand.abbreviation %>">
+				<%= form_for new_lacquer, :url => url_for(:controller => 'lacquers', :action => 'create') do |f| %>
 					<%= f.label :name %>
 					<%= f.text_field :name, placeholder: "lacquer name", :required => true %>
 
-
-    			<%= fields_for @new_deborah_lacquer.user_lacquers.new do |user_lacquer_form| %>
-					<div class="btn-group">
-			    	<button type="button" class="btn btn-default dropdown-toggle color-dropdown" data-toggle="dropdown" aria-expanded="false">
-				    	Select Colors <span class="caret"></span>
-  					</button>
-	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	 					<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
-	    			</ul>
-    			</div>
-    			<div class="btn-group">
-			    	<button type="button" class="btn btn-default dropdown-toggle finish-dropdown" data-toggle="dropdown" aria-expanded="false">
-				    	Select Finishes <span class="caret"></span>
-  					</button>
-	 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-	    			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
-	    			</ul>
-	 
-    			</div>
-    			<div class="add-new-lacquer-to-collection">
-	 						<%= user_lacquer_form.label "Add this lacquer to my collection." %>
-	    				<%= check_box_tag :user_id, current_user.id, required: true %>
-	    		<% end %>	
-	    		</div>
-	    		<%= f.hidden_field :brand_id, value: @new_deborah_lacquer.brand_id %>
-	    		<%= f.hidden_field :user_added_by_id, value: current_user.id %>
-					<%= f.submit "Create Lacquer" %>
-				<% end %>
-			</div>
+    			<%= fields_for new_lacquer.user_lacquers.new do |user_lacquer_form| %>
+						<div class="btn-group">
+				    	<button type="button" class="btn btn-default dropdown-toggle color-dropdown" data-toggle="dropdown" aria-expanded="false">
+					    	Select Colors <span class="caret"></span>
+	  					</button>
+		 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
+		 					<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
+	  							<%= b.check_box %> <%= b.label %><br>
+							<% end %>
+		    			</ul>
+	    			</div>
+	    			<div class="btn-group">
+				    	<button type="button" class="btn btn-default dropdown-toggle finish-dropdown" data-toggle="dropdown" aria-expanded="false">
+					    	Select Finishes <span class="caret"></span>
+	  					</button>
+		 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
+		    			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
+	  							<%= b.check_box %> <%= b.label %><br>
+							<% end %>
+		    			</ul>
+		 
+	    			</div>
+	    			<div class="add-new-lacquer-to-collection">
+		 						<%= user_lacquer_form.label "Add this lacquer to my collection." %>
+		    				<%= check_box_tag :user_id, current_user.id, required: true %>
+		    		<% end %>	
+		    		</div>
+		    		<%= f.hidden_field :brand_id, value: new_lacquer.brand_id %>
+		    		<%= f.hidden_field :user_added_by_id, value: current_user.id %>
+						<%= f.submit "Create Lacquer" %>
+					<% end %>
+				</div>
+			<% end %>
 			<!-- END OF ADD "OTHER" LACQUER FOR DEBORAH -->
 
-			<!-- ADD "OTHER" LACQUER FOR BUTTER -->
-			<div class="other-lacquer" id="butter">
-				<%= form_for @new_butter_lacquer, :url => url_for(:controller => 'lacquers', :action => 'create') do |f| %>
-					<%= f.label :name %>
-					<%= f.text_field :name, placeholder: "lacquer name", :required => true %>
-
-    			<%= fields_for @new_butter_lacquer.user_lacquers.new do |user_lacquer_form| %>
-					<div class="btn-group">
-			    	<button type="button" class="btn btn-default dropdown-toggle color-dropdown" data-toggle="dropdown" aria-expanded="false">
-				    	Select Colors <span class="caret"></span>
-  					</button>
-	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	 					<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
-	    			</ul>
-    			</div>
-    			<div class="btn-group">
-			    	<button type="button" class="btn btn-default dropdown-toggle finish-dropdown" data-toggle="dropdown" aria-expanded="false">
-				    	Select Finishes <span class="caret"></span>
-  					</button>
-	 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-	    			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
-	    			</ul>
-	 
-    			</div>
-    			<div class="add-new-lacquer-to-collection">
-	 						<%= user_lacquer_form.label "Add this lacquer to my collection." %>
-	    				<%= check_box_tag :user_id, current_user.id, required: true %>
-	    		<% end %>	
-	    		</div>
-	    		<%= f.hidden_field :brand_id, value: @new_butter_lacquer.brand_id %>
-	    		<%= f.hidden_field :user_added_by_id, value: current_user.id %>
-					<%= f.submit "Create Lacquer" %>
-				<% end %>
-			</div>
-			<!-- END OF ADD "OTHER" LACQUER FOR BUTTER -->
-
-			<!-- ADD "OTHER" LACQUER FOR OPI -->
-			<div class="other-lacquer" id="opi">
-				<%= form_for @new_opi_lacquer, :url => url_for(:controller => 'lacquers', :action => 'create') do |f| %>
-					<%= f.label :name %>
-					<%= f.text_field :name, placeholder: "lacquer name", :required => true %>
-
-
-    			<%= fields_for @new_opi_lacquer.user_lacquers.new do |user_lacquer_form| %>
-					<div class="btn-group">
-			    	<button type="button" class="btn btn-default dropdown-toggle color-dropdown" data-toggle="dropdown" aria-expanded="false">
-				    	Select Colors <span class="caret"></span>
-  					</button>
-	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	 					<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
-	    			</ul>
-    			</div>
-    			<div class="btn-group">
-			    	<button type="button" class="btn btn-default dropdown-toggle finish-dropdown" data-toggle="dropdown" aria-expanded="false">
-				    	Select Finishes <span class="caret"></span>
-  					</button>
-	 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-	    			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
-	    			</ul>
-	 
-    			</div>
-    			<div class="add-new-lacquer-to-collection">
-	 						<%= user_lacquer_form.label "Add this lacquer to my collection." %>
-	    				<%= check_box_tag :user_id, current_user.id, required: true %>
-	    		<% end %>	
-	    		</div>
-	    		<%= f.hidden_field :brand_id, value: @new_opi_lacquer.brand_id %>
-	    		<%= f.hidden_field :user_added_by_id, value: current_user.id %>
-					<%= f.submit "Create Lacquer" %>
-				<% end %>
-			</div>
-			<!-- END OF ADD "OTHER" LACQUER FOR OPI -->
-
-			<!-- ADD "OTHER" LACQUER FOR ESSIE -->
-			<div class="other-lacquer" id="essie">
-				<%= form_for @new_essie_lacquer, :url => url_for(:controller => 'lacquers', :action => 'create') do |f| %>
-					<%= f.label :name %>
-					<%= f.text_field :name, placeholder: "lacquer name", :required => true %>
-
-
-    			<%= fields_for @new_essie_lacquer.user_lacquers.new do |user_lacquer_form| %>
-					<div class="btn-group">
-			    	<button type="button" class="btn btn-default dropdown-toggle color-dropdown" data-toggle="dropdown" aria-expanded="false">
-				    	Select Colors <span class="caret"></span>
-  					</button>
-	 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-	 					<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
-	    			</ul>
-    			</div>
-    			<div class="btn-group">
-			    	<button type="button" class="btn btn-default dropdown-toggle finish-dropdown" data-toggle="dropdown" aria-expanded="false">
-				    	Select Finishes <span class="caret"></span>
-  					</button>
-	 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-	    			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
-  							<%= b.check_box %> <%= b.label %><br>
-						<% end %>
-	    			</ul>
-	 
-    			</div>
-    			<div class="add-new-lacquer-to-collection">
-	 						<%= user_lacquer_form.label "Add this lacquer to my collection." %>
-	    				<%= check_box_tag :user_id, current_user.id, required: true %>
-	    		<% end %>	
-	    		</div>
-	    		<%= f.hidden_field :brand_id, value: @new_essie_lacquer.brand_id %>
-	    		<%= f.hidden_field :user_added_by_id, value: current_user.id %>
-					<%= f.submit "Create Lacquer" %>
-				<% end %>
-			</div>
-			<!-- END OF ADD "OTHER" LACQUER FOR ESSIE -->
+			
 
 		<!-- ***** END OF ADD OTHER LACQUERS ***** --> 	
 
@@ -291,7 +314,11 @@
 				<% if !lacquer.swatches.empty? %>
 					<%= image_tag user_lacquer.swatch_image %>
 				<% else %>
-					<%= image_tag(lacquer.default_picture, :size => "45x90") %>
+					<% if lacquer.default_picture %>
+						<%= image_tag(lacquer.default_picture, :size => "45x90") %>
+					<% else %>
+						<%= image_tag('generic-polish.png', :size => "45x90")%>
+					<% end %>
 					<%= form_for lacquer.swatches.new, :html => { :multipart => true } do |f| %>
 						<h6>Add A Swatch!</h6>
 						<%= f.hidden_field :user_id, value: current_user.id %>
@@ -360,136 +387,6 @@
 		</tbody>
 	</table>
 	</section>
-	<% if @user.accepted_friends.count > 0 %>
-	<h3>Friends</h3>
-	<ul>
-	<% @user.accepted_friends.each do |friend| %>
-		<li><%= link_to friend.name, user_path(friend) %></li>
-	<% end %>
-	</ul>
-	<% end %>
+	
 <% end %>
 
-<% if @user == current_user %>
-	<% if @user.requested_friends_awaiting_approval.count > 0 %>
-	<h3>Your Pending Friend Requests</h3>
-	<ul>
-	<% @user.requested_friends_awaiting_approval.each do |friend| %>
-		<li><%= link_to friend.name, user_path(friend) %></li>
-	<% end %>
-	</ul>
-	<% end %>
-
-	<% if @user.friendships_for_your_approval.count > 0 %>
-	<h3>Friendships Awaiting Your Approval</h3>
-	<ul>
-	<% @user.friendships_for_your_approval.each do |friendship| %>
-		<% friend = User.find(friendship.user_id) %>
-		<li><%= link_to friend.name, user_path(friend) %> <%= link_to "Accept Friendship", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %></li>
-	<% end %>
-	</ul>
-	<% end %>
-
-	<% if @user.owned_transactions.count > 0 %>
-
-		<% if @user.transactions_for_your_approval.count > 0 %>
-			<h3>Transactions Awaiting Your Approval</h3>
-			<ul>
-			<% @user.transactions_for_your_approval.each do |transaction| %>
-				<% friend = User.find(transaction.requester_id) %>
-				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-				<li><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>. <%= link_to "Accept Request", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %></li>
-			<% end %>
-			</ul>
-		<% end %>
-
-		<% if @user.transactions_you_accepted.count > 0 %>
-			<h3>Transactions You Accepted</h3>
-			<ul>
-			<% @user.transactions_you_accepted.each do |transaction| %>
-				<% friend = User.find(transaction.requester_id) %>
-				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-				<li>
-					You've agreed to loan <%= lacquer.name %> out to <%= link_to friend.name, user_path(friend) %>. <%= link_to "I gave #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %>
-				</li>
-				<%= form_for transaction do |f| %>
-					<%= f.label :due_date, "Add or Update Due Date" %>
-					<%= f.date_field :due_date %>
-					<%= f.submit %>
-				<% end %> 
-			<% end %>
-			</ul>
-
-		<% end %>
-
-		<% if @user.active_owned_transactions.count > 0 %>
-			<h3>Lacquers Currenly on Loan</h3>
-			<ul>
-			<% @user.active_owned_transactions.each do |transaction| %>
-				<% friend = User.find(transaction.requester_id) %>
-				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-				<li>
-					Your <%= lacquer.name %> is currently loaned out to <%= link_to friend.name, user_path(friend) %>. <%= link_to "#{friend.name} gave #{lacquer.name} back", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %>
-				</li>
-				<%= form_for transaction do |f| %>
-					<%= f.label :due_date, "Add or Update Due Date" %>
-					<%= f.date_field :due_date %>
-					<%= f.submit %>
-				<% end %> 
-			<% end %>
-			</ul>
-			
-		<% end %>
-	<% end %>
-
-	<% if @user.requested_transactions.count > 0 %>
-
-		<% if @user.pending_requested_transactions.count > 0 %>
-			<h3>Pending Loan Requests</h3>
-			<ul>
-			<% @user.pending_requested_transactions.each do |transaction| %>
-				<% friend = User.find(transaction.owner_id) %>
-				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-				<li>You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= lacquer.name %></li>
-			<% end %>
-			</ul>
-		<% end %>
-
-		<% if @user.accepted_requested_transactions.count > 0 %>
-			<h3>Accepted Loan Requests</h3>
-			<ul>
-			<% @user.accepted_requested_transactions.each do |transaction| %>
-				<% friend = User.find(transaction.owner_id) %>
-				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-				<li><%= link_to friend.name, user_path(friend) %> has agreed to loan you <%= lacquer.name %>.</li>
-			<% end %>
-			</ul>
-		<% end %>
-
-		<% if @user.active_requested_transactions.count > 0 %>
-			<h3>Lacquers Currently Loaned Out to You</h3>
-			<ul>
-			<% @user.active_requested_transactions.each do |transaction| %>
-				<% friend = User.find(transaction.owner_id) %>
-				<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-				<li>
-				<%= link_to friend.name, user_path(friend) %> gave you <%= lacquer.name %> on <%= transaction.date_became_active.strftime("%m/%d/%Y") %>.
-				<% if transaction.due_date %>
-					<% if transaction.overdue? %>
-						<div class="alert alert-danger" role="alert">
-						You're <%= pluralize(transaction.days_overdue, 'day') %> overdue to return this lacquer. Don't mess with karma - give it back!
-						</div>
-					<% elsif transaction.due_today? %>
-						Remember to give this lacquer back <strong>today</strong>!
-					<% elsif transaction.due_tomorrow? %>
-						Remember to give this lacquer back <strong>tomorrow</strong>!
-					<% else %>
-						The return date for this loan is <%= transaction.due_date.strftime("%m/%d/%Y") %>.
-					<% end %>
-				<% end %>
-				</li>
-			<% end %>
-			</ul>
-		<% end %>
-	<% end %>
-<% end %>

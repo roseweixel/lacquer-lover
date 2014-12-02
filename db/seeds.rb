@@ -20,14 +20,13 @@ class SeedDatabase
       {name: 'I Love Nail Polish (ILNP)'},
       {name: 'Dior'},
       {name: 'Chanel'},
-      {name: 'Sephora Formula X'},
+      {name: 'Formula X by Sephora'},
       {name: 'Sephora'},
       {name: 'Nails Inc.'},
       {name: 'Lancome'},
       {name: 'Nars'},
       {name: 'Mac'},
       {name: 'Nicole by OPI'},
-      {name: 'Sephora by OPI'},
       {name: 'Sally Hansen'},
       {name: 'Color Club'},
       {name: 'Orly'},
@@ -35,9 +34,8 @@ class SeedDatabase
       {name: 'Maybelline'},
       {name: "L'Oreal Paris"},
       {name: 'Revlon'},
-      {name: 'CoverGirl'},
-      {name: 'I Love Nail Polish (ILNP)'}
-    ]).sort
+      {name: 'CoverGirl'}
+    ]).sort_by &:name
   end
 
   def create_colors
@@ -74,7 +72,7 @@ class SeedDatabase
       {name: 'neon'},
       {name: 'bright'},
       {name: 'dark'}
-    ]).sort
+    ]).sort_by &:name
   end
 
   def create_finishes
@@ -103,7 +101,7 @@ class SeedDatabase
       {description: 'texture'},
       {description: 'luminescent'},
       {description: 'other nail effects'}
-    ]).sort
+    ]).sort_by &:description
   end
 
   def seed_deborah
