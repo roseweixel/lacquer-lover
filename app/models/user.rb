@@ -13,6 +13,11 @@ class User < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   #accepts_nested_attributes_for :user_lacquers
 
+  # MORE FEATURES!!!
+  # 0) user can search their own collection by color, finish, brand, name
+  # 1) user can search their friends' collections by color, finish, brand, name
+  # 2) user can search a specific friend's collection by color, finish, brand, name
+
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.provider = auth.provider

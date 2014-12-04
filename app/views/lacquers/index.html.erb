@@ -1,46 +1,8 @@
-<% if current_user %>
-<div class="dropdown" style="margin-top: 25px;">
-  <select id="brand-selection" class="btn-lg btn-default" style="width:55%;height:45px;">
-    <option value="hasnt-been-chosen">Choose your brand</option>
-    <option value="OPI">OPI</option>
-    <option value="Essie">Essie</option>
-    <option value="Butter London">Butter London</option>
-    <option value="Deborah Lippmann">Deborah Lippmann</option>
-  </select>
-</div>
-
-<div class="lacquer-dropdown dropdown btn-lg" id="opi-dropdown">
-  <%= form_for @user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
-    <%= f.hidden_field :user_id, value: current_user.id %>
-    <%= f.collection_select :lacquer_id, @opi_lacquers,:id,:name, {:prompt => "Select an OPI lacquer"}, :class => "btn-lg" %>
-      <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
-  <% end %>
-</div>
-
-<div class="lacquer-dropdown dropdown btn-lg" id="essie-dropdown">
-  <%= form_for @user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
-    <%= f.hidden_field :user_id, value: current_user.id %>
-    <%= f.collection_select :lacquer_id, @essie_lacquers,:id,:name, {:prompt => "Select an Essie lacquer"}, :class => "btn-lg" %>
-    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
-  <% end %>
-</div>
-
-<div class="lacquer-dropdown dropdown btn-lg" id="butter-dropdown">
-  <%= form_for @user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
-    <%= f.hidden_field :user_id, value: current_user.id %>
-    <%= f.collection_select :lacquer_id, @butter_lacquers,:id,:name, {:prompt => "Select a Butter London lacquer"}, :class => "btn-lg" %>
-    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
-  <% end %>
-</div>
-
-<div class="lacquer-dropdown dropdown btn-lg" id="deborah-dropdown">
-  <%= form_for @user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
-    <%= f.hidden_field :user_id, value: current_user.id %>
-    <%= f.collection_select :lacquer_id, @deborah_lacquers,:id,:name, {:prompt => "Select a Deborah Lipmann lacquer"}, :class => "btn-lg" %>
-    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled btn-lg" %>
-  <% end %>
-</div>
-<% else %>
-<h1>Welcome to Lacquer Lover!</h1>
-<h2>Please sign in to get started.</h2>
-<% end %>
+<body style='background-image: url("nails.jpg"); background-size: cover; background-position: center; background-repeat: no-repeat; '>
+	<div class="row", style="text-align: center;">
+		<div class="col-md-12", style="text-shadow: 0.4em 0.4em 0.6em black; color: white; font-family: 'Hind', sans-serif; padding-top: 200px">
+			<h1 style="font-size: 850%;"><strong>Welcome to<br>Lacquer Love&Lend!</strong></h1>
+			<h2 style="font-size: 250%; font-family: 'Homemade Apple', cursive;"><strong>Make a network.  Share and lend your polishes. Find and borrow new polishes from your friends!</strong></h2>
+		</div>
+	</div>
+</body>

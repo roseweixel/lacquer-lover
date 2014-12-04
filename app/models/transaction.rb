@@ -4,6 +4,16 @@ class Transaction < ActiveRecord::Base
   #belongs_to :user, through: :user_lacquer, dependent: :destroy
   validate :transaction_must_be_unique, :on => :create
   
+  # Make it possible for users to 
+  # 0) reject transactions (and friendships, too!)
+        # - not right now
+        # - never
+        # - ignore?
+  # 1) gift a polish after it's been loaned
+  # 2) remove a polish while a loan request is pending and automatically notify the requester
+  # 3) have a way of polishes "dying" while on loan (i lost it, the dog ate it, i used it up, etc.)
+  # 4) have a way of gifting, not just loaning
+
   SECONDS_PER_DAY = 86400
 
   def owner
