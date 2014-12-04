@@ -67,3 +67,4 @@ gem 'omniauth-facebook', '1.4.0'
 gem 'figaro'
 gem 'state_machine'
 gem "paperclip", "~> 4.2"
+gem "will_paginate"

@@ -1,2 +1,14 @@
 <h1><%= @brand.name %></h1>
 
+<% if @brand.lacquers.count > 0 %>
+
+	<% @lacquers.each do |lacquer| %>
+		<p>
+			<%= picture_for(lacquer) %>
+			<%= link_to lacquer.name, lacquer_path(lacquer.id) %>
+		</p>
+	<% end %>
+	
+
+<% end %>
+<%= will_paginate @lacquers %>

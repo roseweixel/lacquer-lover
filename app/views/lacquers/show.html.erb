@@ -1,4 +1,4 @@
-<h1><%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %></h1>
+<h1><%= picture_for(@lacquer) %>  <%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %></h1>
 
 <h3>Color Tags</h3>
 <% @lacquer.color_tags.each do |color_tag| %>
