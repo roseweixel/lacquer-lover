@@ -10,18 +10,24 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require_tree ../../../vendor/assets/stylesheets/.
  *= require_tree .
  *= require_self
+
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.eot"
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.woff"
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.ttf"
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.svg"
  */
-@import "bootstrap";
 /* Some Style from the Bootstrap Default Theme */
 body {
   padding-top: 70px;
   padding-bottom: 30px;
+  font-family: 'Karla', sans-serif;
+}
+
+h1 {
+	font-family: 'Karla', sans-serif;
 }
 
 .theme-dropdown .dropdown-menu {
@@ -37,3 +43,9 @@ body {
 .navbar-right {
   float: right;
 }
+
+td {
+	font-size: 20px;
+}
+
+

@@ -21,5 +21,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @friendship = current_user.friendships.new(friend: @user)
     @transaction = Transaction.new
+    @user_lacquers = @user.user_lacquers.paginate(:page => params[:page], :per_page => 5)
   end
 end

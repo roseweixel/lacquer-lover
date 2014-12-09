@@ -56,6 +56,10 @@ class User < ActiveRecord::Base
     pending_friends
   end
 
+  def rejected_friend_requests
+    Friendship.where(user_id: self.id, state: 'rejected')
+  end
+
   def friendships_for_your_approval
     pending_friendships = []
     Friendship.where(friend_id: self.id, state: 'pending').each do |friendship|
@@ -87,6 +91,10 @@ class User < ActiveRecord::Base
 
   def pending_requested_transactions
     requested_transactions.where(state: 'pending')
+  end
+
+  def rejected_requested_transactions
+    requested_transactions.where(state: 'rejected')
   end
 
   def accepted_requested_transactions

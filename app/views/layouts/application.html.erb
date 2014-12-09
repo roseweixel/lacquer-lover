@@ -10,6 +10,7 @@
   <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Hind:400,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Homemade+Apple' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Karla:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
@@ -34,12 +35,12 @@
         <li>
 	    	  <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
         </li>
-<!--         <li>
-          <%#= form_for @user, :url => sessions_path, :html => { :style => "padding:15px;" } do |f| %>
-            <%#= f.text_field :name, placeholder: "your name" %>
-            <%#= f.submit "Sign In" %>
-          <%# end %>
-        </li> -->
+        <li>
+          <%= form_for @user, :url => sessions_path, :html => { :style => "padding:15px;" } do |f| %>
+            <%= f.text_field :name, placeholder: "your name" %>
+            <%= f.submit "Sign In" %>
+          <% end %>
+        </li>
       </ul>
     <% end %>
   </div>
