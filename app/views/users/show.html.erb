@@ -49,19 +49,19 @@
 
 	<!-- BEGINNING OF YOUR ALERTS & FRIENDSHIPS (IF YOU ARE THE CURRENT USER) -->
 	<% if @user == current_user %>
-	<span class="live-notifications">
 
 		<% if @user.accepted_friends.count > 0 %>
 			<div class="col-sm-3">
 				<h3>Friends</h3>
 				<ul>
 				<% @user.accepted_friends.each do |friend| %>
-					<li><%= link_to friend.name, user_path(friend) %></li>
+					<li style="font-size:20px;"><%= link_to friend.name, user_path(friend) %></li>
 				<% end %>
 				</ul>
 			</div>
 		<% end %>
 
+	<span class="live-notifications">
 		<div class="col-sm-5">
 			<!-- FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
 			<% if @user.friendships_for_your_approval.count > 0 %>

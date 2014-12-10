@@ -6,17 +6,13 @@ class User < ActiveRecord::Base
   has_many :transactions, :foreign_key => "requester_id"
   has_many :swatches
 
-  # has_many :trips, :foreign_key => "guest_id", :class_name => "Reservation"
-  # has_many :listings, :foreign_key => "host_id"
-  # has_many :reviews, :foreign_key => "guest_id"
-
   validates :name, presence: true, uniqueness: true
   #accepts_nested_attributes_for :user_lacquers
 
-  # MORE FEATURES!!!
-  # 0) user can search their own collection by color, finish, brand, name
-  # 1) user can search their friends' collections by color, finish, brand, name
-  # 2) user can search a specific friend's collection by color, finish, brand, name
+  def load_notifications
+    self.includes(:friendships)
+    self.includes(:transactions)
+  end
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|

@@ -8,6 +8,11 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
+  def load_notifications
+    @user = current_user
+    @user.class.load_notifications
+  end
+
   def show
     @new_opi_lacquer = Brand.where(name: "OPI").first.lacquers.new
     @new_essie_lacquer = Brand.where(name: "Essie").first.lacquers.new
@@ -19,8 +24,14 @@ class UsersController < ApplicationController
     @butter_lacquers = Brand.where(name: "Butter London").first.lacquers
     @deborah_lacquers = Brand.where(name: "Deborah Lippmann").first.lacquers
     @user = User.find(params[:id])
+    @transactions = @user.transactions
+    @friends = @user.friends
     @friendship = current_user.friendships.new(friend: @user)
     @transaction = Transaction.new
     @user_lacquers = @user.user_lacquers.paginate(:page => params[:page], :per_page => 5)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 end
