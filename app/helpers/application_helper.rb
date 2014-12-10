@@ -13,7 +13,7 @@ module ApplicationHelper
       begin 
         picture = open lacquer.default_picture
         image_tag(lacquer.default_picture, :size => "45x90")
-      rescue OpenURI::HTTPError
+      rescue
         image_tag('generic-polish.png', :size => "45x90")
       end
     else
