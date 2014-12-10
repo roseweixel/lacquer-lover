@@ -27,15 +27,15 @@ class Transaction < ActiveRecord::Base
   end
 
   def due_today?
-    due_date == Date.today
+    due_date.to_date == Date.today
   end
 
   def due_tomorrow?
-    due_date - 1 == Date.today
+    due_date.to_date - 1 == Date.today
   end
 
   def overdue?
-    due_date < Date.today
+    due_date.to_date < Date.today
   end
 
   def days_overdue
