@@ -4,8 +4,8 @@
 	<div class="row">
 	<% @lacquers.each do |lacquer| %>
 
-			<div class="col-md-2">
-				<div class="panel panel-info" style="height:161px; overflow:scroll;">
+			<div class="col-md-3">
+				<div class="panel panel-info">
 					<div class="panel-heading">
 						<div class="panel-title">
 							<%= link_to lacquer.name, lacquer_path(lacquer.id) %>

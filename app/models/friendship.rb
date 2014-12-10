@@ -14,7 +14,7 @@ class Friendship < ActiveRecord::Base
   end
 
   def is_not_duplicate
-    if !(Friendship.where(:friend_id => friend_id, :user_id => user_id).empty? && Friendship.where(:user_id => friend_id, :friend_id => user_id).empty?)
+    if !(Friendship.where(:friend_id => friend_id, :user_id => user_id, :state => ["pending", "accepted", "rejected"]).empty? && Friendship.where(:user_id => friend_id, :friend_id => user_id, :state => ["pending", "accepted", "rejected"]).empty?)
       errors.add(:friendship, "This friendship already exists!")
     end
   end

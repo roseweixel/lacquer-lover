@@ -6,6 +6,6 @@ class BrandsController < ApplicationController
 
   def show
     @brand = Brand.find(params[:id])
-    @lacquers = @brand.lacquers.paginate(:page => params[:page], :per_page => 18)
+    @lacquers = @brand.lacquers.paginate(:page => params[:page], :per_page => 20)
   end
 end

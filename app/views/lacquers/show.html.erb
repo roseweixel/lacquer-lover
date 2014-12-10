@@ -1,17 +1,17 @@
 <h1><%= picture_for(@lacquer) %>  <%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %></h1>
 
-<h3>Color Tags</h3>
+<h3><strong>Color Tags</strong></h3>
 <% @lacquer.color_tags.each do |color_tag| %>
-	#<%= color_tag %> 
+	<span style="font-size:20px;">#<%= color_tag %></span>
 <% end %>
 
-<h3>Finishes Tags</h3>
+<h3><strong>Finishes Tags</strong></h3>
 <% @lacquer.finish_tags.each do |finish_tag| %>
-	#<%= finish_tag %> 
+	<span style="font-size:20px;">#<%= finish_tag %></span>
 <% end %>
 
 
-<h3>Swatches!</h3>
+<h3><strong>Swatches!</strong></h3>
 <% if @lacquer.swatches.count > 0 %>
 	<div class="row">
 	<% @lacquer.swatches.each do |swatch| %>
