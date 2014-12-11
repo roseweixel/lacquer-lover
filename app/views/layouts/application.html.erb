@@ -35,12 +35,12 @@
         <li>
 	    	  <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
         </li>
-        <li>
-          <%= form_for @user, :url => sessions_path, :html => { :style => "padding:15px;" } do |f| %>
-            <%= f.text_field :name, placeholder: "your name" %>
-            <%= f.submit "Sign In" %>
-          <% end %>
-        </li>
+<!--         <li>
+          <%#= form_for @user, :url => sessions_path, :html => { :style => "padding:15px;" } do |f| %>
+            <%#= f.text_field :name, placeholder: "your name" %>
+            <%#= f.submit "Sign In" %>
+          <#% end %>
+        </li> -->
       </ul>
     <% end %>
   </div>
