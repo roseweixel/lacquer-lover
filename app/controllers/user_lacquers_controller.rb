@@ -25,7 +25,7 @@ class UserLacquersController < ApplicationController
       redirect_to(:back)
     end
     if user_lacquer.errors
-      flash[:notice] = "This lacquer cannot not be removed from your collect at this time. Make sure you've resolved any outstanding loans and then try again!"
+      flash[:notice] = "There was an error deleting this lacquer!"
     end
   end
 
