@@ -1,15 +1,17 @@
 Rails.application.routes.draw do
   # get 'swatches/new'
+  root 'lacquers#index'
 
   # get 'swatches/create'
 
   # get 'swatches/destroy'
+  delete '/transactions/:id', to: 'transactions#destroy', as: :loan
+
+  match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
+  match 'auth/failure', to: redirect('/'), via: [:get, :post]
+  match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
 
   resources :swatches, only: [:index, :new, :create, :destroy]
-
-
-
-  root 'lacquers#index'
 
   resources :sessions, :only => [:create, :destroy]
 
@@ -24,12 +26,5 @@ Rails.application.routes.draw do
   resources :user_lacquers
 
   resources :friendships
-
-  delete '/transactions/:id', to: 'transactions#destroy', as: :loan
-
-  match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
-  match 'auth/failure', to: redirect('/'), via: [:get, :post]
-  match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
-
 
 end
