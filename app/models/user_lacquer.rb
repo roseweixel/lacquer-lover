@@ -17,14 +17,19 @@ class UserLacquer < ActiveRecord::Base
   accepts_nested_attributes_for :user_lacquer_colors
   accepts_nested_attributes_for :user_lacquer_finishes
 
-  before_destroy :confirm_no_transaction_for
+  #validate :no_current_transaction_for, :on => :destroy
+  before_destroy :confirm_no_current_transaction
 
-  def confirm_no_transaction_for
+  def confirm_no_current_transaction
     self.transactions.where(state: ["pending", "accepted", "active"]).empty?
   end
 
   def available?
     loanable && !on_loan
+  end
+
+  def on_loan
+    !self.transactions.where(state: ["accepted", "active"]).empty?
   end
 
   def swatch_image

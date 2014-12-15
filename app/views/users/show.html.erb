@@ -26,13 +26,13 @@
 			</ul>
 		<% end %>
 
-		<% if @user.owned_transactions %>
+		<% if @user.owned_transactions_actualized %>
 			<% if @user == current_user %>
 				<h3>Your Loan Count: 
 			<% else %>
 				<h3><%= @user.name %>'s Loan Count: 
 			<% end %>
-			<%= @user.owned_transactions.count %></h3>
+			<%= @user.owned_transactions_actualized.count %></h3>
 		<% end %>
 
 		<% if @user.requested_transactions %>
@@ -93,7 +93,7 @@
 					<% @user.rejected_friend_requests.each do |friendship| %>
 						<% friend = User.find(friendship.friend_id) %>
 						<li style='padding-top: 15px;'><%= link_to friend.name, user_path(friend) %></li>
-						<%= link_to "conclude this request", friendship_path(friendship, :state => 'concluded'), {:method => "PATCH", :class =>"btn btn-warning btn-xs"} %>
+						<%= link_to "conclude this request", friendship_path(friendship, :state => 'concluded-rejected'), {:method => "PATCH", :class =>"btn btn-warning btn-xs"} %>
 					<% end %>
 				</ul>
 			<% end %>
@@ -227,7 +227,7 @@
 						<% friend = User.find(transaction.owner_id) %>
 						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
 						<li style='padding-top: 15px;'>It seems <%= link_to friend.name, user_path(friend) %> isn't able to loan you <%= lacquer.name %> at this time.</li>
-						<%= link_to "conclude this request", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-warning btn-xs"} %>
+						<%= link_to "conclude this request", transaction_path(transaction, :state => 'completed-rejected'), {:method => "PATCH", :class =>"btn btn-warning btn-xs"} %>
 					<% end %>
 					</ul>
 				<% end %>

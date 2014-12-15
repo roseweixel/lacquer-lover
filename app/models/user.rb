@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
   end
 
   def requested_transactions
-    Transaction.where(requester_id: self.id)
+    self.transactions.where(requester_id: self.id)
   end
 
   def pending_requested_transactions
@@ -107,6 +107,10 @@ class User < ActiveRecord::Base
 
   def owned_transactions
     Transaction.where(owner_id: self.id)
+  end
+
+  def owned_transactions_actualized
+    owned_transactions.where(state:['accepted', 'active', 'completed'])
   end
 
   def transactions_for_your_approval

@@ -24,7 +24,8 @@ class UserLacquersController < ApplicationController
       flash[:notice] = "You can't delete another user's lacquer!"
       redirect_to(:back)
     end
-    if user_lacquer.errors
+    if user_lacquer.errors.any?
+      binding.pry
       flash[:notice] = "There was an error deleting this lacquer!"
     end
   end
