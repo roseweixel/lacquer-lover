@@ -8,9 +8,13 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
-  def load_notifications
-    @user = current_user
-    @user.class.load_notifications
+  def get_notifications
+    @user = User.find(params[:id])
+    response = {}
+    response["accepted_friends"] = @user.accepted_friends_json
+    respond_to do |format|
+      format.json {render json: response}
+    end
   end
 
   def show

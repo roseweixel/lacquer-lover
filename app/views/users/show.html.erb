@@ -49,6 +49,7 @@
 
 	<!-- BEGINNING OF YOUR ALERTS & FRIENDSHIPS (IF YOU ARE THE CURRENT USER) -->
 	<% if @user == current_user %>
+	<span class="live-notifications">
 
 		<% if @user.accepted_friends.count > 0 %>
 			<div class="col-sm-3">
@@ -61,7 +62,6 @@
 			</div>
 		<% end %>
 
-	<span class="live-notifications">
 		<div class="col-sm-5">
 			<!-- FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
 			<% if @user.friendships_for_your_approval.count > 0 %>
@@ -425,3 +425,9 @@
 	
 <% end %>
 <%= will_paginate @user_lacquers %>
+
+<script>
+var userName = "<%= @user.name %>";
+var id = "<%= @user.id %>";
+var acceptedFriends = "<%= @user.accepted_friends %>";
+</script>

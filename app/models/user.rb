@@ -9,10 +9,6 @@ class User < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   #accepts_nested_attributes_for :user_lacquers
 
-  def load_notifications
-    self.includes(:friendships)
-    self.includes(:transactions)
-  end
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
@@ -31,6 +27,17 @@ class User < ActiveRecord::Base
 
   def last_name
     name.split.last
+  end
+
+  def accepted_friends_json
+    friends_array = []
+    accepted_friends.each do |friend|
+      hash = {}
+      hash[:name] = friend.name
+      hash[:link] = "#{friend.id}"
+      friends_array << hash
+    end
+    friends_array
   end
 
   def accepted_friends

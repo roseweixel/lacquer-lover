@@ -1,0 +1,26 @@
+$(document).ready(function() {
+// 	$.ajaxSetup({ cache: false }); // This part addresses an IE bug.  without it, IE will only load the first number and will never refresh
+	setInterval(function() {
+		//Ajax request to "/users/"+id+"/api.json"
+		$.ajax({
+	  		url: "/users/"+id+"/api.json",
+	  		context: document.body
+		}).done(function(response) {
+			console.log(response);
+	  		$('.live-notifications').empty();
+	  		var friends_list_div = $("<div class='col-sm-3' id='friends_list'>");
+	   		$('.live-notifications').append(friends_list_div);
+	  		friends_list_div.append("<h3>Friends</h3>");
+			friends_list_div.append("<ul>");
+	   		$.each(response["accepted_friends"], function(index,value){
+	   			var link = "<a href="+ value["link"] +">" + value["name"] + "</a>";
+				$('#friends_list > ul').append("<li style='font-size:20px;'>" + link + "</li>");
+
+			});
+	  		
+		});
+		//From ajax request, 
+	}, 3000);
+
+});
+//$( ".inner" ).append( "<p>Test</p>" );
