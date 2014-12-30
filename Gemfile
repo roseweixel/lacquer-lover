@@ -42,6 +42,8 @@ gem 'spring',        group: :development
 group :test, :development do
   gem "rspec-rails"
   gem "capybara"
+  gem "launchy"
+  gem "shoulda-matchers"
   gem "selenium-webdriver"
   gem "better_errors"
   gem "sprockets_better_errors"
