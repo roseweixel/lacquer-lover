@@ -1,12 +1,4 @@
 require 'rails_helper'
-# context 'when visiting the home page' do
-  
-#   context 'when logged out' do
-#     visit(root_path)
-#     it { is_expected.to respond_with 200 }
-#   end
-
-# end
 
 context 'when visiting the home page' do
   before do
