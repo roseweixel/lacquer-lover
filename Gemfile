@@ -70,3 +70,4 @@ gem 'figaro'
 gem 'state_machine'
 gem "paperclip", "~> 4.2"
 gem "will_paginate"
+gem 'rack_session_access'
