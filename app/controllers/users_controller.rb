@@ -4,34 +4,46 @@ class UsersController < ApplicationController
   # end
 
   def index
-    @user = current_user
-    @users = User.all
+    if current_user
+      @user = current_user
+      @users = User.all
+    else
+      flash[:notice] = "Please sign in to continue!"
+      redirect_to root_path
+    end
   end
 
-  def load_notifications
-    @user = current_user
-    @user.class.load_notifications
-  end
+  # def load_notifications
+  #   @user = current_user
+  #   @user.class.load_notifications
+  # end
 
   def show
-    @new_opi_lacquer = Brand.where(name: "OPI").first.lacquers.new
-    @new_essie_lacquer = Brand.where(name: "Essie").first.lacquers.new
-    @new_butter_lacquer = Brand.where(name: "Butter London").first.lacquers.new
-    @new_deborah_lacquer = Brand.where(name: "Deborah Lippmann").first.lacquers.new
-    @new_user_lacquer = UserLacquer.new
-    @opi_lacquers = Brand.where(name: "OPI").first.lacquers
-    @essie_lacquers = Brand.where(name: "Essie").first.lacquers
-    @butter_lacquers = Brand.where(name: "Butter London").first.lacquers
-    @deborah_lacquers = Brand.where(name: "Deborah Lippmann").first.lacquers
-    @user = User.find(params[:id])
-    @transactions = @user.transactions
-    @friends = @user.friends
-    @friendship = current_user.friendships.new(friend: @user)
-    @transaction = Transaction.new
-    @user_lacquers = @user.user_lacquers.paginate(:page => params[:page], :per_page => 5)
-    respond_to do |format|
-      format.js
-      format.html
+    if current_user
+      if !Brand.where(name: "OPI").empty? && !Brand.where(name: "Essie").empty? && !Brand.where(name: "Butter London").empty? && !Brand.where(name: "Deborah Lippmann").empty?
+        @new_opi_lacquer = Brand.where(name: "OPI").first.lacquers.new
+        @new_essie_lacquer = Brand.where(name: "Essie").first.lacquers.new
+        @new_butter_lacquer = Brand.where(name: "Butter London").first.lacquers.new
+        @new_deborah_lacquer = Brand.where(name: "Deborah Lippmann").first.lacquers.new
+        @new_user_lacquer = UserLacquer.new
+        @opi_lacquers = Brand.where(name: "OPI").first.lacquers
+        @essie_lacquers = Brand.where(name: "Essie").first.lacquers
+        @butter_lacquers = Brand.where(name: "Butter London").first.lacquers
+        @deborah_lacquers = Brand.where(name: "Deborah Lippmann").first.lacquers
+      end
+      @user = User.find(params[:id])
+      @transactions = @user.transactions
+      @friends = @user.friends
+      @friendship = current_user.friendships.new(friend: @user)
+      @transaction = Transaction.new
+      @user_lacquers = @user.user_lacquers.paginate(:page => params[:page], :per_page => 5)
+      respond_to do |format|
+        format.js
+        format.html
+      end
+    else
+      flash[:notice] = "Please sign in to continue!"
+      redirect_to root_path
     end
   end
 end
