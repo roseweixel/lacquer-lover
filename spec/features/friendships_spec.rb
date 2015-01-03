@@ -90,6 +90,18 @@ context "when adding a friend" do
       expect(page).to have_content("Your Pending Friend Requests")
       expect(page).to have_link("#{@user1.name}")
     end
+
+    it "does not allow duplicate friendships" do
+      expect{
+      click_link("Add Friend")
+      click_button('Yes, Add Friend')
+      }.to change{Friendship.count}.from(0).to(1)
+      
+      expect{
+        Friendship.create(user_id: 3, friend_id: 1)
+        Friendship.create(user_id: 1, friend_id: 3)
+      }.to_not change{Friendship.count}
+    end
   end
 
   describe "accepting or rejecting a friendship" do

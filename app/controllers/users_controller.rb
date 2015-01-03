@@ -20,17 +20,23 @@ class UsersController < ApplicationController
 
   def show
     if current_user
-      if !Brand.where(name: "OPI").empty? && !Brand.where(name: "Essie").empty? && !Brand.where(name: "Butter London").empty? && !Brand.where(name: "Deborah Lippmann").empty?
+      if !Brand.where(name: "OPI").empty?
         @new_opi_lacquer = Brand.where(name: "OPI").first.lacquers.new
+        @opi_lacquers = Brand.where(name: "OPI").first.lacquers        
+      end
+      if !Brand.where(name: "Essie").empty?
         @new_essie_lacquer = Brand.where(name: "Essie").first.lacquers.new
-        @new_butter_lacquer = Brand.where(name: "Butter London").first.lacquers.new
-        @new_deborah_lacquer = Brand.where(name: "Deborah Lippmann").first.lacquers.new
-        @new_user_lacquer = UserLacquer.new
-        @opi_lacquers = Brand.where(name: "OPI").first.lacquers
         @essie_lacquers = Brand.where(name: "Essie").first.lacquers
+      end
+      if !Brand.where(name: "Butter London").empty?
+        @new_butter_lacquer = Brand.where(name: "Butter London").first.lacquers.new 
         @butter_lacquers = Brand.where(name: "Butter London").first.lacquers
+      end
+      if !Brand.where(name: "Deborah Lippmann").empty?
+        @new_deborah_lacquer = Brand.where(name: "Deborah Lippmann").first.lacquers.new 
         @deborah_lacquers = Brand.where(name: "Deborah Lippmann").first.lacquers
       end
+      @new_user_lacquer = UserLacquer.new
       @user = User.find(params[:id])
       @transactions = @user.transactions
       @friends = @user.friends

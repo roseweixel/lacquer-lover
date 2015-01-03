@@ -1,4 +1,5 @@
 require 'simplecov'
+require 'database_cleaner'
 SimpleCov.start
 require 'rubygems'
 ENV["RAILS_ENV"] ||= 'test'

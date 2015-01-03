@@ -378,18 +378,20 @@
 					<td>
 						<%= form_for(user_lacquer) do |f| %>
 							<% if user_lacquer.loanable %>
-								<%= button_to "✔", user_lacquer_path, params: {"user_lacquer[loanable]" => false}, :class => "btn btn-success btn-xs", method: 'PATCH'  %>
+								<%= button_to "make unloanable", user_lacquer_path, method: 'PATCH', params: {"user_lacquer[loanable]" => false}, :class => "btn btn-success btn-xs" %>
 							<% else %>
-								<%= button_to "✕", user_lacquer_path, params: {"user_lacquer[loanable]" => true}, :class => "btn btn-danger btn-xs", method: 'PATCH'  %>
+								<%= button_to "make loanable", user_lacquer_path, method: 'PATCH', params: {"user_lacquer[loanable]" => true}, :class => "btn btn-danger btn-xs" %>
 							<% end %>
 						<% end %>
 					</td>
 					<td>
-						<%= form_for(user_lacquer) do |f| %>
-							<% if user_lacquer.on_loan %>
-								<%= button_to "✔", user_lacquer_path, params: {"user_lacquer[on_loan]" => false}, :class => "btn btn-success btn-xs", method: 'PATCH'  %>
-							<% else %>
-								<%= button_to "✕", user_lacquer_path, params: {"user_lacquer[on_loan]" => true}, :class => "btn btn-danger btn-xs", method: 'PATCH'  %>
+						<% if user_lacquer.loanable %>
+							<%= form_for(user_lacquer) do |f| %>
+								<% if user_lacquer.on_loan %>
+									<%= button_to "✔", user_lacquer_path, params: {"user_lacquer[on_loan]" => false}, :class => "btn btn-success btn-xs", method: 'PATCH'  %>
+								<% else %>
+									<%= button_to "✕", user_lacquer_path, params: {"user_lacquer[on_loan]" => true}, :class => "btn btn-danger btn-xs", method: 'PATCH'  %>
+								<% end %>
 							<% end %>
 						<% end %>
 					</td>

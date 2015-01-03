@@ -8,7 +8,7 @@ class UserLacquersController < ApplicationController
   end
 
   def update
-    #binding.pry
+    binding.pry
     @user_lacquer = UserLacquer.find(params[:id])
     @user_lacquer.update(user_lacquer_params)
     flash[:notice] = "#{Lacquer.find(@user_lacquer.lacquer_id).name} successfully updated!"
