@@ -109,7 +109,7 @@
 					<% @user.transactions_for_your_approval.each do |transaction| %>
 						<% friend = User.find(transaction.requester_id) %>
 						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-						<li style='padding-top: 15px;'><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>. <%= link_to "Accept Request", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %> <%= link_to "Reject Request", transaction_path(transaction, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs"} %></li>
+						<li style='padding-top: 15px;'><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>.</br> <%= link_to "Accept Request", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %> <%= link_to "Reject Request", transaction_path(transaction, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs"} %></li>
 					<% end %>
 					</ul>
 				<% end %>
@@ -329,8 +329,8 @@
 				<th>Swatch</th>
 				<th>Brand</th>
 				<th>Name</th>
-				<th>Color</th>
-				<th>Finish</th>
+				<th>Colors</th>
+				<th>Finishes</th>
 				<% if @user == current_user %>
 					<th>Loanable?</th>
 					<th>On Loan?</th>
@@ -350,20 +350,25 @@
 				<% else %>
 
 						<%= picture_for(lacquer) %>
-
-					<%= form_for lacquer.swatches.new, :html => { :multipart => true } do |f| %>
-						<h6>Add A Swatch!</h6>
-						<span style="font-size:10px;">
-						<%= f.hidden_field :user_id, value: current_user.id %>
-						<%= f.hidden_field :lacquer_id, value: user_lacquer.lacquer_id %>
-    				<%= f.file_field :image %>
-    				<%= f.submit :class => 'btn btn-xs btn-default' %>
-    				</span>
+					<% if @user == current_user %>
+						<%= form_for lacquer.swatches.new, :html => { :multipart => true } do |f| %>
+							<h6>Add A Swatch!</h6>
+							<span style="font-size:10px;">
+							<%= f.hidden_field :user_id, value: current_user.id %>
+							<%= f.hidden_field :lacquer_id, value: user_lacquer.lacquer_id %>
+	    				<%= f.file_field :image %>
+	    				<%= f.submit :class => 'btn btn-xs btn-default' %>
+	    				</span>
+						<% end %>
 					<% end %>
 				<% end %>
 				</td>
 				<td><%= link_to lacquer.brand.name, brand_path(lacquer.brand.id) %></td>
-				<td><%= link_to lacquer.name, lacquer_path(lacquer.id) %><br><%= link_to "edit", edit_lacquer_path(lacquer.id, :params => { :user_lacquer_id => user_lacquer.id }), :class => "btn btn-xs btn-default" %></td>
+				<td><%= link_to lacquer.name, lacquer_path(lacquer.id) %><br>
+				<% if @user == current_user %>
+					<%= link_to "edit", edit_lacquer_path(lacquer.id, :params => { :user_lacquer_id => user_lacquer.id }), :class => "btn btn-xs btn-default" %>
+				<% end %>
+				</td>
 				<td>
 					<% user_lacquer.colors.each do |color| %> 
 						<%= color.name %><br>
@@ -376,21 +381,26 @@
 				</td>
 				<% if @user == current_user %>
 					<td>
-						<%= form_for(user_lacquer) do |f| %>
-							<% if user_lacquer.loanable %>
-								<%= button_to "✔", user_lacquer_path, params: {"user_lacquer[loanable]" => false}, :class => "btn btn-success btn-xs", method: 'PATCH'  %>
-							<% else %>
-								<%= button_to "✕", user_lacquer_path, params: {"user_lacquer[loanable]" => true}, :class => "btn btn-danger btn-xs", method: 'PATCH'  %>
-							<% end %>
+						<%#= form_for(user_lacquer) do |f| %>
+						<% if user_lacquer.loanable %>
+							<%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[loanable]" => false}), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %>
+						<% else %>
+							<%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[loanable]" => true}), {:method => "PATCH", :class =>"btn btn-danger btn-xs"} %>
+							<%#= button_to "make loanable", user_lacquer_path, method: 'PATCH', params: {"user_lacquer[loanable]" => true}, :class => "btn btn-danger btn-xs" %>
 						<% end %>
+						<%# end %>
 					</td>
 					<td>
-						<%= form_for(user_lacquer) do |f| %>
+						<% if user_lacquer.loanable %>
+							<%#= form_for(user_lacquer) do |f| %>
 							<% if user_lacquer.on_loan %>
-								<%= button_to "✔", user_lacquer_path, params: {"user_lacquer[on_loan]" => false}, :class => "btn btn-success btn-xs", method: 'PATCH'  %>
+								<%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => false}), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %>
+								<%#= button_to "✔", user_lacquer_path, params: {"user_lacquer[on_loan]" => false}, :class => "btn btn-success btn-xs", method: 'PATCH'  %>
 							<% else %>
-								<%= button_to "✕", user_lacquer_path, params: {"user_lacquer[on_loan]" => true}, :class => "btn btn-danger btn-xs", method: 'PATCH'  %>
+								<%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => true}), {:method => "PATCH", :class =>"btn btn-danger btn-xs"} %>
+								<%#= button_to "✕", user_lacquer_path, params: {"user_lacquer[on_loan]" => true}, :class => "btn btn-danger btn-xs", method: 'PATCH'  %>
 							<% end %>
+							<%# end %>
 						<% end %>
 					</td>
 					<td><%= link_to 'x', user_lacquer_path(:lacquer_id => lacquer.id, :user_id => @user.id), method: 'DELETE' %></td>

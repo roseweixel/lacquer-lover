@@ -51,25 +51,36 @@ class LacquersController < ApplicationController
     @user = current_user
     @lacquer = Lacquer.find(params[:id])
     @user_lacquer = UserLacquer.find(session[:user_lacquer_id])
-    @lacquer.update(lacquer_params)
-    if params[:lacquer][:user_lacquer][:color_ids]
-      @user_lacquer.colors.clear
-      params[:lacquer][:user_lacquer][:color_ids].each do |color_id|
-        if color_id != ""
-          @user_lacquer.colors.push(Color.find(color_id))
+
+    if @lacquer.user_added_by_id != @user.id && params[:lacquer][:name] || params[:lacquer][:brand_id]
+      flash[:alert] = "You do not have permission to change the name or brand of this lacquer."
+      redirect_to(:back)
+    else
+      if current_user.id != @user_lacquer.user_id && (params[:lacquer][:user_lacquer])
+        flash[:alert] = "You can only change color or finish tags for your own lacquers."
+        redirect_to(:back)
+      else
+        @lacquer.update(lacquer_params)
+        if params[:lacquer][:user_lacquer] && params[:lacquer][:user_lacquer][:color_ids]
+          @user_lacquer.colors.clear
+          params[:lacquer][:user_lacquer][:color_ids].each do |color_id|
+            if color_id != ""
+              @user_lacquer.colors.push(Color.find(color_id))
+            end
+          end
         end
+        if params[:lacquer][:user_lacquer] && params[:lacquer][:user_lacquer][:finish_ids]
+          @user_lacquer.finishes.clear
+          params[:lacquer][:user_lacquer][:finish_ids].each do |finish_id|
+            if finish_id != ""
+              @user_lacquer.finishes.push(Finish.find(finish_id))
+            end
+          end
+        end
+        flash[:notice] = "#{@lacquer.name} successfully updated!"
+        redirect_to(:back)
       end
     end
-    if params[:lacquer][:user_lacquer][:finish_ids]
-      @user_lacquer.finishes.clear
-      params[:lacquer][:user_lacquer][:finish_ids].each do |finish_id|
-        if finish_id != ""
-          @user_lacquer.finishes.push(Finish.find(finish_id))
-        end
-      end
-    end
-    flash[:notice] = "#{@lacquer.name} successfully updated!"
-    redirect_to(:back)
   end
 
   private
