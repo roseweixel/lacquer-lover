@@ -2,10 +2,20 @@ class Transaction < ActiveRecord::Base
   belongs_to :user_lacquer
   belongs_to :requester, class_name: 'User', foreign_key: 'requester_id'
   #belongs_to :user, through: :user_lacquer, dependent: :destroy
+  before_create :defaults
+
   validate :transaction_must_be_unique, :on => :create
+  validate :user_lacquer_must_be_loanable, :on => :create
+  validate :user_lacquer_must_not_be_on_loan, :on => :create
+  validate :requester_and_user_must_be_friends, :on => :create
   
 
   SECONDS_PER_DAY = 86400
+
+  def defaults
+    self.owner_id ||= user_lacquer.user_id
+    self.state ||= 'pending'
+  end
 
   def owner
     User.find(user_lacquer.user_id)
@@ -14,6 +24,24 @@ class Transaction < ActiveRecord::Base
   def transaction_must_be_unique
     if !Transaction.where(:user_lacquer_id => user_lacquer_id, :requester_id => requester_id, :state => ['pending', 'accepted', 'active']).empty?
       errors.add(:transaction, "This request already exists!")
+    end
+  end
+
+  def requester_and_user_must_be_friends
+    if !User.find(user_lacquer.user_id).accepted_friends.include?(requester)
+      errors.add(:transaction, "You must be friends with the person you would like a transaction with!")
+    end
+  end
+
+  def user_lacquer_must_be_loanable
+    if !user_lacquer.loanable
+      errors.add(:transaction, "The owner of this lacquer has not made it loanable!")
+    end
+  end
+
+  def user_lacquer_must_not_be_on_loan
+    if user_lacquer.on_loan
+      errors.add(:transaction, "This lacquer is already on loan.")
     end
   end
 
