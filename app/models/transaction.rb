@@ -8,21 +8,22 @@ class Transaction < ActiveRecord::Base
   validate :user_lacquer_must_be_loanable, :on => :create
   validate :user_lacquer_must_not_be_on_loan, :on => :create
   validate :requester_and_user_must_be_friends, :on => :create
-  
 
   SECONDS_PER_DAY = 86400
 
   def defaults
     self.owner_id ||= user_lacquer.user_id
     self.state ||= 'pending'
+    self.type ||= 'Loan'
   end
 
   def owner
     User.find(user_lacquer.user_id)
   end
 
+
   def transaction_must_be_unique
-    if !Transaction.where(:user_lacquer_id => user_lacquer_id, :requester_id => requester_id, :state => ['pending', 'accepted', 'active']).empty?
+    if !Transaction.where(:user_lacquer_id => user_lacquer_id, :requester_id => requester_id, :state => ['pending', 'accepted', 'active', 'rejected']).empty?
       errors.add(:transaction, "This request already exists!")
     end
   end
