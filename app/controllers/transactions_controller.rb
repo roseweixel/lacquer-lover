@@ -7,14 +7,11 @@ class TransactionsController < ApplicationController
     owner = User.find(user_lacquer.user_id)
     lacquer = Lacquer.find(user_lacquer.lacquer_id)
     transaction = Transaction.new(user_lacquer_id: params[:transaction][:user_lacquer_id], requester_id: params[:transaction][:requester_id], owner_id: params[:transaction][:owner_id], type: params[:transaction][:type], due_date: params[:transaction][:due_date])
-    transaction.state = 'pending'
+    #transaction.state = 'pending'
     if transaction.save
       flash[:notice] = "You've successfully asked #{owner.first_name} to loan you #{lacquer.name}"
-      redirect_to(:back)
-    else
-      flash[:notice] = "Loan request unsuccessful."
-      redirect_to(:back)
     end
+    redirect_to(:back)
   end
 
   def update
@@ -27,6 +24,9 @@ class TransactionsController < ApplicationController
     if params[:loan] && params[:loan][:due_date]
       @transaction.update(due_date: params[:loan][:due_date])
     end
+    # if params[:transaction] && params[:transaction][:due_date]
+    #   @transaction.update(due_date: params[:transaction][:due_date])
+    # end
     if params[:date_became_active]
       @transaction.update(date_became_active: params[:date_became_active])
     end
@@ -44,12 +44,13 @@ class TransactionsController < ApplicationController
   end
 
   def destroy
+    #binding.pry
     @user = current_user
     @transaction = Transaction.find(params[:id])
     if @transaction.state == 'pending' && @transaction.requester == current_user
       @transaction.destroy
     else
-      flash[:notice] = "Requesters can only destroy pending transactions"
+      flash[:notice] = "The transaction could not be deleted at this time."
     end
     redirect_to(:back)
   end

@@ -98,6 +98,10 @@ describe "lacquer loans" do
     end
 
     it "allows the owner of the requested lacquer to accept the request" do 
+      # @friendship = Friendship.create(user_id: 1, friend_id: 2, state: 'accepted')
+      # @lucys_lacquer.update(loanable: true)
+      # @transaction = Transaction.create(requester_id: 2, user_lacquer_id: 2)
+
       expect(Transaction.last.state).to eq('pending')
       
       visit('/users/1')
@@ -110,9 +114,32 @@ describe "lacquer loans" do
 
       click_link('Accept Request')
       expect(Transaction.last.state).to eq('accepted')
+
     end
 
-    it "allows the owner of the requested lacquer to reject the request" do 
+    it "allows the owner of the requested lacquer to 'activate' the loan when they give the lacquer to the requester" do
+      # @friendship = Friendship.create(user_id: 1, friend_id: 2, state: 'accepted')
+      # @lucys_lacquer.update(loanable: true)
+      # @transaction = Transaction.create(requester_id: 2, user_lacquer_id: 2)
+      
+      visit('/users/1')
+      #binding.pry
+      expect(Transaction.last.state).to eq('pending')
+
+      click_link('Accept Request')
+      #binding.pry
+      expect(page).to have_link("I gave The Thrill of Brazil to Nancy Nails")
+
+      click_link("I gave The Thrill of Brazil to Nancy Nails")
+
+      expect(Transaction.last.state).to eq('active')
+    end
+
+    it "allows the owner of the requested lacquer to reject the request" do
+      # @friendship = Friendship.create(user_id: 1, friend_id: 2, state: 'accepted')
+      # @lucys_lacquer.update(loanable: true)
+      # @transaction = Transaction.create(requester_id: 2, user_lacquer_id: 2) 
+      
       expect(Transaction.last.state).to eq('pending')
       
       visit('/users/1')
@@ -125,7 +152,35 @@ describe "lacquer loans" do
 
       click_link('Reject Request')
       expect(Transaction.last.state).to eq('rejected')
+      expect(@lucys_lacquer.on_loan).to eq(false)
     end
+
+    it "allows the requester of a rejected transaction to conclude a request" do
+      # @friendship = Friendship.create(user_id: 1, friend_id: 2, state: 'accepted')
+      @nancys_lacquer.update(loanable: true)
+      @transaction = Transaction.create(requester_id: 1, user_lacquer_id: 1, state: 'rejected') 
+      
+      visit('/users/1')
+
+      #save_and_open_page
+      expect(page).to have_content("It seems Nancy Nails isn't able to loan you The Thrill of Brazil at this time.")
+      expect(page).to have_link("conclude this request")
+
+      click_link("conclude this request")
+
+      expect(Transaction.last.state).to eq("completed")
+
+    end
+
+    it "does not allow duplicate loan requests" do
+      # @friendship = Friendship.create(user_id: 1, friend_id: 2, state: 'accepted')
+      @nancys_lacquer.update(loanable: true)
+      @valid_transaction = Transaction.create(requester_id: 1, user_lacquer_id: 1, state: 'rejected') 
+      
+      @invalid_transaction = Transaction.create(requester_id: 1, user_lacquer_id: 1, state: 'pending')
+      expect(@invalid_transaction.errors.messages[:transaction]).to include("This request already exists!")
+    end
+
   end
 
 end
