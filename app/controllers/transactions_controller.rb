@@ -15,6 +15,7 @@ class TransactionsController < ApplicationController
   end
 
   def update
+    #binding.pry
     @transaction = Transaction.find(params[:id])
     @user_lacquer = UserLacquer.find(@transaction.user_lacquer_id)
     if params[:state]

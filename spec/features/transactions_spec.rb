@@ -97,33 +97,6 @@ describe "lacquer loans" do
       @transaction = Transaction.create(requester_id: 2, user_lacquer_id: 2)
     end
 
-    # it "allows the owner of the transaction to set or update a due date", js: true do
-    #   # @friendship = Friendship.create(user_id: 1, friend_id: 2, state: 'accepted')
-    #   # @lucys_lacquer.update(loanable: true)
-    #   # @transaction = Transaction.create(requester_id: 2, user_lacquer_id: 2)
-      
-    #   visit('/users/1')
-    #   #binding.pry
-    #   expect(Transaction.last.state).to eq('pending')
-
-    #   click_link('Accept Request')
-    #   #binding.pry
-    #   expect(Transaction.last.state).to eq('accepted')
-    #   expect(page).to have_content('Add or Update Due Date')
-
-    #   # # set a due date
-    #   page.find('#loan_due_date').set("06-01-2015")
-    #   click_button('Update Loan')
-
-    #   expect(Transaction.last.due_date).to eq("2015-01-06")
-
-    #   # update a due date
-    #   # page.find('#transaction_due_date').set("07-01-2015")
-    #   # click_button('Update Transaction')
-
-    #   # expect(Transaction.last.due_date).to eq("2015-01-07")
-    # end
-
     it "allows the owner of the requested lacquer to accept the request" do 
       # @friendship = Friendship.create(user_id: 1, friend_id: 2, state: 'accepted')
       # @lucys_lacquer.update(loanable: true)
