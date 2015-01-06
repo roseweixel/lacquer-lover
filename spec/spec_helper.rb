@@ -1,11 +1,13 @@
 require 'simplecov'
 require 'database_cleaner'
-SimpleCov.start
 require 'rubygems'
-ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'support/integration_spec_helper'
 
+include ActionDispatch::TestProcess
+
+SimpleCov.start
+ENV["RAILS_ENV"] ||= 'test'
 class ActiveRecord::Base  
   mattr_accessor :shared_connection
   @@shared_connection = nil
@@ -15,6 +17,7 @@ class ActiveRecord::Base
   end
 end  
 ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+ActionController::Base.asset_host = "http://localhost:3000"
 
 OmniAuth.config.test_mode = true
 omniauth_hash = {

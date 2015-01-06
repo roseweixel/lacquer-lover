@@ -26,7 +26,6 @@ RSpec.describe TransactionsController, :type => :controller do
       @transaction.update(state: 'active')
       expect{ delete :destroy, id: @transaction }.not_to change{Transaction.count}
     end
-
   end
 
 end

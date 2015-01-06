@@ -6,13 +6,14 @@ class Lacquer < ActiveRecord::Base
   has_many :users, through: :user_lacquers
   has_many :swatches
 
-  validates :name, :brand, presence: true
+  validates :name, :brand, presence: true, :on => :create
+  validates_length_of :name, :minimum => 1
   validates :name, uniqueness: true
 
   # accepts_nested_attributes_for :colors
   # accepts_nested_attributes_for :finishes
   accepts_nested_attributes_for :user_lacquers
-  accepts_nested_attributes_for :swatches
+  accepts_nested_attributes_for :swatches, :reject_if => proc { |attributes| attributes['image'].blank? }
 
   def color_tags
     colors = []

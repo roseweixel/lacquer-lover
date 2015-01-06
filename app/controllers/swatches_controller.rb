@@ -1,14 +1,4 @@
 class SwatchesController < ApplicationController
-  def index
-    @swatches = Swatch.all
-  end
-
-  def new
-
-    @user = current_user
-    @swatch = Swatch.new
-  end
-
   def create
     @user = current_user
     @swatch = Swatch.create(swatch_params)

@@ -21,6 +21,7 @@ class UserLacquer < ActiveRecord::Base
 
   def confirm_no_transaction_for
     self.transactions.where(state: ["pending", "accepted", "active"]).empty?
+    !self.on_loan
   end
 
   def available?

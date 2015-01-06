@@ -21,16 +21,19 @@ class UserLacquersController < ApplicationController
   end
 
   def destroy
-    user_lacquer = UserLacquer.where(user_id: params['user_id'], lacquer_id: params['lacquer_id']).first
-    if params['user_id'].to_i == current_user.id
+    #binding.pry
+    user_lacquer = UserLacquer.find(params[:id])
+    #user_lacquer = UserLacquer.where(user_id: params['user_id'], lacquer_id: params['lacquer_id']).first
+    user = User.find(user_lacquer.user_id)
+    if user == current_user
       user_lacquer.destroy
+      if !user_lacquer.errors.empty? || !user_lacquer.destroy
+        flash[:notice] = "There was an error deleting this lacquer!"
+      end
       redirect_to(:back)
     else
       flash[:notice] = "You can't delete another user's lacquer!"
       redirect_to(:back)
-    end
-    if user_lacquer.errors
-      flash[:notice] = "There was an error deleting this lacquer!"
     end
   end
 

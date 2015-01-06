@@ -63,6 +63,7 @@ describe "lacquer loans" do
     }.to_not change{Transaction.count}
 
     @nancys_lacquer.update(loanable: true)
+    expect(@nancys_lacquer.available?).to eq(true)
 
     visit('/users/2')
 
@@ -170,6 +171,8 @@ describe "lacquer loans" do
 
       expect(Transaction.last.state).to eq("completed")
 
+      expect(@user1.concluded_requested_transactions).to include(Transaction.last)
+      expect(@user2.concluded_owned_transactions).to include(Transaction.last)
     end
 
     it "does not allow duplicate loan requests" do

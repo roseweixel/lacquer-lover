@@ -9,9 +9,11 @@ class LacquersController < ApplicationController
 
   def create
     #binding.pry
-    user = current_user
-    lacquer = Lacquer.create(name: params[:lacquer][:name], brand_id: params[:lacquer][:brand_id], user_added_by_id: params[:lacquer][:user_added_by_id])
-    if !lacquer.save
+    #user = current_user
+    lacquer = Lacquer.new(name: params[:lacquer][:name], brand_id: params[:lacquer][:brand_id])
+    lacquer.user_added_by_id = params[:lacquer][:user_added_by_id] if params[:lacquer][:user_added_by_id]
+    lacquer.save
+    if lacquer.errors.any?
       lacquer.errors.messages.each do |message|
         flash[:notice] = message
       end
@@ -41,8 +43,19 @@ class LacquersController < ApplicationController
     #binding.pry
     @user = current_user
     @lacquer = Lacquer.find(params[:id])
-    @user_lacquer = UserLacquer.find(params[:user_lacquer_id])
-    session[:user_lacquer_id] = params[:user_lacquer_id]
+    if params[:user_lacquer_id] && UserLacquer.find(params[:user_lacquer_id])
+      @user_lacquer = UserLacquer.find(params[:user_lacquer_id])
+      if @user_lacquer.user_id != @user.id
+        flash[:alert] = "You cannot edit a lacquer that is not in your collection!"
+        redirect_to(:back)
+      end
+    elsif !UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).empty?
+      @user_lacquer = UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).first
+    else
+      flash[:alert] = "You cannot edit a lacquer that is not in your collection!"
+      redirect_to(:back)
+    end
+    session[:user_lacquer_id] = params[:user_lacquer_id] || @user_lacquer.id
     @swatch = Swatch.new
   end
 
@@ -56,12 +69,15 @@ class LacquersController < ApplicationController
       flash[:alert] = "You do not have permission to change the name or brand of this lacquer."
       redirect_to(:back)
     else
+      if @lacquer.user_added_by_id == @user.id && params[:lacquer][:name]
+        @lacquer.update(name: params[:lacquer][:name])
+      end
       if current_user.id != @user_lacquer.user_id && (params[:lacquer][:user_lacquer])
         flash[:alert] = "You can only change color or finish tags for your own lacquers."
         redirect_to(:back)
       else
         @lacquer.update(lacquer_params)
-        if params[:lacquer][:user_lacquer] && params[:lacquer][:user_lacquer][:color_ids]
+        if params[:lacquer][:user_lacquer] && params[:lacquer][:user_lacquer][:color_ids] && params[:lacquer][:user_lacquer][:color_ids] != [""]
           @user_lacquer.colors.clear
           params[:lacquer][:user_lacquer][:color_ids].each do |color_id|
             if color_id != ""
@@ -69,7 +85,7 @@ class LacquersController < ApplicationController
             end
           end
         end
-        if params[:lacquer][:user_lacquer] && params[:lacquer][:user_lacquer][:finish_ids]
+        if params[:lacquer][:user_lacquer] && params[:lacquer][:user_lacquer][:finish_ids] && params[:lacquer][:user_lacquer][:finish_ids] != [""]
           @user_lacquer.finishes.clear
           params[:lacquer][:user_lacquer][:finish_ids].each do |finish_id|
             if finish_id != ""
@@ -85,7 +101,7 @@ class LacquersController < ApplicationController
 
   private
     def lacquer_params
-      params.require(:lacquer).permit(:name, :brand_id, :swatches_attributes => [:image, :user_id, :delete_image])
+      params.require(:lacquer).permit(:swatches_attributes => [:image, :user_id, :delete_image])
     end
 
 

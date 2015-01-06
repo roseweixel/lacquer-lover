@@ -403,7 +403,7 @@
 							<%# end %>
 						<% end %>
 					</td>
-					<td><%= link_to 'x', user_lacquer_path(:lacquer_id => lacquer.id, :user_id => @user.id), method: 'DELETE' %></td>
+					<td><%= link_to 'x', user_lacquer_path(user_lacquer), method: 'DELETE' %></td>
 				<% else %>
 					<% if user_lacquer.available? %>
 						<td>
