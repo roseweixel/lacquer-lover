@@ -28,14 +28,15 @@ describe "adding a due date to a lacquer loan" do
     expect(Transaction.last.state).to eq('pending')
 
     click_link('Accept Request')
-    #binding.pry
+    binding.pry
     expect(Transaction.last.state).to eq('accepted')
     expect(page).to have_content('Add or Update Due Date')
 
     # # set a due date
     page.find('#loan_due_date').set("06-01-2015")
-    click_button('Update Loan')
 
+    click_button('Update Loan')
+    binding.pry
     expect(Transaction.last.due_date).to eq("2015-01-06")
 
     # update a due date

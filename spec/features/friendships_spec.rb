@@ -115,6 +115,8 @@ context "when adding a friend" do
       # create a pending friendship where Lucy is the friend (requested) and Polly is the user (requester)
       @friendship = create(:friendship, user_id: 1, friend_id: 3, state: 'pending')
 
+      expect(User.find(3).friends_for_your_approval).to include(@user1)
+
       click_link('Welcome, Lucy! See your profile.')
     end
 
