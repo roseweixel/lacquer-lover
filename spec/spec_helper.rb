@@ -1,4 +1,6 @@
-require 'simplecov'
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
+#require 'simplecov'
 require 'database_cleaner'
 require 'rubygems'
 require File.expand_path("../../config/environment", __FILE__)
@@ -6,7 +8,7 @@ require 'support/integration_spec_helper'
 
 include ActionDispatch::TestProcess
 
-SimpleCov.start
+#SimpleCov.start
 ENV["RAILS_ENV"] ||= 'test'
 class ActiveRecord::Base  
   mattr_accessor :shared_connection
