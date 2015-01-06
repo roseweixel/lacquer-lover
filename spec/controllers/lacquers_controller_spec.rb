@@ -28,8 +28,10 @@ RSpec.describe LacquersController, :type => :controller do
     it "will not allow a user to edit a lacquer that is not in their collection" do
       session[:user_id] = @user1.id
       @request.env['HTTP_REFERER'] = '/lacquers/edit'
-      binding.pry
+      #binding.pry
       get :edit, id: @lacquer, user_lacquer_id: @nancys_lacquer
+      assert_response :redirect
+      expect(flash[:alert]).to eq("You cannot edit a lacquer that is not in your collection!")
     end
   end
 
