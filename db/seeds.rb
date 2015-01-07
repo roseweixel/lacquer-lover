@@ -249,32 +249,38 @@ class SeedDatabase
   end
 
   def create_brands
-    brands = Brand.create([
-      {name: 'Essie'},
-      {name: 'OPI'},
-      {name: 'Butter London'},
-      {name: 'Deborah Lippmann'},
-      {name: 'Zoya'},
-      {name: 'China Glaze'},
-      {name: 'I Love Nail Polish (ILNP)'},
-      {name: 'Dior'},
-      {name: 'Chanel'},
-      {name: 'Formula X by Sephora'},
-      {name: 'Sephora'},
-      {name: 'Nails Inc.'},
-      {name: 'Lancome'},
-      {name: 'Nars'},
-      {name: 'Mac'},
-      {name: 'Nicole by OPI'},
-      {name: 'Sally Hansen'},
-      {name: 'Color Club'},
-      {name: 'Orly'},
-      {name: 'CND'},
-      {name: 'Maybelline'},
-      {name: "L'Oreal Paris"},
-      {name: 'Revlon'},
-      {name: 'CoverGirl'}
-    ]).sort_by &:name
+    names = ['Essie', 'OPI', 'Butter London', 'Deborah Lippmann', 'Zoya', 'China Glaze', 'I Love Nail Polish (ILNP)', 'Dior', 'Chanel', 'Formula X by Sephora', 'Sephora', 'Nails Inc.', 'Lancome', 'Nars', 'Mac', 'Nicole by OPI', 'Sally Hansen', 'Color Club', 'Orly', 'CND', 'Maybelline', "L'Oreal Paris", 'Revlon', 'CoverGirl']
+    names = names.sort
+    names.each do |name|
+      brand = Brand.create{name: name}
+    end
+  end
+    # brands = Brand.create([
+    #   {name: 'Essie'},
+    #   {name: 'OPI'},
+    #   {name: 'Butter London'},
+    #   {name: 'Deborah Lippmann'},
+    #   {name: 'Zoya'},
+    #   {name: 'China Glaze'},
+    #   {name: 'I Love Nail Polish (ILNP)'},
+    #   {name: 'Dior'},
+    #   {name: 'Chanel'},
+    #   {name: 'Formula X by Sephora'},
+    #   {name: 'Sephora'},
+    #   {name: 'Nails Inc.'},
+    #   {name: 'Lancome'},
+    #   {name: 'Nars'},
+    #   {name: 'Mac'},
+    #   {name: 'Nicole by OPI'},
+    #   {name: 'Sally Hansen'},
+    #   {name: 'Color Club'},
+    #   {name: 'Orly'},
+    #   {name: 'CND'},
+    #   {name: 'Maybelline'},
+    #   {name: "L'Oreal Paris"},
+    #   {name: 'Revlon'},
+    #   {name: 'CoverGirl'}
+    # ]).sort_by &:name
   end
 
   def create_colors
