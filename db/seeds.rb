@@ -1,153 +1,3 @@
-class SeedDatabase
-  def initialize
-    create_brands
-    create_colors
-    create_finishes
-    seed_deborah
-    seed_opi
-    seed_essie
-    seed_butter
-  end
-
-  def create_brands
-    brands = Brand.create([
-      {name: 'Essie'},
-      {name: 'OPI'},
-      {name: 'Butter London'},
-      {name: 'Deborah Lippmann'},
-      {name: 'Zoya'},
-      {name: 'China Glaze'},
-      {name: 'I Love Nail Polish (ILNP)'},
-      {name: 'Dior'},
-      {name: 'Chanel'},
-      {name: 'Formula X by Sephora'},
-      {name: 'Sephora'},
-      {name: 'Nails Inc.'},
-      {name: 'Lancome'},
-      {name: 'Nars'},
-      {name: 'Mac'},
-      {name: 'Nicole by OPI'},
-      {name: 'Sally Hansen'},
-      {name: 'Color Club'},
-      {name: 'Orly'},
-      {name: 'CND'},
-      {name: 'Maybelline'},
-      {name: "L'Oreal Paris"},
-      {name: 'Revlon'},
-      {name: 'CoverGirl'}
-    ]).sort_by &:name
-  end
-
-  def create_colors
-    colors = Color.create([
-      {name: 'red'},
-      {name: 'beige'},
-      {name: 'berry'},
-      {name: 'brown'},
-      {name: 'orange'},
-      {name: 'coral'},
-      {name: 'cream'},
-      {name: 'fuchsia'},
-      {name: 'lilac'},
-      {name: 'mauve'},
-      {name: 'turquoise'},
-      {name: 'peach'},
-      {name: 'tan'},
-      {name: 'taupe'},
-      {name: 'yellow'},
-      {name: 'green'},
-      {name: 'blue'},
-      {name: 'teal'},
-      {name: 'purple'},
-      {name: 'magenta'},
-      {name: 'pink'},
-      {name: 'gray'},
-      {name: 'black'},
-      {name: 'white'},
-      {name: 'nude'},
-      {name: 'gold'},
-      {name: 'bronze'},
-      {name: 'copper'},
-      {name: 'silver'},
-      {name: 'neon'},
-      {name: 'bright'},
-      {name: 'dark'}
-    ]).sort_by &:name
-  end
-
-  def create_finishes
-    finishes = Finish.create([
-      {description: 'sheer'},
-      {description: 'creme'},
-      {description: 'shimmer'},
-      {description: 'glitter'},
-      {description: 'jelly'},
-      {description: 'metallic'},
-      {description: 'duochrome'},
-      {description: 'holographic'},
-      {description: 'multichrome'},
-      {description: 'matte'},
-      {description: 'semi-matte'},
-      {description: 'frost'},
-      {description: 'pearl'},
-      {description: 'foil'},
-      {description: 'satin'},
-      {description: 'suede'},
-      {description: 'flakies'},
-      {description: 'iridiscent'},
-      {description: 'crackle'},
-      {description: 'splatter'},
-      {description: 'magnetic'},
-      {description: 'texture'},
-      {description: 'luminescent'},
-      {description: 'other nail effects'}
-    ]).sort_by &:description
-  end
-
-  def seed_deborah
-    brand = Brand.where(name: 'Deborah Lippmann').first
-    d = DeborahLippmann.new
-    deborah_names = d.names
-    deborah_urls = d.item_urls
-    deborah_images = d.images
-    deborah_names.each_with_index do |name, index|
-      Lacquer.create(name: name, brand_id: brand.id, item_url: deborah_urls[index], default_picture: deborah_images[index])
-    end
-  end
-
-  def seed_opi
-    brand = Brand.where(name: 'OPI').first
-    o = Opi.new
-    opi_names = o.names
-    opi_urls = o.item_urls
-    opi_images = o.images
-    opi_names.each_with_index do |name, index|
-      Lacquer.create(name: name, brand_id: brand.id, item_url: opi_urls[index], default_picture: opi_images[index])
-    end
-  end
-
-  def seed_essie
-    brand = Brand.where(name: 'Essie').first
-    e = Essie.new
-    essie_names = e.names
-    essie_urls = e.item_urls
-    essie_images = e.images
-    essie_names.each_with_index do |name, index|
-      Lacquer.create(name: name, brand_id: brand.id, item_url: essie_urls[index], default_picture: essie_images[index])
-    end
-  end
-
-  def seed_butter
-    brand = Brand.where(name: 'Butter London').first
-    b = ButterLondon.new
-    butter_names = b.names
-    butter_urls = b.item_urls
-    butter_images = b.images
-    butter_names.each_with_index do |name, index|
-      Lacquer.create(name: name, brand_id: brand.id, item_url: butter_urls[index], default_picture: butter_images[index])
-    end
-  end
-end
 
 class DeborahLippmann
   
@@ -384,6 +234,179 @@ class Essie
     @polish_names
   end
 
+end
+
+class SeedDatabase
+  def initialize
+    create_brands
+    create_colors
+    create_finishes
+    # seed_deborah
+    # seed_opi
+    # seed_essie
+    # seed_butter
+    seed_brands
+  end
+
+  def create_brands
+    brands = Brand.create([
+      {name: 'Essie'},
+      {name: 'OPI'},
+      {name: 'Butter London'},
+      {name: 'Deborah Lippmann'},
+      {name: 'Zoya'},
+      {name: 'China Glaze'},
+      {name: 'I Love Nail Polish (ILNP)'},
+      {name: 'Dior'},
+      {name: 'Chanel'},
+      {name: 'Formula X by Sephora'},
+      {name: 'Sephora'},
+      {name: 'Nails Inc.'},
+      {name: 'Lancome'},
+      {name: 'Nars'},
+      {name: 'Mac'},
+      {name: 'Nicole by OPI'},
+      {name: 'Sally Hansen'},
+      {name: 'Color Club'},
+      {name: 'Orly'},
+      {name: 'CND'},
+      {name: 'Maybelline'},
+      {name: "L'Oreal Paris"},
+      {name: 'Revlon'},
+      {name: 'CoverGirl'}
+    ]).sort_by &:name
+  end
+
+  def create_colors
+    colors = Color.create([
+      {name: 'red'},
+      {name: 'beige'},
+      {name: 'berry'},
+      {name: 'brown'},
+      {name: 'orange'},
+      {name: 'coral'},
+      {name: 'cream'},
+      {name: 'fuchsia'},
+      {name: 'lilac'},
+      {name: 'mauve'},
+      {name: 'turquoise'},
+      {name: 'peach'},
+      {name: 'tan'},
+      {name: 'taupe'},
+      {name: 'yellow'},
+      {name: 'green'},
+      {name: 'blue'},
+      {name: 'teal'},
+      {name: 'purple'},
+      {name: 'magenta'},
+      {name: 'pink'},
+      {name: 'gray'},
+      {name: 'black'},
+      {name: 'white'},
+      {name: 'nude'},
+      {name: 'gold'},
+      {name: 'bronze'},
+      {name: 'copper'},
+      {name: 'silver'},
+      {name: 'neon'},
+      {name: 'bright'},
+      {name: 'dark'}
+    ]).sort_by &:name
+  end
+
+  def create_finishes
+    finishes = Finish.create([
+      {description: 'sheer'},
+      {description: 'creme'},
+      {description: 'shimmer'},
+      {description: 'glitter'},
+      {description: 'jelly'},
+      {description: 'metallic'},
+      {description: 'duochrome'},
+      {description: 'holographic'},
+      {description: 'multichrome'},
+      {description: 'matte'},
+      {description: 'semi-matte'},
+      {description: 'frost'},
+      {description: 'pearl'},
+      {description: 'foil'},
+      {description: 'satin'},
+      {description: 'suede'},
+      {description: 'flakies'},
+      {description: 'iridiscent'},
+      {description: 'crackle'},
+      {description: 'splatter'},
+      {description: 'magnetic'},
+      {description: 'texture'},
+      {description: 'luminescent'},
+      {description: 'other nail effects'}
+    ]).sort_by &:description
+  end
+
+
+  BRAND_ATTRIBUTES_HASH = {
+    "OPI" => {class_name: Object.const_get("Opi")},
+    "Essie" => {class_name: Object.const_get("Essie")},
+    "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
+    "Butter London" => {class_name: Object.const_get("ButterLondon")}
+  }
+
+  def seed_brands
+    BRAND_ATTRIBUTES_HASH.each do |brand_name, attributes|
+      brand = Brand.where(name: brand_name).first
+      b = attributes[:class_name].new
+      names = b.names
+      urls = b.item_urls
+      images = b.images
+      names.each_with_index do |name, index|
+        Lacquer.create(name: name, brand_id: brand.id, item_url: urls[index], default_picture: images[index])
+      end
+    end
+  end
+
+  # def seed_deborah
+  #   brand = Brand.where(name: 'Deborah Lippmann').first
+  #   d = DeborahLippmann.new
+  #   deborah_names = d.names
+  #   deborah_urls = d.item_urls
+  #   deborah_images = d.images
+  #   deborah_names.each_with_index do |name, index|
+  #     Lacquer.create(name: name, brand_id: brand.id, item_url: deborah_urls[index], default_picture: deborah_images[index])
+  #   end
+  # end
+
+  # def seed_opi
+  #   brand = Brand.where(name: 'OPI').first
+  #   o = Opi.new
+  #   opi_names = o.names
+  #   opi_urls = o.item_urls
+  #   opi_images = o.images
+  #   opi_names.each_with_index do |name, index|
+  #     Lacquer.create(name: name, brand_id: brand.id, item_url: opi_urls[index], default_picture: opi_images[index])
+  #   end
+  # end
+
+  # def seed_essie
+  #   brand = Brand.where(name: 'Essie').first
+  #   e = Essie.new
+  #   essie_names = e.names
+  #   essie_urls = e.item_urls
+  #   essie_images = e.images
+  #   essie_names.each_with_index do |name, index|
+  #     Lacquer.create(name: name, brand_id: brand.id, item_url: essie_urls[index], default_picture: essie_images[index])
+  #   end
+  # end
+
+  # def seed_butter
+  #   brand = Brand.where(name: 'Butter London').first
+  #   b = ButterLondon.new
+  #   butter_names = b.names
+  #   butter_urls = b.item_urls
+  #   butter_images = b.images
+  #   butter_names.each_with_index do |name, index|
+  #     Lacquer.create(name: name, brand_id: brand.id, item_url: butter_urls[index], default_picture: butter_images[index])
+  #   end
+  # end
 end
 
 SeedDatabase.new
