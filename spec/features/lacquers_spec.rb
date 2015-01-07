@@ -165,6 +165,7 @@ describe "editing lacquers" do
     @lucys_lacquer = create(:user_lacquer, user_id: 1, lacquer_id: 1)
     login_with_oauth
     visit('/users/1')
+    #binding.pry
     expect(page).to have_link('x')
     click_link('x')
     binding.pry
