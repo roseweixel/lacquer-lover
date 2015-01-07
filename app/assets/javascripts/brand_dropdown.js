@@ -62,7 +62,7 @@ $(function(){
         $('.other-lacquer').hide();
         $('.add-lacquer').addClass("disabled");
         $.each(BRANDS, function(key, value){
-            if(brand == key){
+            if(brand === key){
                 $(value).show();
             }
         });
@@ -73,11 +73,11 @@ $(function(){
         $('.other-lacquer').hide();
         var brand = $('#brand-selection').val();
         var lacquerID = $(this).find("select").val();
-        if(lacquerID == "") {
+        if(lacquerID === "") {
             $('.add-lacquer').addClass("disabled");
-        } else if(lacquerID == "new") {
+        } else if(lacquerID === "new") {
             $.each(BRANDS_SHORT, function(key, value){
-                if(brand == key){
+                if(brand === key){
                     $(value).show();
                 }
             });
