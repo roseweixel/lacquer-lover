@@ -1,5 +1,5 @@
 # Lacquer Lover
-
+[![Test Coverage](https://codeclimate.com/github/roseweixel/lacquer-lover/badges/coverage.svg)](https://codeclimate.com/github/roseweixel/lacquer-lover)
 ## Description
 
 Add a short description of your app.
