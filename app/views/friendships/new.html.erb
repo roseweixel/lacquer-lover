@@ -1,6 +1,7 @@
 <% if @friend %>
-	<h1><%= @friend.name %></h1>
+	<h1><%= link_to @friend.name, user_path(@friend) %></h1>
 
+  <% if !current_user.friends.include?(@friend) %>
 	<p>Do you really want to friend <%= @friend.first_name %>?</p>
 
 	<%= form_for @friendship, method: :post do |f| %>
@@ -10,4 +11,13 @@
 			<%= link_to "Cancel", user_path(@friend), class: 'btn' %>
 		</div>
 	<% end %>
+  <% elsif current_user.requested_friends_awaiting_approval.include?(@friend) %>
+    <% friendship = Friendship.where(user_id: current_user.id, friend_id: @friend.id, state: 'pending').first %>
+    <%#= form_for @friendship, method: :delete do |f| %>
+    <div class="form form-actions">
+      <%#= f.hidden_field :friend_id, value: @friend.id %>
+      <%= link_to 'Cancel Pending Request', friendship_path(friendship), method: 'DELETE', :class =>"btn btn-danger btn-xs" %>
+    </div>
+  <%# end %>
+  <% end %>
 <% end %>

@@ -18,8 +18,11 @@ class FriendshipsController < ApplicationController
     if params[:friendship] && params[:friendship].has_key?(:friend_id)
       @friend = User.find(params[:friendship][:friend_id])
       @friendship = Friendship.new(friend: @friend, user: @user, state: 'pending')
-      @friendship.save
-      flash[:notice] = "Your friendship with #{@friend.name} is pending."
+      if @friendship.save
+        flash[:notice] = "Your friendship with #{@friend.name} is pending."
+      else
+        flash[:alert] = "There was an error creating this friendship!"
+      end
       redirect_to(:back)
     else
       flash[:notice] = "Friend required"
@@ -34,6 +37,15 @@ class FriendshipsController < ApplicationController
   end
 
   def destroy
-    @user = current_user
+    @friendship = Friendship.find(params[:id])
+    if @friendship.state == 'pending' && current_user == @friendship.user
+      @friendship.destroy
+      flash[:notice] = "Pending request deleted."
+      redirect_to(:back)
+    else
+      flash[:alert] = "This request could not be deleted!"
+      redirect_to(:back)
+    end
+    #@user = current_user
   end
 end
