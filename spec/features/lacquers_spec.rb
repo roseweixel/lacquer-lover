@@ -93,8 +93,8 @@ describe "editing lacquers" do
 
     click_button("Update Lacquer")
 
-    expect(Lacquer.first.color_tags).to include('red')
-    expect(Lacquer.first.finish_tags).to include('creme')
+    expect(@lacquer.color_tags).to include('red')
+    expect(@lacquer.finish_tags).to include('creme')
 
     visit('/lacquers/1')
 
@@ -167,6 +167,7 @@ describe "editing lacquers" do
     visit('/users/1')
     #binding.pry
     expect(page).to have_link('x')
+    binding.pry
     click_link('x')
     binding.pry
     expect(UserLacquer.count).to eq(0)

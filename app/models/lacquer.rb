@@ -15,6 +15,7 @@ class Lacquer < ActiveRecord::Base
   accepts_nested_attributes_for :user_lacquers
   accepts_nested_attributes_for :swatches, :reject_if => proc { |attributes| attributes['image'].blank? }
 
+
   def color_tags
     colors = []
     @user_lacquers = UserLacquer.where(:lacquer_id => self.id)
