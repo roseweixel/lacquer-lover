@@ -31,8 +31,13 @@ class FriendshipsController < ApplicationController
   end
 
   def update
-    @friendship = Friendship.find(params[:id])
-    @friendship.update(state: params[:state])
+    begin
+      @friendship = Friendship.find(params[:id])
+      @friendship.update(state: params[:state])
+      flash[:notice] = "This friendship is now #{params[:state]}."
+    rescue
+      flash[:alert] = "Sorry, we can't seem to find the friendship you were trying to update!"
+    end
     redirect_to(:back)
   end
 
