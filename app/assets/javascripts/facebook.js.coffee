@@ -9,10 +9,10 @@ jQuery ->
 
 window.fbAsyncInit = ->
   # localhost, testing
-  FB.init(appId: '1740995652791642', cookie: true)
+  # FB.init(appId: '1740995652791642', cookie: true)
   
-  # # Heroku
-  # FB.init(appId: '1737505913140616', cookie: true)
+  # Heroku
+  FB.init(appId: '1737505913140616', cookie: true)
 
   $('#sign_in').click (e) ->
     e.preventDefault()
