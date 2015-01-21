@@ -27,8 +27,20 @@ class Lacquer < ActiveRecord::Base
     colors
   end
 
+  
   def formatted_name
-    name.gsub('Nail Lacquer', '')
+    shortened = name
+
+    # for Butter lacquers, since many of them end in 'Nail Lacquer'
+    if name.end_with?('Nail Lacquer')
+      shortened = name.gsub('Nail Lacquer', '')
+    end
+
+    if shortened.length > 22
+      shortened = "#{shortened.slice(0..22)}..."
+    end
+    
+    shortened
   end
 
   def finish_tags
