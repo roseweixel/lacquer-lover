@@ -27,6 +27,10 @@ class Lacquer < ActiveRecord::Base
     colors
   end
 
+  def formatted_name
+    name.gsub('Nail Lacquer', '')
+  end
+
   def finish_tags
     finishes = []
     @user_lacquers = UserLacquer.where(:lacquer_id => self.id)
