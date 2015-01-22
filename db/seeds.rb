@@ -235,6 +235,30 @@ class Essie
 
 end
 
+class Zoya
+  
+  URL = "http://www.zoya.com/content/category/Zoya_Nail_Polish.html"
+  attr_accessor :nokogiri_doc, :item_urls, :images, :names
+
+  def initialize
+    @nokogiri_doc = Nokogiri::HTML(open(URL))
+    scrape
+  end
+
+  def scrape
+    polish_divs = nokogiri_doc.css("div.item")
+    self.item_urls, self.images, self.names = [], [], []
+    polish_divs.each do |polish_div|
+      self.item_urls << "http://www.zoya.com" + polish_div.css("a").first.attributes["href"].value
+      self.images << "http:" + polish_div.css("img").first.attributes["data-itemsrc"].value
+      self.names << polish_div.attributes["data-itemname"].value
+    end
+  end
+
+end
+
+
+
 class SeedDatabase
   def initialize
     create_brands_colors_finishes
