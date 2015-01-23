@@ -290,7 +290,8 @@ class SeedDatabase
     "OPI" => {class_name: Object.const_get("Opi")},
     "Essie" => {class_name: Object.const_get("Essie")},
     "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
-    "Butter London" => {class_name: Object.const_get("ButterLondon")}
+    "Butter London" => {class_name: Object.const_get("ButterLondon")},
+    "Zoya" => {class_name: Object.const_get("Zoya")}
   }
 
   def seed_brands
