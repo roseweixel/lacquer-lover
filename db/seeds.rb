@@ -265,7 +265,7 @@ class SeedDatabase
     seed_brands
   end
 
-  BRAND_NAMES = ['Essie', 'OPI', 'Butter London', 'Deborah Lippmann', 'Zoya', 'China Glaze', 'I Love Nail Polish (ILNP)', 'Dior', 'Chanel', 'Formula X by Sephora', 'Sephora', 'Nails Inc.', 'Lancome', 'Nars', 'Mac', 'Nicole by OPI', 'Sally Hansen', 'Color Club', 'Orly', 'CND', 'Maybelline', "L'Oreal Paris", 'Revlon', 'CoverGirl']
+  BRAND_NAMES = ['Essie', 'OPI', 'Butter London', 'Deborah Lippmann', 'Zoya', 'China Glaze', 'I Love Nail Polish (ILNP)', 'Dior', 'Chanel', 'Formula X by Sephora', 'Sephora', 'Nails Inc.', 'Lancome', 'Nars', 'Mac', 'Nicole by OPI', 'Sally Hansen', 'Color Club', 'Orly', 'CND', 'Maybelline', "L’Oreal Paris", 'Revlon', 'CoverGirl', 'Sinful Colors', 'L.A. Colors', 'L.A. Girl', 'Wet N Wild', 'Brucci', 'Milani', 'Seche', 'New York Color', 'Stila', 'Obsessive Compulsive Cosmetics']
 
   COLOR_NAMES = ['red', 'beige', 'berry', 'brown', 'orange', 'coral', 'cream', 'fuchsia', 'lilac', 'mauve', 'turquoise', 'peach', 'tan', 'taupe', 'yellow', 'green', 'blue', 'teal', 'purple', 'magenta', 'pink', 'gray', 'black', 'white', 'nude', 'gold', 'bronze', 'copper', 'silver', 'neon', 'bright', 'dark']
 
