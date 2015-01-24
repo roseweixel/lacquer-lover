@@ -269,7 +269,7 @@ class SeedDatabase
 
   COLOR_NAMES = ['red', 'beige', 'berry', 'brown', 'orange', 'coral', 'cream', 'fuchsia', 'lilac', 'mauve', 'turquoise', 'peach', 'tan', 'taupe', 'yellow', 'green', 'blue', 'teal', 'purple', 'magenta', 'pink', 'gray', 'black', 'white', 'nude', 'gold', 'bronze', 'copper', 'silver', 'neon', 'bright', 'dark']
 
-  FINISH_DESCRIPTIONS = ['sheer', 'creme', 'shimmer', 'glitter', 'jelly', 'metallic', 'duochrome', 'holographic', 'multichrome', 'matte', 'semi-matte', 'frost', 'pearl', 'foil', 'satin', 'suede', 'flakies', 'iridiscent', 'crackle', 'splatter', 'magnetic', 'texture', 'luminescent', 'other nail effects']
+  FINISH_DESCRIPTIONS = ['sheer', 'creme', 'shimmer', 'glitter', 'jelly', 'metallic', 'duochrome', 'holographic', 'multichrome', 'matte', 'semi-matte', 'frost', 'pearl', 'foil', 'satin', 'suede', 'flakies', 'glass-fleck', 'iridiscent', 'crackle', 'splatter', 'magnetic', 'texture', 'luminescent', 'other nail effects']
 
   def create_brands_colors_finishes
     [{"Brand" => BRAND_NAMES}, {"Color" => COLOR_NAMES}, {"Finish" => FINISH_DESCRIPTIONS}].each do |item|
