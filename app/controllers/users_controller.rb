@@ -38,10 +38,18 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.js
         format.html
+        format.json
       end
     else
-      flash[:notice] = "Please sign in to continue!"
-      redirect_to root_path
+      # temporary for testing purposes!
+      @user = User.find(params[:id])
+      respond_to do |format|
+        format.json
+        format.html do
+          flash[:notice] = "Please sign in to continue!"
+          redirect_to root_path
+        end
+      end
     end
   end
 end
