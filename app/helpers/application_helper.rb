@@ -18,7 +18,11 @@ module ApplicationHelper
     if lacquer.default_picture
       begin 
         picture = open lacquer.default_picture
-        image_tag(lacquer.default_picture, :size => "45x90")
+        if lacquer.brand.name == "Zoya"
+          image_tag(lacquer.default_picture, :size => "80x90")
+        else
+          image_tag(lacquer.default_picture, :size => "45x90")
+        end
       rescue
         image_tag('generic-polish.png', :size => "45x90")
       end
