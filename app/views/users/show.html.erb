@@ -265,7 +265,7 @@
 				  <%= form_for @new_user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
 
 				  	<%= f.hidden_field :user_id, value: current_user.id %>
-				  	<%= f.select(:lacquer_id, brand.lacquers.order(:name).collect {|p| [ p.name, p.id ] } + [ [ 'other', 'new' ] ], {:prompt => "Select an #{brand.name} lacquer"}, :class => "btn") %>
+				  	<%= f.select(:lacquer_id, brand.lacquers.order(:name).collect {|p| [ p.name, p.id ] } + [ [ 'other', 'new' ] ], {:prompt => "Select an #{brand.name} lacquer"}, :class => "btn-default") %>
 
 				    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
 				  <% end %>
