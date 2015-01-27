@@ -437,3 +437,7 @@
 	
 <% end %>
 <%= will_paginate @user_lacquers %>
+
+<% if @user == current_user %>
+	<%= link_to "Export collection as JSON", user_path( id: @user.id, format: :json ) %>
+<% end %>
