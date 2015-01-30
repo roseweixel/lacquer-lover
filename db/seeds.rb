@@ -257,6 +257,34 @@ class Zoya
 
 end
 
+class ILNP
+  
+  URL = "http://www.ilnp.com/nail-polish.html?limit=20&p="
+  attr_accessor :item_urls, :images, :names
+
+  def initialize
+    self.item_urls, self.images, self.names = [], [], []
+    scrape
+  end
+
+  def scrape
+    num_pages = 4
+    1.upto num_pages do |n|
+      nokogiri_doc = Nokogiri::HTML(open(URL + n.to_s))
+      polish_lis = nokogiri_doc.css("li.item")
+      polish_lis.each do |polish_li|
+        name = polish_li.css("h2.product-name a").first.content
+        unless name.include? "Collection"
+          self.names << name.sub(/\s\(.+\)\z/, "")
+          self.item_urls << polish_li.css("h2 a").first.attributes["href"].value
+          self.images << polish_li.css("div.product-image-wrapper a img").first.attributes["src"].value
+        end
+      end
+    end
+  end
+
+end
+
 
 
 class SeedDatabase
@@ -291,7 +319,8 @@ class SeedDatabase
     "Essie" => {class_name: Object.const_get("Essie")},
     "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
     "Butter London" => {class_name: Object.const_get("ButterLondon")},
-    "Zoya" => {class_name: Object.const_get("Zoya")}
+    "Zoya" => {class_name: Object.const_get("Zoya")},
+    'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")}
   }
 
   def seed_brands
