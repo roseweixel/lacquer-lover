@@ -260,27 +260,61 @@ end
 class ILNP
   
   URL = "http://www.ilnp.com/nail-polish.html?limit=20&p="
-  attr_accessor :item_urls, :images, :names
+  attr_accessor :item_urls, :images, :names, :num_pages
 
   def initialize
     self.item_urls, self.images, self.names = [], [], []
+    self.num_pages = 4
     scrape
   end
 
   def scrape
-    num_pages = 4
-    1.upto num_pages do |n|
-      nokogiri_doc = Nokogiri::HTML(open(URL + n.to_s))
-      polish_lis = nokogiri_doc.css("li.item")
-      polish_lis.each do |polish_li|
-        name = polish_li.css("h2.product-name a").first.content
-        unless name.include? "Collection"
-          self.names << name.sub(/\s\(.+\)\z/, "")
-          self.item_urls << polish_li.css("h2 a").first.attributes["href"].value
-          self.images << polish_li.css("div.product-image-wrapper a img").first.attributes["src"].value
-        end
+    1.upto num_pages do |page|
+      doc = nokogiri_doc(page)
+      polishes = get_polishes(doc)
+      process_polishes(polishes)
+    end
+  end
+
+
+  private
+  
+  def nokogiri_doc(page)
+    Nokogiri::HTML(open(URL + page.to_s))
+  end
+
+  def get_polishes(doc)
+    doc.css("li.item")
+  end
+
+  def process_polishes(polishes)
+    polishes.each do |polish|
+      unless name(polish).include? "Collection"
+        save_data(polish)
       end
     end
+  end
+
+  def name(polish)
+    polish.css("h2.product-name a").first.content
+  end
+
+  def save_data(polish)
+    self.names << clean_name(polish)
+    self.item_urls << polish_url(polish)
+    self.images << image_url(polish)
+  end
+
+  def clean_name(polish)
+    name(polish).sub(/\s\(.+\)\z/, "")
+  end
+
+  def polish_url(polish)
+    polish.css("h2 a").first.attributes["href"].value
+  end
+
+  def image_url(polish)
+    polish.css("div.product-image-wrapper a img").first.attributes["src"].value
   end
 
 end
