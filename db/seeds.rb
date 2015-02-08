@@ -352,8 +352,8 @@ class SeedDatabase
     # "Essie" => {class_name: Object.const_get("Essie")},
     # "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
     # "Butter London" => {class_name: Object.const_get("ButterLondon")},
-    # "Zoya" => {class_name: Object.const_get("Zoya")},
-    'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")}
+    "Zoya" => {class_name: Object.const_get("Zoya")}
+    # 'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")}
   }
 
   def seed_brands
