@@ -320,10 +320,9 @@ class ILNP
 end
 
 
-
 class SeedDatabase
   def initialize
-    create_brands_colors_finishes
+    #create_brands_colors_finishes
     seed_brands
   end
 
@@ -349,11 +348,11 @@ class SeedDatabase
   end
 
   BRAND_ATTRIBUTES_HASH = {
-    "OPI" => {class_name: Object.const_get("Opi")},
-    "Essie" => {class_name: Object.const_get("Essie")},
-    "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
-    "Butter London" => {class_name: Object.const_get("ButterLondon")},
-    "Zoya" => {class_name: Object.const_get("Zoya")},
+    # "OPI" => {class_name: Object.const_get("Opi")},
+    # "Essie" => {class_name: Object.const_get("Essie")},
+    # "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
+    # "Butter London" => {class_name: Object.const_get("ButterLondon")},
+    # "Zoya" => {class_name: Object.const_get("Zoya")},
     'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")}
   }
 

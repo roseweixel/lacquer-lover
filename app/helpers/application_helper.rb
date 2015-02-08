@@ -18,7 +18,7 @@ module ApplicationHelper
     if lacquer.default_picture
       begin 
         picture = open lacquer.default_picture
-        if lacquer.brand.name == "Zoya"
+        if lacquer.brand.name == "Zoya" || lacquer.brand.name == "I Love Nail Polish (ILNP)"
           image_tag(lacquer.default_picture, :size => "80x90")
         else
           image_tag(lacquer.default_picture, :size => "45x90")
