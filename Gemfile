@@ -72,3 +72,4 @@ gem "paperclip", "~> 4.2"
 gem "will_paginate"
 gem 'rack_session_access'
 gem 'simplecov', :require => false, :group => :test
+gem 'aws-sdk', '~> 1.5.7'
