@@ -1,0 +1,10 @@
+<td class="on-loan" id="0<%= user_lacquer.id %>">
+  <%# binding.pry %>
+  <% if user_lacquer.loanable %>
+    <% if user_lacquer.on_loan %>
+      <%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => false}), {:method => "PATCH", :remote => true, :class =>"btn btn-success btn-xs"} %>
+    <% else %>
+      <%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => true}), {:method => "PATCH", :remote => true, :class =>"btn btn-danger btn-xs"} %>
+    <% end %>
+  <% end %>
+</td>

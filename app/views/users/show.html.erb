@@ -382,35 +382,29 @@
 					<% end %>
 				</td>
 				<% if @user == current_user %>
-					<td>
-						<%#= form_for(user_lacquer) do |f| %>
+
+					<td class="loanable" id="<%= user_lacquer.id %>">
 						<% if user_lacquer.loanable %>
-							<%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[loanable]" => false}), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %>
+							<%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[loanable]" => false}), {:method => "PATCH", :remote => true, :class =>"btn btn-success btn-xs"} %>
 						<% else %>
-							<%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[loanable]" => true}), {:method => "PATCH", :class =>"btn btn-danger btn-xs"} %>
-							<%#= button_to "make loanable", user_lacquer_path, method: 'PATCH', params: {"user_lacquer[loanable]" => true}, :class => "btn btn-danger btn-xs" %>
+							<%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[loanable]" => true}),  {:method => "PATCH", :remote => true, :class =>"btn btn-danger btn-xs"} %>
 						<% end %>
-						<%# end %>
 					</td>
-					<td>
+					<td class="on-loan" id="0<%= user_lacquer.id %>">
 						<% if user_lacquer.loanable %>
-							<%#= form_for(user_lacquer) do |f| %>
 							<% if user_lacquer.on_loan %>
-								<%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => false}), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %>
-								<%#= button_to "✔", user_lacquer_path, params: {"user_lacquer[on_loan]" => false}, :class => "btn btn-success btn-xs", method: 'PATCH'  %>
+								<%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => false}), {:method => "PATCH", :remote => true, :class =>"btn btn-success btn-xs"} %>
 							<% else %>
-								<%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => true}), {:method => "PATCH", :class =>"btn btn-danger btn-xs"} %>
-								<%#= button_to "✕", user_lacquer_path, params: {"user_lacquer[on_loan]" => true}, :class => "btn btn-danger btn-xs", method: 'PATCH'  %>
+								<%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => true}), {:method => "PATCH", :remote => true, :class =>"btn btn-danger btn-xs"} %>
 							<% end %>
-							<%# end %>
 						<% end %>
 					</td>
 					<td><%= link_to 'x', user_lacquer_path(user_lacquer), method: 'DELETE' %></td>
 				<% else %>
 					<% if user_lacquer.available? %>
-						<td>
+						<td class="transaction-request" id="transaction-<%user_lacquer.id%>">
 							<% if Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id, state:['pending', 'accepted']).empty? %>
-								<%= form_for(@transaction) do |f| %>
+								<%= form_for(@transaction, remote: true) do |f| %>
 									<%= f.hidden_field :type, value: 'Loan' %>
 									<%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
 									<%= f.hidden_field :requester_id, value: current_user.id %>
@@ -420,11 +414,14 @@
 							<% else %>
 								<% transaction = Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id).first %>
 								<% if transaction.state == 'pending' %>
-									<%= form_for(transaction, method: 'DELETE') do |f| %>
-									<%= f.submit 'delete pending request' %>
-								<% end %>
+									<%= form_for(transaction, method: 'DELETE', remote: true) do |f| %>
+										<%= f.submit 'delete pending request' %>
+									<% end %>
 								<% end %>
 							<% end %>
+						</td>
+					<% else %>
+						<td>
 						</td>
 					<% end %>
 				<% end %>
