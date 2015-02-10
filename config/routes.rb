@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # get 'swatches/create'
 
   # get 'swatches/destroy'
-  delete '/transactions/:id', to: 'transactions#destroy', as: :loan
+  #delete '/transactions/:id', to: 'transactions#destroy', as: :loan
 
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]

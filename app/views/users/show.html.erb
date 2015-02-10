@@ -402,10 +402,10 @@
 					<td><%= link_to 'x', user_lacquer_path(user_lacquer), method: 'DELETE' %></td>
 				<% else %>
 					<% if user_lacquer.available? %>
-						<td class="transaction-request" id="transaction-<%user_lacquer.id%>">
+						<td class="transaction-request" id="transaction-<%=user_lacquer.id%>">
 							<% if Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id, state:['pending', 'accepted']).empty? %>
 								<%= form_for(@transaction, remote: true) do |f| %>
-									<%= f.hidden_field :type, value: 'Loan' %>
+									<%#= f.hidden_field :type, value: 'Loan' %>
 									<%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
 									<%= f.hidden_field :requester_id, value: current_user.id %>
 									<%= f.hidden_field :owner_id, value: @user.id %>
@@ -415,6 +415,8 @@
 								<% transaction = Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id).first %>
 								<% if transaction.state == 'pending' %>
 									<%= form_for(transaction, method: 'DELETE', remote: true) do |f| %>
+										<%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
+										<%= f.hidden_field :owner_id, value: @user.id %>
 										<%= f.submit 'delete pending request' %>
 									<% end %>
 								<% end %>

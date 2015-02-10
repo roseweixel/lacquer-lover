@@ -14,7 +14,7 @@ class Transaction < ActiveRecord::Base
   def defaults
     self.owner_id ||= user_lacquer.user_id
     self.state ||= 'pending'
-    self.type ||= 'Loan'
+    # self.type ||= 'Loan'
   end
 
   def owner
