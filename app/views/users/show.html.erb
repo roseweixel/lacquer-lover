@@ -399,7 +399,7 @@
 							<% end %>
 						<% end %>
 					</td>
-					<td><%= button_to 'x', user_lacquer_path(user_lacquer), method: :delete, remote: true %></td>
+					<td><%= button_to '✕', user_lacquer_path(user_lacquer), method: :delete, remote: true, class: "btn btn-danger btn-xs" %></td>
 				<% else %>
 					<% if user_lacquer.available? %>
 						<td class="transaction-request" id="transaction-<%=user_lacquer.id%>">
