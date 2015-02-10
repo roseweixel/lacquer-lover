@@ -345,7 +345,7 @@
 		<tbody>
 		<% @user_lacquers.each do |user_lacquer| %>
 			<% lacquer = Lacquer.find(user_lacquer.lacquer_id) %>
-			<tr>
+			<tr lacquer-id="<%= lacquer.id %>" user-lacquer-id="<%= user_lacquer.id %>">
 				<td>
 				<% if !lacquer.swatches.empty? %>
 					<%= image_tag user_lacquer.swatch_image %>
@@ -405,7 +405,7 @@
 							<%# end %>
 						<% end %>
 					</td>
-					<td><%= link_to 'x', user_lacquer_path(user_lacquer), method: 'DELETE' %></td>
+					<td><%= button_to 'x', user_lacquer_path(user_lacquer), method: :delete, remote: true %></td>
 				<% else %>
 					<% if user_lacquer.available? %>
 						<td>
