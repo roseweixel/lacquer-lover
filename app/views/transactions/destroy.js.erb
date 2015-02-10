@@ -1,0 +1,1 @@
+$('td.transaction-request#transaction-<%=@user_lacquer.id%>').replaceWith('<%= j render :partial => "user_lacquer_transaction_request", :locals => {:user_lacquer => @user_lacquer, :transaction => @transaction, :user => @user} %>');

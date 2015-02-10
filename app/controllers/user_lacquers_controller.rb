@@ -16,12 +16,20 @@ class UserLacquersController < ApplicationController
         @user_lacquer.transactions.clear
         @user_lacquer.save
       end
-      flash[:notice] = "#{Lacquer.find(@user_lacquer.lacquer_id).name} successfully updated!"
+      # respond_to do |format|
+      #   #format.html { redirect_to(:back) }
+      #   format.js { }
+      # end
+      #flash[:notice] = "#{Lacquer.find(@user_lacquer.lacquer_id).name} successfully updated!"
     else
       flash[:alert] = "You are trying to update a lacquer that is not yours!"
     end
-    #binding.pry
-    redirect_to(:back)
+    respond_to do |format|
+      #format.html
+      format.js { }
+    end
+    # # #binding.pry
+    # # #redirect_to(:back)
   end
 
   def destroy
