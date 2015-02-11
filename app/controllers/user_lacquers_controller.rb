@@ -33,7 +33,6 @@ class UserLacquersController < ApplicationController
   end
 
   def destroy
-    #binding.pry
     @user_lacquer = UserLacquer.find(params[:id])
     #user_lacquer = UserLacquer.where(user_id: params['user_id'], lacquer_id: params['lacquer_id']).first
     user = User.find(@user_lacquer.user_id)
@@ -45,7 +44,7 @@ class UserLacquersController < ApplicationController
       else
         respond_to do |format|
           format.html { redirect_to :back }
-          format.js {}
+          format.js { }
         end
       end
     else
