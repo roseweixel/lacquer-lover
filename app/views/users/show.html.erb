@@ -336,7 +336,7 @@
 				<% if @user == current_user %>
 					<th>Loanable?</th>
 					<th>On Loan?</th>
-					<th>Remove From<br>Your Collection</th>
+					<th>Remove/Edit</th>
 				<% else %>
 					<th>Loan Requests</th>
 				<% end %>
@@ -367,9 +367,6 @@
 				</td>
 				<td><%= link_to lacquer.brand.name, brand_path(lacquer.brand.id) %></td>
 				<td><%= link_to lacquer.name, lacquer_path(lacquer.id) %><br>
-				<% if @user == current_user %>
-					<%= link_to "edit", edit_lacquer_path(lacquer.id, :params => { :user_lacquer_id => user_lacquer.id }), :class => "btn btn-xs btn-default" %>
-				<% end %>
 				</td>
 				<td>
 					<% user_lacquer.colors.each do |color| %> 
@@ -399,7 +396,12 @@
 							<% end %>
 						<% end %>
 					</td>
-					<td><%= button_to '✕', user_lacquer_path(user_lacquer), method: :delete, remote: true, class: "btn btn-danger btn-xs" %></td>
+					<td>
+					<%= link_to 'remove', user_lacquer_path(user_lacquer), method: :delete, remote: true, class: "btn btn-danger btn-xs", data: { confirm: "Are you sure you want to remove #{user_lacquer.lacquer.name} from your collection?" } %>
+					<%# if @user == current_user %>
+					<%= link_to "edit", edit_lacquer_path(lacquer.id, :params => { :user_lacquer_id => user_lacquer.id }), :class => "btn btn-xs btn-default" %>
+					<%# end %>
+					</td>
 				<% else %>
 					<% if user_lacquer.available? %>
 						<td class="transaction-request" id="transaction-<%=user_lacquer.id%>">
