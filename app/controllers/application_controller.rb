@@ -3,15 +3,12 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  # def flash_class(level)
-  #   case level
-  #       when :notice then "alert alert-info"
-  #       when :success then "alert alert-success"
-  #       when :error then "alert alert-error"
-  #       when :alert then "alert alert-error"
-  #   end
-  # end
-  # helper_method :flash_class
+  rescue_from ActionView::MissingTemplate do |exception|
+    # use exception.path to extract the path information
+    # This does not work for partials
+    flash[:alert] = "We could not find the page you were looking for!"
+    redirect_to root_path
+  end
 
 
   private
