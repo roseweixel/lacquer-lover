@@ -13,10 +13,13 @@ class UsersController < ApplicationController
     end
   end
 
-  # def load_notifications
-  #   @user = current_user
-  #   @user.class.load_notifications
-  # end
+  def live_notifications
+    #binding.pry
+    @user = current_user
+    respond_to do |format|
+      format.js { }
+    end
+  end
 
   def show
     if current_user
