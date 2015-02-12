@@ -1,0 +1,86 @@
+<% lacquer = Lacquer.find(user_lacquer.lacquer_id) %>
+      <tr lacquer-id="<%= lacquer.id %>" user-lacquer-id="<%= user_lacquer.id %>">
+        <td>
+        <% if !lacquer.swatches.empty? %>
+          <%= image_tag user_lacquer.swatch_image %>
+        <% else %>
+
+            <%= picture_for(lacquer) %>
+          <% if @user == current_user %>
+            <%= form_for lacquer.swatches.new, :html => { :multipart => true } do |f| %>
+              <h6>Add A Swatch!</h6>
+              <span style="font-size:10px;">
+              <%= f.hidden_field :user_id, value: current_user.id %>
+              <%= f.hidden_field :lacquer_id, value: user_lacquer.lacquer_id %>
+              <%= f.file_field :image %>
+              <%= f.submit :class => 'btn btn-xs btn-default' %>
+              </span>
+            <% end %>
+          <% end %>
+        <% end %>
+        </td>
+        <td><%= link_to lacquer.brand.name, brand_path(lacquer.brand.id) %></td>
+        <td><%= link_to lacquer.name, lacquer_path(lacquer.id) %><br>
+        </td>
+        <td>
+          <% user_lacquer.colors.each do |color| %> 
+            <%= color.name %><br>
+          <% end %>
+        </td>
+        <td>
+          <% user_lacquer.finishes.each do |finish| %> 
+            <%= finish.description %><br>
+          <% end %>
+        </td>
+        <% if @user == current_user %>
+
+          <td class="loanable" id="<%= user_lacquer.id %>">
+            <% if user_lacquer.loanable %>
+              <%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[loanable]" => false}), {:method => "PATCH", :remote => true, :class =>"btn btn-success btn-xs"} %>
+            <% else %>
+              <%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[loanable]" => true}),  {:method => "PATCH", :remote => true, :class =>"btn btn-danger btn-xs"} %>
+            <% end %>
+          </td>
+          <td class="on-loan" id="0<%= user_lacquer.id %>">
+            <% if user_lacquer.loanable %>
+              <% if user_lacquer.on_loan %>
+                <%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => false}), {:method => "PATCH", :remote => true, :class =>"btn btn-success btn-xs"} %>
+              <% else %>
+                <%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => true}), {:method => "PATCH", :remote => true, :class =>"btn btn-danger btn-xs"} %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+          <%= link_to 'remove', user_lacquer_path(user_lacquer), method: :delete, remote: true, class: "btn btn-danger btn-xs", data: { confirm: "Are you sure you want to remove #{user_lacquer.lacquer.name} from your collection?" } %>
+          <%# if @user == current_user %>
+          <%= link_to "edit", edit_lacquer_path(lacquer.id, :params => { :user_lacquer_id => user_lacquer.id }), :class => "btn btn-xs btn-default" %>
+          <%# end %>
+          </td>
+        <% else %>
+          <% if user_lacquer.available? %>
+            <td class="transaction-request" id="transaction-<%=user_lacquer.id%>">
+              <% if Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id, state:['pending', 'accepted']).empty? %>
+                <%= form_for(@transaction, remote: true) do |f| %>
+                  <%#= f.hidden_field :type, value: 'Loan' %>
+                  <%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
+                  <%= f.hidden_field :requester_id, value: current_user.id %>
+                  <%= f.hidden_field :owner_id, value: @user.id %>
+                  <%= f.submit 'Can I borrow this?' %>
+                <% end %>
+              <% else %>
+                <% transaction = Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id).first %>
+                <% if transaction.state == 'pending' %>
+                  <%= form_for(transaction, method: 'DELETE', remote: true) do |f| %>
+                    <%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
+                    <%= f.hidden_field :owner_id, value: @user.id %>
+                    <%= f.submit 'delete pending request' %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </td>
+          <% else %>
+            <td>
+            </td>
+          <% end %>
+        <% end %>
+      </tr>
