@@ -6,10 +6,10 @@ class Transaction < ActiveRecord::Base
   #belongs_to :user, through: :user_lacquer, dependent: :destroy
   before_create :defaults
 
-  # validate :transaction_must_be_unique, :on => :create
-  # validate :user_lacquer_must_be_loanable, :on => :create
-  # validate :user_lacquer_must_not_be_on_loan, :on => :create
-  # validate :requester_and_user_must_be_friends, :on => :create
+  validate :transaction_must_be_unique, :on => :create
+  validate :user_lacquer_must_be_loanable, :on => :create
+  validate :user_lacquer_must_not_be_on_loan, :on => :create
+  validate :requester_and_user_must_be_friends, :on => :create
 
   SECONDS_PER_DAY = 86400
 
