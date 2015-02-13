@@ -30,7 +30,7 @@
 			<% if @user == current_user %>
 				<h3>Your Loan Count: 
 			<% else %>
-				<h3><%= @user.name %>'s Loan Count: 
+				<h3><%= @user.name %>’s Loan Count: 
 			<% end %>
 			<%= @user.owned_transactions.count %></h3>
 		<% end %>
@@ -39,7 +39,7 @@
 			<% if @user == current_user %>
 				<h3>Your Borrow Count: 
 			<% else %>
-				<h3><%= @user.name %>'s Borrow Count: 
+				<h3><%= @user.name %>’s Borrow Count: 
 			<% end %>
 			<%= @user.requested_transactions.count %></h3>
 		<% end %>
@@ -122,8 +122,8 @@
 					<h3>Transactions You Accepted</h3>
 					<ul>
 					<% @user.transactions_you_accepted.each do |transaction| %>
-						<% friend = User.find(transaction.requester_id) %>
-						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+						<% friend = transaction.requester %>
+						<% lacquer = transaction.lacquer %>
 						<li style='padding-top: 15px;'>
 							You've agreed to loan <%= lacquer.name %> out to <%= link_to friend.name, user_path(friend) %>.<br> <%= link_to "I gave #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %>
 						</li>
