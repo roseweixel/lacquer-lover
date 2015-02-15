@@ -2,7 +2,7 @@ class UserLacquersController < ApplicationController
 
   def create
     lacquer = Lacquer.find(params[:user_lacquer][:lacquer_id])
-    UserLacquer.create(user_lacquer_params)
+    UserLacquer.create(lacquer: lacquer, user: current_user)
     flash[:notice] = "#{lacquer.name} has been added to your collection!"
     redirect_to(:back)
   end
@@ -55,6 +55,6 @@ class UserLacquersController < ApplicationController
 
   private
     def user_lacquer_params
-      params.require(:user_lacquer).permit(:user_id, :lacquer_id, :loanable, :on_loan)
+      params.require(:user_lacquer).permit(:lacquer_id, :loanable, :on_loan)
     end
 end
