@@ -27,3 +27,14 @@
 	<% end %>
 	</div>
 <% end %>
+
+<% if current_user  %>
+    
+  <% if current_user.lacquers.include? @lacquer %>
+	  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
+    <%= button_to "Remove from My Collection", user_lacquer_path(user_lacquer.id), method: :delete, class: "btn btn-danger" %>
+	<% else %>
+	    <%= button_to "Add to My Collection", user_lacquers_path, method: :post, params: {"user_lacquer[lacquer_id]" => @lacquer.id}, class: "btn btn-primary" %>
+	<% end %>
+
+<% end %>
