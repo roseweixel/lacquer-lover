@@ -51,6 +51,5 @@ class FriendshipsController < ApplicationController
       flash[:alert] = "This request could not be deleted!"
       redirect_to(:back)
     end
-    #@user = current_user
   end
 end
