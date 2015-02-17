@@ -8,8 +8,6 @@ class LacquersController < ApplicationController
   end
 
   def create
-    #binding.pry
-    #user = current_user
     lacquer = Lacquer.new(name: params[:lacquer][:name], brand_id: params[:lacquer][:brand_id])
     lacquer.user_added_by_id = params[:lacquer][:user_added_by_id] if params[:lacquer][:user_added_by_id]
     lacquer.save
@@ -40,7 +38,6 @@ class LacquersController < ApplicationController
   end
 
   def edit
-    #binding.pry
     @user = current_user
     @lacquer = Lacquer.find(params[:id])
     if params[:user_lacquer_id] && UserLacquer.find(params[:user_lacquer_id])
@@ -60,7 +57,6 @@ class LacquersController < ApplicationController
   end
 
   def update
-    #binding.pry
     @user = current_user
     @lacquer = Lacquer.find(params[:id])
     @user_lacquer = UserLacquer.find(session[:user_lacquer_id])
