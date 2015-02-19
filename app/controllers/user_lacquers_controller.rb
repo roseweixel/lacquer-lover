@@ -8,7 +8,6 @@ class UserLacquersController < ApplicationController
   end
 
   def update
-    #binding.pry
     @user_lacquer = UserLacquer.find(params[:id])
     if current_user == User.find(@user_lacquer.user_id)
       @user_lacquer.update(user_lacquer_params)
@@ -16,11 +15,6 @@ class UserLacquersController < ApplicationController
         @user_lacquer.transactions.clear
         @user_lacquer.save
       end
-      # respond_to do |format|
-      #   #format.html { redirect_to(:back) }
-      #   format.js { }
-      # end
-      #flash[:notice] = "#{Lacquer.find(@user_lacquer.lacquer_id).name} successfully updated!"
     else
       flash[:alert] = "You are trying to update a lacquer that is not yours!"
     end
@@ -28,13 +22,11 @@ class UserLacquersController < ApplicationController
       #format.html
       format.js { }
     end
-    # # #binding.pry
     # # #redirect_to(:back)
   end
 
   def destroy
     @user_lacquer = UserLacquer.find(params[:id])
-    #user_lacquer = UserLacquer.where(user_id: params['user_id'], lacquer_id: params['lacquer_id']).first
     user = User.find(@user_lacquer.user_id)
     if user == current_user
       @user_lacquer.destroy
