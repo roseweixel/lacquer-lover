@@ -319,6 +319,68 @@ class ILNP
 
 end
 
+class ChinaGlaze
+  
+  URL = "http://chinaglaze.com/Colour/All-Colour/pageNum_"
+  attr_accessor :item_urls, :images, :names, :num_pages
+
+  def initialize
+    self.item_urls, self.images, self.names = [], [], []
+    self.num_pages = 5
+    scrape
+  end
+
+  def scrape
+    0.upto (num_pages-1) do |page|
+      doc = nokogiri_doc(page)
+      polishes = get_polishes(doc)
+      process_polishes(polishes)
+    end
+  end
+
+
+  private
+  
+  def nokogiri_doc(page)
+    Nokogiri::HTML(open("#{URL}#{page}.html"))
+  end
+
+  def get_polishes(doc)
+    doc.css("div.bottle")
+  end
+
+  def process_polishes(polishes)
+    polishes.each { |polish| save_data(polish) }
+  end
+
+  def name(polish)
+    polish.css("#color-name").first.content
+  end
+
+  def save_data(polish)
+    self.names << clean_name(polish)
+    self.item_urls << polish_url(polish)
+    self.images << image_url(polish)
+  end
+
+  def clean_name(polish)
+    name(polish).strip
+  end
+
+  def polish_url(polish)
+    "http://chinaglaze.com" + polish.css("a").first.attributes["href"].value
+  end
+
+  def image_url(polish)
+    "http://chinaglaze.com/uploads/products/bottle/#{image_filename(polish)}"
+  end
+
+  def image_filename(polish)
+    polish.css("a img").first.attributes["src"].value.split("/").last
+  end
+
+end
+
 
 class SeedDatabase
   def initialize
@@ -352,7 +414,8 @@ class SeedDatabase
     # "Essie" => {class_name: Object.const_get("Essie")},
     # "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
     # "Butter London" => {class_name: Object.const_get("ButterLondon")},
-    "Zoya" => {class_name: Object.const_get("Zoya")}
+    # "Zoya" => {class_name: Object.const_get("Zoya")}
+    "China Glaze" => {class_name: Object.const_get("ChinaGlaze")}
     # 'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")}
   }
 
