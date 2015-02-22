@@ -39,6 +39,9 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'jquery-datatables-rails', '~> 3.1.1'
+# gem 'ajax-datatables-rails'
+
 group :test, :development do
   gem "rspec-rails"
   gem "capybara"
