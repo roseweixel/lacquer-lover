@@ -37,6 +37,7 @@ class UsersController < ApplicationController
       @friends = @user.friends
       @friendship = current_user.friendships.new(friend: @user)
       @transaction = Transaction.new
+      #binding.pry
       @user_lacquers = @user.user_lacquers.paginate(:page => params[:page], :per_page => 5)
       respond_to do |format|
         format.js
