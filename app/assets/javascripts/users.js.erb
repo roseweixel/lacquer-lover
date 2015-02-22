@@ -9,4 +9,9 @@ $(document).ready(function() {
       });
     }, 3000); 
   }
+
+  $.ajax({
+    type: "GET",
+    url: "/users/"+userID+"/user_lacquers"
+  });
 });

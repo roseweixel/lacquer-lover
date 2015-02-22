@@ -21,6 +21,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def user_lacquers
+    #binding.pry
+    @user = current_user
+    @user_lacquers = @user.user_lacquers.order("updated_at desc")
+    respond_to do |format|
+      format.js { }
+    end
+  end
+
   def show
     if current_user
       [{"OPI" => [@new_opi_lacquer, @opi_lacquers]}, {"Essie" => [@new_essie_lacquer, @essie_lacquers]}, {"Butter London" => [@new_butter_lacquer, @butter_lacquers]}, {"Deborah Lippmann" => [@new_deborah_lacquer, @deborah_lacquers]}].each do |brand_hash|
@@ -38,7 +47,7 @@ class UsersController < ApplicationController
       @friendship = current_user.friendships.new(friend: @user)
       @transaction = Transaction.new
       #binding.pry
-      @user_lacquers = @user.user_lacquers.order("updated_at desc").paginate(:page => params[:page], :per_page => 5)
+      @user_lacquers = @user.user_lacquers.order("updated_at desc")
       respond_to do |format|
         format.js
         format.html
