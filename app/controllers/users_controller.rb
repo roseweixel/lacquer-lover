@@ -22,15 +22,16 @@ class UsersController < ApplicationController
   end
 
   def user_lacquers
-    #binding.pry
+    @user_lacquer = UserLacquer.find(params[:id])
     @user = current_user
-    @user_lacquers = @user.user_lacquers.order("updated_at desc")
+    #@user_lacquers = @user.user_lacquers.order("updated_at desc")
     respond_to do |format|
       format.js { }
     end
   end
 
   def show
+    #binding.pry
     if current_user
       [{"OPI" => [@new_opi_lacquer, @opi_lacquers]}, {"Essie" => [@new_essie_lacquer, @essie_lacquers]}, {"Butter London" => [@new_butter_lacquer, @butter_lacquers]}, {"Deborah Lippmann" => [@new_deborah_lacquer, @deborah_lacquers]}].each do |brand_hash|
         brand_hash.each do |brand, variables|

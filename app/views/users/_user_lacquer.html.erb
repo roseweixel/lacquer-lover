@@ -1,5 +1,5 @@
 <% lacquer = Lacquer.find(user_lacquer.lacquer_id) %>
-      <tr lacquer-id="<%= lacquer.id %>" user-lacquer-id="<%= user_lacquer.id %>">
+      <tr lacquer-id="<%#= lacquer.id %>" user-lacquer-id="<%#= user_lacquer.id %>">
         <td style="width: 20%;">
         <% if !lacquer.swatches.empty? %>
           <%= image_tag user_lacquer.swatch_image %>

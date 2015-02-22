@@ -1,7 +1,7 @@
 <% if @user == current_user %>
-	<h1>Your Profile</h1>
+	<h1 id="top">Your Profile</h1>
 <% else %>
-	<h1><%= @user.first_name %>'s Profile</h1>
+	<h1 id="top"><%= @user.first_name %>'s Profile</h1>
 <% end %>
 
 <% if (@user != current_user) && (!current_user.all_friends.include?(@user)) %>
@@ -338,13 +338,17 @@
 			</tr>
 		</thead>
 		<tbody>
+		<% @user_lacquers.each do |user_lacquer| %>
+  		<tr class="user-lacquer-partial" lacquer-id="<%= user_lacquer.lacquer.id %>" user-lacquer-id="<%= user_lacquer.id %>" id="<%=user_lacquer.id%>">
+  		</tr>
+		<% end %>
 		</tbody>
 	</table>
 	</section>
 	
 <% end %>
-<%#= will_paginate @user_lacquers %>
 
 <% if @user == current_user %>
 	<%= link_to "Export collection as JSON", user_path( id: @user.id, format: :json ) %>
 <% end %>
+<p style="float: right;"><a href='#top' class="btn btn-xs btn-primary">back to top</a></p>
