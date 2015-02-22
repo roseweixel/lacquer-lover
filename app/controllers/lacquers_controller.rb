@@ -8,6 +8,7 @@ class LacquersController < ApplicationController
   end
 
   def create
+    @user = current_user
     lacquer = Lacquer.new(name: params[:lacquer][:name], brand_id: params[:lacquer][:brand_id])
     lacquer.user_added_by_id = params[:lacquer][:user_added_by_id] if params[:lacquer][:user_added_by_id]
     lacquer.save
@@ -17,20 +18,23 @@ class LacquersController < ApplicationController
       end
     else
       if params[:user_lacquer]
-        user_lacquer = lacquer.user_lacquers.create(user_id: current_user.id)
+        @user_lacquer = lacquer.user_lacquers.create(user_id: current_user.id)
         params[:user_lacquer][:color_ids].each do |color_id|
           if color_id != ""
-            user_lacquer.colors.push(Color.find(color_id))
+            @user_lacquer.colors.push(Color.find(color_id))
           end
         end
         params[:user_lacquer][:finish_ids].each do |finish_id|
           if finish_id != ""
-            user_lacquer.finishes.push(Finish.find(finish_id))
+            @user_lacquer.finishes.push(Finish.find(finish_id))
           end
         end
       end
     end
-    redirect_to(:back)
+    respond_to do |format|
+      format.html { redirect_to(:back) }
+      format.js { }
+    end
   end
 
   def show

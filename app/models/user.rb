@@ -130,5 +130,13 @@ class User < ActiveRecord::Base
     Lacquer.where(user_added_by_id: self.id)
   end
 
+  def user_lacquers_sorted_by(attribute="updated_at")
+    if attribute == "updated_at"
+      user_lacquers.sort{ |a,b| b.updated_at <=> a.updated_at }
+    else
+      user_lacquers.sort_by{ |l| l.send(attribute) }
+    end
+  end
+
 
 end

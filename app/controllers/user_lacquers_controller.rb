@@ -2,9 +2,15 @@ class UserLacquersController < ApplicationController
 
   def create
     lacquer = Lacquer.find(params[:user_lacquer][:lacquer_id])
-    UserLacquer.create(lacquer: lacquer, user: current_user)
-    flash[:notice] = "#{lacquer.name} has been added to your collection!"
-    redirect_to(:back)
+    @user_lacquer = UserLacquer.create(lacquer: lacquer, user: current_user)
+    @user = current_user
+    respond_to do |format|
+      format.html { 
+        flash[:notice] = "#{lacquer.name} has been added to your collection!"
+        redirect_to(:back)
+      }
+      format.js { }
+    end
   end
 
   def update

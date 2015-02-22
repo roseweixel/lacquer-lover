@@ -262,7 +262,7 @@
 
 			<% Brand.all.each do |brand| %>
 				<div class="lacquer-dropdown dropdown btn" id="<%= brand.abbreviation %>-dropdown">
-				  <%= form_for @new_user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create') do |f| %>
+				  <%= form_for @new_user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create'), remote: true do |f| %>
 
 				  	<%= f.select(:lacquer_id, brand.lacquers.order(:name).collect {|p| [ p.name, p.id ] } + [ [ 'Other', 'new' ] ], {:prompt => "Select an #{brand.name} lacquer"}, :class => "btn-default") %>
 
@@ -271,13 +271,11 @@
 				</div>
 			<% end %>
 
-
-
 			<!-- ADD "OTHER" LACQUER FOR DEBORAH -->
 			<% Brand.all.each do |brand| %>
 				<% new_lacquer = brand.lacquers.new %>
 			<div class="other-lacquer" id="<%= brand.abbreviation %>">
-				<%= form_for new_lacquer, :url => url_for(:controller => 'lacquers', :action => 'create') do |f| %>
+				<%= form_for new_lacquer, :url => url_for(:controller => 'lacquers', :action => 'create'), remote: true do |f| %>
 					<%= f.label :name %>
 					<%= f.text_field :name, placeholder: "lacquer name", :required => true %>
 
@@ -316,8 +314,6 @@
 			<% end %>
 			<!-- END OF ADD "OTHER" LACQUER FOR DEBORAH -->
 
-			
-
 		<!-- ***** END OF ADD OTHER LACQUERS ***** --> 	
 
 		<% else %>
@@ -342,7 +338,7 @@
 			</tr>
 		</thead>
 		<tbody>
-		<% @user_lacquers.each do |user_lacquer| %>
+		<% @user.user_lacquers_sorted_by.each do |user_lacquer| %>
 			<%= render 'user_lacquer', user_lacquer: user_lacquer %>
 		<% end %>
 		

@@ -1,6 +1,8 @@
 class UserLacquer < ActiveRecord::Base
   belongs_to :user
   belongs_to :lacquer
+  delegate :brand, :to => :lacquer
+  delegate :name, :to => :lacquer
 
   has_many :transactions
   has_many :requesters, class_name: 'User', through: :transactions
