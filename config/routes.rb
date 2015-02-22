@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   get 'users/:id/live_notifications' => 'users#live_notifications'
 
   get 'users/:id/user_lacquers/:id' => 'users#user_lacquers'
+
+  get 'brands/:id/lacquers/:id' => 'brands#lacquer'
   
   resources :transactions
 

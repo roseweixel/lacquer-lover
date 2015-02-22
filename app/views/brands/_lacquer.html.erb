@@ -1,0 +1,12 @@
+<div class="col-md-3 lacquer" id="<%=lacquer.id%>">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <div class="panel-title">
+        <%= link_to lacquer.formatted_name, lacquer_path(lacquer.id) %>
+      </div>
+    </div>
+    <div class="panel-body" style="text-align:center;">
+    <%= picture_for(lacquer) %>
+    </div>
+  </div>
+</div>
