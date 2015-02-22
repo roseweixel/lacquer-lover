@@ -324,8 +324,8 @@
 		<thead>
 			<tr>
 				<th>Swatch</th>
-				<th>Brand</th>
-				<th>Name</th>
+				<th>Brand <i class="fa fa-sort-alpha-asc sort" id="brand"></i> <i class="fa fa-sort-alpha-desc sort" id="brand-reverse"></i></th>
+				<th>Name <i class="fa fa-sort-alpha-asc sort" id="name"></i> <i class="fa fa-sort-alpha-desc sort" id="name-reverse"></i></th>
 				<th>Colors</th>
 				<th>Finishes</th>
 				<% if @user == current_user %>
@@ -337,11 +337,30 @@
 				<% end %>
 			</tr>
 		</thead>
-		<tbody>
-		<% @user.user_lacquers_sorted_by.each do |user_lacquer| %>
-			<%= render 'user_lacquer', user_lacquer: user_lacquer %>
-		<% end %>
-		
+		<tbody id="user-lacquers-by-default">
+			<% @user.user_lacquers_sorted_by.each do |user_lacquer| %>
+				<%= render 'user_lacquer', user_lacquer: user_lacquer %>
+			<% end %>
+		</tbody>
+		<tbody id="user-lacquers-by-brand">
+			<% @user.user_lacquers_sorted_by("brand").each do |user_lacquer| %>
+				<%= render 'user_lacquer', user_lacquer: user_lacquer %>
+			<% end %>
+		</tbody>
+		<tbody id="user-lacquers-by-brand-reverse">
+			<% @user.user_lacquers_reverse_sorted_by("brand").each do |user_lacquer| %>
+				<%= render 'user_lacquer', user_lacquer: user_lacquer %>
+			<% end %>
+		</tbody>
+		<tbody id="user-lacquers-by-name">
+			<% @user.user_lacquers_sorted_by("name").each do |user_lacquer| %>
+				<%= render 'user_lacquer', user_lacquer: user_lacquer %>
+			<% end %>
+		</tbody>
+		<tbody id="user-lacquers-by-name-reverse">
+			<% @user.user_lacquers_reverse_sorted_by("name").each do |user_lacquer| %>
+				<%= render 'user_lacquer', user_lacquer: user_lacquer %>
+			<% end %>
 		</tbody>
 	</table>
 	</section>

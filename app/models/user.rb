@@ -138,5 +138,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def user_lacquers_reverse_sorted_by(attribute="updated_at")
+    if attribute == "updated_at"
+      user_lacquers.sort{ |a,b| a.updated_at <=> b.updated_at }
+    else
+      user_lacquers.sort{ |a,b| b.send(attribute) <=> a.send(attribute) }
+    end
+  end
+
 
 end
