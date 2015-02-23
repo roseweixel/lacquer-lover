@@ -37,7 +37,7 @@ class Lacquer < ActiveRecord::Base
     end
 
     if shortened.length > 22
-      shortened = "#{shortened.slice(0..22)}..."
+      shortened = "#{shortened.slice(0..21)}..."
     end
     
     shortened
