@@ -1,2 +1,2 @@
 var id = "<%= @lacquer.id %>"
-$(".col-md-3.lacquer#"+id).replaceWith('<%= j render :partial => "lacquer", :locals => {:brand => @brand, :lacquer => @lacquer} %>');
+$(".col-md-3.lacquer#"+id).replaceWith('<%= j render :partial => "lacquer", :locals => {:brand => @brand, :lacquer => @lacquer, :user => @user} %>');

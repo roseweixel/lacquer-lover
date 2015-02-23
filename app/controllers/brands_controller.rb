@@ -6,20 +6,22 @@ class BrandsController < ApplicationController
   def show
     @brand = Brand.find(params[:id])
     @lacquers = @brand.lacquers
+    @user = current_user
   end
 
   def lacquer
     @lacquer = Lacquer.find(params[:id])
     @brand = @lacquer.brand
+    @user = current_user
     respond_to do |format|
       format.js { }
     end
   end
 
   def update
-    #binding.pry
     @user = current_user
     if params[:lacquer_ids]
+      @lacquer_ids = params[:lacquer_ids]
       @lacquer_count = params[:lacquer_ids].count
       params[:lacquer_ids].each do |id|
         UserLacquer.create(lacquer_id: id, user_id: @user.id)
