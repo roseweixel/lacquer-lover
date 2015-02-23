@@ -21,6 +21,8 @@ class UserLacquer < ActiveRecord::Base
 
   before_destroy :confirm_no_transaction_for
 
+  validates :lacquer_id, :user_id, presence: true
+
   def confirm_no_transaction_for
     self.transactions.where(state: ["pending", "accepted", "active"]).empty?
     !self.on_loan

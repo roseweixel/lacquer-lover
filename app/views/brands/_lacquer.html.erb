@@ -3,6 +3,7 @@
     <div class="panel-heading">
       <div class="panel-title">
         <%= link_to lacquer.formatted_name, lacquer_path(lacquer.id) %>
+        <%= check_box_tag 'lacquer_ids[]', lacquer.id %>
       </div>
     </div>
     <div class="panel-body" style="text-align:center;">

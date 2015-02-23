@@ -1,13 +1,19 @@
-<h1><%= @brand.name %></h1>
+<div class="row">
+<h1 class="col-md-8 pull-left"><%= @brand.name %></h1>
 
 <% if @brand.lacquers.count > 0 %>
+  <%= form_for @brand do |f| %>
+  <%= f.submit "Add To Your Collection", class: "col-md-2 pull-right btn btn-default", style: "margin-top: 25px; margin-right: 15px;" %>
+</div>  
   <div class="row">
-  <% @lacquers.each do |lacquer| %>
+  <%= fields_for "user_lacquers[]", @brand do |ul_form| %>
+    <% @lacquers.each do |lacquer| %>
 
-    <div class="col-md-3 lacquer" id="<%=lacquer.id%>">
-    </div>
+      <div class="col-md-3 lacquer" id="<%=lacquer.id%>">
+      </div>
 
+    <% end %>
   <% end %>
-  <%#= will_paginate @lacquers %>
+  <% end %>
   </div>
 <% end %>
