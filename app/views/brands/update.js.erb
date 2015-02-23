@@ -1,0 +1,5 @@
+var lacquers = "<%= pluralize(@lacquer_count, 'lacquer') %>"
+$('#messages').html("");
+$('#messages').append("<div class='alert alert-dismissible alert-success'><button type='button' class='close' data-dismiss='alert'>×</button> You've successfully added "+ lacquers +" to your collection.</div>");
+$('input[type="checkbox"]').attr('checked', false);
+$('.btn').blur();

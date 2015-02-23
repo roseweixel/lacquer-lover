@@ -17,16 +17,23 @@ class BrandsController < ApplicationController
   end
 
   def update
+    #binding.pry
     @user = current_user
     if params[:lacquer_ids]
+      @lacquer_count = params[:lacquer_ids].count
       params[:lacquer_ids].each do |id|
         UserLacquer.create(lacquer_id: id, user_id: @user.id)
       end
-      flash[:notice] = "You've successfully added #{params[:lacquer_ids].count} lacquers to your collection!"
-      redirect_to :back
     else
       flash[:alert] = "No lacquers were selected!"
       redirect_to :back
+    end
+    respond_to do |format|
+      format.html {
+        flash[:notice] = "You've successfully added #{params[:lacquer_ids].count} lacquers to your collection!"
+        redirect_to :back
+      }
+      format.js { }
     end
   end
 end
