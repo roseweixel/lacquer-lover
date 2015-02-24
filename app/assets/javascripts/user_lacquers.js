@@ -17,6 +17,22 @@ $(function(){
 
   });
 
+  $('.colors').click(function(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+    // var color = this.id
+    // $(this).toggleClass("selected");
+    // //debugger;
+    // $("tr."+color).toggleClass("selected");
+    // $("tr.selected").show();
+    // $('tr').not('.selected').hide();
+    // if ($('tr.selected').length === 0){
+    //   $('tr').show();
+    // }
+
+  });
+
   $('#user-lacquers-by-brand').hide();
   $('#user-lacquers-by-name').hide();
   $('#user-lacquers-by-brand-reverse').hide();
