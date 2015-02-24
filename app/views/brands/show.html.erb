@@ -1,19 +1,17 @@
 <div class="row">
 <h1 class="col-md-8 pull-left"><%= @brand.name %></h1>
 
-<% if @brand.lacquers.count > 0 %>
+<% if @brand.lacquers.any? %>
   <%= form_for @brand, remote: true do |f| %>
-  <div class="row">
-  <%= fields_for "user_lacquers[]", @brand do |ul_form| %>
-  <%= ul_form.submit "Add to Your Collection", class: "col-md-2 pull-right btn btn-default", style: "margin-top: 25px; margin-right: 30px;" %>
-</div>  
-    <% @lacquers.each do |lacquer| %>
-
-      <div class="col-md-3 lacquer" id="<%=lacquer.id%>">
-      </div>
-
+    <%= fields_for "user_lacquers[]", @brand do |ul_form| %>
+      <div class="row">
+        <%= ul_form.submit "Add to Your Collection", class: "col-md-2 pull-right btn btn-default", style: "margin-top: 25px; margin-right: 30px;" %>
+      </div>  
+      <% @lacquers.each do |lacquer| %>
+        <div class="col-md-3 lacquer" id="<%=lacquer.id%>">
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
   <% end %>
   </div>
 <% end %>

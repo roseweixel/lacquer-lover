@@ -4,7 +4,7 @@ gem "codeclimate-test-reporter", group: :test, require: nil
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
 # Use SCSS for stylesheets
-gem 'sass-rails', '4.0.2'
+gem 'sass-rails', '4.0.3'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -16,6 +16,8 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'nokogiri', '~> 1.6.4.1'
 
 require 'open-uri'
+
+gem 'sprockets-rails', '>= 2.1.4'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -49,7 +51,7 @@ group :test, :development do
   gem "shoulda-matchers"
   gem "selenium-webdriver"
   gem "better_errors"
-  gem "sprockets_better_errors"
+  # gem "sprockets_better_errors"
   gem "binding_of_caller"
   gem "factory_girl_rails"
   #gem "simplecov"
@@ -78,3 +80,4 @@ gem 'simplecov', :require => false, :group => :test
 gem 'aws-sdk', '~> 1.5.7'
 
 gem 'bootswatch-rails'
+gem 'font-awesome-sass', '~> 4.3.0'
