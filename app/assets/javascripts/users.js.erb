@@ -7,12 +7,12 @@ $(document).ready(function() {
   }
   //debugger;
   if ((currentUrl.match(/users\/(?=\d)/) !== null) && (window.currentUser.id === userID)) {
-    setInterval(function(){
-      $.ajax({
-        type: "GET",
-        url: "/users/"+userID+"/live_notifications"
-      });
-    }, 3000); 
+    // setInterval(function(){
+    //   $.ajax({
+    //     type: "GET",
+    //     url: "/users/"+userID+"/live_notifications"
+    //   });
+    // }, 3000); 
   }
   var userLacquerRows = $('.user-lacquer-partial')
   userLacquerRows.each(function(){
