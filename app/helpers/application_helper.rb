@@ -16,8 +16,9 @@ module ApplicationHelper
 
   def picture_for(lacquer)
     if lacquer.default_picture
+      #binding.pry
       begin 
-        picture = open lacquer.default_picture
+        #picture = open lacquer.default_picture
         if lacquer.brand.name == "Zoya" || lacquer.brand.name == "I Love Nail Polish (ILNP)"
           image_tag(lacquer.default_picture, :size => "80x90")
         elsif lacquer.brand.name == "OPI"

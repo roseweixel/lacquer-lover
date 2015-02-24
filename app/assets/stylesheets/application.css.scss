@@ -33,6 +33,10 @@
 // And finally bootswatch style itself
 @import "bootswatch/cosmo/bootswatch";
 
+.btn.selected {
+  background-color: black;
+}
+
 body {
   padding-top: 70px;
   padding-bottom: 30px;
