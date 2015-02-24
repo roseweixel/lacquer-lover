@@ -3,10 +3,11 @@ $(function(){
   var unselectedBrands = []
   var selectedColors = []
   var unselectedColors = []
+  
   $('.brands').click(function(e){
     e.preventDefault();
     e.stopPropagation();
-
+    $('table h2').hide();
     var brand = this.id
     $(this).toggleClass("selected");
 
@@ -43,17 +44,18 @@ $(function(){
       $('tr.selected').show();
       $('tr').not('.selected').hide();
     }
-
-    if (selectedBrands.length !== 0 && selectedColors.length !== 0 && ('tr').not('[style="display: none;"]').length === 0) {
-      debugger;
+    
+    if (selectedBrands.length !== 0 && selectedColors.length !== 0 && $('tr').not('[style="display: none;"]').length === 0) {
+      //debugger;
+      $('table').append("<h2>No results for the filters you selected.</h2>");
     }
-
 
   });
 
   $('.colors').click(function(e){
     e.preventDefault();
     e.stopPropagation();
+    $('table h2').hide();
 
     var color = this.id
     $(this).toggleClass("selected");
@@ -62,10 +64,8 @@ $(function(){
     unselectedColors = []
 
     $('.btn.colors.selected').each(function(){
-      //debugger;
       selectedColors.push(this.text);
     });
-
 
     $('.btn.colors').not('.selected').each(function(){
       unselectedColors.push(this.text);
@@ -76,32 +76,8 @@ $(function(){
     })
 
     $.each(selectedColors, function(index, color){
-      //debugger;
-      // if (selectedBrands.length === 0){
-        $("tr."+color).addClass("color-selected");
-      //}
+      $("tr."+color).addClass("color-selected");
     })
-
-    //debugger;
-    //$("tr."+color).toggleClass("selected");
-    // if (selectedColors.length === 0){
-    //   $("tr.selected").show();
-    //   $('tr').not('.selected').hide();
-    //   if ($('tr.selected').length === 0){
-    //     $('tr').show();
-    //   }
-      
-    // } else if (selectedBrands.length > 0) {
-    //   debugger;
-    //   $("tr.selected.color-selected").show();
-    //   $('tr').not('.selected.color-selected').hide();
-    //   if ($('tr.selected.color-selected').length === 0){
-    //     $('tr').show();
-    //   }
-    // } else {
-    //   $("tr.color-selected").show();
-    //   $('tr').not('.color-selected').hide();
-    // }
 
     if (selectedBrands.length === 0) {
       if (selectedColors.length === 0) {
@@ -118,8 +94,9 @@ $(function(){
       $('tr').not('.selected').hide();
     }
 
-    if ((selectedBrands.length !== 0) && (selectedColors.length !== 0) && (('tr').not('[style="display: none;"]').length === 0)) {
-      debugger;
+    if ((selectedBrands.length !== 0) && (selectedColors.length !== 0) && ($('tr').not('[style="display: none;"]').length === 0)) {
+      //debugger;
+      $('table').append("<h2>No results for the filters you selected.</h2>")
     }
 
   });
@@ -132,7 +109,6 @@ $(function(){
   var nameSorter = $('.sort#name');
   var brandSorterReverse = $('.sort#brand-reverse');
   var nameSorterReverse = $('.sort#name-reverse');
-  //debugger;
   brandSorter.click(function(e){
     $('#user-lacquers-by-default').hide();
     $('#user-lacquers-by-name').hide();
