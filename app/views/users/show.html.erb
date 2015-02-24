@@ -322,10 +322,9 @@
 	</div>
 	<div id="filter-buttons" style="background-color: #DCDCDC; padding: 10px; text-align: center;">
 	<% brands = @user.lacquers.collect {|l| l.brand.name}.uniq %>
-	<%# colors = @user.lacquers.collect {|l| l.color_tags}.flatten.uniq %>
-	<%# finishes = @user.lacquers.collect {|l| l.finish_tags}.flatten.uniq %>
-	<%# attributes = {"brands" => brands, "colors" => colors, "finishes" => finishes} %>
-	<% attributes = {"brands" => brands} %>
+	<% colors = @user.lacquers.collect {|l| l.color_tags}.flatten.uniq %>
+	<% finishes = @user.lacquers.collect {|l| l.finish_tags}.flatten.uniq %>
+	<% attributes = {"brands" => brands, "colors" => colors, "finishes" => finishes} %>
 	<% attributes.each do |attribute, items| %>
 	  <% items.each do |item| %>
 	    <%= link_to "#{item}", "#", :class => "btn btn-xs btn-info #{attribute}", :id => "#{item}" %>

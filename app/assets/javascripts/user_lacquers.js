@@ -21,15 +21,35 @@ $(function(){
     e.preventDefault();
     e.stopPropagation();
 
-    // var color = this.id
-    // $(this).toggleClass("selected");
-    // //debugger;
-    // $("tr."+color).toggleClass("selected");
-    // $("tr.selected").show();
-    // $('tr').not('.selected').hide();
-    // if ($('tr.selected').length === 0){
-    //   $('tr').show();
-    // }
+    var color = this.id
+    $(this).toggleClass("selected");
+
+    var selectedColors = []
+    var unselectedColors = []
+    $('.btn.colors.selected').each(function(){
+      selectedColors.push(this.text);
+    });
+
+    $('.btn.colors').not('.selected').each(function(){
+      unselectedColors.push(this.text);
+    });
+
+    $.each(unselectedColors, function(index, color){
+      $("tr."+color).removeClass("selected");
+    })
+
+    $.each(selectedColors, function(index, color){
+      //debugger;
+      $("tr."+color).addClass("selected");
+    })
+
+    //debugger;
+    //$("tr."+color).toggleClass("selected");
+    $("tr.selected").show();
+    $('tr').not('.selected').hide();
+    if ($('tr.selected').length === 0){
+      $('tr').show();
+    }
 
   });
 
