@@ -16,10 +16,23 @@
 
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.eot"
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.woff"
+ //= depend_on_asset "bootstrap/glyphicons-halflings-regular.woff2"
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.ttf"
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.svg"
- */
+ 
 /* Some Style from the Bootstrap Default Theme */
+
+// First import swatch variables
+@import "bootswatch/cosmo/variables";
+
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "awesome-bootstrap-checkbox";
+
+// And finally bootswatch style itself
+@import "bootswatch/cosmo/bootswatch";
+
 body {
   padding-top: 70px;
   padding-bottom: 30px;

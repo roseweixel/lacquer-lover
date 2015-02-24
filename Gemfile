@@ -66,7 +66,7 @@ group :production do
   gem "rails_12factor"
 end
 
-gem "bootstrap-sass", "~> 3.1.1"
+gem "bootstrap-sass", '~> 3.3.3'
 gem 'omniauth'
 gem 'omniauth-facebook', '1.4.0'
 gem 'figaro'
@@ -76,3 +76,5 @@ gem "will_paginate"
 gem 'rack_session_access'
 gem 'simplecov', :require => false, :group => :test
 gem 'aws-sdk', '~> 1.5.7'
+
+gem 'bootswatch-rails'
