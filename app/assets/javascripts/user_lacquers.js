@@ -1,5 +1,8 @@
 $(function(){
-
+  var selectedBrands = []
+  var unselectedBrands = []
+  var selectedColors = []
+  var unselectedColors = []
   $('.brands').click(function(e){
     e.preventDefault();
     e.stopPropagation();
@@ -9,11 +12,42 @@ $(function(){
 
     $("tr[brand='"+ brand +"']").toggleClass("selected");
 
+    selectedBrands = []
+    unselectedBrands = []
+
+    $('.btn.brands.selected').each(function(){
+      selectedBrands.push(this.text);
+    });
+
+    $('.btn.brands').not('.selected').each(function(){
+      unselectedBrands.push(this.text);
+    });
+
     $("tr.selected").show();
     $('tr').not('.selected').hide();
     if ($('tr.selected').length === 0){
       $('tr').show();
     }
+
+    if (selectedBrands.length === 0) {
+      if (selectedColors.length === 0) {
+        $('tr').show();
+      } else {
+        $("tr.color-selected").show();
+        $('tr').not('.color-selected').hide();
+      }
+    } else if (selectedColors.length > 0) {
+      $("tr.selected.color-selected").show();
+      $('tr').not('.selected.color-selected').hide();
+    } else {
+      $('tr.selected').show();
+      $('tr').not('.selected').hide();
+    }
+
+    if (selectedBrands.length !== 0 && selectedColors.length !== 0 && ('tr').not('[style="display: none;"]').length === 0) {
+      debugger;
+    }
+
 
   });
 
@@ -24,31 +58,68 @@ $(function(){
     var color = this.id
     $(this).toggleClass("selected");
 
-    var selectedColors = []
-    var unselectedColors = []
+    selectedColors = []
+    unselectedColors = []
+
     $('.btn.colors.selected').each(function(){
+      //debugger;
       selectedColors.push(this.text);
     });
+
 
     $('.btn.colors').not('.selected').each(function(){
       unselectedColors.push(this.text);
     });
 
     $.each(unselectedColors, function(index, color){
-      $("tr."+color).removeClass("selected");
+      $("tr."+color).removeClass("color-selected");
     })
 
     $.each(selectedColors, function(index, color){
       //debugger;
-      $("tr."+color).addClass("selected");
+      // if (selectedBrands.length === 0){
+        $("tr."+color).addClass("color-selected");
+      //}
     })
 
     //debugger;
     //$("tr."+color).toggleClass("selected");
-    $("tr.selected").show();
-    $('tr').not('.selected').hide();
-    if ($('tr.selected').length === 0){
-      $('tr').show();
+    // if (selectedColors.length === 0){
+    //   $("tr.selected").show();
+    //   $('tr').not('.selected').hide();
+    //   if ($('tr.selected').length === 0){
+    //     $('tr').show();
+    //   }
+      
+    // } else if (selectedBrands.length > 0) {
+    //   debugger;
+    //   $("tr.selected.color-selected").show();
+    //   $('tr').not('.selected.color-selected').hide();
+    //   if ($('tr.selected.color-selected').length === 0){
+    //     $('tr').show();
+    //   }
+    // } else {
+    //   $("tr.color-selected").show();
+    //   $('tr').not('.color-selected').hide();
+    // }
+
+    if (selectedBrands.length === 0) {
+      if (selectedColors.length === 0) {
+        $('tr').show();
+      } else {
+        $("tr.color-selected").show();
+        $('tr').not('.color-selected').hide();
+      }
+    } else if (selectedColors.length > 0) {
+      $("tr.selected.color-selected").show();
+      $('tr').not('.selected.color-selected').hide();
+    } else {
+      $('tr.selected').show();
+      $('tr').not('.selected').hide();
+    }
+
+    if ((selectedBrands.length !== 0) && (selectedColors.length !== 0) && (('tr').not('[style="display: none;"]').length === 0)) {
+      debugger;
     }
 
   });
