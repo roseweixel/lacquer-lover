@@ -28,7 +28,7 @@ $(function(){
 
     $("tr.selected").show();
     $('tr').not('.selected').hide();
-    if ($('tr.selected').length === 0){
+    if ($('tbody tr.selected').length === 0){
       $('tr').show();
     }
 
@@ -69,7 +69,7 @@ $(function(){
       }
     }
     
-    if ($('tr').not('[style="display: none;"]').length === 0) {
+    if ($('tbody tr').not('[style="display: none;"]').length === 0) {
       $('table').append("<h2>No results for the filters you selected.</h2>")
     }
 
@@ -139,7 +139,7 @@ $(function(){
       }
     }
 
-    if ($('tr').not('[style="display: none;"]').length === 0) {
+    if ($('tbody tr').not('[style="display: none;"]').length === 0) {
       $('table').append("<h2>No results for the filters you selected.</h2>")
     }
 
@@ -210,7 +210,7 @@ $(function(){
       }
     }
 
-    if ($('tr').not('[style="display: none;"]').length === 0) {
+    if ($('tbody tr').not('[style="display: none;"]').length === 0) {
       $('table').append("<h2>No results for the filters you selected.</h2>")
     }
 
