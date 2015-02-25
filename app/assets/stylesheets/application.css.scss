@@ -46,4 +46,36 @@ td {
 	font-size: 20px;
 }
 
+.brands-buttons {
+  border: 1px solid #9a50bd;
+  border-radius: 5px;
+  padding: 5px 3px 8px 5px;
+  margin: 5px;
+}
+
+.colors-buttons {
+  border: 1px solid #38b800;
+  border-radius: 5px;
+  padding: 5px 3px 8px 5px;
+  margin: 5px;
+}
+
+.finishes-buttons {
+  border: 1px solid #1e7de6;
+  border-radius: 5px;
+  padding: 5px 3px 8px 5px;
+  margin: 5px;
+}
+
+.btn.finishes,
+.btn.colors,
+.btn.brands   {
+  background-color: #808080;
+  border: #282828;
+  border-radius: 2px;
+}
+
+.btn.selected {
+  background-color: black;
+}
 
