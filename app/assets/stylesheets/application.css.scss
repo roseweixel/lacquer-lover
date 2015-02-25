@@ -50,21 +50,24 @@ td {
   border: 1px solid #9a50bd;
   border-radius: 5px;
   padding: 5px 3px 8px 5px;
-  margin: 5px;
+  width: 32%;
+  margin-right: 2%;
 }
 
 .colors-buttons {
   border: 1px solid #38b800;
   border-radius: 5px;
   padding: 5px 3px 8px 5px;
-  margin: 5px;
+  width: 32%;
+  //margin-left: 15px;
 }
 
 .finishes-buttons {
   border: 1px solid #1e7de6;
   border-radius: 5px;
   padding: 5px 3px 8px 5px;
-  margin: 5px;
+  width: 32%;
+  margin-left: 2%;
 }
 
 .btn.finishes,
