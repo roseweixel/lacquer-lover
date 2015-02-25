@@ -3,6 +3,8 @@ $(function(){
   var unselectedBrands = []
   var selectedColors = []
   var unselectedColors = []
+  var selectedFinishes = []
+  var unselectedFinishes = []
   
   $('.brands').click(function(e){
     e.preventDefault();
@@ -32,22 +34,43 @@ $(function(){
 
     if (selectedBrands.length === 0) {
       if (selectedColors.length === 0) {
-        $('tr').show();
+        if (selectedFinishes.length === 0) {
+          $('tr').show();
+        } else {
+          $("tr.finish-selected").show();
+          $('tr').not('.finish-selected').hide();
+        }
       } else {
-        $("tr.color-selected").show();
-        $('tr').not('.color-selected').hide();
+        if (selectedFinishes.length === 0) {
+          $("tr.color-selected").show();
+          $('tr').not('.color-selected').hide();
+        } else {
+          $("tr.color-selected.finish-selected").show();
+          $('tr').not('.color-selected.finish-selected').hide();
+        }
       }
-    } else if (selectedColors.length > 0) {
-      $("tr.selected.color-selected").show();
-      $('tr').not('.selected.color-selected').hide();
     } else {
-      $('tr.selected').show();
-      $('tr').not('.selected').hide();
+      if (selectedColors.length === 0) {
+        if (selectedFinishes.length === 0) {
+          $("tr.selected").show();
+          $('tr').not('.selected').hide();
+        } else {
+          $("tr.selected.finish-selected").show();
+          $('tr').not('.selected.finish-selected').hide();
+        }
+      } else {
+        if (selectedFinishes.length === 0) {
+          $("tr.selected.color-selected").show();
+          $('tr').not('.selected.color-selected').hide();
+        } else {
+          $("tr.selected.color-selected.finish-selected").show();
+          $('tr').not('.selected.color-selected.finish-selected').hide();
+        }
+      }
     }
     
-    if (selectedBrands.length !== 0 && selectedColors.length !== 0 && $('tr').not('[style="display: none;"]').length === 0) {
-      //debugger;
-      $('table').append("<h2>No results for the filters you selected.</h2>");
+    if ($('tr').not('[style="display: none;"]').length === 0) {
+      $('table').append("<h2>No results for the filters you selected.</h2>")
     }
 
   });
@@ -81,21 +104,113 @@ $(function(){
 
     if (selectedBrands.length === 0) {
       if (selectedColors.length === 0) {
-        $('tr').show();
+        if (selectedFinishes.length === 0) {
+          $('tr').show();
+        } else {
+          $("tr.finish-selected").show();
+          $('tr').not('.finish-selected').hide();
+        }
       } else {
-        $("tr.color-selected").show();
-        $('tr').not('.color-selected').hide();
+        if (selectedFinishes.length === 0) {
+          $("tr.color-selected").show();
+          $('tr').not('.color-selected').hide();
+        } else {
+          $("tr.color-selected.finish-selected").show();
+          $('tr').not('.color-selected.finish-selected').hide();
+        }
       }
-    } else if (selectedColors.length > 0) {
-      $("tr.selected.color-selected").show();
-      $('tr').not('.selected.color-selected').hide();
     } else {
-      $('tr.selected').show();
-      $('tr').not('.selected').hide();
+      if (selectedColors.length === 0) {
+        if (selectedFinishes.length === 0) {
+          $("tr.selected").show();
+          $('tr').not('.selected').hide();
+        } else {
+          $("tr.selected.finish-selected").show();
+          $('tr').not('.selected.finish-selected').hide();
+        }
+      } else {
+        if (selectedFinishes.length === 0) {
+          $("tr.selected.color-selected").show();
+          $('tr').not('.selected.color-selected').hide();
+        } else {
+          $("tr.selected.color-selected.finish-selected").show();
+          $('tr').not('.selected.color-selected.finish-selected').hide();
+        }
+      }
     }
 
-    if ((selectedBrands.length !== 0) && (selectedColors.length !== 0) && ($('tr').not('[style="display: none;"]').length === 0)) {
-      //debugger;
+    if ($('tr').not('[style="display: none;"]').length === 0) {
+      $('table').append("<h2>No results for the filters you selected.</h2>")
+    }
+
+  });
+
+  $('.finishes').click(function(e){
+    //debugger;
+    e.preventDefault();
+    e.stopPropagation();
+    $('table h2').hide();
+
+    var finish = this.id
+    $(this).toggleClass("selected");
+
+    selectedFinishes = []
+    unselectedFinishes = []
+
+    $('.btn.finishes.selected').each(function(){
+      selectedFinishes.push(this.text);
+    });
+
+    $('.btn.finishes').not('.selected').each(function(){
+      unselectedFinishes.push(this.text);
+    });
+
+    $.each(unselectedFinishes, function(index, finish){
+      $("tr."+finish).removeClass("finish-selected");
+    })
+
+    $.each(selectedFinishes, function(index, finish){
+      $("tr."+finish).addClass("finish-selected");
+    })
+
+    if (selectedBrands.length === 0) {
+      if (selectedColors.length === 0) {
+        if (selectedFinishes.length === 0) {
+          $('tr').show();
+        } else {
+          $("tr.finish-selected").show();
+          $('tr').not('.finish-selected').hide();
+        }
+      } else {
+        if (selectedFinishes.length === 0) {
+          $("tr.color-selected").show();
+          $('tr').not('.color-selected').hide();
+        } else {
+          $("tr.color-selected.finish-selected").show();
+          $('tr').not('.color-selected.finish-selected').hide();
+        }
+      }
+    } else {
+      if (selectedColors.length === 0) {
+        if (selectedFinishes.length === 0) {
+          $("tr.selected").show();
+          $('tr').not('.selected').hide();
+        } else {
+          $("tr.selected.finish-selected").show();
+          $('tr').not('.selected.finish-selected').hide();
+        }
+      } else {
+        if (selectedFinishes.length === 0) {
+          $("tr.selected.color-selected").show();
+          $('tr').not('.selected.color-selected').hide();
+        } else {
+          $("tr.selected.color-selected.finish-selected").show();
+          $('tr').not('.selected.color-selected.finish-selected').hide();
+        }
+      }
+    }
+
+    if ($('tr').not('[style="display: none;"]').length === 0) {
       $('table').append("<h2>No results for the filters you selected.</h2>")
     }
 
