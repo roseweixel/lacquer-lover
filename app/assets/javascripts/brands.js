@@ -9,5 +9,21 @@ $(document).ready(function(){
       type: "GET",
       url: "/brands/"+brandID+"/lacquers/"+id
     });
-  })
+  });
+  checkboxListener();
 });
+
+function checkboxListener() {
+  $(document).on("click", "label", function() {
+    console.log("clicked");
+    var $checkBox = $(this).prevAll(":checkbox")
+    var $lacquerBox = $checkBox.parents(".col-md-3.lacquer");
+    var $panel = $lacquerBox.find(".panel-body");
+    if(!$checkBox[0].checked) {
+        $panel.css("background-color", "#ede0f3");
+    }
+    else {
+      $panel.css("background-color", "");
+    }
+  });
+}
