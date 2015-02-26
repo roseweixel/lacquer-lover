@@ -364,6 +364,6 @@
 <% end %>
 
 <% if @user == current_user %>
-	<%= link_to "Export collection as JSON", user_path( id: @user.id, format: :json ) %>
+	<%= link_to "Export collection as JSON", user_path( id: @user.id, format: :json ), class: "btn btn-xs btn-info" %>
 <% end %>
 <p style="float: right;"><a href='#top' class="btn btn-xs btn-primary">back to top</a></p>
