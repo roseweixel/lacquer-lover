@@ -407,7 +407,9 @@ class NailsInc
   end
 
   def get_polishes(doc)
-    doc.css("article.product a")
+    doc.css("article.product a").select do |polish|
+      polish.css("p.desc").text.include?("polish")
+    end
   end
 
   def process_polishes(polishes)
