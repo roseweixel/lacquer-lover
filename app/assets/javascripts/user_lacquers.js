@@ -146,7 +146,6 @@ $(function(){
   });
 
   $('.finishes').click(function(e){
-    //debugger;
     e.preventDefault();
     e.stopPropagation();
     $('table h2').hide();
@@ -254,5 +253,3 @@ $(function(){
     $('#user-lacquers-by-name-reverse').show();
   });
 });
-
-
