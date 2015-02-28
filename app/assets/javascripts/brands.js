@@ -15,7 +15,6 @@ $(document).ready(function(){
 
 function checkboxListener() {
   $(document).on("click", "label", function() {
-    console.log("clicked");
     var $checkBox = $(this).prevAll(":checkbox")
     var $lacquerBox = $checkBox.parents(".col-md-3.lacquer");
     var $panel = $lacquerBox.find(".panel-body");
