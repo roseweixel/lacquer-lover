@@ -5,6 +5,7 @@ class Lacquer < ActiveRecord::Base
   #has_many :user_lacquer_finishes, through: :user_lacquers
   has_many :users, through: :user_lacquers
   has_many :swatches
+  has_many :favorites
 
   validates :name, :brand, presence: true, :on => :create
   validates_length_of :name, :minimum => 1
@@ -76,5 +77,9 @@ class Lacquer < ActiveRecord::Base
 
   def user_who_added_me
     User.where(id: user_added_by_id).first
+  end
+
+  def favorited_by?(user)
+    Favorite.find_by(lacquer_id: self.id, user_id: user.id)
   end
 end

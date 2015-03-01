@@ -1,0 +1,1 @@
+$("td#favorite-<%= @lacquer.id %>").replaceWith('<%= j render :partial => "favorite", :locals => {:user_lacquer => @user_lacquer, :current_user => @current_user, :lacquer => @lacquer} %>');

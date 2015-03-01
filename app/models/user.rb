@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :friends, through: :friendships
   has_many :transactions, :foreign_key => "requester_id"
   has_many :swatches
+  has_many :favorites
 
   validates :name, presence: true, uniqueness: true
   #accepts_nested_attributes_for :user_lacquers

@@ -35,4 +35,8 @@ Rails.application.routes.draw do
 
   resources :friendships
 
+  post 'favorites/' => 'favorites#create', as: :new_favorite
+
+  delete 'favortes/:id' => 'favorites#destroy', as: :destroy_favorite
+
 end

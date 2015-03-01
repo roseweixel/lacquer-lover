@@ -24,6 +24,7 @@ class UsersController < ApplicationController
   def user_lacquers
     @user_lacquer = UserLacquer.find(params[:id])
     @user = current_user
+    @favorite = Favorite.find_by(lacquer_id: @user_lacquer.lacquer_id, user_id: @user.id)
     #@user_lacquers = @user.user_lacquers.order("updated_at desc")
     respond_to do |format|
       format.js { }

@@ -4,6 +4,7 @@ class UserLacquersController < ApplicationController
     lacquer = Lacquer.find(params[:user_lacquer][:lacquer_id])
     @user_lacquer = UserLacquer.create(lacquer: lacquer, user: current_user)
     @user = current_user
+    @favorite = Favorite.find_by(user_id: current_user.id, lacquer_id: lacquer.id)
     respond_to do |format|
       format.html { 
         flash[:notice] = "#{lacquer.name} has been added to your collection!"
