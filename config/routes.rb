@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   get 'users/:id/user_lacquers/:id' => 'users#user_lacquers'
 
   get 'brands/:id/lacquers/:id' => 'brands#lacquer'
+
+  get 'random' => 'user_lacquers#random'
   
   resources :transactions
 

@@ -51,6 +51,11 @@ class UserLacquersController < ApplicationController
     end
   end
 
+  def random
+    @user = current_user
+    @lacquer = @user.lacquers.sample
+  end
+
   private
     def user_lacquer_params
       params.require(:user_lacquer).permit(:lacquer_id, :loanable, :on_loan)
