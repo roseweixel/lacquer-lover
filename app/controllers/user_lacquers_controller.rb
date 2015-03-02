@@ -33,8 +33,10 @@ class UserLacquersController < ApplicationController
   end
 
   def destroy
+    #binding.pry
     @user_lacquer = UserLacquer.find(params[:id])
     user = User.find(@user_lacquer.user_id)
+    @lacquer = Lacquer.find(@user_lacquer.lacquer_id)
     if user == current_user
       @user_lacquer.destroy
       if !@user_lacquer.errors.empty? || !@user_lacquer.destroy

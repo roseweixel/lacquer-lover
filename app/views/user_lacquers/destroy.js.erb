@@ -1,2 +1,4 @@
 var $lacquer_row = $("tr[user-lacquer-id=<%= @user_lacquer.id %>]");
 $lacquer_row.remove();
+
+$('#remove-button').replaceWith('<%= j render :partial => "add_button", :locals => {:lacquer => @lacquer} %>')

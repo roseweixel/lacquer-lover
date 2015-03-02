@@ -1,17 +1,34 @@
 <h1><%= picture_for(@lacquer) %>  <%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %></h1>
+<% if current_user  %>
+    
+  <% if current_user.lacquers.include? @lacquer %>
+	  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
+    <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
+	<% else %>
+	  <%= render 'user_lacquers/add_button', lacquer: @lacquer %>
+	<% end %>
+
+<% end %>
 
 <h3><strong>Color Tags</strong></h3>
-<% @lacquer.color_tags.each do |color_tag| %>
-	<span style="font-size:20px;">#<%= color_tag %></span>
+<% if @lacquer.color_tags.count > 0 %>
+	<% @lacquer.color_tags.each do |color_tag| %>
+		<span style="font-size:20px;">#<%= color_tag %></span>
+	<% end %>
+<% else %>
+	No color tags yet!
 <% end %>
 
 <h3><strong>Finish Tags</strong></h3>
-<% @lacquer.finish_tags.each do |finish_tag| %>
-	<span style="font-size:20px;">#<%= finish_tag %></span>
+<% if @lacquer.color_tags.count > 0 %>
+	<% @lacquer.finish_tags.each do |finish_tag| %>
+		<span style="font-size:20px;">#<%= finish_tag %></span>
+	<% end %>
+<% else %>
+	No finish tags yet!
 <% end %>
 
-
-<h3><strong>Swatches!</strong></h3>
+<h3><strong>Swatches</strong></h3>
 <% if @lacquer.swatches.count > 0 %>
 	<div class="row">
 	<% @lacquer.swatches.each do |swatch| %>
@@ -26,15 +43,7 @@
 		<% end %>
 	<% end %>
 	</div>
+<% else %>
+ No swatches yet!
 <% end %>
 
-<% if current_user  %>
-    
-  <% if current_user.lacquers.include? @lacquer %>
-	  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
-    <%= button_to "Remove from My Collection", user_lacquer_path(user_lacquer.id), method: :delete, class: "btn btn-danger" %>
-	<% else %>
-	    <%= button_to "Add to My Collection", user_lacquers_path, method: :post, params: {"user_lacquer[lacquer_id]" => @lacquer.id}, class: "btn btn-primary" %>
-	<% end %>
-
-<% end %>
