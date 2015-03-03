@@ -1,2 +1,2 @@
 var id = "<%= @user_lacquer.id %>"
-$(".user-lacquer-partial#"+id).replaceWith('<%= j render :partial => "user_lacquer", :locals => {:user => @user, :user_lacquer => @user_lacquer, :favorite => @favorite} %>');
+$(".user-lacquer-partial#"+id).replaceWith('<%= j render :partial => "user_lacquer", :locals => {:user => @user, :user_lacquer => @user_lacquer, :favorite => @favorite, :transaction => @transaction } %>');

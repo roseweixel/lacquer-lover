@@ -14,7 +14,6 @@ class UsersController < ApplicationController
   end
 
   def live_notifications
-    #binding.pry
     @user = current_user
     respond_to do |format|
       format.js { }
@@ -22,10 +21,10 @@ class UsersController < ApplicationController
   end
 
   def user_lacquers
+    @transaction = Transaction.new
     @user_lacquer = UserLacquer.find(params[:id])
-    @user = current_user
+    @user = User.find(params[:user_id])
     @favorite = Favorite.find_by(lacquer_id: @user_lacquer.lacquer_id, user_id: @user.id)
-    #@user_lacquers = @user.user_lacquers.order("updated_at desc")
     respond_to do |format|
       format.js { }
     end
