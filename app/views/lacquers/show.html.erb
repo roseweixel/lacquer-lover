@@ -1,14 +1,29 @@
 <h1><%= picture_for(@lacquer) %>  <%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %></h1>
-<% if current_user  %>
-    
-  <% if current_user.lacquers.include? @lacquer %>
-	  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
-    <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
+
+<div class="row">
+	<% if !@lacquer.favorited_by?(current_user)%>
+	<div class="col-xs-1 favorites-count not-favorited" style="text-align: center;">
+		<%= link_to @lacquer.favorites.count, new_favorite_path(:lacquer_id => @lacquer.id, :user_id => current_user.id), action:"create", method:"post" %>
+	</div>
 	<% else %>
-	  <%= render 'user_lacquers/add_button', lacquer: @lacquer %>
+	<div class="col-xs-1 favorites-count favorited" style="text-align: center;">
+		<%= link_to @lacquer.favorites.count, destroy_favorite_path(:lacquer_id => @lacquer.id, :user_id => current_user.id), action:"destroy", method:"delete" %>
+	</div>
 	<% end %>
 
-<% end %>
+	<div class="col-xs-3">
+	<% if current_user  %>
+
+	  <% if current_user.lacquers.include? @lacquer %>
+		  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
+	    <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
+		<% else %>
+		  <%= render 'user_lacquers/add_button', lacquer: @lacquer %>
+		<% end %>
+
+	<% end %>
+	</div>
+</div>
 
 <h3><strong>Color Tags</strong></h3>
 <% if @lacquer.color_tags.count > 0 %>
