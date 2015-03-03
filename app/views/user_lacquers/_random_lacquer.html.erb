@@ -1,0 +1,8 @@
+<div class="panel panel-info">
+  <div class="panel-heading text-center">
+    <h1 class="panel-title"><%= link_to @lacquer.name, lacquer_path(@lacquer) %> by <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %></h1>
+  </div>
+  <div class="panel-body text-center">
+    <%= image_tag(@lacquer.default_picture) %>
+  </div>
+</div>
