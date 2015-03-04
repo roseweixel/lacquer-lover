@@ -35,4 +35,18 @@ module ApplicationHelper
       image_tag('generic-polish.png', :size => "45x90")
     end
   end
+
+  def large_picture_for(lacquer)
+    if lacquer.default_picture
+      #binding.pry
+      begin 
+        image_tag(lacquer.default_picture, :size => "244x400")
+      rescue
+        image_tag('generic-polish.png', :size => "244x400")
+      end
+    else
+      image_tag('generic-polish.png', :size => "244x400")
+    end
+  end
 end
+
