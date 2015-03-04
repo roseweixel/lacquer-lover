@@ -38,9 +38,16 @@ module ApplicationHelper
 
   def large_picture_for(lacquer)
     if lacquer.default_picture
-      #binding.pry
-      begin 
-        image_tag(lacquer.default_picture, :size => "244x400")
+      begin
+        if lacquer.brand.name == "Deborah Lippmann" 
+          image_tag(lacquer.default_picture, :size => "244x400")
+        elsif lacquer.brand.name == "OPI"
+          image_tag(lacquer.default_picture, :size => "164x400")
+        elsif lacquer.brand.name == "Butter London"
+          image_tag(lacquer.default_picture, :size => "232x400")
+        else
+          image_tag(lacquer.default_picture, :size => "244x400")
+        end
       rescue
         image_tag('generic-polish.png', :size => "244x400")
       end
@@ -49,4 +56,3 @@ module ApplicationHelper
     end
   end
 end
-
