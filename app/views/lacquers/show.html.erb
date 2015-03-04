@@ -26,11 +26,11 @@
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-md-3">
+<div class="row" style="margin-top: 20px;">
+	<div class="col-xs-3">
 		<%= large_picture_for(@lacquer) %>  
 	</div>
-	<div class="col-md-9" style="margin-top: 20px; padding-left: 40px;">
+	<div class="col-xs-9" style="padding-left: 40px;">
 	<h3><strong>Color Tags</strong></h3>
 	<% if @lacquer.color_tags.count > 0 %>
 		<% @lacquer.color_tags.each do |color_tag| %>
