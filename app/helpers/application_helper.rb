@@ -20,11 +20,15 @@ module ApplicationHelper
       begin 
         #picture = open lacquer.default_picture
         if lacquer.brand.name == "Zoya"
-          image_tag(lacquer.default_picture, :size => "80x90")
+          image_tag(lacquer.default_picture, :size => "90x90")
+        elsif lacquer.brand.name == "Essie"
+          image_tag(lacquer.default_picture, :size => "42x90")
         elsif lacquer.brand.name == "OPI"
           image_tag(lacquer.default_picture, :size => "40x90")
         elsif lacquer.brand.name == "Deborah Lippmann"
-          image_tag(lacquer.default_picture, :size => "60x100")
+          image_tag(lacquer.default_picture, :size => "55x90")
+        elsif lacquer.brand.name == "Butter London"
+          image_tag(lacquer.default_picture, :size => "51x90")
         elsif lacquer.brand.name == "I Love Nail Polish (ILNP)"
           image_tag(lacquer.default_picture, :size => "90x90")
         else

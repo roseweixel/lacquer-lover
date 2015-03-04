@@ -327,7 +327,7 @@
 		<% attributes = {"brands" => brands, "colors" => colors, "finishes" => finishes} %>
 		<!-- <div class="row" style="text-align:center;"> -->
 		<% attributes.each do |attribute, items| %>
-			<div class="<%=attribute%>-buttons col-md-4">
+			<div class="<%=attribute%>-buttons col-xs-4">
 		  <% items.each do |item| %>
 		    <%= link_to "#{item}", "#", :class => "btn btn-xs btn-default #{attribute}", :id => "#{item}", :style => "margin: 2px;" %>
 		  <% end %>
@@ -335,7 +335,7 @@
 		<% end %>
 		<!-- </div> -->
 	</div>
-	<table class="table table-striped table-hover " id="user-lacquer-collection">
+	<table class="table table-striped table-hover" id="user-lacquer-collection">
 		<thead>
 			<tr class="selected color-selected finish-selected">
 				<th>Swatch</th>
