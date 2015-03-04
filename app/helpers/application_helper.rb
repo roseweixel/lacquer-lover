@@ -55,6 +55,8 @@ module ApplicationHelper
           image_tag(lacquer.default_picture, :size => "176x400")
         elsif lacquer.brand.name == "Essie"
           image_tag(lacquer.default_picture, :size => "186x400")
+        elsif lacquer.brand.name == "Nails Inc."
+          image_tag(lacquer.default_picture, :size => "290x400")
         else
           image_tag(lacquer.default_picture, :size => "244x400")
         end
