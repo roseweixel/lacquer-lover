@@ -49,6 +49,10 @@ module ApplicationHelper
           image_tag(lacquer.default_picture, :size => "232x400")
         elsif lacquer.brand.name == "I Love Nail Polish (ILNP)"
           image_tag(lacquer.default_picture, :size => "400x400", :class => "ilnp_image")
+        elsif lacquer.brand.name == "China Glaze"
+          image_tag(lacquer.default_picture, :size => "176x400")
+        elsif lacquer.brand.name == "Essie"
+          image_tag(lacquer.default_picture, :size => "186x400")
         else
           image_tag(lacquer.default_picture, :size => "244x400")
         end
