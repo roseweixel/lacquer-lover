@@ -494,11 +494,15 @@ class SeedDatabase
 end
 
 def get_bigger_deborah_images
-  @dl = Brand.find_by(name: "Deborah Lippmann")
-  @dl_lacquers = Lacquer.where(brand_id: @dl.id)
-  @dl_lacquers.each do |lacquer|
+  dl = Brand.find_by(name: "Deborah Lippmann")
+  dl_lacquers = Lacquer.where(brand_id: dl.id)
+  dl_lacquers.each do |lacquer|
     lacquer.update(default_picture: lacquer.default_picture.gsub('125x207', '244x400'))
   end
+end
+
+def format_butter_names
+  butter = Brand.find_by(name: "Butter London")
 end
 get_bigger_deborah_images
 #SeedDatabase.new
