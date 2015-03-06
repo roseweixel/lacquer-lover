@@ -139,5 +139,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def favorited_lacquers
+    favorite_lacquers_ids = favorites.pluck(:lacquer_id)
+    Lacquer.where(id: favorite_lacquers_ids)
+  end
+
 
 end

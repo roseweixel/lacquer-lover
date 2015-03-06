@@ -48,18 +48,28 @@
 
 
 	<!-- BEGINNING OF YOUR ALERTS & FRIENDSHIPS (IF YOU ARE THE CURRENT USER) -->
-	<% if @user == current_user %>
 
-		<% if @user.accepted_friends.count > 0 %>
-			<div class="col-sm-3">
-				<h3>Friends</h3>
+		<div class="col-sm-3">
+			<h3>Friends</h3>
+			<% if @user.accepted_friends.count > 0 %>
 				<ul>
 				<% @user.accepted_friends.each do |friend| %>
 					<li style="font-size:20px;"><%= link_to friend.name, user_path(friend) %></li>
 				<% end %>
 				</ul>
-			</div>
-		<% end %>
+			<% end %>
+
+			<h3>Favorites</h3>
+			<% if @user.favorited_lacquers.count > 0 %>
+				<ul>
+				<% @user.favorited_lacquers.each do |favorite| %>
+					<li style="font-size:20px;"><%= link_to favorite.name, lacquer_path(favorite) %></li>
+				<% end %>
+				</ul>
+			<% end %>
+		</div>
+	
+	<% if @user == current_user %>
 
 	<span class="live-notifications">
 		<div class="col-sm-5">
@@ -328,9 +338,13 @@
 		<!-- <div class="row" style="text-align:center;"> -->
 		<% attributes.each do |attribute, items| %>
 			<div class="<%=attribute%>-buttons col-xs-4">
-		  <% items.each do |item| %>
-		    <%= link_to "#{item}", "#", :class => "btn btn-xs btn-default #{attribute}", :id => "#{item}", :style => "margin: 2px;" %>
-		  <% end %>
+			<% if !items.empty? %>
+			  <% items.each do |item| %>
+			    <%= link_to "#{item}", "#", :class => "btn btn-xs btn-default #{attribute}", :id => "#{item}", :style => "margin: 2px;" %>
+			  <% end %>
+			<% else %>
+				<h6>No <%= attribute %> in <%= @user.name %>'s collection.</h6>
+			<% end %>
 		  </div>
 		<% end %>
 		<!-- </div> -->
