@@ -98,7 +98,7 @@ class ButterLondon
           formatted_name_array << word.capitalize
         end
         butter_name = formatted_name_array.join(" ")
-        @polish_names << butter_name
+        @polish_names << butter_name.sub(" Nail Lacquer", "")
       end
     end
     @polish_names
