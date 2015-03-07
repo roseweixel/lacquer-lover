@@ -501,5 +501,14 @@ def get_bigger_deborah_images
   end
 end
 
-get_bigger_deborah_images
+def format_butter_names
+  butter = Brand.find_by(name: "Butter London")
+  butter_lacquers = Lacquer.where(brand_id: butter.id)
+  butter_lacquers.each do |lacquer|
+    lacquer.update(name: lacquer.name.gsub(" Nail Lacquer", ""))
+  end
+end
+
+format_butter_names
+
 #SeedDatabase.new
