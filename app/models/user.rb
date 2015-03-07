@@ -7,7 +7,9 @@ class User < ActiveRecord::Base
   has_many :swatches
   has_many :favorites
 
-  validates :name, presence: true
+  validates_presence_of :name, :provider, :uid, :oauth_token
+  validates_format_of :email, with: /@/, message: "Must be an email", allow_blank: true
+
   #accepts_nested_attributes_for :user_lacquers
 
   # def load_notifications
