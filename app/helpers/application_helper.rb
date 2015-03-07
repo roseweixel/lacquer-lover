@@ -71,4 +71,34 @@ module ApplicationHelper
       image_tag('generic-polish.png', :size => "244x400")
     end
   end
+
+  def small_picture_for(lacquer)
+    if lacquer.default_picture
+      begin
+        if lacquer.brand.name == "Deborah Lippmann" 
+          image_tag(lacquer.default_picture, :size => "31x50")
+        elsif lacquer.brand.name == "OPI"
+          image_tag(lacquer.default_picture, :size => "21x50")
+        elsif lacquer.brand.name == "Butter London"
+          image_tag(lacquer.default_picture, :size => "29x50")
+        elsif lacquer.brand.name == "I Love Nail Polish (ILNP)"
+          image_tag(lacquer.default_picture, :size => "50x50", :class => "chunky_image_small")
+        elsif lacquer.brand.name == "Zoya"
+          image_tag(lacquer.default_picture, :size => "50x50", :class => "chunky_image_small")
+        elsif lacquer.brand.name == "China Glaze"
+          image_tag(lacquer.default_picture, :size => "22x50")
+        elsif lacquer.brand.name == "Essie"
+          image_tag(lacquer.default_picture, :size => "23x50")
+        elsif lacquer.brand.name == "Nails Inc."
+          image_tag(lacquer.default_picture, :size => "290x400")
+        else
+          image_tag(lacquer.default_picture, :size => "36x50")
+        end
+      rescue
+        image_tag('generic-polish.png', :size => "31x50")
+      end
+    else
+      image_tag('generic-polish.png', :size => "31x50")
+    end
+  end
 end

@@ -1,8 +1,4 @@
-<% if @user == current_user %>
-	<h1 id="top">Your Profile</h1>
-<% else %>
-	<h1 id="top"><%= @user.first_name %>'s Profile</h1>
-<% end %>
+<h1 id="top"><%= image_tag @user.image || 'placeholder-avatar.png', size: '50x50' %> <%= @user.first_name %></h1>
 
 <% if (@user != current_user) && (!current_user.all_friends.include?(@user)) %>
 	<%= link_to "Add Friend", new_friendship_path(friend_id: @user) %><br>
@@ -52,11 +48,9 @@
 		<div class="col-sm-3">
 			<h3>Friends</h3>
 			<% if @user.accepted_friends.count > 0 %>
-				<ul>
 				<% @user.accepted_friends.each do |friend| %>
-					<li style="font-size:20px;"><%= link_to friend.name, user_path(friend) %></li>
+					<p style="font-size:20px;"><%= image_tag friend.image || 'placeholder-avatar.png', size: '50x50' %> <%= link_to friend.name, user_path(friend) %></p>
 				<% end %>
-				</ul>
 			<% end %>
 
 			<h3>Favorites</h3>
