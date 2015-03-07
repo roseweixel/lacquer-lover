@@ -26,14 +26,11 @@ class UserLacquersController < ApplicationController
       flash[:alert] = "You are trying to update a lacquer that is not yours!"
     end
     respond_to do |format|
-      #format.html
       format.js { }
     end
-    # # #redirect_to(:back)
   end
 
   def destroy
-    #binding.pry
     @user_lacquer = UserLacquer.find(params[:id])
     user = User.find(@user_lacquer.user_id)
     @lacquer = Lacquer.find(@user_lacquer.lacquer_id)

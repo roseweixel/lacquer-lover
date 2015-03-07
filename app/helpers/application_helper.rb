@@ -16,9 +16,7 @@ module ApplicationHelper
 
   def picture_for(lacquer)
     if lacquer.default_picture
-      #binding.pry
       begin 
-        #picture = open lacquer.default_picture
         if lacquer.brand.name == "Zoya"
           image_tag(lacquer.default_picture, :size => "90x90")
         elsif lacquer.brand.name == "Essie"

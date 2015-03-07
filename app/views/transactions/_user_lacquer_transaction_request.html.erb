@@ -1,11 +1,11 @@
 <td class="transaction-request" id="transaction-<%=user_lacquer.id%>">
   <% if Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id, state:['pending', 'accepted']).empty? %>
     <%= form_for(transaction, remote: true) do |f| %>
-      <%#= f.hidden_field :type, value: 'Loan' %>
+
       <%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
       <%= f.hidden_field :requester_id, value: current_user.id %>
       <%= f.hidden_field :owner_id, value: user.id %>
-      <%# binding.pry %>
+
       <%= f.submit 'Can I borrow this?' %>
     <% end %>
   <% else %>

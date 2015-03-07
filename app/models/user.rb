@@ -70,7 +70,6 @@ class User < ActiveRecord::Base
   end
 
   def friends_for_your_approval
-    #binding.pry
     pending_friends = []
     Friendship.where(friend_id: self.id, state: 'pending').each do |friendship|
       friend = User.find(friendship.user_id)

@@ -31,7 +31,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    #binding.pry
     if current_user
       [{"OPI" => [@new_opi_lacquer, @opi_lacquers]}, {"Essie" => [@new_essie_lacquer, @essie_lacquers]}, {"Butter London" => [@new_butter_lacquer, @butter_lacquers]}, {"Deborah Lippmann" => [@new_deborah_lacquer, @deborah_lacquers]}].each do |brand_hash|
         brand_hash.each do |brand, variables|
@@ -47,8 +46,9 @@ class UsersController < ApplicationController
       @friends = @user.friends
       @friendship = current_user.friendships.new(friend: @user)
       @transaction = Transaction.new
-      #binding.pry
+
       @user_lacquers = @user.user_lacquers.order("updated_at desc")
+      
       respond_to do |format|
         format.js
         format.html
