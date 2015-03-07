@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :swatches
   has_many :favorites
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true
   #accepts_nested_attributes_for :user_lacquers
 
   # def load_notifications
