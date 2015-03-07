@@ -501,8 +501,5 @@ def get_bigger_deborah_images
   end
 end
 
-def format_butter_names
-  butter = Brand.find_by(name: "Butter London")
-end
 get_bigger_deborah_images
 #SeedDatabase.new
