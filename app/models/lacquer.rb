@@ -16,6 +16,9 @@ class Lacquer < ActiveRecord::Base
   accepts_nested_attributes_for :user_lacquers
   accepts_nested_attributes_for :swatches, :reject_if => proc { |attributes| attributes['image'].blank? }
 
+  # TODO: make search methods using queries such as:
+  # Lacquer.where('name LIKE ?', "%Apple%")
+  # to be used in lacquer search box feature
 
   def color_tags
     colors = []
