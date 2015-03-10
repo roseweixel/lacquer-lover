@@ -67,4 +67,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def update
+    @user = current_user
+    if @user.update(user_params)
+      flash[:notice] = "Thanks! Your info has been saved."
+    else
+      flash[:notice] = "Uh oh, something went wrong."
+    end
+    redirect_to :back
+  end
+
+  private
+  def user_params
+    params.require(:user).permit(:email)
+  end
+
 end
