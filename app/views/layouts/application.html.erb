@@ -60,7 +60,7 @@
 
   </nav>
   <div id="messages">
-      <% if !current_user.email %>
+      <% if current_user && !current_user.email %>
         <%= render partial: 'users/email_alert' %>
       <% end %>
     <%= flash_messages %>
