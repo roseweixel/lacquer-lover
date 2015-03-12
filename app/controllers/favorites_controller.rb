@@ -10,7 +10,6 @@ class FavoritesController < ApplicationController
       format.html { redirect_to :back }
       format.js { }
     end
-    
   end
 
   def destroy
