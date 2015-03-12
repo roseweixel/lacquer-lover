@@ -104,5 +104,4 @@ class LacquersController < ApplicationController
       params.require(:lacquer).permit(:swatches_attributes => [:image, :user_id, :delete_image])
     end
 
-
 end
