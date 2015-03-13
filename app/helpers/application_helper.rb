@@ -1,3 +1,4 @@
+require 'net/http'
 module ApplicationHelper
  
   def bootstrap_class_for flash_type

@@ -16,6 +16,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'nokogiri', '~> 1.6.4.1'
 
 require 'open-uri'
+require 'net/http'
 
 gem 'sprockets-rails', '>= 2.1.4'
 
