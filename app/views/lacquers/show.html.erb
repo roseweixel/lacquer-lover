@@ -60,7 +60,13 @@
 			<% if swatch.image.file? %>
 				<div class="col-md-3" style="margin: 10px;">
 				<%= image_tag swatch.image.url(:medium)%><br>
-				added by <%= link_to swatch.user.name, user_path(swatch.user) %><br>
+				added by 
+				<% if current_user %>
+					<%= link_to swatch.user.name, user_path(swatch.user) %>
+				<% else %>
+					<%= swatch.user.name %>
+				<% end %>
+				<br>
 				<% if swatch.user == current_user %>
 					<%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
 				<% end %>
