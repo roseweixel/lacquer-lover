@@ -2,13 +2,17 @@
 <div class="row">
 <h1 class="col-xs-8"><%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %></h1>
 
-	<% if !@lacquer.favorited_by?(current_user)%>
-	<div class="col-xs-1 favorites-count not-favorited" style="text-align: center; margin-top: 21px;">
-		<%= link_to @lacquer.favorites.count, new_favorite_path(:lacquer_id => @lacquer.id, :user_id => current_user.id), action:"create", method:"post" %>
-	</div>
-	<% else %>
+	<% if current_user && @lacquer.favorited_by?(current_user)%>
 	<div class="col-xs-1 favorites-count favorited" style="text-align: center; margin-top: 21px;">
 		<%= link_to @lacquer.favorites.count, destroy_favorite_path(:lacquer_id => @lacquer.id, :user_id => current_user.id), action:"destroy", method:"delete" %>
+	</div>
+	<% else %>
+	<div class="col-xs-1 favorites-count not-favorited" style="text-align: center; margin-top: 21px;">
+		<% if current_user %>
+			<%= link_to @lacquer.favorites.count, new_favorite_path(:lacquer_id => @lacquer.id, :user_id => current_user.id), action:"create", method:"post" %>
+		<% else %>
+			<%= @lacquer.favorites.count %>
+		<% end %>
 	</div>
 	<% end %>
 
