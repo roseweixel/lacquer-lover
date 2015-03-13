@@ -1,0 +1,8 @@
+<% if @results.any? %>
+  <h3>Lacquers with names like '<%= @search_term %>'</h3><br>
+  <% @results.each do |result| %>
+    <p><%= picture_for(result) %> <%= result.name %></p>
+  <% end %>
+<% else %>
+  <h3>Sorry, we couldn't find any lacquers with names like '<%= @search_term %>'</h3>
+<% end %>

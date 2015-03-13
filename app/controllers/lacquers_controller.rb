@@ -99,6 +99,12 @@ class LacquersController < ApplicationController
     end
   end
 
+  def search
+    @search_term = params[:search_term]
+    @results = Lacquer.fuzzy_find_by_name(params[:search_term])
+    render :search_results
+  end
+
   private
     def lacquer_params
       params.require(:lacquer).permit(:swatches_attributes => [:image, :user_id, :delete_image])

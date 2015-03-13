@@ -14,29 +14,37 @@ module ApplicationHelper
     nil
   end
 
+  def valid?(url)
+    uri = URI(url)
+    request = Net::HTTP.new uri.host
+    response= request.request_head uri.path
+
+    response.code.to_i == 200
+  end
+
   def picture_for(lacquer)
-    if lacquer.default_picture
+    if valid?(lacquer.default_picture)
       begin 
         if lacquer.brand.name == "Zoya"
-          image_tag(lacquer.default_picture, :size => "90x90")
+          image_tag(lacquer.default_picture, :size => "90x90", :class => "chunky_image")
         elsif lacquer.brand.name == "Essie"
-          image_tag(lacquer.default_picture, :size => "42x90")
+          image_tag(lacquer.default_picture, :size => "42x90", :class => "padded_lacquer_pic")
         elsif lacquer.brand.name == "OPI"
-          image_tag(lacquer.default_picture, :size => "40x90")
+          image_tag(lacquer.default_picture, :size => "40x90", :class => "padded_lacquer_pic")
         elsif lacquer.brand.name == "Deborah Lippmann"
-          image_tag(lacquer.default_picture, :size => "55x90")
+          image_tag(lacquer.default_picture, :size => "55x90", :class => "padded_lacquer_pic")
         elsif lacquer.brand.name == "Butter London"
-          image_tag(lacquer.default_picture, :size => "51x90")
+          image_tag(lacquer.default_picture, :size => "51x90", :class => "padded_lacquer_pic")
         elsif lacquer.brand.name == "I Love Nail Polish (ILNP)"
-          image_tag(lacquer.default_picture, :size => "90x90")
+          image_tag(lacquer.default_picture, :size => "90x90", :class => "chunky_image")
         else
-          image_tag(lacquer.default_picture, :size => "45x90")
+          image_tag(lacquer.default_picture, :size => "45x90", :class => "padded_lacquer_pic")
         end
       rescue
-        image_tag('generic-polish.png', :size => "45x90")
+        image_tag('generic-polish.png', :size => "45x90", :class => "padded_lacquer_pic")
       end
     else
-      image_tag('generic-polish.png', :size => "45x90")
+      image_tag('generic-polish.png', :size => "45x90", :class => "padded_lacquer_pic")
     end
   end
 
@@ -50,9 +58,9 @@ module ApplicationHelper
         elsif lacquer.brand.name == "Butter London"
           image_tag(lacquer.default_picture, :size => "232x400")
         elsif lacquer.brand.name == "I Love Nail Polish (ILNP)"
-          image_tag(lacquer.default_picture, :size => "400x400", :class => "chunky_image")
+          image_tag(lacquer.default_picture, :size => "400x400", :class => "chunky_image_large")
         elsif lacquer.brand.name == "Zoya"
-          image_tag(lacquer.default_picture, :size => "400x400", :class => "chunky_image")
+          image_tag(lacquer.default_picture, :size => "400x400", :class => "chunky_image_large")
         elsif lacquer.brand.name == "China Glaze"
           image_tag(lacquer.default_picture, :size => "176x400")
         elsif lacquer.brand.name == "Essie"

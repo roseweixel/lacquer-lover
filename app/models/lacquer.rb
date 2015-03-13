@@ -1,6 +1,9 @@
 class Lacquer < ActiveRecord::Base
   belongs_to :brand
   has_many :user_lacquers, dependent: :destroy
+  has_many :colors, through: :user_lacquers
+  has_many :finishes, through: :user_lacquers
+
   #has_many :user_lacquer_colors, through: :user_lacquers
   #has_many :user_lacquer_finishes, through: :user_lacquers
   has_many :users, through: :user_lacquers
@@ -19,6 +22,10 @@ class Lacquer < ActiveRecord::Base
   # TODO: make search methods using queries such as:
   # Lacquer.where('name LIKE ?', "%Apple%")
   # to be used in lacquer search box feature
+
+  def self.fuzzy_find_by_name(search_term)
+    where('lower(name) LIKE ?', "%#{search_term.downcase}%")
+  end
 
   def color_tags
     colors = []
