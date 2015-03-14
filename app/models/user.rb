@@ -10,12 +10,6 @@ class User < ActiveRecord::Base
   validates_presence_of :name, :provider, :uid, :oauth_token
   validates_format_of :email, with: /@/, message: "Must be an email", allow_blank: true
 
-  #accepts_nested_attributes_for :user_lacquers
-
-  # def load_notifications
-  #   self.includes(:friendships)
-  #   self.includes(:transactions)
-  # end
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
@@ -33,10 +27,6 @@ class User < ActiveRecord::Base
   def first_name
     name.split.first
   end
-
-  # def last_name
-  #   name.split.last
-  # end
 
   def accepted_friends
     accepted_friends = []
@@ -146,6 +136,5 @@ class User < ActiveRecord::Base
     favorite_lacquers_ids = favorites.pluck(:lacquer_id)
     Lacquer.where(id: favorite_lacquers_ids)
   end
-
 
 end
