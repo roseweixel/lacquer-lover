@@ -24,7 +24,7 @@ class Lacquer < ActiveRecord::Base
   # to be used in lacquer search box feature
 
   def self.fuzzy_find_by_name(search_term)
-    where('lower(name) LIKE ?', "%#{search_term.downcase}%")
+    where( "lower(name) REGEXP ?", '\b' + search_term + '\b' )
   end
 
   def color_tags
