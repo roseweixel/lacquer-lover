@@ -35,10 +35,20 @@ class Lacquer < ActiveRecord::Base
   def self.fuzzy_find_by_name(search_term)
     search_words = search_term.split(" ")
     search_word_ids = Word.where(text: search_words).pluck(:id)
-
     lacquer_ids = LacquerWord.where(word_id: search_word_ids).pluck(:lacquer_id)
 
-    Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == search_word_ids.count})
+    exact_match = Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == search_word_ids.count})
+
+    if exact_match.empty?
+      exact_match = nil
+      closest_match = []
+      max = search_word_ids.count - 1
+      while max > 0 && closest_match.empty?
+        closest_match = Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == max})
+        max -=0
+      end
+    end
+    exact_match || closest_match
   end
 
   def color_tags
