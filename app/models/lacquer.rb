@@ -37,18 +37,23 @@ class Lacquer < ActiveRecord::Base
     search_word_ids = Word.where(text: search_words).pluck(:id)
     lacquer_ids = LacquerWord.where(word_id: search_word_ids).pluck(:lacquer_id)
 
-    exact_match = Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == search_word_ids.count})
+    lacquers_matching_all_words = Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == search_word_ids.count})
 
-    if exact_match.empty?
-      exact_match = nil
-      closest_match = []
+    # maybe improve efficiency with something like this:
+    # SELECT lacquer_id, COUNT(lacquer_id) AS lacquer_id_count FROM LacquerWord WHERE word_id IN search_word_ids GROUP BY lacquer_id ORDER BY lacquer_id_count DESC;
+
+    if lacquers_matching_all_words.empty?
+      lacquers_matching_most_words = []
       max = search_word_ids.count - 1
-      while max > 0 && closest_match.empty?
-        closest_match = Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == max})
-        max -=0
+      while max > 0 && lacquers_matching_most_words.empty?
+        lacquers_matching_most_words = Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == max})
+        max -= 1
       end
+
+      return lacquers_matching_most_words
     end
-    exact_match || closest_match
+
+    lacquers_matching_all_words
   end
 
   def color_tags
