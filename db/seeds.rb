@@ -509,6 +509,12 @@ def format_butter_names
   end
 end
 
-format_butter_names
+def create_all_the_words
+  Lacquer.all.each do |lacquer|
+    lacquer.create_words
+  end
+end
+
+create_all_the_words
 
 #SeedDatabase.new

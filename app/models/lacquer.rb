@@ -3,25 +3,30 @@ class Lacquer < ActiveRecord::Base
   has_many :user_lacquers, dependent: :destroy
   has_many :colors, through: :user_lacquers
   has_many :finishes, through: :user_lacquers
-
-  #has_many :user_lacquer_colors, through: :user_lacquers
-  #has_many :user_lacquer_finishes, through: :user_lacquers
   has_many :users, through: :user_lacquers
   has_many :swatches
   has_many :favorites
+
+  has_many :lacquer_words, dependent: :destroy
+  has_many :words, through: :lacquer_words
 
   validates :name, :brand, presence: true, :on => :create
   validates_length_of :name, :minimum => 1
   validates :name, uniqueness: true
 
-  # accepts_nested_attributes_for :colors
-  # accepts_nested_attributes_for :finishes
   accepts_nested_attributes_for :user_lacquers
   accepts_nested_attributes_for :swatches, :reject_if => proc { |attributes| attributes['image'].blank? }
 
-  # TODO: make search methods using queries such as:
-  # Lacquer.where('name LIKE ?', "%Apple%")
-  # to be used in lacquer search box feature
+  after_save :create_words
+
+  def create_words
+    words_in_name = name.split(" ")
+
+    words_in_name.each do |word|
+      new_word = Word.find_or_create_by(text: word.downcase)
+      LacquerWord.create(lacquer_id: self.id, word_id: new_word.id)
+    end
+  end
 
   def self.fuzzy_find_by_name(search_term)
     where( "lower(name) REGEXP ?", '\b' + search_term + '\b' )

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150313162350) do
+ActiveRecord::Schema.define(version: 20150314231254) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -80,6 +80,13 @@ ActiveRecord::Schema.define(version: 20150313162350) do
   add_index "friendships", ["state"], name: "index_friendships_on_state"
   add_index "friendships", ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id"
 
+  create_table "lacquer_words", force: true do |t|
+    t.integer  "word_id"
+    t.integer  "lacquer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "lacquers", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -143,6 +150,12 @@ ActiveRecord::Schema.define(version: 20150313162350) do
     t.datetime "oauth_expires_at"
     t.string   "email"
     t.string   "image"
+  end
+
+  create_table "words", force: true do |t|
+    t.string   "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
