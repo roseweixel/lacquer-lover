@@ -3,7 +3,6 @@ class SessionsController < ApplicationController
     if request.env['omniauth.auth'].present?
       user = User.from_omniauth(request.env['omniauth.auth'])
       session[:user_id] = user.id
-      #binding.pry
       if request.env["HTTP_REFERER"].gsub(request.base_url, "") == root_path
         redirect_to user_path(user)
       else
