@@ -34,6 +34,6 @@ class Word < ActiveRecord::Base
   end
 
   def self.find_closest(string)
-    
+    # TODO
   end
 end
