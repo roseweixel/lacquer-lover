@@ -31,6 +31,9 @@ class Lacquer < ActiveRecord::Base
   # def self.fuzzy_find_by_name(search_term)
   #   where( "lower(name) REGEXP ?", '\b' + search_term + '\b' )
   # end
+  def name_with_no_non_word_chars
+    name.gsub(/\W/, " ")
+  end
 
   def self.fuzzy_find_by_name(search_term)
     search_words = search_term.split(" ")
@@ -54,6 +57,32 @@ class Lacquer < ActiveRecord::Base
     end
 
     lacquers_matching_all_words
+  end
+
+
+  def levenshtein_distance(string)
+    string.downcase!
+    m = string.length
+    n = name.length
+    return m if n == 0
+    return n if m == 0
+    d = Array.new(m+1) {Array.new(n+1)}
+
+    (0..m).each {|i| d[i][0] = i}
+    (0..n).each {|j| d[0][j] = j}
+    (1..n).each do |j|
+      (1..m).each do |i|
+        d[i][j] = if string[i-1] == name[j-1]  # adjust index into string
+                    d[i-1][j-1]       # no operation required
+                  else
+                    [ d[i-1][j]+1,    # deletion
+                      d[i][j-1]+1,    # insertion
+                      d[i-1][j-1]+1,  # substitution
+                    ].min
+                  end
+      end
+    end
+    d[m][n]
   end
 
   def color_tags

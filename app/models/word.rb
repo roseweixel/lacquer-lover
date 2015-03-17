@@ -32,4 +32,8 @@ class Word < ActiveRecord::Base
     end
     d[m][n]
   end
+
+  def self.find_closest(string)
+    
+  end
 end

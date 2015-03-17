@@ -2,7 +2,7 @@
   <h3>Lacquers with names like '<%= @search_term %>'</h3><br>
   <div class="list-group">
   <% @results.each do |result| %>
-    <a href="<%= lacquer_path(result) %>" class="search_result_item list-group-item"><%= picture_for(result) %> <%= result.brand.name %> - <%= result.name %></a>
+    <a href="<%= lacquer_path(result) %>" class="search_result_item list-group-item"><%= picture_for(result) %> <%= result.brand.name %> - <%= HTMLEntities.new.decode result.name %></a>
   <% end %>
   </div>
 <% else %>

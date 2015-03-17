@@ -51,6 +51,8 @@ gem 'devise'
 
 gem 'sqlite3_ar_regexp', '~> 2.0'
 
+gem 'htmlentities'
+
 group :test, :development do
   gem "rspec-rails"
   gem "capybara"
