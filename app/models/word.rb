@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: words
+#
+#  id         :integer          not null, primary key
+#  text       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Word < ActiveRecord::Base
   has_many :lacquer_words
   has_many :lacquers, through: :lacquer_words
