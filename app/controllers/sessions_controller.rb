@@ -9,12 +9,12 @@ class SessionsController < ApplicationController
         redirect_to request.env["HTTP_REFERER"].gsub(request.base_url, "")
       end
     elsif params[:user][:name].present?
-      user = User.find_by(:name => params[:user][:name]) || User.create(:name => params[:user][:name])
-      if user
+      user = User.find_or_create_by(:name => params[:user][:name])
+      if user.save
         session[:user_id] = user.id
         redirect_to user_path(user)
       else
-        flash[:notice] = "Could not find that person, sorry!"
+        flash[:notice] = "Sorry, there was a problem signing you in!"
         redirect_to root_path
       end
     end
