@@ -49,7 +49,7 @@ gem 'activeadmin', github: 'activeadmin'
 
 gem 'devise'
 
-gem 'sqlite3_ar_regexp', '~> 2.0'
+#gem 'sqlite3_ar_regexp', '~> 2.0'
 
 gem 'htmlentities'
 
