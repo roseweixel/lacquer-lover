@@ -1,0 +1,7 @@
+<%= form_tag '/lacquer_search', method: "get", :class => 'navbar-form navbar-left', :role => 'search' do %>
+  <div class='form-group'>
+  <%= text_field_tag(:search_term, nil, placeholder: ' lacquer name', :class => 'form-control') %>
+  </div>
+  <%= submit_tag "Find Lacquer", class: 'btn btn-default' %>
+<% end %>
+
