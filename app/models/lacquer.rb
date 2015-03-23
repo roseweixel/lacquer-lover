@@ -58,9 +58,6 @@ class Lacquer < ActiveRecord::Base
 
     lacquers_matching_all_words = Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == search_word_ids.count})
 
-    # maybe improve efficiency with something like this:
-    # SELECT lacquer_id, COUNT(lacquer_id) AS lacquer_id_count FROM LacquerWord WHERE word_id IN search_word_ids GROUP BY lacquer_id ORDER BY lacquer_id_count DESC;
-
     if lacquers_matching_all_words.empty?
       lacquers_matching_most_words = []
       max = search_word_ids.count - 1
@@ -69,7 +66,15 @@ class Lacquer < ActiveRecord::Base
         max -= 1
       end
 
-      return lacquers_matching_most_words
+      if lacquers_matching_most_words.any?
+        return lacquers_matching_most_words
+      else
+        closest_lacquers = []
+        search_words.each do |search_word|
+          closest_lacquers << Word.find_closest_lacquers(search_word)
+        end
+        return closest_lacquers.flatten
+      end
     end
 
     lacquers_matching_all_words
