@@ -13,11 +13,8 @@
 	<% end %>
   <% elsif current_user.requested_friends_awaiting_approval.include?(@friend) %>
     <% friendship = Friendship.where(user_id: current_user.id, friend_id: @friend.id, state: 'pending').first %>
-    <%#= form_for @friendship, method: :delete do |f| %>
     <div class="form form-actions">
-      <%#= f.hidden_field :friend_id, value: @friend.id %>
       <%= link_to 'Cancel Pending Request', friendship_path(friendship), method: 'DELETE', :class =>"btn btn-danger btn-xs" %>
     </div>
-  <%# end %>
   <% end %>
 <% end %>

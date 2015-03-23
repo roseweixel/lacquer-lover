@@ -1,6 +1,20 @@
+# == Schema Information
+#
+# Table name: friendships
+#
+#  id         :integer          not null, primary key
+#  user_id    :integer
+#  friend_id  :integer
+#  created_at :datetime
+#  updated_at :datetime
+#  state      :string(255)
+#
+
 class Friendship < ActiveRecord::Base
   belongs_to :user
   belongs_to :friend, class_name: 'User', foreign_key: 'friend_id'
+
+  validates_presence_of :user, :friend
 
   validate :is_not_duplicate, :on => :create
   validate :is_not_self, :on => :create
