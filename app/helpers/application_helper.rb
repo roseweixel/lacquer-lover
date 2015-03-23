@@ -24,7 +24,7 @@ module ApplicationHelper
   end
 
   def picture_for(lacquer)
-    if valid?(lacquer.default_picture)
+    if lacquer.default_picture && valid?(lacquer.default_picture)
       begin 
         if lacquer.brand.name == "Zoya"
           image_tag(lacquer.default_picture, :size => "90x90", :class => "chunky_image")
@@ -50,7 +50,7 @@ module ApplicationHelper
   end
 
   def large_picture_for(lacquer)
-    if lacquer.default_picture
+    if lacquer.default_picture && valid?(lacquer.default_picture)
       begin
         if lacquer.brand.name == "Deborah Lippmann" 
           image_tag(lacquer.default_picture, :size => "244x400")
@@ -80,7 +80,7 @@ module ApplicationHelper
   end
 
   def small_picture_for(lacquer)
-    if lacquer.default_picture
+    if lacquer.default_picture && valid?(lacquer.default_picture)
       begin
         if lacquer.brand.name == "Deborah Lippmann" 
           image_tag(lacquer.default_picture, :size => "31x50")
