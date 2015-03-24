@@ -101,7 +101,15 @@ class LacquersController < ApplicationController
 
   def search
     @search_term = params[:search_term]
-    @results = Lacquer.fuzzy_find_by_name(params[:search_term])
+    # @results = Lacquer.lacquers_matching_all_words(params[:search_term])
+    # if @results.empty?
+    #   @results = Lacquer.lacquers_matching_most_words(params[:search_term])
+    # end
+    # if @results.empty?
+    #   binding.pry
+    #   @results = Lacquer.closest_lacquers(params[:search_term])
+    # end
+    @results = Lacquer.fuzzy_find_by_name(@search_term).uniq
     render :search_results
   end
 

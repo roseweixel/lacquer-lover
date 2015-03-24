@@ -51,6 +51,38 @@ class Lacquer < ActiveRecord::Base
   #   where( "lower(name) REGEXP ?", '\b' + search_term + '\b' )
   # end
 
+  def self.lacquers_matching_all_words(search_term)
+    search_words = search_term.split(" ")
+    search_word_ids = Word.where(text: search_words).pluck(:id)
+    lacquer_ids = LacquerWord.where(word_id: search_word_ids).pluck(:lacquer_id)
+
+    Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == search_word_ids.count})
+  end
+
+  def self.lacquers_matching_most_words(search_term)
+    search_words = search_term.split(" ")
+    search_word_ids = Word.where(text: search_words).pluck(:id)
+    lacquers_matching_most_words = []
+    max = search_word_ids.count - 1
+    while max > 0 && lacquers_matching_most_words.empty?
+      lacquers_matching_most_words = Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == max})
+      max -= 1
+    end
+
+    lacquers_matching_most_words
+  end
+
+  def self.closest_lacquers(search_term)
+    search_words = search_term.split(" ")
+    closest_lacquers = []
+    search_words.each do |search_word|
+      binding.pry
+      closest_lacquers << Word.find_closest_lacquers(search_word).uniq
+    end
+
+    closest_lacquers.uniq.flatten
+  end
+
   def self.fuzzy_find_by_name(search_term)
     search_words = search_term.split(" ")
     search_word_ids = Word.where(text: search_words).pluck(:id)
