@@ -22,7 +22,7 @@ class Transaction < ActiveRecord::Base
   belongs_to :requester, class_name: 'User', foreign_key: 'requester_id'
   #belongs_to :user, through: :user_lacquer, dependent: :destroy
   before_create :defaults
-  validates_presence_of :requester, :user_lacquer
+  validates_presence_of :requester, :user_lacquer, :owner
 
   validate :transaction_must_be_unique, :on => :create
   validate :user_lacquer_must_be_loanable, :on => :create
