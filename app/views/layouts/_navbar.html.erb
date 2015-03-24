@@ -11,22 +11,34 @@
 
   <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 1px;">
   
-      <% if session[:user_id] %>
+      <!-- <%# if session[:user_id] %>
         <ul class="nav navbar-nav">
           <li>
-            <%= link_to("Welcome, #{current_user.first_name}! See your profile.", user_path(current_user))  %>
+            <%#= link_to("Welcome, #{current_user.first_name}! See your profile.", user_path(current_user))  %>
           </li> 
 
-          <li><%= link_to("Sign Out", signout_path, id:"sign_out") %></li>
 
-          <li><%= link_to("Find a Friend", users_path) %></li>
-          <li><%= render 'layouts/search_form' %></li>
+          <li><%#= link_to("Find a Friend", users_path) %></li>
+          <li><%#= render 'layouts/search_form' %></li>
         </ul>
-      <% else %>
+      <%# else %> -->
         <ul class="nav navbar-nav">
-          <li>
-            <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
-          </li>
+          <%= render 'layouts/lacquer_search_form' %>
+          <%= render 'layouts/friend_search_form' %>
+        </ul>
+        <ul class="nav navbar-nav pull-right">
+            <% if session[:user_id] %>
+            <li>
+              <%= link_to("Welcome, #{current_user.first_name}! See your profile.", user_path(current_user)) %>
+            </li>
+            <li>
+              <%= link_to("Sign Out", signout_path, id:"sign_out") %>
+            </li>
+            <% else %>
+            <li>
+              <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+            </li>
+            <% end %>
   <!--         <li>
             <%#= form_for @user, :url => sessions_path, :html => { :style => "padding:15px;" } do |f| %>
               <%#= f.text_field :name, placeholder: "your name" %>
@@ -35,9 +47,8 @@
             <%# end %>
 
           </li> -->
-          <%= render 'layouts/search_form' %>
         </ul>
-      <% end %>
+      <%# end %>
 
           
 

@@ -51,15 +51,44 @@ class Lacquer < ActiveRecord::Base
   #   where( "lower(name) REGEXP ?", '\b' + search_term + '\b' )
   # end
 
+  def self.lacquers_matching_all_words(search_term)
+    search_words = search_term.split(" ")
+    search_word_ids = Word.where(text: search_words).pluck(:id)
+    lacquer_ids = LacquerWord.where(word_id: search_word_ids).pluck(:lacquer_id)
+
+    Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == search_word_ids.count})
+  end
+
+  def self.lacquers_matching_most_words(search_term)
+    search_words = search_term.split(" ")
+    search_word_ids = Word.where(text: search_words).pluck(:id)
+    lacquers_matching_most_words = []
+    max = search_word_ids.count - 1
+    while max > 0 && lacquers_matching_most_words.empty?
+      lacquers_matching_most_words = Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == max})
+      max -= 1
+    end
+
+    lacquers_matching_most_words
+  end
+
+  def self.closest_lacquers(search_term)
+    search_words = search_term.split(" ")
+    closest_lacquers = []
+    search_words.each do |search_word|
+      binding.pry
+      closest_lacquers << Word.find_closest_lacquers(search_word).uniq
+    end
+
+    closest_lacquers.uniq.flatten
+  end
+
   def self.fuzzy_find_by_name(search_term)
     search_words = search_term.split(" ")
     search_word_ids = Word.where(text: search_words).pluck(:id)
     lacquer_ids = LacquerWord.where(word_id: search_word_ids).pluck(:lacquer_id)
 
     lacquers_matching_all_words = Lacquer.where(id: lacquer_ids.select{|id| lacquer_ids.count(id) == search_word_ids.count})
-
-    # maybe improve efficiency with something like this:
-    # SELECT lacquer_id, COUNT(lacquer_id) AS lacquer_id_count FROM LacquerWord WHERE word_id IN search_word_ids GROUP BY lacquer_id ORDER BY lacquer_id_count DESC;
 
     if lacquers_matching_all_words.empty?
       lacquers_matching_most_words = []
@@ -69,10 +98,56 @@ class Lacquer < ActiveRecord::Base
         max -= 1
       end
 
-      return lacquers_matching_most_words
+      if lacquers_matching_most_words.any?
+        return lacquers_matching_most_words
+      else
+        closest_lacquers = []
+        search_words.each do |search_word|
+          closest_lacquers << Word.find_closest_lacquers(search_word)
+        end
+        return closest_lacquers.flatten
+      end
     end
 
     lacquers_matching_all_words
+  end
+
+  def levenshtein_distance(string)
+    string.downcase!
+    text = name.downcase
+    m = string.length
+    n = text.length
+    return m if n == 0
+    return n if m == 0
+    d = Array.new(m+1) {Array.new(n+1)}
+
+    (0..m).each {|i| d[i][0] = i}
+    (0..n).each {|j| d[0][j] = j}
+    (1..n).each do |j|
+      (1..m).each do |i|
+        d[i][j] = if string[i-1] == text[j-1]  # adjust index into string
+                    d[i-1][j-1]       # no operation required
+                  else
+                    [ d[i-1][j]+1,    # deletion
+                      d[i][j-1]+1,    # insertion
+                      d[i-1][j-1]+1,  # substitution
+                    ].min
+                  end
+      end
+    end
+    d[m][n]
+  end
+
+  def self.find_closest(string)
+    results = []
+    closest_distance = 3
+    Lacquer.all.each do |lacquer|
+      distance = lacquer.levenshtein_distance(string)
+      if distance <= closest_distance
+        results << lacquer
+      end
+    end
+    results
   end
 
   def color_tags

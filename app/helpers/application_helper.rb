@@ -16,11 +16,15 @@ module ApplicationHelper
   end
 
   def valid?(url)
-    uri = URI(url)
-    request = Net::HTTP.new uri.host
-    response= request.request_head uri.path
+    if !url.start_with?("http")
+      return true
+    else
+      uri = URI(url)
+      request = Net::HTTP.new uri.host
+      response= request.request_head uri.path
 
-    response.code.to_i == 200
+      response.code.to_i == 200
+    end
   end
 
   def picture_for(lacquer)

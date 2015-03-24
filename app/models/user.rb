@@ -15,13 +15,13 @@
 #
 
 class User < ActiveRecord::Base
-  has_many :user_lacquers
+  has_many :user_lacquers, dependent: :destroy
   has_many :lacquers, through: :user_lacquers
-  has_many :friendships
+  has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
-  has_many :transactions, :foreign_key => "requester_id"
+  has_many :transactions, :foreign_key => "requester_id", dependent: :destroy
   has_many :swatches
-  has_many :favorites
+  has_many :favorites, dependent: :destroy
 
   validates_presence_of :name, :provider, :uid, :oauth_token
   validates_format_of :email, with: /@/, message: "Must be an email", allow_blank: true

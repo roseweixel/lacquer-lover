@@ -42,6 +42,8 @@ Rails.application.routes.draw do
 
   delete 'favortes/:id' => 'favorites#destroy', as: :destroy_favorite
 
-  get 'search' => 'lacquers#search'
+  get 'lacquer_search' => 'lacquers#search'
+
+  get 'user_search' => 'users#search'
 
 end

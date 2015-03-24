@@ -43,7 +43,17 @@ class Word < ActiveRecord::Base
     d[m][n]
   end
 
-  def self.find_closest(string)
-    # TODO
+  def self.find_closest_lacquers(string)
+    results = {}
+    closest_distance = 2
+    Word.all.each do |word|
+      distance = word.levenshtein_distance(string)
+      if distance <= closest_distance
+        results[distance] ||= []
+        results[distance] << Lacquer.find(LacquerWord.where(word_id: word.id).pluck(:lacquer_id))
+        closest_distance = distance
+      end
+    end
+    results.values.flatten.uniq.reverse
   end
 end

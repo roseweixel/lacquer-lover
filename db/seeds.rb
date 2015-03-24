@@ -515,6 +515,26 @@ def create_all_the_words
   end
 end
 
-create_all_the_words
+def save_butter_images
+  butter = Brand.find_by(name: "Butter London")
+  butter_lacquers = Lacquer.where(brand_id: butter.id)
+  butter_lacquers.each do |lacquer|
+    url = lacquer.default_picture
+    File.open("app/assets/images/lacquers/butter_london/#{lacquer.name.gsub(" ", "-").downcase}.png", 'wb') do |fo|
+      fo.write open(url).read
+    end
+  end
+end
 
+def update_butter_default_pictures
+  butter = Brand.find_by(name: "Butter London")
+  butter_lacquers = Lacquer.where(brand_id: butter.id)
+  butter_lacquers.each do |lacquer|
+    lacquer.default_picture = "lacquers/butter_london/#{lacquer.name.gsub(" ", "-").downcase}.png"
+    lacquer.save
+  end
+end
+
+#save_butter_images
+update_butter_default_pictures
 #SeedDatabase.new

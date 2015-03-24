@@ -77,6 +77,16 @@ class UsersController < ApplicationController
     redirect_to :back
   end
 
+  def search
+    @search_term = params[:search_term]
+    #binding.pry
+    @results = User.where("lower(name) = ?", params[:search_term].downcase)
+    if @results.empty?
+      @results = User.where("lower(email) = ?", params[:search_term].downcase)
+    end
+    render :search_results
+  end
+
   private
   def user_params
     params.require(:user).permit(:email)
