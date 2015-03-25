@@ -2,24 +2,22 @@
   <h3>Lacquers with names like '<%= @search_term %>'</h3><br>
   <div class="list-group">
   <% @results.each do |result| %>
-    <p class="search_result_item list-group-item">
-    <a href="<%= lacquer_path(result) %>"><%= picture_for(result) %> <%= result.brand.name %> - <%= HTMLEntities.new.decode result.name %></a>
-    <% if current_user %>
-      <% if result.favorited_by?(current_user) %>
-        <%= link_to destroy_favorite_path(:lacquer_id => result.id, :user_id => current_user.id), action: "destroy", method: "delete" do %>
-          <span class="like-btn text-center pull-right" style="display: inline-block;" lacquer_id="<%= result.id %>">
-            <span class="glyphicon glyphicon-heart red-heart"></span>
-          </span>
-        <% end %>
-      <% else %>
-        <%= link_to new_favorite_path(:lacquer_id => result.id, :user_id => current_user.id), action: "create", method: "post" do %>
-          <span class="like-btn text-center pull-right" style="display: inline-block;" lacquer_id="<%= result.id %>">
-            <span class="glyphicon glyphicon-heart grey-heart"></span>
-          </span>
-        <% end %>
-      <% end %>
-    <% end %>
-    </p>
+    <div class="search_result_item list-group-item row">
+      <div class="col-sm-7">
+        <%= picture_for(result) %>
+        <a href="<%= lacquer_path(result) %>"> <%= result.brand.name %> - <%= HTMLEntities.new.decode result.name %></a>
+      </div>
+      <div class="col-sm-5">
+        <!-- <span class="pull-right"> -->
+          <p class="pull-right">
+            <%= render partial: 'favorite', locals: {result: result} %>
+          </p>
+          <p class="add-or-remove pull-right">
+            <%= render partial: 'add_or_remove_from_collection', locals: {lacquer: result} %>
+          </p>
+        <!-- </span> -->
+      </div>
+    </div>
   <% end %>
   </div>
 <% else %>
