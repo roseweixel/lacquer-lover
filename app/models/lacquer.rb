@@ -26,7 +26,7 @@ class Lacquer < ActiveRecord::Base
 
   validates :name, :brand, presence: true, :on => :create
   validates_length_of :name, :minimum => 1
-  validates :name, uniqueness: true, scope: :brand
+  validates_uniqueness_of :name, scope: :brand
 
   accepts_nested_attributes_for :user_lacquers
   accepts_nested_attributes_for :swatches, :reject_if => proc { |attributes| attributes['image'].blank? }
