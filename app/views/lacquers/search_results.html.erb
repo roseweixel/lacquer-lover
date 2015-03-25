@@ -2,9 +2,26 @@
   <h3>Lacquers with names like '<%= @search_term %>'</h3><br>
   <div class="list-group">
   <% @results.each do |result| %>
-    <a href="<%= lacquer_path(result) %>" class="search_result_item list-group-item"><%= picture_for(result) %> <%= result.brand.name %> - <%= HTMLEntities.new.decode result.name %></a>
+    <div class="search_result_item list-group-item row">
+      <div class="col-sm-7">
+        <%= picture_for(result) %>
+        <a href="<%= lacquer_path(result) %>"> <%= result.brand.name %> - <%= HTMLEntities.new.decode result.name %></a>
+      </div>
+      <div class="col-sm-5">
+        <p class="pull-right" id="favorite-wrapper" lacquer_id="<%= result.id %>">
+          <%= render partial: 'lacquers/favorite', locals: {result: result} %>
+        </p>
+        <p class="add-or-remove pull-right" style="margin-left: 100px;">
+          <%= render partial: 'add_or_remove_from_collection', locals: {lacquer: result} %>
+        </p>
+      </div>
+    </div>
   <% end %>
   </div>
 <% else %>
   <h3>Sorry, we couldn't find any lacquers with names like '<%= @search_term %>'</h3>
 <% end %>
+
+<!-- <div class="like-btn text-center" lacquer_id="1"> -->
+                <!-- <span class="glyphicon glyphicon-heart red-heart"></span> -->
+              <!-- </div> -->

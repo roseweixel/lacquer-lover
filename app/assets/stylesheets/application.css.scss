@@ -127,3 +127,49 @@ td {
 .search_result_item {
   font-size: 1.5em;
 }
+
+.grey-heart {
+  color: grey;
+  text-align: center;
+  width: 24px;
+}
+
+.red-heart {
+  color: red;
+  text-align: center;
+  width: 24px;
+}
+
+// .like-btn {
+//   background: #d9d9d9;
+//   border-radius: 3px;
+//   border: 1px solid #b3b3b3;
+//   width: 35px;
+//   height: 35px;
+//   cursor: pointer;
+//   text-align: center;
+// }
+
+// .like div {
+//   float: right;
+//   position: relative;
+// }
+
+.likes-message {
+  font-size: .75em;
+  margin-left: 5px;
+  padding-top: 5px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.glyphicon-heart {
+  padding-top: 5px;
+  // display: inline;
+}
+
+.lacquer-show-favorite {
+  font-size: 1.5em;
+}

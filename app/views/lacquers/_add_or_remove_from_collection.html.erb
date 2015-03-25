@@ -1,0 +1,10 @@
+<% if current_user  %>
+
+  <% if current_user.lacquers.include? lacquer %>
+    <% user_lacquer = current_user.user_lacquers.find_by(lacquer: lacquer) %>
+    <%= render 'user_lacquers/remove_button', lacquer: lacquer, user_lacquer: user_lacquer %>
+  <% else %>
+    <%= render 'user_lacquers/add_button', lacquer: lacquer %>
+  <% end %>
+
+<% end %>

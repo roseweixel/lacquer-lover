@@ -1,0 +1,29 @@
+<% if current_user %>
+  <% if result.favorited_by?(current_user) %>
+    <span class="likes-message pull-right">
+      This lacquer is loved by <strong>you</strong> and <strong><%= result.favorites.count - 1 %> other <%= 'person'.pluralize(result.favorites.count - 1) %></strong>
+    </span>
+    <% favorite = Favorite.where(lacquer_id: result.id, user_id: current_user.id).first %>
+    <%= link_to destroy_favorite_path(:lacquer_id => result.id, :user_id => current_user.id, :favorite_id => favorite.id), action: "destroy", method: "delete", remote: true do %>
+      <span class="like-btn text-center" lacquer_id="<%= result.id %>">
+        <span class="glyphicon glyphicon-heart red-heart"></span>
+      </span>
+    <% end %>
+  <% else %>
+    <span class="likes-message pull-right">
+      This lacquer is loved by <strong><%= result.favorites.count %> <%= 'person'.pluralize(result.favorites.count) %></strong>
+    </span>
+    <%= link_to new_favorite_path(:lacquer_id => result.id, :user_id => current_user.id), action: "create", method: "post", remote: true do %>
+      <span class="like-btn text-center" lacquer_id="<%= result.id %>">
+        <span class="glyphicon glyphicon-heart grey-heart"></span>
+      </span>
+    <% end %>
+  <% end %>
+<% else %>
+  <span class="likes-message pull-right">
+    This lacquer is loved by <strong><%= result.favorites.count %> <%= 'person'.pluralize(result.favorites.count) %></strong>
+  </span>
+  <span class="like-btn text-center" lacquer_id="<%= result.id %>">
+    <span class="glyphicon glyphicon-heart grey-heart"></span>
+  </span>
+<% end %>
