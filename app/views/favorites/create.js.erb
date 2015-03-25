@@ -2,5 +2,7 @@
 if (/users/.test(document.URL)) {
   $("td#favorite-<%= @lacquer.id %>").replaceWith('<%= j render :partial => "favorite", :locals => {:user_lacquer => @user_lacquer, :current_user => @current_user, :lacquer => @lacquer, :favorite => @favorite} %>');
 } else {
-  $('#favorite-wrapper').html('<%= j render :partial => "lacquers/favorite", :locals => {:result => @lacquer, :lacquer => @lacquer, :user_lacquer => @user_lacquer, :favorte => @favorite} %>');
+  var lacquerID = <%= @lacquer.id %>;
+  //debugger;
+  $('#favorite-wrapper[lacquer_id='+'"'+ lacquerID +'"'+']').html('<%= j render :partial => "lacquers/favorite", :locals => {:result => @lacquer, :lacquer => @lacquer, :user_lacquer => @user_lacquer, :favorte => @favorite} %>');
 }

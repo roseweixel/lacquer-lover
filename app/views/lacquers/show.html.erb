@@ -2,7 +2,7 @@
 <div class="row">
 <h1 class="col-xs-7"><%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %></h1>
 	<div class="col-xs-5" style="margin-top: 21px;">
-	<p class="pull-right lacquer-show-favorite" id="favorite-wrapper">
+	<p class="pull-right lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
 	<%= render partial: 'favorite', locals: {result: @lacquer} %>
 	<p>
 	<p class="pull-right">

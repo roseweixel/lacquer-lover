@@ -8,7 +8,7 @@
         <a href="<%= lacquer_path(result) %>"> <%= result.brand.name %> - <%= HTMLEntities.new.decode result.name %></a>
       </div>
       <div class="col-sm-5">
-        <p class="pull-right" id="favorite-wrapper">
+        <p class="pull-right" id="favorite-wrapper" lacquer_id="<%= result.id %>">
           <%= render partial: 'lacquers/favorite', locals: {result: result} %>
         </p>
         <p class="add-or-remove pull-right" style="margin-left: 100px;">
