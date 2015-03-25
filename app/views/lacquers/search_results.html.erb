@@ -7,13 +7,13 @@
     <% if current_user %>
       <% if result.favorited_by?(current_user) %>
         <%= link_to destroy_favorite_path(:lacquer_id => result.id, :user_id => current_user.id), action: "destroy", method: "delete" do %>
-          <span class="like-btn text-center pull-right" lacquer_id="<%= result.id %>">
+          <span class="like-btn text-center pull-right" style="display: inline-block;" lacquer_id="<%= result.id %>">
             <span class="glyphicon glyphicon-heart red-heart"></span>
           </span>
         <% end %>
       <% else %>
         <%= link_to new_favorite_path(:lacquer_id => result.id, :user_id => current_user.id), action: "create", method: "post" do %>
-          <span class="like-btn text-center pull-right" lacquer_id="<%= result.id %>">
+          <span class="like-btn text-center pull-right" style="display: inline-block;" lacquer_id="<%= result.id %>">
             <span class="glyphicon glyphicon-heart grey-heart"></span>
           </span>
         <% end %>
