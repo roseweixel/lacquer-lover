@@ -14,5 +14,6 @@ ActiveAdmin.register Lacquer do
   #   permitted
   # end
 
+  permit_params :name, :brand_id, :user_added_by_id, :default_picture, :item_url
 
 end
