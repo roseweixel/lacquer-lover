@@ -14,5 +14,6 @@ ActiveAdmin.register LacquerWord do
   #   permitted
   # end
 
+  permit_params :lacquer_id, :word_id
 
 end

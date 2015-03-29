@@ -14,5 +14,6 @@ ActiveAdmin.register Favorite do
   #   permitted
   # end
 
+  permit_params :lacquer_id, :user_id
 
 end

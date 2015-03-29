@@ -14,5 +14,6 @@ ActiveAdmin.register Color do
   #   permitted
   # end
 
-
+  permit_params :name
+  
 end

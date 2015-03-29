@@ -14,5 +14,6 @@ ActiveAdmin.register Loan do
   #   permitted
   # end
 
+  permit_params :user_lacquer_id, :requester_id, :type, :date_ended, :state, :owner_id, :due_date, :date_became_active
 
 end
