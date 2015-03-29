@@ -535,6 +535,17 @@ def update_butter_default_pictures
   end
 end
 
+def store_butter_images_as_paperclip_attachment
+  butter = Brand.find_by(name: "Butter London")
+  butter_lacquers = Lacquer.where(brand_id: butter.id)
+  butter_lacquers.each do |lacquer|
+    file = File.open("app/assets/images/lacquers/butter_london/#{lacquer.name.gsub(" ", "-").downcase}.png")
+    lacquer.stored_image = file
+    file.close
+    lacquer.save
+  end
+end
+
 # save_butter_images
 
 # SeedDatabase.new
@@ -542,3 +553,5 @@ end
 # format_butter_names
 # create_all_the_words
 # update_butter_default_pictures
+# save_butter_images
+store_butter_images_as_paperclip_attachment

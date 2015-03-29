@@ -24,6 +24,9 @@ class Lacquer < ActiveRecord::Base
   has_many :lacquer_words, dependent: :destroy
   has_many :words, through: :lacquer_words
 
+  has_attached_file :stored_image
+  validates_attachment_content_type :stored_image, :content_type => /\Aimage\/.*\Z/
+
   validates :name, :brand, presence: true, :on => :create
   validates_length_of :name, :minimum => 1
   validates_uniqueness_of :name, scope: :brand
