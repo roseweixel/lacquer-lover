@@ -24,7 +24,9 @@
       <%# else %> -->
         <ul class="nav navbar-nav">
           <%= render 'layouts/lacquer_search_form' %>
+          <% if current_user %>
           <%= render 'layouts/friend_search_form' %>
+          <% end %>
         </ul>
         <ul class="nav navbar-nav pull-right">
             <% if session[:user_id] %>

@@ -11,7 +11,10 @@ $('#messages').append("<div class='alert alert-dismissible alert-success'><butto
 $('input[type="checkbox"]').attr('checked', false);
 
 $.each( lacquerIDs, function( i, ID ){
-  $('.panel-title[lacquer-id='+ID+']').append('<i class="fa fa-check pull-right"></i>')
+  if ($('.panel-title[lacquer-id='+ID+']').children('.fa-check').length === 0) {
+    $('.panel-title[lacquer-id='+ID+']').append('<i class="fa fa-check pull-right"></i>')
+  }
+  $('.panel-title[lacquer-id='+ID+']').parent().siblings().css("background-color", "");
 });
 
 $('.btn').blur();

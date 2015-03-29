@@ -78,13 +78,18 @@ class UsersController < ApplicationController
   end
 
   def search
-    @search_term = params[:search_term]
-    #binding.pry
-    @results = User.where("lower(name) = ?", params[:search_term].downcase)
-    if @results.empty?
-      @results = User.where("lower(email) = ?", params[:search_term].downcase)
+    if !current_user
+      flash[:notice] = "Please sign in to search for lacquer lovers!"
+      redirect_to root_path
+    else
+      @search_term = params[:search_term]
+      #binding.pry
+      @results = User.where("lower(name) = ?", params[:search_term].downcase)
+      if @results.empty?
+        @results = User.where("lower(email) = ?", params[:search_term].downcase)
+      end
+      render :search_results
     end
-    render :search_results
   end
 
   private

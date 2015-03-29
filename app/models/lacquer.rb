@@ -24,6 +24,9 @@ class Lacquer < ActiveRecord::Base
   has_many :lacquer_words, dependent: :destroy
   has_many :words, through: :lacquer_words
 
+  has_attached_file :stored_image
+  validates_attachment_content_type :stored_image, :content_type => /\Aimage\/.*\Z/
+
   validates :name, :brand, presence: true, :on => :create
   validates_length_of :name, :minimum => 1
   validates_uniqueness_of :name, scope: :brand
@@ -32,6 +35,14 @@ class Lacquer < ActiveRecord::Base
   accepts_nested_attributes_for :swatches, :reject_if => proc { |attributes| attributes['image'].blank? }
 
   after_save :create_words
+
+  def picture
+    if self.stored_image_file_size
+      self.stored_image
+    else
+      self.default_picture
+    end
+  end
 
   def create_words
     words_in_name = name.split(" ")
