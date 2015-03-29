@@ -16,5 +16,4 @@ ActiveAdmin.register Friendship do
 
   permit_params :user_id, :friend_id, :state
 
-
 end
