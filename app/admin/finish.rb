@@ -14,5 +14,6 @@ ActiveAdmin.register Finish do
   #   permitted
   # end
 
+  permit_params :description
 
 end
