@@ -36,6 +36,14 @@ class Lacquer < ActiveRecord::Base
 
   after_save :create_words
 
+  def picture
+    if self.stored_image_file_size
+      self.stored_image
+    else
+      self.default_picture
+    end
+  end
+
   def create_words
     words_in_name = name.split(" ")
 
