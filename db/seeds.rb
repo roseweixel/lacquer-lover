@@ -388,7 +388,7 @@ class NailsInc
 
   def initialize
     self.item_urls, self.images, self.names = [], [], []
-    self.num_pages = 6
+    self.num_pages = 5
     scrape
   end
 
@@ -442,7 +442,7 @@ end
 
 class SeedDatabase
   def initialize
-    #create_brands_colors_finishes
+    create_brands_colors_finishes
     seed_brands
   end
 
@@ -468,14 +468,14 @@ class SeedDatabase
   end
 
   BRAND_ATTRIBUTES_HASH = {
-    # "OPI" => {class_name: Object.const_get("Opi")},
-    # "Essie" => {class_name: Object.const_get("Essie")},
-    # "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
-    # "Butter London" => {class_name: Object.const_get("ButterLondon")},
-    # "Zoya" => {class_name: Object.const_get("Zoya")}
-    # "China Glaze" => {class_name: Object.const_get("ChinaGlaze")}
-    "Nails Inc." => {class_name: Object.const_get("NailsInc")}
-    # 'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")}
+    "OPI" => {class_name: Object.const_get("Opi")},
+    "Essie" => {class_name: Object.const_get("Essie")},
+    "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
+    "Butter London" => {class_name: Object.const_get("ButterLondon")},
+    "Zoya" => {class_name: Object.const_get("Zoya")},
+    "China Glaze" => {class_name: Object.const_get("ChinaGlaze")},
+    "Nails Inc." => {class_name: Object.const_get("NailsInc")},
+    'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")}
   }
 
   def seed_brands
@@ -536,5 +536,9 @@ def update_butter_default_pictures
 end
 
 #save_butter_images
-update_butter_default_pictures
+
 #SeedDatabase.new
+get_bigger_deborah_images
+format_butter_names
+create_all_the_words
+update_butter_default_pictures
