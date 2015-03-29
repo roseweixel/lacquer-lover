@@ -442,7 +442,7 @@ end
 
 class SeedDatabase
   def initialize
-    create_brands_colors_finishes
+    #create_brands_colors_finishes
     seed_brands
   end
 
@@ -471,7 +471,7 @@ class SeedDatabase
     # "OPI" => {class_name: Object.const_get("Opi")},
     # "Essie" => {class_name: Object.const_get("Essie")},
     # "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
-    # "Butter London" => {class_name: Object.const_get("ButterLondon")},
+    "Butter London" => {class_name: Object.const_get("ButterLondon")}
     # "Zoya" => {class_name: Object.const_get("Zoya")},
     # "China Glaze" => {class_name: Object.const_get("ChinaGlaze")},
     # "Nails Inc." => {class_name: Object.const_get("NailsInc")},
@@ -548,10 +548,10 @@ end
 
 # save_butter_images
 
-# SeedDatabase.new
+SeedDatabase.new
 # get_bigger_deborah_images
 # format_butter_names
-# create_all_the_words
-# update_butter_default_pictures
+create_all_the_words
 # save_butter_images
+update_butter_default_pictures
 store_butter_images_as_paperclip_attachment
