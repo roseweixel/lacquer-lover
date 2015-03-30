@@ -45,7 +45,7 @@ class Lacquer < ActiveRecord::Base
   end
 
   def create_words
-    words_in_name = name.split(" ")
+    words_in_name = (name.split(" ") + name_with_no_non_word_chars.split(" ")).uniq
 
     words_in_name.each do |word|
       new_word = Word.find_or_create_by(text: word.downcase)

@@ -548,10 +548,10 @@ end
 
 # save_butter_images
 
-SeedDatabase.new
+# SeedDatabase.new
 # get_bigger_deborah_images
 # format_butter_names
 create_all_the_words
 # save_butter_images
-update_butter_default_pictures
-store_butter_images_as_paperclip_attachment
+# update_butter_default_pictures
+# store_butter_images_as_paperclip_attachment
