@@ -5,7 +5,7 @@ class BrandsController < ApplicationController
 
   def show
     @brand = Brand.find(params[:id])
-    @lacquers = @brand.lacquers
+    @lacquers = @brand.lacquers.order(:name)
     @user = current_user
   end
 
