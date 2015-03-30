@@ -1,7 +1,8 @@
 <div class="row">
-<h1 class="col-md-8 pull-left"><%= @brand.name %></h1>
+<h1 class="col-md-7 pull-left"><%= @brand.name %></h1>
 
 <% if @brand.lacquers.any? %>
+  <% if current_user %>
   <%= form_for @brand, remote: true do |f| %>
     <%= fields_for "user_lacquers[]", @brand do |ul_form| %>
       <div class="row">
@@ -12,6 +13,18 @@
         </div>
       <% end %>
     <% end %>
+  <% end %>
+  <% else %>
+    <div class="row">
+      <%#= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+      <%= link_to "Sign In To Add Lacquers to Your Collection!", "/auth/facebook", class: "col-md-4 pull-right btn btn-default", style: "margin-top: 25px; margin-right: 30px;" %>
+    </div>  
+    <div>
+    <% @lacquers.each do |lacquer| %>
+      <div class="col-md-3 lacquer" id="<%=lacquer.id%>">
+      </div>
+    <% end %>
+    </div>
   <% end %>
   </div>
 <% end %>
