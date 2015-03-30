@@ -11,22 +11,26 @@
     </div>
 
     <div class="navbar-collapse collapse" id="navbar-main">
-    
-        <!-- <%# if session[:user_id] %>
           <ul class="nav navbar-nav">
-            <li>
-              <%#= link_to("Welcome, #{current_user.first_name}! See your profile.", user_path(current_user))  %>
-            </li> 
-
-
-            <li><%#= link_to("Find a Friend", users_path) %></li>
-            <li><%#= render 'layouts/search_form' %></li>
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Find Lacquer <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li>
+                  <%= render 'layouts/lacquer_search_form' %>
+                </li>
+              </ul>
+            </li>
+            <% if current_user %>
+              <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Find Lacquer Lover <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li>
+                  <%= render 'layouts/friend_search_form' %>
+                </li>
+              </ul>
+              </li>
+            <% end %>
           </ul>
-        <%# else %> -->
-          <%= render 'layouts/lacquer_search_form' %>
-          <% if current_user %>
-            <%= render 'layouts/friend_search_form' %>
-          <% end %>
           <ul class="nav navbar-nav navbar-right">
               <% if session[:user_id] %>
               <li>
