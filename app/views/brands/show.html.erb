@@ -1,5 +1,5 @@
 <div class="row">
-<h1 class="col-md-7 pull-left"><%= @brand.name %></h1>
+<h1 class="col-md-6 pull-left"><%= @brand.name %></h1>
 
 <% if @brand.lacquers.any? %>
   <% if current_user %>
@@ -16,7 +16,7 @@
   <% end %>
   <% else %>
     <div class="row">
-      <%= link_to "Sign In To Add Lacquers to Your Collection!", "/auth/facebook", class: "col-md-4 pull-right btn btn-default", id: "brand-show-sign-in", style: "margin-top: 25px; margin-right: 30px;" %>
+      <%= link_to "Sign In To Favorite & Add Lacquers to Your Collection!", "/auth/facebook", class: "col-md-5 pull-right btn btn-primary", id: "brand-show-sign-in", style: "margin-top: 25px; margin-right: 30px;" %>
     </div>  
     <div>
     <% @lacquers.each do |lacquer| %>

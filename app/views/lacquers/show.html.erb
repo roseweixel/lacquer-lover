@@ -15,6 +15,8 @@
 		  <%= render 'user_lacquers/add_button', lacquer: @lacquer %>
 		<% end %>
 
+	<% else %>
+	 <%= link_to "Sign In To Favorite & Add #{@lacquer.name} to Your Collection!", "/auth/facebook", class: "btn btn-primary btn-sm pull-right", id: "brand-show-sign-in" %>
 	<% end %>
 	</p>
 	</div>
