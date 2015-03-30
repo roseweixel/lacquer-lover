@@ -6,8 +6,11 @@
         <% if user %>
           <%= check_box_tag 'lacquer_ids[]', lacquer.id, false, id: "checkbox#{lacquer.id}" %>
           <label style="margin-left: 28px; top: 7px;" for="checkbox<%= lacquer.id %>" ></label>
+          <span id="favorite-<%= lacquer.id %>" class="brand-show-favorite pull-right">
+          <%= render partial: 'favorites/favorite', locals: {lacquer: lacquer, user_lacquer: nil} %>
+          </span>
           <% if user.lacquers.include?(lacquer) %>
-          <i class="fa fa-check pull-right" style="margin-top: 5px;"></i>
+          <i class="fa fa-check pull-right" style="margin-top: 5px; margin-right: 5px;"></i>
           <% end %>
         <% end %>
       </div>

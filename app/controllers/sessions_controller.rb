@@ -7,14 +7,14 @@ class SessionsController < ApplicationController
         if request.env["HTTP_REFERER"].gsub(request.base_url, "") == root_path
           redirect_to user_path(user)
         else
-          binding.pry
+          #binding.pry
           redirect_to request.env["HTTP_REFERER"].gsub(request.base_url, "")
         end
       elsif request.env["action_dispatch.request.unsigned_session_cookie"] && request.env["action_dispatch.request.unsigned_session_cookie"]["omniauth.origin"]
         if request.env["action_dispatch.request.unsigned_session_cookie"]["omniauth.origin"].gsub(request.base_url, "") == root_path
           redirect_to user_path(user)
         else
-          binding.pry
+          #binding.pry
           redirect_to request.env["action_dispatch.request.unsigned_session_cookie"]["omniauth.origin"].gsub(request.base_url, "")
         end
       end

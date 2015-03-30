@@ -1,6 +1,7 @@
-//debugger;
 if (/users/.test(document.URL)) {
   $("td#favorite-<%= @lacquer.id %>").replaceWith('<%= j render :partial => "favorite", :locals => {:user_lacquer => @user_lacquer, :current_user => @current_user, :lacquer => @lacquer, :favorite => @favorite} %>');
+} else if (/brands/.test(document.URL)) {
+  $("span#favorite-<%= @lacquer.id %>").replaceWith('<span id="favorite-<%= @lacquer.id %>" class="brand-show-favorite"><%= j render :partial => "favorite", :locals => {:user_lacquer => @user_lacquer, :current_user => @current_user, :lacquer => @lacquer, :favorite => @favorite} %></span>');
 } else {
   var lacquerID = <%= @lacquer.id %>;
   //debugger;
