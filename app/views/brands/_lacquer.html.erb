@@ -10,7 +10,7 @@
           <%= render partial: 'favorites/favorite', locals: {lacquer: lacquer, user_lacquer: nil} %>
           </span>
           <% if user.lacquers.include?(lacquer) %>
-          <i class="fa fa-check pull-right" style="margin-top: 5px; margin-right: 5px;"></i>
+          <i class="fa fa-check pull-right"></i>
           <% end %>
         <% end %>
       </div>
