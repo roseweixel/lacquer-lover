@@ -11,6 +11,7 @@ $(document).ready(function(){
     });
   });
   checkboxListener();
+  signinListener();
 });
 
 function checkboxListener() {
@@ -25,4 +26,12 @@ function checkboxListener() {
       $panel.css("background-color", "");
     }
   });
+}
+
+function signinListener() {
+  $(document).on("click", "#brand-show-sign-in", function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    $('#sign_in').click();
+  })
 }
