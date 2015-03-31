@@ -191,7 +191,7 @@ td {
   margin-right: 5px;
 }
 
-@media (max-width: 843px) {
+@media (max-width: 789px) {
     .navbar-header {
         float: none;
     }
@@ -226,4 +226,13 @@ td {
     .collapse.in{
       display:block !important;
   }
+}
+
+.navbar-default .navbar-brand {
+  font-family: 'Marck Script', cursive;
+  color: red;
+}
+
+#love-and {
+  margin: 0 3px;
 }

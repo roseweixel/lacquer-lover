@@ -6,13 +6,10 @@ jQuery ->
     dataType: 'script'
     cache: true
 
+facebook_id = <%= ENV['FACEBOOK_APP_ID'] %>
 
 window.fbAsyncInit = ->
-  # localhost, testing
-  # FB.init(appId: '1740995652791642', cookie: true)
-  
-  # # Heroku
-  FB.init(appId: '1737505913140616', cookie: true)
+  FB.init(appId: facebook_id, cookie: true)
 
   $('#sign_in').click (e) ->
     e.preventDefault()
