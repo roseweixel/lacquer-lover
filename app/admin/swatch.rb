@@ -14,5 +14,6 @@ ActiveAdmin.register Swatch do
   #   permitted
   # end
 
+  permit_params :lacquer_id, :user_id, :image_file_name, :image_content_type, :image_file_size, :image_updated_at
 
 end
