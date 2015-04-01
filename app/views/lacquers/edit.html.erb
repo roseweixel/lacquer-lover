@@ -9,9 +9,20 @@
 	<% if current_user.id == @user_lacquer.user_id %>
 		<%= f.fields_for @user_lacquer do |user_lacquer_form| %>
 			<%= user_lacquer_form.label :colors %><br>
-			<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name %><br>
+			<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name do |box| %>
+				<%= box.label class:"label-checkbox" do %>
+         <%= box.check_box + box.text %>
+        <%end%>
+			<% end %>
+			<br>
+			<br>
 			<%= user_lacquer_form.label :finishes %><br>
-			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description %><br>
+			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description do |box| %>
+				<%= box.label class:"label-checkbox" do %>
+         <%= box.check_box + box.text %>
+        <%end%>
+			<% end %>
+			<br>
 		<% end %>
 	<% end %>
 	<h3>Upload a Swatch for <%= @lacquer.name %></h3>

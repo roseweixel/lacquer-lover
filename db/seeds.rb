@@ -442,13 +442,13 @@ end
 
 class SeedDatabase
   def initialize
-    #create_brands_colors_finishes
-    seed_brands
+    create_brands_colors_finishes
+    #seed_brands
   end
 
   BRAND_NAMES = ['Essie', 'OPI', 'Butter London', 'Deborah Lippmann', 'Zoya', 'China Glaze', 'I Love Nail Polish (ILNP)', 'Dior', 'Chanel', 'Formula X by Sephora', 'Sephora', 'Nails Inc.', 'Lancome', 'Nars', 'Mac', 'Nicole by OPI', 'Sally Hansen', 'Color Club', 'Orly', 'CND', 'Maybelline', "L’Oreal Paris", 'Revlon', 'CoverGirl', 'Sinful Colors', 'L.A. Colors', 'L.A. Girl', 'Wet N Wild', 'Brucci', 'Milani', 'Seche', 'New York Color', 'Stila', 'Obsessive Compulsive Cosmetics']
 
-  COLOR_NAMES = ['red', 'beige', 'berry', 'brown', 'orange', 'coral', 'cream', 'fuchsia', 'lilac', 'mauve', 'turquoise', 'peach', 'tan', 'taupe', 'yellow', 'green', 'blue', 'teal', 'purple', 'magenta', 'pink', 'gray', 'black', 'white', 'nude', 'gold', 'bronze', 'copper', 'silver', 'neon', 'bright', 'dark']
+  COLOR_NAMES = ["red", "beige", "berry", "brown", "orange", "coral", "cream", "fuchsia", "lilac", "mauve", "turquoise", "peach", "tan", "taupe", "yellow", "green", "blue", "teal", "purple", "magenta", "pink", "gray", "black", "white", "nude", "gold", "bronze", "copper", "silver", "neon", "bright", "dark", "lavender", "crimson", "aqua", "mint", "navy", "pastel", "lemon", "lime", "blue-gray", "blush", "rose", "neutral", "warm", "cool", "charcoal", "cherry", "coffee", "salmon", "slate", "violet", "dusty", "fluorescent", "wine", "cyan", "indigo", "jade", "light", "deep"]
 
   FINISH_DESCRIPTIONS = ['sheer', 'creme', 'shimmer', 'glitter', 'jelly', 'metallic', 'duochrome', 'holographic', 'multichrome', 'matte', 'semi-matte', 'frost', 'pearl', 'foil', 'satin', 'suede', 'flakies', 'glass-fleck', 'iridiscent', 'crackle', 'splatter', 'magnetic', 'texture', 'luminescent', 'other nail effects']
 
@@ -548,10 +548,10 @@ end
 
 # save_butter_images
 
-# SeedDatabase.new
+SeedDatabase.new
 # get_bigger_deborah_images
 # format_butter_names
-create_all_the_words
+# create_all_the_words
 # save_butter_images
 # update_butter_default_pictures
 # store_butter_images_as_paperclip_attachment

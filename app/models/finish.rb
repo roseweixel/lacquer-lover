@@ -11,5 +11,5 @@ class Finish < ActiveRecord::Base
   has_many :user_lacquers, through: :user_lacquer_finishes
   has_many :lacquers, through: :user_lacquers
 
-  validates_presence_of :description
+  validates :description, presence: true, uniqueness: true
 end
