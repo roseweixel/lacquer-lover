@@ -1,10 +1,10 @@
 <% if @results.any? %>
-  <h3>Users with name or email matching '<%= @search_term %>'</h3><br>
+  <h3>Lacquer lovers with name or email matching '<%= @search_term %>'</h3><br>
   <div class="list-group">
   <% @results.each do |user| %>
     <a href="<%= user_path(user) %>" class="search_result_item list-group-item"><%= image_tag user.image || 'placeholder-avatar.png', size: '50x50' %> <%= user.name %></a>
   <% end %>
   </div>
 <% else %>
-  <h3>Sorry, we couldn't find any users with name or email matching '<%= @search_term %>'</h3>
+  <h3>Sorry, we couldn't find any lacquer lovers with name or email matching '<%= @search_term %>'</h3>
 <% end %>
