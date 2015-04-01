@@ -1,4 +1,10 @@
 var BRANDS = {
+    "Obsessive Compulsive Cosmetics": '#obsessive-dropdown',
+    "Stila": '#stila-dropdown',
+    "Wet N Wild": '#wet-dropdown',
+    "Sinful Colors": '#sinful-dropdown',
+    "Seche": '#seche-dropdown',
+    "Brucci": '#brucci-dropdown',
     "Essie": '#essie-dropdown',
     "OPI": '#opi-dropdown',
     "Butter London": '#butter-dropdown',
@@ -26,6 +32,12 @@ var BRANDS = {
 };
 
 var BRANDS_SHORT = {
+    "Obsessive Compulsive Cosmetics": '.other-lacquer#obsessive',
+    "Stila": '.other-lacquer#stila',
+    "Wet N Wild": '.other-lacquer#wet',
+    "Sinful Colors": '.other-lacquer#sinful',
+    "Seche": '.other-lacquer#seche',
+    "Brucci": '.other-lacquer#brucci',
     "Essie": '.other-lacquer#essie',
     "OPI": '.other-lacquer#opi',
     "Butter London": '.other-lacquer#butter',
