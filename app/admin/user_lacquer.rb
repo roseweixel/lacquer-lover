@@ -14,5 +14,6 @@ ActiveAdmin.register UserLacquer do
   #   permitted
   # end
 
+  permit_params :user_id, :lacquer_id, :loanable, :on_loan
 
 end
