@@ -14,5 +14,6 @@ ActiveAdmin.register UserLacquerColor do
   #   permitted
   # end
 
+  permit_params :user_lacquer_id, :color_id
 
 end
