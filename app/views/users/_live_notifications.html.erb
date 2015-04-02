@@ -182,11 +182,11 @@
         <!-- LOANS REQUESTED PENDING -->
         <% if user.pending_requested_transactions.count > 0 %>
           <h3>Pending Loan Requests</h3>
-          <ul>
+          <ul class="list-group">
           <% user.pending_requested_transactions.each do |transaction| %>
             <% friend = User.find(transaction.owner_id) %>
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <li style='padding-top: 15px;'>You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= lacquer.name %></li>
+            <p class="list-group-item" style='padding:0 0 0 5px ;'>You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= link_to lacquer.name, lacquer_path(lacquer) %></p>
           <% end %>
           </ul>
         <% end %>
