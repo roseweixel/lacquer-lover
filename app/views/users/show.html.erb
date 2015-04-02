@@ -276,7 +276,7 @@
 				</div>
 			<% end %>
 
-			<!-- ADD "OTHER" LACQUER FOR DEBORAH -->
+			<!-- ADD "OTHER" LACQUER -->
 			<% Brand.all.each do |brand| %>
 				<% new_lacquer = brand.lacquers.new %>
 			<div class="other-lacquer" id="<%= brand.abbreviation %>">
@@ -290,9 +290,13 @@
 					    	Select Colors <span class="caret"></span>
 	  					</button>
 		 					<ul class="dropdown-menu" role="menu" id="color-dropdown" style="padding: 10px;">
-		 					<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all, :id, :name do |b| %>
-	  							<%= b.check_box %> <%= b.label %><br>
+		 					<div class="row" style="width: 255px;">
+		 					<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all.order(:name), :id, :name do |b| %>
+		 						<div class="col-xs-6">
+	  							<%= b.check_box %> <%= b.label %>
+	  						</div>
 							<% end %>
+							</div>
 		    			</ul>
 	    			</div>
 	    			<div class="btn-group">
@@ -300,9 +304,13 @@
 					    	Select Finishes <span class="caret"></span>
 	  					</button>
 		 					<ul class="dropdown-menu" role="menu" id="finish-dropdown" style="padding: 10px;">
-		    			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all, :id, :description do |b| %>
-	  							<%= b.check_box %> <%= b.label %><br>
+		 					<div class="row" style="width: 335px;">
+		    			<%= user_lacquer_form.collection_check_boxes :finish_ids, Finish.all.order(:description), :id, :description do |b| %>
+		    					<div class="col-xs-6">
+	  							<%= b.check_box %> <%= b.label %>
+	  							</div>
 							<% end %>
+							</div>
 		    			</ul>
 		 
 	    			</div>
@@ -317,7 +325,7 @@
 					<% end %>
 				</div>
 			<% end %>
-			<!-- END OF ADD "OTHER" LACQUER FOR DEBORAH -->
+			<!-- END OF ADD "OTHER" LACQUER -->
 
 		<!-- ***** END OF ADD OTHER LACQUERS ***** --> 	
 
