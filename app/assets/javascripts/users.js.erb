@@ -6,7 +6,7 @@ $(document).ready(function() {
     userID = currentUrl.match(/\d*(?=#top)/)
   }
   //debugger;
-  if ((currentUrl.match(/users\/(?=\d)/) !== null) && (window.currentUser.id === userID)) {
+  if ((currentUrl.match(/users\/(?=\d)/) !== null)) {
     setInterval(function(){
       $.ajax({
         type: "GET",
