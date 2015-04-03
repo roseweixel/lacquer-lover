@@ -13,7 +13,7 @@
 			<% if @user == current_user %>
 				<h3>Lacquers Added by You</h3>
 			<% else %>
-				<h3>Lacquers Added by <%= @user.name %></h3>
+				<h3>Lacquers Added by <%= @user.first_name %></h3>
 			<% end %>
 			<ul>
 			<% @user.lacquers_added_by.each do |lacquer| %>
@@ -26,7 +26,7 @@
 			<% if @user == current_user %>
 				<h3>Your Loan Count: 
 			<% else %>
-				<h3><%= @user.name %>’s Loan Count: 
+				<h3><%= @user.first_name %>’s Loan Count: 
 			<% end %>
 			<%= @user.owned_transactions.count %></h3>
 		<% end %>
@@ -35,7 +35,7 @@
 			<% if @user == current_user %>
 				<h3>Your Borrow Count: 
 			<% else %>
-				<h3><%= @user.name %>’s Borrow Count: 
+				<h3><%= @user.first_name %>’s Borrow Count: 
 			<% end %>
 			<%= @user.requested_transactions.count %></h3>
 		<% end %>
