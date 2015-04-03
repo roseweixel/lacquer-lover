@@ -116,12 +116,16 @@ td {
   margin: 0 25px;
 }
 
+.padded_lacquer_pic_small {
+  // margin: 0 7px;
+}
+
 .chunky_image_large {
   margin-left: -100px;
 }
 
 .chunky_image_small {
-  margin-left: -12px;
+  margin-left: -10px;
 }
 
 .search_result_item {
@@ -239,4 +243,19 @@ td {
 
 .label-checkbox {
   margin-right: 2px;
+}
+
+
+ul.fave {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+li.fave {
+    background-image: url(favicon-96x96.png);
+    background-size: 15px;
+    background-repeat: no-repeat;
+    background-position: 0px center; 
+    padding-left: 16px; 
 }

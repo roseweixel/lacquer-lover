@@ -87,29 +87,29 @@ module ApplicationHelper
     if lacquer.picture && valid?(lacquer.picture)
       begin
         if lacquer.brand.name == "Deborah Lippmann" 
-          image_tag(lacquer.picture, :size => "31x50")
+          image_tag(lacquer.picture, :size => "31x50", :class => "padded_lacquer_pic_small")
         elsif lacquer.brand.name == "OPI"
-          image_tag(lacquer.picture, :size => "21x50")
+          image_tag(lacquer.picture, :size => "21x50", :class => "padded_lacquer_pic_small")
         elsif lacquer.brand.name == "Butter London"
-          image_tag(lacquer.picture, :size => "29x50")
+          image_tag(lacquer.picture, :size => "29x50", :class => "padded_lacquer_pic_small")
         elsif lacquer.brand.name == "I Love Nail Polish (ILNP)"
           image_tag(lacquer.picture, :size => "50x50", :class => "chunky_image_small")
         elsif lacquer.brand.name == "Zoya"
           image_tag(lacquer.picture, :size => "50x50", :class => "chunky_image_small")
         elsif lacquer.brand.name == "China Glaze"
-          image_tag(lacquer.picture, :size => "22x50")
+          image_tag(lacquer.picture, :size => "22x50", :class => "padded_lacquer_pic_small")
         elsif lacquer.brand.name == "Essie"
-          image_tag(lacquer.picture, :size => "23x50")
+          image_tag(lacquer.picture, :size => "23x50", :class => "padded_lacquer_pic_small")
         elsif lacquer.brand.name == "Nails Inc."
-          image_tag(lacquer.picture, :size => "290x400")
+          image_tag(lacquer.picture, :size => "36x50", :class => "padded_lacquer_pic_small")
         else
-          image_tag(lacquer.picture, :size => "36x50")
+          image_tag(lacquer.picture, :size => "36x50", :class => "padded_lacquer_pic_small")
         end
       rescue
-        image_tag('generic-polish.png', :size => "31x50")
+        image_tag('generic-polish.png', :size => "31x50", :class => "padded_lacquer_pic_small")
       end
     else
-      image_tag('generic-polish.png', :size => "31x50")
+      image_tag('generic-polish.png', :size => "31x50", :class => "padded_lacquer_pic_small")
     end
   end
 end
