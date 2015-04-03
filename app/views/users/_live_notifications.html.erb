@@ -91,18 +91,21 @@
         <!-- TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
         <% if user.transactions_you_accepted.count > 0 %>
           <h3>Transactions You Accepted</h3>
-          <ul>
+          <ul class="list-group">
           <% user.transactions_you_accepted.each do |transaction| %>
             <% friend = User.find(transaction.requester_id) %>
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <li style='padding-top: 15px;'>
-              You've agreed to loan <%= lacquer.name %> out to <%= link_to friend.name, user_path(friend) %>.<br> <%= link_to "I gave #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %>
-            </li>
-            <%= form_for transaction do |f| %>
-              <%= f.label :due_date, "Add or Update Due Date" %>
-              <%= f.date_field :due_date %>
-              <%= f.submit :class =>"btn btn-info btn-xs" %>
-            <% end %> 
+            <div class="list-group-item" style='padding-top: 15px;'>
+              <strong>You've agreed to loan <%= link_to lacquer.name, lacquer_path(lacquer) %> out to <%= link_to friend.name, user_path(friend) %></strong>.<br> 
+              <%= link_to "I gave #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %> <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-primary btn-xs" %><br><br>
+              <%= form_for transaction, :html => {:class => "form-horizontal"} do |f| %>
+                <div class="controls form-inline">
+                <%= f.label :due_date, "Add or Change Due Date" %><br>
+                <%= f.date_field :due_date, class: "form-control", style:"height: 43px;" %>
+                <%= f.submit "Update", :class =>"form-control btn-primary" %>
+                </div>
+              <% end %> 
+            </div>
           <% end %>
           </ul>
         <% end %>
@@ -111,18 +114,20 @@
         <!-- CURRENTLY LOANED OUT -->
         <% if user.active_owned_transactions.count > 0 %>
           <h3>Lacquers Currenly on Loan</h3>
-          <ul>
+          <ul class="list-group">
           <% user.active_owned_transactions.each do |transaction| %>
             <% friend = User.find(transaction.requester_id) %>
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <li style='padding-top: 15px;'>
-              Your <%= lacquer.name %> is currently loaned out to <%= link_to friend.name, user_path(friend) %>.<br> <%= link_to "#{friend.name} gave #{lacquer.name} back", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %>
-            </li>
-            <%= form_for transaction do |f| %>
-              <%= f.label :due_date, "Add or Update Due Date" %>
-              <%= f.date_field :due_date %>
-              <%= f.submit :class =>"btn btn-info btn-xs" %>
+            <div class="list-group-item" style='padding-top: 15px;'>
+              <strong>Your <%= link_to lacquer.name, lacquer_path(lacquer) %> is currently loaned out to <%= link_to friend.name, user_path(friend) %>.</strong><br> <%= link_to "#{friend.name} gave #{lacquer.name} back", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %><br><br>
+            <%= form_for transaction, :html => {:class => "form-horizontal"} do |f| %>
+              <div class="controls form-inline">
+              <%= f.label :due_date, "Add or Change Due Date" %><br>
+              <%= f.date_field :due_date, class: "form-control", style:"height: 43px;" %>
+              <%= f.submit :class =>"form-control btn-primary" %>
+              </div>
             <% end %> 
+            </div>
           <% end %>
           </ul>
         <% end %>
