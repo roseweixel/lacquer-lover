@@ -141,7 +141,7 @@
 			<legend style="font-size: 2em;"><%= @user.first_name %>'s Lacquers</legend>
 		<% end %>
 	<!-- </div> -->
-	<div class="row" id="filter-buttons" style="background-color: #DCDCDC; padding: 10px; margin: 5px 0; text-align: center;">
+	<div class="row well" id="filter-buttons" style="padding: 10px; margin: 5px 0; text-align: center;">
 		<% brands = @user.lacquers.collect {|l| l.brand.name}.uniq %>
 		<% colors = @user.lacquers.collect {|l| l.color_tags}.flatten.uniq %>
 		<% finishes = @user.lacquers.collect {|l| l.finish_tags}.flatten.uniq %>
