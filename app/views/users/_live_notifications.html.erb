@@ -33,7 +33,7 @@
             <p class="list-group-item" style='padding: 0;'>
               <%= image_tag friend.image || 'placeholder-avatar.png', size: '30x30' %>
               <%= link_to friend.name, user_path(friend) %> 
-              <%= link_to "Accept", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class => "btn btn-success btn-xs pull-right", :style => "margin:3px 3px 0 0;"} %> <%= link_to "Reject", friendship_path(friendship, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs pull-right", :style => "margin:3px 3px 0 0;"} %>
+              <%= link_to "ok", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class => "btn btn-success btn-xs pull-right", :style => "margin:3px 3px 0 0;"} %> <%= link_to "not now", friendship_path(friendship, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs pull-right", :style => "margin:3px 3px 0 0;"} %>
             </p>
           <% end %>
         </ul>
@@ -78,11 +78,11 @@
         <!-- TRANSACTIONS AWAITING YOUR APPROVAL -->
         <% if user.transactions_for_your_approval.count > 0 %>
           <h3>Transactions Awaiting Your Approval</h3>
-          <ul>
+          <ul class="list-group">
           <% user.transactions_for_your_approval.each do |transaction| %>
             <% friend = User.find(transaction.requester_id) %>
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <li style='padding-top: 15px;'><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>.</br> <%= link_to "Accept Request", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %> <%= link_to "Reject Request", transaction_path(transaction, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs"} %></li>
+            <p class="list-group-item" style='padding-top: 5px; padding-bottom: 5px;'><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>. <%= link_to "ok", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs pull-right", :style => "margin:0 0 0 3px;"} %> <%= link_to "not now", transaction_path(transaction, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs pull-right", :style => "margin:0 0 0 3px;"} %></p>
           <% end %>
           </ul>
         <% end %>
@@ -186,7 +186,9 @@
           <% user.pending_requested_transactions.each do |transaction| %>
             <% friend = User.find(transaction.owner_id) %>
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <p class="list-group-item" style='padding:0 0 0 5px ;'>You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= link_to lacquer.name, lacquer_path(lacquer) %></p>
+            <p class="list-group-item" style='padding:5px 0 5px 5px ;'>You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= link_to lacquer.name, lacquer_path(lacquer) %>
+              <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-default btn-xs pull-right", style:"margin:0 3px 0 0;", data: { confirm: "Are you sure you want to cancel this request?" }%>
+            </p>
           <% end %>
           </ul>
         <% end %>
