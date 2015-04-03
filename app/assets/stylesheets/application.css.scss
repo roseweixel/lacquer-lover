@@ -259,3 +259,8 @@ li.fave {
     background-position: 0px center; 
     padding-left: 20px; 
 }
+
+.profile-section {
+  max-height: 170px;
+  overflow: scroll;
+}

@@ -1,27 +1,4 @@
   <span class="live-notifications">
-    <div class="col-sm-3">
-      <%# binding.pry %>
-      <% if user == current_user || user.accepted_friends.include?(current_user) %>
-        <h3>Friends</h3>
-        <% if user.accepted_friends.count > 0 %>
-          <ul class='list-group' id="accepted-friends">
-          <% user.accepted_friends.each do |friend| %>
-            <p style="font-size: 20px; padding: 0;"><%= image_tag friend.image || 'placeholder-avatar.png', size: '50x50' %> <%= link_to friend.name, user_path(friend) %></p>
-          <% end %>
-          </ul>
-        <% end %>
-      <% end %>
-      <h3>Favorites</h3>
-      <% if user.favorited_lacquers.count > 0 %>
-        <ul class="list-group fave">
-        <% user.favorited_lacquers.each do |favorite| %>
-          <li class="fave" style="font-size: 20px;">
-            <%= link_to favorite.name, lacquer_path(favorite) %>
-          </li>
-        <% end %>
-        </ul>
-      <% end %>
-    </div>
     <% if user == current_user %>
     <div class="col-sm-5">
       <!-- FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->

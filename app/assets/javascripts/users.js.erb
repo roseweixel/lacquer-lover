@@ -5,15 +5,15 @@ $(document).ready(function() {
     //alert(currentUrl.match(/\d*(?=#top)/));
     userID = currentUrl.match(/\d*(?=#top)/)
   }
-  //debugger;
-  // if ((currentUrl.match(/users\/(?=\d)/) !== null)) {
-  //   setInterval(function(){
-  //     $.ajax({
-  //       type: "GET",
-  //       url: "/users/"+userID+"/live_notifications"
-  //     });
-  //   }, 3000); 
-  // }
+
+  if ((currentUrl.match(/users\/(?=\d)/) !== null) && (window.currentUser.id === userID)) {
+    setInterval(function(){
+      $.ajax({
+        type: "GET",
+        url: "/users/"+userID+"/live_notifications"
+      });
+    }, 3000); 
+  }
   var userLacquerRows = $('.user-lacquer-partial')
   userLacquerRows.each(function(){
     var id = this.id;
