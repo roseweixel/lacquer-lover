@@ -52,10 +52,11 @@
 	
 
 <% if (@user == current_user) || (current_user.accepted_friends.include?(@user)) %>
-	<section>
-	<div class="page-header">
+	<section style="margin-top: 50px;">
+	<!-- <div class="page-header"> -->
 		<% if @user == current_user %>
-			<h3>Your Lacquers</h1>
+			<legend style="font-size: 2em;">Your Lacquers</legend>
+			<div class="page-header" style="margin-top: 0;">
 			<h5>Add A Lacquer</h5>
 			<div class="dropdown">
 			  <select id="brand-selection" class="btn-default">
@@ -127,13 +128,13 @@
 				</div>
 			<% end %>
 			<!-- END OF ADD "OTHER" LACQUER -->
-
+			</div>
 		<!-- ***** END OF ADD OTHER LACQUERS ***** --> 	
 
 		<% else %>
-			<h3><%= @user.first_name %>'s Lacquers</h3>
+			<legend style="font-size: 2em;"><%= @user.first_name %>'s Lacquers</legend>
 		<% end %>
-	</div>
+	<!-- </div> -->
 	<div class="row" id="filter-buttons" style="background-color: #DCDCDC; padding: 10px; text-align: center;">
 		<% brands = @user.lacquers.collect {|l| l.brand.name}.uniq %>
 		<% colors = @user.lacquers.collect {|l| l.color_tags}.flatten.uniq %>
@@ -147,7 +148,7 @@
 			    <%= link_to "#{item}", "#", :class => "btn btn-xs btn-default #{attribute}", :id => "#{item}", :style => "margin: 2px;" %>
 			  <% end %>
 			<% else %>
-				<h6>No <%= attribute %> in <%= @user.name %>'s collection.</h6>
+				<h6>No <%= attribute.singularize %> tags in <%= @user.first_name %>'s collection.</h6>
 			<% end %>
 		  </div>
 		<% end %>
