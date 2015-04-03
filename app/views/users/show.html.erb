@@ -11,9 +11,9 @@
 		<h3>Friends: <%= @user.accepted_friends.count %></h3>
 		<% if !@user.lacquers_added_by.empty? %>
 			<% if @user == current_user %>
-				<h3>Lacquers Added by You</h3>
+				<h3>Lacquers Added by You: <%= @user.lacquers_added_by.count %></h3>
 			<% else %>
-				<h3>Lacquers Added by <%= @user.first_name %></h3>
+				<h3>Lacquers Added by <%= @user.first_name %>: <%= @user.lacquers_added_by.count %></h3>
 			<% end %>
 			<ul>
 			<% @user.lacquers_added_by.each do |lacquer| %>
