@@ -74,7 +74,7 @@
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
             <div class="list-group-item" style='padding-top: 15px;'>
               <strong>You've agreed to loan <%= link_to lacquer.name, lacquer_path(lacquer) %> out to <%= link_to friend.name, user_path(friend) %></strong>.<br> 
-              <%= link_to "I gave #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %> <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-primary btn-xs" %><br><br>
+              <%= link_to "I lent #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %> <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-primary btn-xs" %><br><br>
               <%= form_for transaction, :html => {:class => "form-horizontal"} do |f| %>
                 <div class="controls form-inline">
                 <%= f.label :due_date, "Add or Change Due Date" %><br>
