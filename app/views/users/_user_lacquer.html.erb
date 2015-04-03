@@ -70,7 +70,7 @@
                   <%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
                   <%= f.hidden_field :requester_id, value: current_user.id %>
                   <%= f.hidden_field :owner_id, value: user.id %>
-                  <%= f.submit 'Can I borrow this?' %>
+                  <%= f.submit 'Can I borrow this?', class: "btn btn-primary" %>
                 <% end %>
               <% else %>
                 <% transaction = Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id).first %>
@@ -78,7 +78,7 @@
                   <%= form_for(transaction, method: 'DELETE', remote: true) do |f| %>
                     <%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
                     <%= f.hidden_field :owner_id, value: user.id %>
-                    <%= f.submit 'delete pending request' %>
+                    <%= f.submit 'cancel pending request', class: "btn btn-warning" %>
                   <% end %>
                 <% end %>
               <% end %>
