@@ -6,13 +6,25 @@ $(document).ready(function() {
     userID = currentUrl.match(/\d*(?=#top)/)
   }
 
-  if ((currentUrl.match(/users\/(?=\d)/) !== null) && (window.currentUser.id === userID)) {
+  $(document).on('click', '#transaction_due_date', function(){
+    $(this).addClass('selected');
+  });
+
+  $(document).on('blur', '#transaction_due_date', function(){
+    $(this).removeClass('selected');
+  });
+
+  if ((currentUrl.match(/users\/(?=\d)/) !== null) && (window.currentUser.id === userID) && $('#transaction_due_date.selected').length === 0) {
     setInterval(function(){
-      $.ajax({
-        type: "GET",
-        url: "/users/"+userID+"/live_notifications"
-      });
-    }, 3000); 
+      //debugger;
+      if ($('#transaction_due_date.selected').length === 0){
+
+        $.ajax({
+          type: "GET",
+          url: "/users/"+userID+"/live_notifications"
+        });
+      }
+      }, 5000); 
   }
   var userLacquerRows = $('.user-lacquer-partial')
   userLacquerRows.each(function(){
