@@ -1,25 +1,28 @@
 $(document).ready(function(){
 
-  $('.fa').hide();
   var currentUrl = window.location.href;
-  var lacquerCards = $('.col-md-3.lacquer');
-  var brandID = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
-  lacquerCards.each(function(){
-    var id = this.id;
-    $.ajax({
-      type: "GET",
-      url: "/brands/"+brandID+"/lacquers/"+id
-    }).done(function(){
-      $('.fa').hide();
+  
+  if (/brands\/\d+/.test(currentUrl)) {
+    $('.fa').hide();
+    var lacquerCards = $('.col-md-3.lacquer');
+    var brandID = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
+    lacquerCards.each(function(){
+      var id = this.id;
+      $.ajax({
+        type: "GET",
+        url: "/brands/"+brandID+"/lacquers/"+id
+      }).done(function(){
+        $('.fa').hide();
+      });
     });
-  });
 
-  if ($('.col-md-3.lacquer').children().length !== $('.col-md-3.lacquer').length) {
-    setInterval(function(){
-      if ($('.col-md-3.lacquer').children().length === $('.col-md-3.lacquer').length) {
-        $('.fa').show();
-      }
-    }, 3000); 
+    if ($('.col-md-3.lacquer').children().length !== $('.col-md-3.lacquer').length) {
+      setInterval(function(){
+        if ($('.col-md-3.lacquer').children().length === $('.col-md-3.lacquer').length) {
+          $('.fa').show();
+        }
+      }, 3000); 
+    }
   }
   checkboxListener();
   signinListener();

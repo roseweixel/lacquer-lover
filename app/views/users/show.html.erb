@@ -1,84 +1,87 @@
 <div class="well">
 	<legend id="top" style="font-size: 2.5em;">
+		<div class="row" id="show"><i class="fa fa-caret-square-o-down pull-right" style="font-size: 20px; margin-top:-15px;"></i></div>
 		<%= image_tag @user.image || 'placeholder-avatar.png', size: '50x50' %> 
 		<%= @user.name %>
 		<span class="pull-right" style="font-size: .5em;">Lacquer Lover Since:<br><%= @user.created_at.to_date.strftime("%B %e, %Y") %> (<strong><%= time_ago_in_words(@user.created_at) %></strong> ago)</span>
 	</legend>
+	<div class="user-dashboard">
+		<% if (@user != current_user) && (!current_user.all_friends.include?(@user)) %>
+			<%= link_to "Add Friend", new_friendship_path(friend_id: @user) %><br>
+		<% end %>
 
-	<% if (@user != current_user) && (!current_user.all_friends.include?(@user)) %>
-		<%= link_to "Add Friend", new_friendship_path(friend_id: @user) %><br>
-	<% end %>
+		<div class="row">
+			<!-- PUBLIC PROFILE -->
+			<div class="col-sm-4" id="public-profile">
+				<h3>Lacquers: <%= @user.lacquers.count %></h3>
+				<h3>Friends: <%= @user.accepted_friends.count %></h3>
+				<% if !@user.lacquers_added_by.empty? %>
+					<% if @user == current_user %>
+						<h3>Lacquers Added by You: <%= @user.lacquers_added_by.count %></h3>
+					<% else %>
+						<h3>Lacquers Added by <%= @user.first_name %>: <%= @user.lacquers_added_by.count %></h3>
+					<% end %>
+					<ul>
+					<% @user.lacquers_added_by.each do |lacquer| %>
+						<li><%= link_to lacquer.name, lacquer_path(lacquer) %> (<%= link_to lacquer.brand.name, brand_path(lacquer.brand) %>)</li>
+					<% end %>
+					</ul>
+				<% end %>
 
-	<div class="row">
-		<!-- PUBLIC PROFILE -->
-		<div class="col-sm-4" id="public-profile">
-			<h3>Lacquers: <%= @user.lacquers.count %></h3>
-			<h3>Friends: <%= @user.accepted_friends.count %></h3>
-			<% if !@user.lacquers_added_by.empty? %>
-				<% if @user == current_user %>
-					<h3>Lacquers Added by You: <%= @user.lacquers_added_by.count %></h3>
-				<% else %>
-					<h3>Lacquers Added by <%= @user.first_name %>: <%= @user.lacquers_added_by.count %></h3>
+				<% if @user.owned_transactions %>
+					<% if @user == current_user %>
+						<h3>Your Loan Count: 
+					<% else %>
+						<h3><%= @user.first_name %>’s Loan Count: 
+					<% end %>
+					<%= @user.owned_transactions.count %></h3>
 				<% end %>
-				<ul>
-				<% @user.lacquers_added_by.each do |lacquer| %>
-					<li><%= link_to lacquer.name, lacquer_path(lacquer) %> (<%= link_to lacquer.brand.name, brand_path(lacquer.brand) %>)</li>
-				<% end %>
-				</ul>
-			<% end %>
 
-			<% if @user.owned_transactions %>
-				<% if @user == current_user %>
-					<h3>Your Loan Count: 
-				<% else %>
-					<h3><%= @user.first_name %>’s Loan Count: 
+				<% if @user.requested_transactions %>
+					<% if @user == current_user %>
+						<h3>Your Borrow Count: 
+					<% else %>
+						<h3><%= @user.first_name %>’s Borrow Count: 
+					<% end %>
+					<%= @user.requested_transactions.count %></h3>
 				<% end %>
-				<%= @user.owned_transactions.count %></h3>
-			<% end %>
+			</div>
+			<!-- END OF PUBLIC PROFILE -->
 
-			<% if @user.requested_transactions %>
-				<% if @user == current_user %>
-					<h3>Your Borrow Count: 
-				<% else %>
-					<h3><%= @user.first_name %>’s Borrow Count: 
-				<% end %>
-				<%= @user.requested_transactions.count %></h3>
-			<% end %>
+			<div class="col-sm-3">
+	      <% if @user == current_user || @user.accepted_friends.include?(current_user) %>
+	        <h3>Friends</h3>
+	        <div class="profile-section">
+	        <% if @user.accepted_friends.count > 0 %>
+	          <ul class='list-group' id="accepted-friends">
+	          <% @user.accepted_friends.each do |friend| %>
+	            <p style="font-size: 20px; padding: 0;"><%= image_tag friend.image || 'placeholder-avatar.png', size: '50x50' %> <%= link_to friend.name, user_path(friend) %></p>
+	          <% end %>
+	          </ul>
+	        <% end %>
+	        </div>
+	      <% end %>
+	      <h3>Favorites</h3>
+	      <div class="profile-section">
+	      <% if @user.favorited_lacquers.count > 0 %>
+	        <ul class="list-group fave">
+	        <% @user.favorited_lacquers.each do |favorite| %>
+	          <li class="fave" style="font-size: 20px;">
+	            <%= link_to favorite.name, lacquer_path(favorite) %>
+	          </li>
+	        <% end %>
+	        </ul>
+	      <% end %>
+	      </div>
+	    </div>
+
+
+			<!-- BEGINNING OF YOUR ALERTS & FRIENDSHIPS (IF YOU ARE THE CURRENT USER) -->
+
+				<%= render partial: 'live_notifications', locals: {user: @user} %>
+
 		</div>
-		<!-- END OF PUBLIC PROFILE -->
-
-		<div class="col-sm-3">
-      <% if @user == current_user || @user.accepted_friends.include?(current_user) %>
-        <h3>Friends</h3>
-        <div class="profile-section">
-        <% if @user.accepted_friends.count > 0 %>
-          <ul class='list-group' id="accepted-friends">
-          <% @user.accepted_friends.each do |friend| %>
-            <p style="font-size: 20px; padding: 0;"><%= image_tag friend.image || 'placeholder-avatar.png', size: '50x50' %> <%= link_to friend.name, user_path(friend) %></p>
-          <% end %>
-          </ul>
-        <% end %>
-        </div>
-      <% end %>
-      <h3>Favorites</h3>
-      <div class="profile-section">
-      <% if @user.favorited_lacquers.count > 0 %>
-        <ul class="list-group fave">
-        <% @user.favorited_lacquers.each do |favorite| %>
-          <li class="fave" style="font-size: 20px;">
-            <%= link_to favorite.name, lacquer_path(favorite) %>
-          </li>
-        <% end %>
-        </ul>
-      <% end %>
-      </div>
-    </div>
-
-
-		<!-- BEGINNING OF YOUR ALERTS & FRIENDSHIPS (IF YOU ARE THE CURRENT USER) -->
-
-			<%= render partial: 'live_notifications', locals: {user: @user} %>
-
+		<div class="row" id="hide"><i class="fa fa-caret-square-o-up pull-right" style="font-size: 20px; margin-bottom:-15px;"></i></div>
 	</div>
 </div>
 <!-- END OF YOUR ALERTS (IF YOU ARE THE CURRENT USER) -->

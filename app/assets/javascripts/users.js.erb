@@ -40,4 +40,15 @@ $(document).ready(function() {
     e.preventDefault();
     $("html, body").animate({ scrollTop: 0 });
   });
+
+  $('#show').hide();
+  $('.well').on('click', '#hide', function(){
+    $('.user-dashboard').slideUp();
+    $('#show').show();
+  });
+
+  $('legend').on('click', '#show', function(){
+    $('.user-dashboard').slideDown();
+    $('#show').hide();
+  });
 });
