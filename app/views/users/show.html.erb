@@ -48,7 +48,6 @@
 		<!-- END OF PUBLIC PROFILE -->
 
 		<div class="col-sm-3">
-      <%# binding.pry %>
       <% if @user == current_user || @user.accepted_friends.include?(current_user) %>
         <h3>Friends</h3>
         <div class="profile-section">
@@ -157,7 +156,7 @@
 		    		</div>
 		    		<%= f.hidden_field :brand_id, value: new_lacquer.brand_id %>
 		    		<%= f.hidden_field :user_added_by_id, value: current_user.id %>
-						<%= f.submit "Create Lacquer" %>
+						<%= f.submit "Create Lacquer", class:"btn btn-primary" %>
 					<% end %>
 				</div>
 			<% end %>

@@ -33,6 +33,7 @@ $(function(){
         if(lacquerID === "") {
             $('.add-lacquer').addClass("disabled");
         } else if(lacquerID === "new") {
+            $('.add-lacquer').hide();
             $.each(BRANDS_SHORT, function(key, value){
                 if(brand === key){
                     $(value).show();
@@ -41,6 +42,7 @@ $(function(){
             $('.add-lacquer').addClass("disabled");
         } else {
             $('.add-lacquer').removeClass("disabled");
+            $('.add-lacquer').show();
         }
     });
     
