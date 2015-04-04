@@ -70,7 +70,7 @@
                   <%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
                   <%= f.hidden_field :requester_id, value: current_user.id %>
                   <%= f.hidden_field :owner_id, value: user.id %>
-                  <%= f.submit 'Can I borrow this?', class: "btn btn-primary" %>
+                  <%= f.submit 'Borrow it!', class: "btn btn-info" %>
                 <% end %>
               <% else %>
                 <% transaction = Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id).first %>
@@ -85,6 +85,9 @@
             </td>
           <% else %>
             <td>
+            <% if user_lacquer.lacquer.item_url %>
+            <%= link_to "Buy it!", user_lacquer.lacquer.item_url, :target => "_blank", class: "btn btn-primary", style:"width: 104px;" %>
+            <% end %>
             </td>
           <% end %>
         <% end %>

@@ -201,7 +201,11 @@
 					<th>On Loan?</th>
 					<th>Edit/Remove</th>
 				<% else %>
+					<% if @user == current_user %>
 					<th>Loan Requests</th>
+					<% else %>
+					<th>Borrow/Buy</th>
+					<% end %>
 				<% end %>
 			</tr>
 		</thead>
