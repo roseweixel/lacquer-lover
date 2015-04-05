@@ -1,260 +1,98 @@
-<h1 id="top"><%= image_tag @user.image || 'placeholder-avatar.png', size: '50x50' %> <%= @user.first_name %></h1>
-
-<% if (@user != current_user) && (!current_user.all_friends.include?(@user)) %>
-	<%= link_to "Add Friend", new_friendship_path(friend_id: @user) %><br>
-<% end %>
-
-<div class="row">
-	<!-- PUBLIC PROFILE -->
-	<div class="col-sm-4" id="public-profile">
-		<h3>Lacquers: <%= @user.lacquers.count %></h3>
-		<h3>Friends: <%= @user.accepted_friends.count %></h3>
-		<% if !@user.lacquers_added_by.empty? %>
-			<% if @user == current_user %>
-				<h3>Lacquers Added by You</h3>
-			<% else %>
-				<h3>Lacquers Added by <%= @user.name %></h3>
-			<% end %>
-			<ul>
-			<% @user.lacquers_added_by.each do |lacquer| %>
-				<li><%= link_to lacquer.name, lacquer_path(lacquer) %> (<%= link_to lacquer.brand.name, brand_path(lacquer.brand) %>)</li>
-			<% end %>
-			</ul>
+<div class="well">
+	<legend id="top" style="font-size: 2.5em;">
+		<div class="row" id="show"><i class="fa fa-caret-square-o-down pull-right" style="font-size: 20px; margin-top:-15px;" title="show dashboard"></i></div>
+		<%= image_tag @user.image || 'placeholder-avatar.png', size: '50x50' %> 
+		<%= @user.name %>
+		<span class="pull-right" style="font-size: .5em;">Lacquer Lover Since:<br><%= @user.created_at.to_date.strftime("%B %e, %Y") %> (<strong><%= time_ago_in_words(@user.created_at) %></strong> ago)</span>
+	</legend>
+	<div class="user-dashboard">
+		<% if (@user != current_user) && (!current_user.all_friends.include?(@user)) %>
+			<%= link_to "Add Friend", new_friendship_path(friend_id: @user) %><br>
 		<% end %>
 
-		<% if @user.owned_transactions %>
-			<% if @user == current_user %>
-				<h3>Your Loan Count: 
-			<% else %>
-				<h3><%= @user.name %>’s Loan Count: 
-			<% end %>
-			<%= @user.owned_transactions.count %></h3>
-		<% end %>
+		<div class="row">
+			<!-- PUBLIC PROFILE -->
+			<div class="col-sm-4" id="public-profile">
+				<h3>Lacquers: <%= @user.lacquers.count %></h3>
+				<h3>Friends: <%= @user.accepted_friends.count %></h3>
+				<% if !@user.lacquers_added_by.empty? %>
+					<% if @user == current_user %>
+						<h3>Lacquers Added by You: <%= @user.lacquers_added_by.count %></h3>
+					<% else %>
+						<h3>Lacquers Added by <%= @user.first_name %>: <%= @user.lacquers_added_by.count %></h3>
+					<% end %>
+					<ul>
+					<% @user.lacquers_added_by.each do |lacquer| %>
+						<li><%= link_to lacquer.name, lacquer_path(lacquer) %> (<%= link_to lacquer.brand.name, brand_path(lacquer.brand) %>)</li>
+					<% end %>
+					</ul>
+				<% end %>
 
-		<% if @user.requested_transactions %>
-			<% if @user == current_user %>
-				<h3>Your Borrow Count: 
-			<% else %>
-				<h3><%= @user.name %>’s Borrow Count: 
-			<% end %>
-			<%= @user.requested_transactions.count %></h3>
-		<% end %>
+				<% if @user.owned_transactions %>
+					<% if @user == current_user %>
+						<h3>Your Loan Count: 
+					<% else %>
+						<h3><%= @user.first_name %>’s Loan Count: 
+					<% end %>
+					<%= @user.owned_transactions.count %></h3>
+				<% end %>
+
+				<% if @user.requested_transactions %>
+					<% if @user == current_user %>
+						<h3>Your Borrow Count: 
+					<% else %>
+						<h3><%= @user.first_name %>’s Borrow Count: 
+					<% end %>
+					<%= @user.requested_transactions.count %></h3>
+				<% end %>
+			</div>
+			<!-- END OF PUBLIC PROFILE -->
+
+			<div class="col-sm-3">
+	      <% if @user == current_user || @user.accepted_friends.include?(current_user) %>
+	        <h3>Friends</h3>
+	        <div class="profile-section">
+	        <% if @user.accepted_friends.count > 0 %>
+	          <ul class='list-group' id="accepted-friends">
+	          <% @user.accepted_friends.each do |friend| %>
+	            <p style="font-size: 20px; padding: 0;"><%= image_tag friend.image || 'placeholder-avatar.png', size: '50x50' %> <%= link_to friend.name, user_path(friend) %></p>
+	          <% end %>
+	          </ul>
+	        <% end %>
+	        </div>
+	      <% end %>
+	      <h3>Favorites</h3>
+	      <div class="profile-section">
+	      <% if @user.favorited_lacquers.count > 0 %>
+	        <ul class="list-group fave">
+	        <% @user.favorited_lacquers.each do |favorite| %>
+	          <li class="fave" style="font-size: 20px;">
+	            <%= link_to favorite.name, lacquer_path(favorite) %>
+	          </li>
+	        <% end %>
+	        </ul>
+	      <% end %>
+	      </div>
+	    </div>
+
+
+			<!-- BEGINNING OF YOUR ALERTS & FRIENDSHIPS (IF YOU ARE THE CURRENT USER) -->
+
+				<%= render partial: 'live_notifications', locals: {user: @user} %>
+
+		</div>
+		<div class="row" id="hide"><i class="fa fa-caret-square-o-up pull-right" style="font-size: 20px; margin-bottom:-15px;" title="hide dashboard"></i></div>
 	</div>
-	<!-- END OF PUBLIC PROFILE -->
-
-
-	<!-- BEGINNING OF YOUR ALERTS & FRIENDSHIPS (IF YOU ARE THE CURRENT USER) -->
-
-		<div class="col-sm-3">
-			<h3>Friends</h3>
-			<% if @user.accepted_friends.count > 0 %>
-				<% @user.accepted_friends.each do |friend| %>
-					<p style="font-size:20px;"><%= image_tag friend.image || 'placeholder-avatar.png', size: '50x50' %> <%= link_to friend.name, user_path(friend) %></p>
-				<% end %>
-			<% end %>
-
-			<h3>Favorites</h3>
-			<% if @user.favorited_lacquers.count > 0 %>
-				<ul>
-				<% @user.favorited_lacquers.each do |favorite| %>
-					<li style="font-size:20px;"><%= link_to favorite.name, lacquer_path(favorite) %></li>
-				<% end %>
-				</ul>
-			<% end %>
-		</div>
-	
-	<% if @user == current_user %>
-
-	<span class="live-notifications">
-		<div class="col-sm-5">
-			<!-- FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
-			<% if @user.friendships_for_your_approval.count > 0 %>
-				<h3>Friendships Awaiting Your Approval</h3>
-				<ul>
-					<% @user.friendships_for_your_approval.each do |friendship| %>
-						<% friend = User.find(friendship.user_id) %>
-						<li style='padding-top: 15px;'><%= link_to friend.name, user_path(friend) %><br> <%= link_to "Accept", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %> <%= link_to "Reject", friendship_path(friendship, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs"} %></li>
-					<% end %>
-				</ul>
-			<% end %>
-			<!-- END OF FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
-
-			<!-- FRIENDSHIPS YOU'VE REQUESTED NOT YET APPROVED -->
-			<% if @user.requested_friends_awaiting_approval.count > 0 %>
-				<h3>Your Pending Friend Requests</h3>
-				<ul>
-					<% @user.requested_friends_awaiting_approval.each do |friend| %>
-						<% friendship = Friendship.where(user_id: @user.id, friend_id: friend.id).first %>
-						<li style='padding-top: 15px;'><%= link_to friend.name, user_path(friend) %></li>
-						<%= link_to 'Cancel Request', friendship_path(friendship), method: 'DELETE', :class =>"btn btn-default btn-xs" %>
-					<% end %>
-				</ul>
-			<% end %>
-			<!-- END OF FRIENDSHIPS YOU'VE REQUESTED NOT YET APPROVED -->
-
-			<!-- RECTED FRIENDSHIPS YOU'VE REQUESTED -->
-			<% if @user.rejected_friend_requests.count > 0 %>
-				<h3>Sorry, these friend requests were not approved.</h3>
-				<ul>
-					<% @user.rejected_friend_requests.each do |friendship| %>
-						<% friend = User.find(friendship.friend_id) %>
-						<li style='padding-top: 15px;'><%= link_to friend.name, user_path(friend) %></li>
-						<%= link_to "conclude this request", friendship_path(friendship, :state => 'concluded'), {:method => "PATCH", :class =>"btn btn-warning btn-xs"} %>
-					<% end %>
-				</ul>
-			<% end %>
-			<!-- END OF RECTED FRIENDSHIPS YOU'VE REQUESTED -->
-
-			<!-- TRANSACTIONS YOU OWN -->
-			<% if @user.owned_transactions.count > 0 %>
-
-				<!-- TRANSACTIONS AWAITING YOUR APPROVAL -->
-				<% if @user.transactions_for_your_approval.count > 0 %>
-					<h3>Transactions Awaiting Your Approval</h3>
-					<ul>
-					<% @user.transactions_for_your_approval.each do |transaction| %>
-						<% friend = User.find(transaction.requester_id) %>
-						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-						<li style='padding-top: 15px;'><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>.</br> <%= link_to "Accept Request", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %> <%= link_to "Reject Request", transaction_path(transaction, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs"} %></li>
-					<% end %>
-					</ul>
-				<% end %>
-				<!-- END OF TRANSACTIONS AWAITING YOUR APPROVAL -->
-
-				<!-- TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
-				<% if @user.transactions_you_accepted.count > 0 %>
-					<h3>Transactions You Accepted</h3>
-					<ul>
-					<% @user.transactions_you_accepted.each do |transaction| %>
-						<% friend = transaction.requester %>
-						<% lacquer = transaction.lacquer %>
-						<li style='padding-top: 15px;'>
-							You've agreed to loan <%= lacquer.name %> out to <%= link_to friend.name, user_path(friend) %>.<br> <%= link_to "I gave #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %>
-						</li>
-						<%= form_for transaction do |f| %>
-							<%= f.label :due_date, "Add or Update Due Date" %>
-							<%= f.date_field :due_date %>
-							<%= f.submit :class =>"btn btn-info btn-xs" %>
-						<% end %> 
-					<% end %>
-					</ul>
-				<% end %>
-				<!-- END OF TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
-
-				<!-- CURRENTLY LOANED OUT -->
-				<% if @user.active_owned_transactions.count > 0 %>
-					<h3>Lacquers Currenly on Loan</h3>
-					<ul>
-					<% @user.active_owned_transactions.each do |transaction| %>
-						<% friend = User.find(transaction.requester_id) %>
-						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-						<li style='padding-top: 15px;'>
-							Your <%= lacquer.name %> is currently loaned out to <%= link_to friend.name, user_path(friend) %>.<br> <%= link_to "#{friend.name} gave #{lacquer.name} back", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %>
-						</li>
-						<%= form_for transaction do |f| %>
-							<%= f.label :due_date, "Add or Update Due Date" %>
-							<%= f.date_field :due_date %>
-							<%= f.submit :class =>"btn btn-info btn-xs" %>
-						<% end %> 
-					<% end %>
-					</ul>
-				<% end %>
-				<!-- END OF CURRENTLY LOANED OUT -->
-			<% end %>
-			<!-- END OF TRANSACTIONS YOU OWN -->
-
-			<!-- TRANSACTIONS YOU'VE REQUESTED -->
-			<% if @user.requested_transactions.count > 0 %>
-			
-				<!-- CURRENTLY LOANED OUT TO YOU -->
-				<% if @user.active_requested_transactions.count > 0 %>
-					<h3>Lacquers Currently Loaned Out to You</h3>
-					<ul>
-						<% @user.active_requested_transactions.each do |transaction| %>
-							<% friend = User.find(transaction.owner_id) %>
-							<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-							<li style='padding-top: 15px;'>
-								<%= link_to friend.name, user_path(friend) %> gave you <%= lacquer.name %> on <%= transaction.date_became_active.strftime("%m/%d/%Y") %>.
-								<% if transaction.due_date %>
-									<% if transaction.overdue? %>
-										<div class="alert alert-danger" role="alert" style="padding: 2px;">
-										You're <%= pluralize(transaction.days_overdue, 'day') %> overdue to return this lacquer. Don't mess with karma - give it back!
-										</div>
-									<% elsif transaction.due_today? %>
-									<div class="alert alert-dismissable alert-warning" style="padding: 2px;">
-              
-										Remember to give this lacquer back <strong>today</strong>!
-									</div>
-									<% elsif transaction.due_tomorrow? %>
-									<div class="alert alert-dismissable alert-success" style="padding: 2px;">
-										Remember to give this lacquer back <strong>tomorrow</strong>!
-									</div>
-									<% else %>
-										The return date for this loan is <%= transaction.due_date.strftime("%m/%d/%Y") %>.
-									<% end %>
-								<% end %>
-							</li>
-						<% end %>
-					</ul>
-				<% end %>
-				<!-- END OF CURRENTLY LOANED OUT TO YOU -->
-
-				<!-- LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
-				<% if @user.accepted_requested_transactions.count > 0 %>
-					<h3>Accepted Loan Requests</h3>
-					<ul>
-					<% @user.accepted_requested_transactions.each do |transaction| %>
-						<% friend = User.find(transaction.owner_id) %>
-						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-						<li style='padding-top: 15px;'><%= link_to friend.name, user_path(friend) %> has agreed to loan you <%= lacquer.name %>.</li>
-					<% end %>
-					</ul>
-				<% end %>
-				<!-- END LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
-
-				<!-- LOANS REQUESTED PENDING -->
-				<% if @user.pending_requested_transactions.count > 0 %>
-					<h3>Pending Loan Requests</h3>
-					<ul>
-					<% @user.pending_requested_transactions.each do |transaction| %>
-						<% friend = User.find(transaction.owner_id) %>
-						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-						<li style='padding-top: 15px;'>You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= lacquer.name %></li>
-						<%= link_to 'Cancel Pending Request', transaction_path(transaction), method: 'DELETE', :class =>"btn btn-default btn-xs" %>
-					<% end %>
-					</ul>
-				<% end %>
-				<!-- END LOANS REQUESTED PENDING -->
-
-				<!-- LOAN REQUESTS REJECTED -->
-				<% if @user.rejected_requested_transactions.count > 0 %>
-					<h3>Pending Loan Requests</h3>
-					<ul>
-					<% @user.rejected_requested_transactions.each do |transaction| %>
-						<% friend = User.find(transaction.owner_id) %>
-						<% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-						<li style='padding-top: 15px;'>It seems <%= link_to friend.name, user_path(friend) %> isn't able to loan you <%= lacquer.name %> at this time.</li>
-						<%= link_to "conclude this request", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-warning btn-xs"} %>
-					<% end %>
-					</ul>
-				<% end %>
-				<!-- END LOAN REQUESTS REJECTED -->
-
-			<% end %>
-			<!-- END OF TRANSACTIONS YOU'VE REQUESTED -->
-		
-		</div>
-	</span>
-	<% end %>
 </div>
 <!-- END OF YOUR ALERTS (IF YOU ARE THE CURRENT USER) -->
 	
 
 <% if (@user == current_user) || (current_user.accepted_friends.include?(@user)) %>
-	<section>
-	<div class="page-header">
+	<section style="margin-top: 50px;">
+	<!-- <div class="page-header"> -->
 		<% if @user == current_user %>
-			<h3>Your Lacquers</h1>
+			<legend style="font-size: 2em;">Your Lacquers</legend>
+			<div class="page-header" style="margin-top: 0;">
 			<h5>Add A Lacquer</h5>
 			<div class="dropdown">
 			  <select id="brand-selection" class="btn-default">
@@ -321,19 +159,19 @@
 		    		</div>
 		    		<%= f.hidden_field :brand_id, value: new_lacquer.brand_id %>
 		    		<%= f.hidden_field :user_added_by_id, value: current_user.id %>
-						<%= f.submit "Create Lacquer" %>
+						<%= f.submit "Create Lacquer", class:"btn btn-primary" %>
 					<% end %>
 				</div>
 			<% end %>
 			<!-- END OF ADD "OTHER" LACQUER -->
-
+			</div>
 		<!-- ***** END OF ADD OTHER LACQUERS ***** --> 	
 
 		<% else %>
-			<h3><%= @user.first_name %>'s Lacquers</h3>
+			<legend style="font-size: 2em;"><%= @user.first_name %>'s Lacquers</legend>
 		<% end %>
-	</div>
-	<div class="row" id="filter-buttons" style="background-color: #DCDCDC; padding: 10px; text-align: center;">
+	<!-- </div> -->
+	<div class="row well" id="filter-buttons" style="padding: 10px; margin: 5px 0; text-align: center;">
 		<% brands = @user.lacquers.collect {|l| l.brand.name}.uniq %>
 		<% colors = @user.lacquers.collect {|l| l.color_tags}.flatten.uniq %>
 		<% finishes = @user.lacquers.collect {|l| l.finish_tags}.flatten.uniq %>
@@ -346,7 +184,7 @@
 			    <%= link_to "#{item}", "#", :class => "btn btn-xs btn-default #{attribute}", :id => "#{item}", :style => "margin: 2px;" %>
 			  <% end %>
 			<% else %>
-				<h6>No <%= attribute %> in <%= @user.name %>'s collection.</h6>
+				<h6>No <%= attribute.singularize %> tags in <%= @user.first_name %>'s collection.</h6>
 			<% end %>
 		  </div>
 		<% end %>
@@ -366,7 +204,11 @@
 					<th>On Loan?</th>
 					<th>Edit/Remove</th>
 				<% else %>
+					<% if @user == current_user %>
 					<th>Loan Requests</th>
+					<% else %>
+					<th>Borrow/Buy</th>
+					<% end %>
 				<% end %>
 			</tr>
 		</thead>

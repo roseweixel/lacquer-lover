@@ -1,10 +1,26 @@
 <h1>Brands</h1>
 
-<ul>
+<ul class="list-group">
 
   <% @brands.order(:name).each do |brand| %>
 
-    <li><%= link_to brand.name, brand_path(brand) %>, <%= pluralize(brand.lacquers.count, "lacquer") %></li>
+    <li class="list-group-item">
+      <span class="item-brand">
+      <%= link_to brand.name, brand_path(brand) %>
+      </span>
+
+      <span class="item-brand">
+      <%= pluralize(brand.lacquers.count, "lacquer") %>
+      </span>
+
+      <span class="item-brand">
+      <%= pluralize(brand.favorites.count, "favorite") %>
+      </span>
+
+      <span class="item-brand-last">
+      <%= pluralize(brand.users.count, "lacquer lover") %>
+      </span>
+    </li>
 
   <% end %>
 

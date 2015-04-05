@@ -1,26 +1,30 @@
 <%#= picture_for(@lacquer) %>  
 <div class="row">
-<h1 class="col-xs-7"><%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %></h1>
-	<div class="col-xs-5" style="margin-top: 21px;">
-	<p class="pull-right lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
+<div class="well">
+	<legend id="top" style="font-size: 2.5em;">
+	<%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %>
+	<!-- <div class="col-xs-5" style="margin-top: 21px;"> -->
+	<span class="pull-right" style="font-size: .4em; margin-top: -10px;">
+	<span class="lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
 	<%= render partial: 'favorite', locals: {result: @lacquer} %>
-	<p>
-	<p class="pull-right">
+	</span><br>
+	<!-- <p> -->
 	<% if current_user  %>
-
+		<span class="pull-right">
 	  <% if current_user.lacquers.include? @lacquer %>
 		  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
 	    <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
 		<% else %>
 		  <%= render 'user_lacquers/add_button', lacquer: @lacquer %>
 		<% end %>
-
+		</span>
 	<% else %>
-	 <%= link_to "Sign In To Favorite & Add #{@lacquer.name} to Your Collection!", "/auth/facebook", class: "btn btn-primary btn-sm pull-right", id: "brand-show-sign-in" %>
+	 <%= link_to "Sign in to favorite & add this lacquer to your collection!", "/auth/facebook", class: "btn btn-primary btn-xs pull-right", id: "brand-show-sign-in" %>
 	<% end %>
-	</p>
-	</div>
-</div>
+	<!-- </p> -->
+	</span>	
+	<!-- </div> -->
+	</legend>
 
 <div class="row" style="margin-top: 20px;">
 	<div class="col-md-4">
@@ -70,4 +74,5 @@
 	 No swatches yet!
 	<% end %>
 	</div>
+</div>
 </div>

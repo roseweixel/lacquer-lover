@@ -27,9 +27,9 @@ class TransactionsController < ApplicationController
     if params[:loan] && params[:loan][:due_date]
       @transaction.update(due_date: params[:loan][:due_date])
     end
-    # if params[:transaction] && params[:transaction][:due_date]
-    #   @transaction.update(due_date: params[:transaction][:due_date])
-    # end
+    if params[:transaction] && params[:transaction][:due_date]
+      @transaction.update(due_date: params[:transaction][:due_date])
+    end
     if params[:date_became_active]
       @transaction.update(date_became_active: params[:date_became_active])
     end

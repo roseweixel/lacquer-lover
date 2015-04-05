@@ -5,14 +5,26 @@ $(document).ready(function() {
     //alert(currentUrl.match(/\d*(?=#top)/));
     userID = currentUrl.match(/\d*(?=#top)/)
   }
-  //debugger;
-  if ((currentUrl.match(/users\/(?=\d)/) !== null) && (window.currentUser.id === userID)) {
+
+  $(document).on('click', '#transaction_due_date', function(){
+    $(this).addClass('selected');
+  });
+
+  $(document).on('blur', '#transaction_due_date', function(){
+    $(this).removeClass('selected');
+  });
+
+  if ((currentUrl.match(/users\/(?=\d)/) !== null) && (window.currentUser.id === userID) && $('#transaction_due_date.selected').length === 0) {
     setInterval(function(){
-      $.ajax({
-        type: "GET",
-        url: "/users/"+userID+"/live_notifications"
-      });
-    }, 3000); 
+      //debugger;
+      if ($('#transaction_due_date.selected').length === 0){
+
+        $.ajax({
+          type: "GET",
+          url: "/users/"+userID+"/live_notifications"
+        });
+      }
+      }, 5000); 
   }
   var userLacquerRows = $('.user-lacquer-partial')
   userLacquerRows.each(function(){
@@ -27,5 +39,16 @@ $(document).ready(function() {
   $("a[href='#top']").click(function(e) {
     e.preventDefault();
     $("html, body").animate({ scrollTop: 0 });
+  });
+
+  $('#show').hide();
+  $('.well').on('click', '#hide', function(){
+    $('.user-dashboard').slideUp();
+    $('#show').show();
+  });
+
+  $('legend').on('click', '#show', function(){
+    $('.user-dashboard').slideDown();
+    $('#show').hide();
   });
 });

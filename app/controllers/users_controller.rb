@@ -14,7 +14,8 @@ class UsersController < ApplicationController
   end
 
   def live_notifications
-    @user = current_user
+    #binding.pry
+    @user = User.find(params[:id])
     respond_to do |format|
       format.js { }
     end

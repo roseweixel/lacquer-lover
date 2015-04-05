@@ -1,0 +1,64 @@
+var BRANDS = {};
+
+var BRANDS_SHORT = {};
+
+var brandNames = <%= Brand.all.pluck(:name) %>;
+var brandAbbreviations = <%= Brand.all.map {|b| b.abbreviation} %>;
+brandNames.forEach(function(name, index){
+    BRANDS[name] = "#"+brandAbbreviations[index]+"-dropdown";
+    BRANDS_SHORT[name] = ".other-lacquer#"+brandAbbreviations[index];
+})
+
+$(function(){
+	$('.lacquer-dropdown').hide();
+    $('.other-lacquer').hide();
+    $('#brand-selection').change(function(event){
+        event.stopPropagation();
+        var brand = $(this).val();
+        $('.lacquer-dropdown').hide();
+        $('.other-lacquer').hide();
+        $('.add-lacquer').addClass("disabled");
+        $.each(BRANDS, function(key, value){
+            if(brand === key){
+                $(value).show();
+            }
+        });
+    });
+
+    $('.lacquer-dropdown').change(function(event){
+        event.stopPropagation();
+        $('.other-lacquer').hide();
+        var brand = $('#brand-selection').val();
+        var lacquerID = $(this).find("select").val();
+        if(lacquerID === "") {
+            $('.add-lacquer').addClass("disabled");
+        } else if(lacquerID === "new") {
+            $('.add-lacquer').hide();
+            $.each(BRANDS_SHORT, function(key, value){
+                if(brand === key){
+                    $(value).show();
+                }
+            });
+            $('.add-lacquer').addClass("disabled");
+        } else {
+            $('.add-lacquer').removeClass("disabled");
+            $('.add-lacquer').show();
+        }
+    });
+    
+
+
+    // $('.finish-dropdown').click(function(event){
+
+    //     $('#finish-dropdown').toggle();
+
+    // });
+
+    $('.page-header').on("click", '.dropdown-menu', function(event){
+        event.stopPropagation();
+        $('this').show();
+
+    });
+
+
+});
