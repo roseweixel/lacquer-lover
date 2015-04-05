@@ -48,6 +48,8 @@ module ApplicationHelper
       rescue
         image_tag('generic-polish.png', :size => "45x90", :class => "padded_lacquer_pic")
       end
+    elsif lacquer.swatches.any?
+      image_tag(lacquer.swatches.sample.image, :size => "45x90")
     else
       image_tag('generic-polish.png', :size => "45x90", :class => "padded_lacquer_pic")
     end
@@ -78,6 +80,8 @@ module ApplicationHelper
       rescue
         image_tag('generic-polish.png', :size => "244x400")
       end
+    elsif lacquer.swatches.any?
+      image_tag(lacquer.swatches.sample.image.url(:medium), :width => "244px")
     else
       image_tag('generic-polish.png', :size => "244x400")
     end
