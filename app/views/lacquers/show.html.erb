@@ -49,9 +49,10 @@
 		No finish tags yet!
 	<% end %>
 
-	<h3><strong>Swatches</strong></h3>
+	<h3><strong>Pictures & Swatches</strong></h3>
+
 	<% if @lacquer.swatches.count > 0 %>
-		<div class="row">
+	<div class="row">
 		<% @lacquer.swatches.each do |swatch| %>
 			<% if swatch.image.file? %>
 				<div class="col-md-3" style="margin: 10px;">
@@ -69,9 +70,11 @@
 				</div>
 			<% end %>
 		<% end %>
-		</div>
+	</div>
 	<% else %>
-	 No swatches yet!
+		<div class="col-md-3" style="margin: 10px;">
+	 		No swatches yet!
+	 	</div>
 	<% end %>
 	</div>
 </div>

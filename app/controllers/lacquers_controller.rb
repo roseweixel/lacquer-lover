@@ -48,16 +48,18 @@ class LacquersController < ApplicationController
       @user_lacquer = UserLacquer.find(params[:user_lacquer_id])
       if @user_lacquer.user_id != @user.id
         flash[:alert] = "You cannot edit a lacquer that is not in your collection!"
-        redirect_to(:back)
+        redirect_to root_path
       end
     elsif !UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).empty?
       @user_lacquer = UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).first
     else
       flash[:alert] = "You cannot edit a lacquer that is not in your collection!"
-      redirect_to(:back)
+      redirect_to root_path
     end
-    session[:user_lacquer_id] = params[:user_lacquer_id] || @user_lacquer.id
-    @swatch = Swatch.new
+    if @user_lacquer
+      session[:user_lacquer_id] = params[:user_lacquer_id] || @user_lacquer.id
+      @swatch = Swatch.new
+    end
   end
 
   def update
@@ -76,9 +78,12 @@ class LacquersController < ApplicationController
         flash[:alert] = "You can only change color or finish tags for your own lacquers."
         redirect_to(:back)
       else
+        @user_lacquer.finishes.clear
+        @user_lacquer.colors.clear
+        @user_lacquer.save
         @lacquer.update(lacquer_params)
         if params[:lacquer][:user_lacquer] && params[:lacquer][:user_lacquer][:color_ids] && params[:lacquer][:user_lacquer][:color_ids] != [""]
-          @user_lacquer.colors.clear
+          #binding.pry
           params[:lacquer][:user_lacquer][:color_ids].each do |color_id|
             if color_id != ""
               @user_lacquer.colors.push(Color.find(color_id))
@@ -86,7 +91,6 @@ class LacquersController < ApplicationController
           end
         end
         if params[:lacquer][:user_lacquer] && params[:lacquer][:user_lacquer][:finish_ids] && params[:lacquer][:user_lacquer][:finish_ids] != [""]
-          @user_lacquer.finishes.clear
           params[:lacquer][:user_lacquer][:finish_ids].each do |finish_id|
             if finish_id != ""
               @user_lacquer.finishes.push(Finish.find(finish_id))
