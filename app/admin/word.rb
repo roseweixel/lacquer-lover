@@ -14,5 +14,6 @@ ActiveAdmin.register Word do
   #   permitted
   # end
 
-
+  permit_params :text
+  
 end

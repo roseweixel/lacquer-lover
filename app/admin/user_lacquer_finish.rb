@@ -14,5 +14,6 @@ ActiveAdmin.register UserLacquerFinish do
   #   permitted
   # end
 
+  permit_params :user_lacquer_id, :finish_id
 
 end
