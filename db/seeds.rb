@@ -555,6 +555,14 @@ def get_correct_butter_urls
   end
 end
 
+def clean_lacquer_names
+  Lacquer.all.each do |lacquer|
+    new_name = HTMLEntities.new.decode lacquer.name
+    lacquer.update(name: new_name)
+  end
+end
+
+clean_lacquer_names
 # save_butter_images
 
 # SeedDatabase.new
@@ -564,5 +572,5 @@ end
 # save_butter_images
 # update_butter_default_pictures
 # store_butter_images_as_paperclip_attachment
-get_correct_butter_urls
+# get_correct_butter_urls
 
