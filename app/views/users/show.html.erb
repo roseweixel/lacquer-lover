@@ -107,7 +107,7 @@
 				<div class="lacquer-dropdown dropdown btn" id="<%= brand.abbreviation %>-dropdown">
 				  <%= form_for @new_user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create'), remote: true do |f| %>
 
-				  	<%= f.select(:lacquer_id, brand.lacquers.order(:name).collect {|p| [ p.name, p.id ] } + [ [ 'Other', 'new' ] ], {:prompt => "Select an #{brand.name} lacquer"}, :class => "btn-default") %>
+				  	<%= f.select(:lacquer_id, brand.lacquers.order(:name).collect {|p| [ p.name, p.id ] } + [ [ 'Other', 'new' ] ], {:prompt => "Select #{brand.name.indefinitize} lacquer"}, :class => "btn-default") %>
 
 				    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
 				  <% end %>
