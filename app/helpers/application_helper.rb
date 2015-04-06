@@ -15,6 +15,17 @@ module ApplicationHelper
     nil
   end
 
+  def display_image(user_lacquer)
+    if user_lacquer.selected_display_image && user_lacquer.selected_display_image == user_lacquer.lacquer.default_picture
+      picture_for(user_lacquer.lacquer)
+    else
+      image = user_lacquer.selected_display_image || user_lacquer.swatch_image
+      if image
+        image_tag(image, :height => "90")
+      end
+    end
+  end
+
   def valid?(url)
     if url.class == Paperclip::Attachment || !url.start_with?("http")
       return true
@@ -48,6 +59,8 @@ module ApplicationHelper
       rescue
         image_tag('generic-polish.png', :size => "45x90", :class => "padded_lacquer_pic")
       end
+    elsif lacquer.swatches.any?
+      image_tag(lacquer.swatches.sample.image, :size => "45x90")
     else
       image_tag('generic-polish.png', :size => "45x90", :class => "padded_lacquer_pic")
     end
@@ -78,6 +91,8 @@ module ApplicationHelper
       rescue
         image_tag('generic-polish.png', :size => "244x400")
       end
+    elsif lacquer.swatches.any?
+      image_tag(lacquer.swatches.sample.image.url(:medium), :width => "244px")
     else
       image_tag('generic-polish.png', :size => "244x400")
     end

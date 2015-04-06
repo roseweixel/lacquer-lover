@@ -9,7 +9,7 @@
 #
 
 class Word < ActiveRecord::Base
-  has_many :lacquer_words
+  has_many :lacquer_words, dependent: :destroy
   has_many :lacquers, through: :lacquer_words
 
   validates :text, presence: true, uniqueness: true

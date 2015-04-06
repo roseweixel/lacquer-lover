@@ -48,22 +48,24 @@ class LacquersController < ApplicationController
       @user_lacquer = UserLacquer.find(params[:user_lacquer_id])
       if @user_lacquer.user_id != @user.id
         flash[:alert] = "You cannot edit a lacquer that is not in your collection!"
-        redirect_to(:back)
+        redirect_to root_path
       end
     elsif !UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).empty?
       @user_lacquer = UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).first
     else
       flash[:alert] = "You cannot edit a lacquer that is not in your collection!"
-      redirect_to(:back)
+      redirect_to root_path
     end
-    session[:user_lacquer_id] = params[:user_lacquer_id] || @user_lacquer.id
-    @swatch = Swatch.new
+    if @user_lacquer
+      session[:user_lacquer_id] = params[:user_lacquer_id] || @user_lacquer.id
+      @swatch = Swatch.new
+    end
   end
 
   def update
     @user = current_user
     @lacquer = Lacquer.find(params[:id])
-    @user_lacquer = UserLacquer.find(session[:user_lacquer_id])
+    @user_lacquer = UserLacquer.find(params[:lacquer][:user_lacquer_id])
 
     if @lacquer.user_added_by_id != @user.id && params[:lacquer][:name] || params[:lacquer][:brand_id]
       flash[:alert] = "You do not have permission to change the name or brand of this lacquer."
@@ -77,22 +79,8 @@ class LacquersController < ApplicationController
         redirect_to(:back)
       else
         @lacquer.update(lacquer_params)
-        if params[:lacquer][:user_lacquer] && params[:lacquer][:user_lacquer][:color_ids] && params[:lacquer][:user_lacquer][:color_ids] != [""]
-          @user_lacquer.colors.clear
-          params[:lacquer][:user_lacquer][:color_ids].each do |color_id|
-            if color_id != ""
-              @user_lacquer.colors.push(Color.find(color_id))
-            end
-          end
-        end
-        if params[:lacquer][:user_lacquer] && params[:lacquer][:user_lacquer][:finish_ids] && params[:lacquer][:user_lacquer][:finish_ids] != [""]
-          @user_lacquer.finishes.clear
-          params[:lacquer][:user_lacquer][:finish_ids].each do |finish_id|
-            if finish_id != ""
-              @user_lacquer.finishes.push(Finish.find(finish_id))
-            end
-          end
-        end
+        @user_lacquer.update(user_lacquer_params[:user_lacquers_attributes]["0"])
+
         flash[:notice] = "#{@lacquer.name} successfully updated!"
         redirect_to(:back)
       end
@@ -101,14 +89,6 @@ class LacquersController < ApplicationController
 
   def search
     @search_term = params[:search_term]
-    # @results = Lacquer.lacquers_matching_all_words(params[:search_term])
-    # if @results.empty?
-    #   @results = Lacquer.lacquers_matching_most_words(params[:search_term])
-    # end
-    # if @results.empty?
-    #   binding.pry
-    #   @results = Lacquer.closest_lacquers(params[:search_term])
-    # end
     @results = Lacquer.fuzzy_find_by_name(@search_term).uniq
     render :search_results
   end
@@ -116,6 +96,10 @@ class LacquersController < ApplicationController
   private
     def lacquer_params
       params.require(:lacquer).permit(:swatches_attributes => [:image, :user_id, :delete_image])
+    end
+
+    def user_lacquer_params
+      params.require(:lacquer).permit(:user_lacquers_attributes => [:selected_display_image, :color_ids => [], :finish_ids => []])
     end
 
 end
