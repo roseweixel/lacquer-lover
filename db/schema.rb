@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150329212049) do
+ActiveRecord::Schema.define(version: 20150405222956) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -140,8 +140,9 @@ ActiveRecord::Schema.define(version: 20150329212049) do
     t.integer  "lacquer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "loanable",   default: false
-    t.boolean  "on_loan",    default: false
+    t.boolean  "loanable",               default: false
+    t.boolean  "on_loan",                default: false
+    t.string   "selected_display_image"
   end
 
   create_table "users", force: true do |t|

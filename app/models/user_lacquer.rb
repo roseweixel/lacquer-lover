@@ -48,13 +48,14 @@ class UserLacquer < ActiveRecord::Base
   def swatch_image
     user = User.find(user_id)
     lacquer = Lacquer.find(self.lacquer_id)
-
-    lacquer.swatches.each do |swatch|
-      if swatch.image.file? && swatch.user_id == user.id
-        return swatch.image.url(:thumb)
+    if lacquer.swatches.any?
+      lacquer.swatches.each do |swatch|
+        if swatch.image.file? && swatch.user_id == user.id
+          return swatch.image.url(:thumb)
+        end
       end
+      return lacquer.swatches.first.image.url(:thumb) if lacquer.swatches.first.image.file?
     end
-    return lacquer.swatches.first.image.url(:thumb) if lacquer.swatches.first.image.file?
   end
 
 end

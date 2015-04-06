@@ -1,13 +1,14 @@
 <h1>Edit <%= @lacquer.name %></h1>
 
 <%= form_for @lacquer do |f| %>
-	<% if current_user.id == @lacquer.user_added_by_id %>
-		<%= f.label :name %><br>
-		<%= f.text_field :name %><br>
-	<% end %>
+  <%= f.hidden_field :user_lacquer_id, value: @user_lacquer.id %>
+  <% if current_user.id == @lacquer.user_added_by_id %>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %><br>
+  <% end %>
 
-	<% if current_user.id == @user_lacquer.user_id %>
-		<%= f.fields_for @user_lacquer do |user_lacquer_form| %>
+  <% if current_user.id == @user_lacquer.user_id %>
+    <%= f.fields_for :user_lacquers, @user_lacquer do |user_lacquer_form| %>
 			<%= user_lacquer_form.label :colors %><br>
 			<%= user_lacquer_form.collection_check_boxes :color_ids, Color.all.order(:name), :id, :name do |box| %>
 				<%= box.label class:"label-checkbox" do %>
@@ -23,8 +24,36 @@
         <%end%>
 			<% end %>
 			<br>
-		<% end %>
-	<% end %>
+      <h3>Pictures & Swatches for <%= @lacquer.name %></h3>
+      <div class="row container">
+      <% if !@lacquer.picture && !@lacquer.swatches.any? %>
+        <strong>There are no pictures or swatches yet for this lacquer. Upload one to display on your profile page!</strong>
+      <% else %>
+        <strong>Select the image you'd like displayed on your profile page (if there's only one image available it will display by default).</strong><br>
+        <% if @lacquer.picture %>
+          <div class="col-md-3">
+            <%= user_lacquer_form.radio_button(:selected_display_image, @lacquer.picture) %><br>
+            <%= image_tag @lacquer.picture, width: '170px' %>
+          </div>
+        <% end %>
+        <% if @lacquer.swatches.any? %>
+          <% @lacquer.swatches.each do |swatch| %>
+            <% if swatch.image.file? %>
+              <div class="col-md-3">
+              <%= user_lacquer_form.radio_button(:selected_display_image, swatch.image) %><br>
+              <%= image_tag swatch.image.url(:medium)%><br>
+              added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y at %I:%M%p")  %><br>
+              <% if swatch.user == current_user %>
+                <%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
+              <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+      </div>
+    <% end %>
+  <% end %>
 	<h3>Upload a Swatch for <%= @lacquer.name %></h3>
 	<%= f.fields_for :swatches, @lacquer.swatches.new, :html => { :multipart => true } do |swatch_form| %>
     <p>
@@ -35,19 +64,3 @@
   <%= f.submit %>
 <% end %>
 
-<% if @lacquer.swatches.count > 0 %>
-<h3>Swatches for <%= @lacquer.name %></h3>
-	<div class="row">
-	<% @lacquer.swatches.each do |swatch| %>
-		<% if swatch.image.file? %>
-			<div class="col-md-3">
-			<%= image_tag swatch.image.url(:medium)%><br>
-			added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y at %I:%M%p")  %><br>
-			<% if swatch.user == current_user %>
-				<%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
-			<% end %>
-			</div>
-		<% end %>
-	<% end %>
-	</div>
-<% end %>

@@ -2,28 +2,24 @@
 <div class="row">
 <div class="well">
 	<legend id="top" style="font-size: 2.5em;">
-	<%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %>
-	<!-- <div class="col-xs-5" style="margin-top: 21px;"> -->
-	<span class="pull-right" style="font-size: .4em; margin-top: -10px;">
-	<span class="lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
-	<%= render partial: 'favorite', locals: {result: @lacquer} %>
-	</span><br>
-	<!-- <p> -->
-	<% if current_user  %>
-		<span class="pull-right">
-	  <% if current_user.lacquers.include? @lacquer %>
-		  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
-	    <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
+		<%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %>
+		<span class="pull-right" style="font-size: .4em; margin-top: -10px;">
+		<span class="lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
+		<%= render partial: 'favorite', locals: {result: @lacquer} %>
+		</span><br>
+		<% if current_user  %>
+			<span class="pull-right">
+		  <% if current_user.lacquers.include? @lacquer %>
+			  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
+		    <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
+			<% else %>
+			  <%= render 'user_lacquers/add_button', lacquer: @lacquer %>
+			<% end %>
+			</span>
 		<% else %>
-		  <%= render 'user_lacquers/add_button', lacquer: @lacquer %>
+		 <%= link_to "Sign in to favorite & add this lacquer to your collection!", "/auth/facebook", class: "btn btn-primary btn-xs pull-right", id: "brand-show-sign-in" %>
 		<% end %>
 		</span>
-	<% else %>
-	 <%= link_to "Sign in to favorite & add this lacquer to your collection!", "/auth/facebook", class: "btn btn-primary btn-xs pull-right", id: "brand-show-sign-in" %>
-	<% end %>
-	<!-- </p> -->
-	</span>	
-	<!-- </div> -->
 	</legend>
 
 <div class="row" style="margin-top: 20px;">
@@ -49,19 +45,16 @@
 		No finish tags yet!
 	<% end %>
 
-	<h3><strong>Pictures & Swatches</strong></h3>
+	<h3><strong>Swatches</strong></h3>
 
 	<% if @lacquer.swatches.count > 0 %>
 	<div class="row">
 		<% @lacquer.swatches.each do |swatch| %>
 			<% if swatch.image.file? %>
-				<div class="col-md-3" style="margin: 10px;">
-				<%= image_tag swatch.image.url(:medium)%><br>
-				added by 
+				<div class="col-md-5" style="margin: 10px;">
+				<%= image_tag swatch.image.url(:medium)%><br> 
 				<% if current_user %>
-					<%= link_to swatch.user.name, user_path(swatch.user) %>
-				<% else %>
-					<%= swatch.user.name %>
+					added by <%= link_to swatch.user.name, user_path(swatch.user), style:"display:inline;" %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %>
 				<% end %>
 				<br>
 				<% if swatch.user == current_user %>
