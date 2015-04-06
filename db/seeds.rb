@@ -440,6 +440,63 @@ class NailsInc
 
 end
 
+class Nars
+  
+  URL = "http://www.narscosmetics.com/USA/nails"
+  attr_accessor :item_urls, :images, :names, :num_pages
+
+  def initialize
+    # self.item_urls, self.images, self.names = [], [], []
+    scrape
+  end
+
+  def scrape
+    doc = nokogiri_doc
+    binding.pry
+    polishes = get_polishes(doc)
+    process_polishes(polishes)
+  end
+
+  private
+  
+  def nokogiri_doc
+    Nokogiri::HTML(open(URL))
+  end
+
+  def get_polishes(doc)
+    doc.css("article.product a").select do |polish|
+      polish.css("p.desc").text.include?("polish")
+    end
+  end
+
+  def process_polishes(polishes)
+    polishes.each { |polish| save_data(polish) }
+  end
+
+  def name(polish)
+    polish.css(".title").text
+  end
+
+  def save_data(polish)
+    self.names << clean_name(polish)
+    self.item_urls << polish_url(polish)
+    self.images << image_url(polish)
+  end
+
+  def clean_name(polish)
+    name(polish).strip
+  end
+
+  def polish_url(polish)
+    "https://us.nailsinc.com" + polish.attributes["href"].value
+  end
+
+  def image_url(polish)
+    polish.css(".thumbnail").first.attributes.first[1].value
+  end
+
+end
+
 class SeedDatabase
   def initialize
     create_brands_colors_finishes
@@ -471,11 +528,12 @@ class SeedDatabase
     # "OPI" => {class_name: Object.const_get("Opi")},
     # "Essie" => {class_name: Object.const_get("Essie")},
     # "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
-    "Butter London" => {class_name: Object.const_get("ButterLondon")}
+    # "Butter London" => {class_name: Object.const_get("ButterLondon")}
     # "Zoya" => {class_name: Object.const_get("Zoya")},
     # "China Glaze" => {class_name: Object.const_get("ChinaGlaze")},
     # "Nails Inc." => {class_name: Object.const_get("NailsInc")},
-    # 'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")}
+    # 'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")},
+    'Nars' => {class_name: Object.const_get("Nars")}
   }
 
   def seed_brands
@@ -562,7 +620,9 @@ def clean_lacquer_names
   end
 end
 
-clean_lacquer_names
+Nars.new
+
+# clean_lacquer_names
 # save_butter_images
 
 # SeedDatabase.new
