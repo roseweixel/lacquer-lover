@@ -17,6 +17,7 @@
 class User < ActiveRecord::Base
   has_many :user_lacquers, dependent: :destroy
   has_many :lacquers, through: :user_lacquers
+  has_many :brands, -> { uniq }, through: :lacquers
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
   has_many :transactions, :foreign_key => "requester_id", dependent: :destroy
