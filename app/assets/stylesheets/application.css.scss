@@ -269,10 +269,12 @@ li.fave {
 .item-brand {
   border-right: 1px solid #ccc;
   padding: 0 5px;
+
 }
 
 .item-brand-last {
   padding: 0 5px;
+
 }
 
 #hide {
@@ -283,4 +285,22 @@ li.fave {
 #show {
   color: grey;
   cursor: pointer;
+}
+
+.no-underline:hover,
+.no-underline a:hover {
+  text-decoration: none;
+}
+
+.toggle:hover {
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #ccc;
+}
+
+.slide-right {
+  display: inline-block;
+  border-left: 1px solid #ccc;
 }
