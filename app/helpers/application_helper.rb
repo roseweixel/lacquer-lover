@@ -21,7 +21,7 @@ module ApplicationHelper
     else
       image = user_lacquer.selected_display_image || user_lacquer.swatch_image
       if image
-        image_tag(image, :height => "90")
+        image_tag(image, :width => "90")
       end
     end
   end
