@@ -268,6 +268,7 @@ li.fave {
 
 .item-brand {
   border-right: 1px solid #ccc;
+  margin-right: 0px;
   padding: 0 5px;
 
 }
@@ -301,6 +302,6 @@ li.fave {
 }
 
 .slide-right {
-  display: inline-block;
+  vertical-align: middle;
   border-left: 1px solid #ccc;
 }
