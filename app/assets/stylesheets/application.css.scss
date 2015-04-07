@@ -305,3 +305,10 @@ li.fave {
   vertical-align: middle;
   border-left: 1px solid #ccc;
 }
+
+.ui-autocomplete { 
+  position: absolute; 
+  cursor: default;
+  z-index: 3000 !important;
+  background-color: white;
+}

@@ -18,7 +18,9 @@ Rails.application.routes.draw do
 
   resources :sessions, :only => [:create, :destroy]
 
-  resources :lacquers
+  resources :lacquers do
+    get :autocomplete_name, on: :collection
+  end
 
   resources :brands
 
