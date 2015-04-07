@@ -1,6 +1,6 @@
 <%= form_tag '/lacquer_search', method: "get", :class => 'ui-form ui-front navbar-form navbar-left', :role => 'search' do %>
-  <div class='form-group'>
-  <%= autocomplete_field_tag 'search_term', '', autocomplete_name_lacquers_path, placeholder: "lacquer name" %>
+  <div class='form-group ui-front ui-form'>
+  <%= autocomplete_field_tag 'search_term', '', autocomplete_name_lacquers_path, placeholder: "lacquer name", class: "form-control" %>
   <%#= text_field_tag(:search_term, nil, placeholder: 'lacquer name', :class => 'form-control') %>
   </div>
   <%= submit_tag "Search", class: 'btn btn-default btn-sm', style: "display: block; width: 100%;" %>

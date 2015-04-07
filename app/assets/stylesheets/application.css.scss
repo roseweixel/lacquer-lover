@@ -307,14 +307,21 @@ li.fave {
 }
 
 .ui-autocomplete { 
-  position: absolute; 
+  position: relative;
+  //left: 0;
   cursor: default;
   z-index: 3000 !important;
   background-color: white;
+  list-style-type: none;
+  // width: 100%;
 }
 
-.ui-autocomplete {
-  list-style-type: none;
+.ui-menu-item {
+  position: relative;
+  left: 0;
+  padding: 5px 18px;
+  margin-left: -40px;
+  width: 202px;
 }
 
 .ui-menu-item:hover {
