@@ -63,7 +63,7 @@ class Lacquer < ActiveRecord::Base
   # end
 
   def self.lacquers_matching_all_words(search_term)
-    search_words = search_term.split(" ")
+    search_words = search_term.downcase.split(" ")
     search_word_ids = Word.where(text: search_words).pluck(:id)
     lacquer_ids = LacquerWord.where(word_id: search_word_ids).pluck(:lacquer_id)
 
@@ -71,7 +71,7 @@ class Lacquer < ActiveRecord::Base
   end
 
   def self.lacquers_matching_most_words(search_term)
-    search_words = search_term.split(" ")
+    search_words = search_term.downcase.split(" ")
     search_word_ids = Word.where(text: search_words).pluck(:id)
     lacquers_matching_most_words = []
     max = search_word_ids.count - 1
@@ -84,7 +84,7 @@ class Lacquer < ActiveRecord::Base
   end
 
   def self.closest_lacquers(search_term)
-    search_words = search_term.split(" ")
+    search_words = search_term.downcase.split(" ")
     closest_lacquers = []
     search_words.each do |search_word|
       binding.pry
@@ -95,7 +95,7 @@ class Lacquer < ActiveRecord::Base
   end
 
   def self.fuzzy_find_by_name(search_term)
-    search_words = search_term.split(" ")
+    search_words = search_term.downcase.split(" ")
     search_word_ids = Word.where(text: search_words).pluck(:id)
     lacquer_ids = LacquerWord.where(word_id: search_word_ids).pluck(:lacquer_id)
 
