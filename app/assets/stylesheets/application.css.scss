@@ -308,12 +308,13 @@ li.fave {
 
 .ui-autocomplete { 
   position: absolute;
-  //left: 0;
   cursor: default;
   z-index: 3000 !important;
   background-color: white;
   list-style-type: none;
-  // width: 100%;
+  -webkit-box-shadow: 10px 10px 14px -4px rgba(204,204,204,1);
+  -moz-box-shadow: 10px 10px 14px -4px rgba(204,204,204,1);
+  box-shadow: 10px 10px 14px -4px rgba(204,204,204,1);
 }
 
 .ui-menu-item {
