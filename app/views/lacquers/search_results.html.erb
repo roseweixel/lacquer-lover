@@ -1,8 +1,8 @@
 <% if @results.any? %>
   <div class="row">
-  <h3 class="col-xs-7">Lacquers with names like '<%= @search_term %>'</h3><br>
+  <h3 class="col-xs-6">Lacquers with names like '<%= @search_term %>'</h3><br>
   <% if !current_user %>
-  <%= link_to "Sign In To Favorite & Add Lacquers to Your Collection!", "/auth/facebook", class: "col-xs-5 btn btn-primary btn-sm pull-right", id: "brand-show-sign-in" %>
+  <%= link_to "Sign In To Favorite & Add Lacquers to Your Collection!", "/auth/facebook", class: "col-xs-6 btn btn-primary btn-sm pull-right", id: "brand-show-sign-in" %>
   <% end %>
   </div><br>
   <div class="list-group">
