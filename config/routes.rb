@@ -42,7 +42,7 @@ Rails.application.routes.draw do
 
   post 'favorites' => 'favorites#create', as: :new_favorite
 
-  delete 'favortes' => 'favorites#destroy', as: :destroy_favorite
+  delete 'favorites' => 'favorites#destroy', as: :destroy_favorite
 
   get 'lacquer_search' => 'lacquers#search'
 
