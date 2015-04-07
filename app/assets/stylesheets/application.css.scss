@@ -317,6 +317,14 @@ li.fave {
   list-style-type: none;
 }
 
-.ui-autocomplete:focus {
+.ui-menu-item:hover {
+  background-color: #ccc;
+}
+
+.ui-menu-item:focus {
+  background-color: #ccc;
+}
+
+.ui-state-focus {
   background-color: #ccc;
 }
