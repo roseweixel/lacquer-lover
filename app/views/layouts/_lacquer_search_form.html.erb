@@ -1,4 +1,4 @@
-<%= form_tag '/lacquer_search', method: "get", :class => 'navbar-form navbar-left', :role => 'search' do %>
+<%= form_tag '/lacquer_search', method: "get", :class => 'ui-form ui-front navbar-form navbar-left', :role => 'search' do %>
   <div class='form-group'>
   <%= autocomplete_field_tag 'search_term', '', autocomplete_name_lacquers_path, placeholder: "lacquer name" %>
   <%#= text_field_tag(:search_term, nil, placeholder: 'lacquer name', :class => 'form-control') %>

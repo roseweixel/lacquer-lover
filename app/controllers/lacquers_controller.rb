@@ -2,7 +2,7 @@ class LacquersController < ApplicationController
   autocomplete :lacquer, :name
 
   def autocomplete_name
-    @lacquers = Lacquer.order(:name).where('lower(name) LIKE ?', "%#{params[:term].downcase}%").limit(10)
+    @lacquers = Lacquer.order(:name).where('lower(name) LIKE ?', "#{params[:term].downcase}%").limit(10)
     respond_to do |format|
       format.json { render json: @lacquers.map(&:name) }
     end

@@ -312,3 +312,11 @@ li.fave {
   z-index: 3000 !important;
   background-color: white;
 }
+
+.ui-autocomplete {
+  list-style-type: none;
+}
+
+.ui-autocomplete:focus {
+  background-color: #ccc;
+}
