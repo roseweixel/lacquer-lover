@@ -1,12 +1,15 @@
 <%#= picture_for(@lacquer) %>  
 <div class="row">
 <div class="well">
-	<legend id="top" style="font-size: 2.2em;">
+	<legend id="top" style="font-size: 2em;" class="row">
+		<div class="col-sm-7">
 		<%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %>
-		<span class="pull-right" style="font-size: .4em; margin-top: -10px;">
-		<span class="lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
-		<%= render partial: 'favorite', locals: {result: @lacquer} %>
-		</span><br>
+		</div>
+		<div class="col-md-5">
+		<span class="pull-right" style="font-size: .5em;">
+			<span class="lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
+			<%= render partial: 'favorite', locals: {result: @lacquer} %>
+			</span><br>
 		<% if current_user  %>
 			<span class="pull-right">
 		  <% if current_user.lacquers.include? @lacquer %>
@@ -17,16 +20,17 @@
 			<% end %>
 			</span>
 		<% else %>
-		 <%= link_to "Sign in to favorite & add this lacquer to your collection!", "/auth/facebook", class: "btn btn-primary btn-xs pull-right", id: "brand-show-sign-in" %>
+		 <%= link_to "Sign in to favorite & add<br>this lacquer to your collection!".html_safe, "/auth/facebook", class: "btn btn-primary btn-xs pull-right", id: "brand-show-sign-in" %>
 		<% end %>
 		</span>
+		</div>
 	</legend>
 
 <div class="row" style="margin-top: 20px;">
-	<div class="col-md-4">
+	<div class="col-sm-4">
 		<%= large_picture_for(@lacquer) %>  
 	</div>
-	<div class="col-md-8">
+	<div class="col-sm-8" style="padding-left:30px;">
 	<h3><strong>Color Tags</strong></h3>
 	<% if @lacquer.color_tags.count > 0 %>
 		<% @lacquer.color_tags.each do |color_tag| %>
