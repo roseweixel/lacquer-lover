@@ -1,22 +1,26 @@
 <% if @results.any? %>
   <div class="row">
-  <h3 class="col-xs-6">Lacquers with names like '<%= @search_term %>'</h3><br>
+  <h3 class="col-xs-7">Lacquers with names like '<%= @search_term %>'</h3><br>
   <% if !current_user %>
-  <%= link_to "Sign In To Favorite & Add Lacquers to Your Collection!", "/auth/facebook", class: "col-xs-6 btn btn-primary btn-sm pull-right", id: "brand-show-sign-in" %>
+  <div class="col-xs-5">
+  <%= link_to "Sign In To Favorite &<br>Add Lacquers to Your Collection!".html_safe, "/auth/facebook", class: "btn btn-primary btn-sm pull-right", id: "brand-show-sign-in" %>
+  </div>
   <% end %>
   </div><br>
-  <div class="list-group">
+  <div class="list-group" style="margin: 15px;">
   <% @results.each do |result| %>
     <div class="search_result_item list-group-item row">
-      <div class="col-sm-7">
+      <div class="col-xs-1" style="margin-right:50px;">
         <%= picture_for(result) %>
-        <a href="<%= lacquer_path(result) %>"> <%= result.brand.name %> - <%= result.name %></a>
       </div>
-      <div class="col-sm-5">
-        <p class="pull-right" id="favorite-wrapper" lacquer_id="<%= result.id %>">
+      <div class="col-xs-5">
+        <%= result.brand.name %><br><a href="<%= lacquer_path(result) %>"><%= result.name %></a>
+      </div>
+      <div class="col-sm-5 pull-right" style="margin-top:-8px; margin-left:-20px;">
+        <p id="favorite-wrapper" lacquer_id="<%= result.id %>">
           <%= render partial: 'lacquers/favorite', locals: {result: result} %>
-        </p>
-        <p class="add-or-remove pull-right" style="margin-left: 100px;">
+        </p><br>
+        <p class="add-or-remove pull-right" style="margin-top:0; padding-top:0;">
           <%= render partial: 'add_or_remove_from_collection', locals: {lacquer: result} %>
         </p>
       </div>
