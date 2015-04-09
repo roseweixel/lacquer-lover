@@ -11,7 +11,7 @@
 			<%= render partial: 'favorite', locals: {result: @lacquer} %>
 			</span><br>
 		<% if current_user  %>
-			<span class="pull-right">
+			<span class="pull-right" style="padding-bottom: 10px;">
 		  <% if current_user.lacquers.include? @lacquer %>
 			  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
 		    <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
