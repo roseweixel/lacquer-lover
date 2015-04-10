@@ -34,7 +34,7 @@
           <ul class="nav navbar-nav navbar-right">
               <% if session[:user_id] %>
               <li>
-                <%= link_to("Welcome, #{current_user.first_name}! See your profile.", user_path(current_user)) %>
+                <%= link_to("Hi, #{current_user.first_name}! See your profile.", user_path(current_user)) %>
               </li>
               <li>
                 <%= link_to("Sign Out", signout_path, id:"sign_out") %>
