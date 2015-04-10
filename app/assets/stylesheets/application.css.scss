@@ -14,6 +14,8 @@
 @import "bootswatch/cosmo/bootswatch";
 @import "awesome-bootstrap-checkbox";
 
+
+
 .btn.selected {
   background-color: black;
 }
@@ -373,4 +375,23 @@ li.fave {
 
 .ui-helper-hidden-accessible {
   display: none;
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+    .row-fluid > [class*=span]:nth-child(2n+1) {
+        clear: both;
+        margin-left: 0;
+    }
+    .col-md-3 {
+      width: 45.6178453038674%;
+    }
+
+    .span3 {
+      width: 45.6178453038674%;
+    }
+
+
+    // .row-fluid .col-md-3 {
+    //     width: 48.61878453038674%;
+    // }
 }
