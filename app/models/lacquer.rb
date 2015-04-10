@@ -180,8 +180,8 @@ class Lacquer < ActiveRecord::Base
       shortened = name.gsub('Nail Lacquer', '')
     end
 
-    if shortened.length > 18
-      shortened = "#{shortened.slice(0..16)}..."
+    if shortened.length > 17
+      shortened = "#{shortened.slice(0..15)}..."
     end
     
     shortened

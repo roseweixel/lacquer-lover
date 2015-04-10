@@ -379,21 +379,39 @@ li.fave {
   display: none;
 }
 
-@media (min-width: 768px) and (max-width: 979px) {
+#add-to-btn {
+  margin-right: 30px;
+}
+
+@media (min-width: 600px) and (max-width: 1000px) {
+    #add-to-btn {
+        margin-right: 47px;
+    }
+
     .row-fluid > [class*=span]:nth-child(2n+1) {
         clear: both;
         margin-left: 0;
     }
     .col-md-3 {
-      width: 45.6178453038674%;
+      width: 48.6178453038674%;
+      display: inline-block;
     }
 
-    .span3 {
-      width: 45.6178453038674%;
+}
+
+
+@media (min-width: 1000px) and (max-width: 1200px) {
+    #add-to-btn {
+        margin-right: 50px;
     }
 
+    .row-fluid > [class*=span]:nth-child(2n+1) {
+        clear: both;
+        margin-left: 0;
+    }
+    .col-md-3 {
+      width: 32.6178453038674%;
+      display: inline-block;
+    }
 
-    // .row-fluid .col-md-3 {
-    //     width: 48.61878453038674%;
-    // }
 }

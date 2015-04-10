@@ -6,7 +6,7 @@
   <%= form_for @brand, remote: true do |f| %>
     <%= fields_for "user_lacquers[]", @brand do |ul_form| %>
       <div class="row">
-        <%= ul_form.submit "Add to My Collection", class: "col-md-2 pull-right btn btn-default", style: "margin-top: 25px; margin-right: 30px;" %>
+        <%= ul_form.submit "Add to My Collection", class: "col-md-2 pull-right btn btn-default", style: "margin-top: 25px;", id: "add-to-btn" %>
       </div>  
       <% @lacquers.each do |lacquer| %>
         <div class="col-md-3 lacquer" id="<%=lacquer.id%>">
@@ -25,5 +25,5 @@
     <% end %>
     </div>
   <% end %>
-  </div>
 <% end %>
+</div>
