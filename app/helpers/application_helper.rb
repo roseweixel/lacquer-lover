@@ -70,31 +70,31 @@ module ApplicationHelper
     if lacquer.picture && valid?(lacquer.picture)
       begin
         if lacquer.brand.name == "Deborah Lippmann" 
-          image_tag(lacquer.picture, :size => "244x400")
+          image_tag(lacquer.picture, :size => "360x360", :class => "padded_lacquer_pic_large deborah")
         elsif lacquer.brand.name == "OPI"
-          image_tag(lacquer.picture, :size => "164x400")
+          image_tag(lacquer.picture, :size => "360x360", :class => "padded_lacquer_pic_large opi")
         elsif lacquer.brand.name == "Butter London"
-          image_tag(lacquer.picture, :size => "232x400")
+          image_tag(lacquer.picture, :size => "360x360", :class => "padded_lacquer_pic_large butter")
         elsif lacquer.brand.name == "I Love Nail Polish (ILNP)"
           image_tag(lacquer.picture, :size => "360x360", :class => "chunky_image_large")
         elsif lacquer.brand.name == "Zoya"
           image_tag(lacquer.picture, :size => "360x360", :class => "chunky_image_large")
         elsif lacquer.brand.name == "China Glaze"
-          image_tag(lacquer.picture, :size => "176x400")
+          image_tag(lacquer.picture, :size => "360x360", :class => "padded_lacquer_pic_large")
         elsif lacquer.brand.name == "Essie"
-          image_tag(lacquer.picture, :size => "186x400")
+          image_tag(lacquer.picture, :size => "360x360", :class => "padded_lacquer_pic_large essie")
         elsif lacquer.brand.name == "Nails Inc."
-          image_tag(lacquer.picture, :size => "290x400")
+          image_tag(lacquer.picture, :size => "360x360", :class => "padded_lacquer_pic_large nailsinc")
         else
-          image_tag(lacquer.picture, :size => "244x400")
+          image_tag(lacquer.picture, :size => "360x360", :class => "padded_lacquer_pic_large")
         end
       rescue
-        image_tag('generic-polish.png', :size => "244x400")
+        image_tag('generic-polish.png', :size => "360x360", :class => "padded_lacquer_pic_large")
       end
     elsif lacquer.swatches.any?
-      image_tag(lacquer.swatches.sample.image.url(:medium), :width => "244px")
+      image_tag(lacquer.swatches.sample.image.url(:medium), :width => "360px", :class => "padded_lacquer_pic_large")
     else
-      image_tag('generic-polish.png', :size => "244x400")
+      image_tag('generic-polish.png', :size => "284x400", :class => "padded_lacquer_pic_large")
     end
   end
 

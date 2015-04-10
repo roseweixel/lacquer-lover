@@ -116,12 +116,44 @@ td {
   margin: 0 25px;
 }
 
+// china - 101
+// opi - 106
+// butter - 76.5
+// essie - 96.5
+// deborah - 70
+// nails inc - 49.5
+
+.padded_lacquer_pic_large {
+  padding: 0 100px;
+  background-color: #fff;
+}
+
+.padded_lacquer_pic_large.opi {
+  padding: 0 106px;
+}
+
+.padded_lacquer_pic_large.deborah {
+  padding: 0 70px;
+}
+
+.padded_lacquer_pic_large.butter {
+  padding: 0 77px;
+}
+
+.padded_lacquer_pic_large.nailsinc {
+  padding: 0 50px;
+}
+
+.padded_lacquer_pic_large.essie {
+  padding: 0 97px;
+}
+
 .padded_lacquer_pic_small {
   // margin: 0 7px;
 }
 
 .chunky_image_large {
-  margin-left: -10px;
+  // margin-left: -10px;
 }
 
 .chunky_image_small {

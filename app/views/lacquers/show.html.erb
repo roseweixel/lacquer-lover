@@ -6,12 +6,12 @@
 		<%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %>
 		</div>
 		<div class="col-md-5">
-		<span class="pull-right" style="font-size: .5em;">
+		<span class="pull-right" style="font-size: .5em; padding-bottom: 5px; margin-right:-10px;">
 			<span class="lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
 			<%= render partial: 'favorite', locals: {result: @lacquer} %>
 			</span><br>
 		<% if current_user  %>
-			<span class="pull-right" style="padding-bottom: 10px;">
+			<span class="pull-right">
 		  <% if current_user.lacquers.include? @lacquer %>
 			  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
 		    <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
@@ -27,10 +27,10 @@
 	</legend>
 
 <div class="row" style="margin-top: 20px;">
-	<div class="col-sm-4">
+	<div class="col-sm-6">
 		<%= large_picture_for(@lacquer) %>  
 	</div>
-	<div class="col-sm-8" style="padding-left:30px;">
+	<div class="col-sm-6" style="padding-left:30px;">
 	<h3><strong>Color Tags</strong></h3>
 	<% if @lacquer.color_tags.count > 0 %>
 		<% @lacquer.color_tags.each do |color_tag| %>
