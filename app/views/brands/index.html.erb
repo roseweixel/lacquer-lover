@@ -4,8 +4,8 @@
 
   <% @brands.order(:name).each do |brand| %>
 
-    <li class="row list-group-item" id="<%= brand.id %>">
-    <div class="col-xs-4">
+    <li class="row list-group-item long-item-card" id="<%= brand.id %>">
+    <div class="col-xs-6">
       <span class="no-underline" style="padding: 5px;">
       <strong><%= link_to brand.name, brand_path(brand) %></strong>
       </span><br>
@@ -26,30 +26,27 @@
       </span>
     </div>
 
-
-
-
-      <div class="col-xs-8 slide-right brand-favorites" style="display: none;">
-        <ul class="row" style="display: inline;">
-        <% Lacquer.find(brand.favorites.pluck(:lacquer_id)).each do |lacquer| %>
-          <li class="col-xs-5" style="list-style-type: none;">
-            <%= link_to lacquer.name, lacquer_path(lacquer) %> (<strong><%= lacquer.favorites.count %></strong> <%= 'favorite'.pluralize(lacquer.favorites.count) %>)
-          </li>
-        <% end %>
-        </ul>
-      </div>
-
       <% if current_user %>
-        <div class="col-xs-8 slide-right brand-lacquer-lovers" style="display: none;">
-          <ul class="row" style="display: inline;">
+        <div class="col-xs-6 slide-right brand-lacquer-lovers" style="display: none;">
+          <ul class="row" style="display: inline-block; width: 100%;">
           <% brand.users.each do |user| %>
-            <li class="col-xs-4" style="list-style-type: none;">
-              <%= link_to user.name, user_path(user) %> (<strong><%= user.lacquers.where(brand_id: brand.id).count %></strong> <%= 'lacquer'.pluralize(user.lacquers.where(brand_id: brand.id).count) %>)
+            <li class="col-sm-4" style="list-style-type: none;">
+              <%= link_to user.name, user_path(user) %><br>(<strong><%= user.lacquers.where(brand_id: brand.id).count %></strong> <%= 'lacquer'.pluralize(user.lacquers.where(brand_id: brand.id).count) %>)
             </li>
           <% end %>
           </ul>
         </div>
       <% end %>
+      <div class="col-xs-6 slide-right brand-favorites" style="display: none;">
+        <ul class="row" style="display: inline-block;">
+        <% Lacquer.find(brand.favorites.pluck(:lacquer_id)).each do |lacquer| %>
+          <li class="col-sm-6" style="list-style-type: none;">
+            <%= link_to lacquer.name, lacquer_path(lacquer) %><br>(<strong><%= lacquer.favorites.count %></strong> <%= 'favorite'.pluralize(lacquer.favorites.count) %>)
+          </li>
+        <% end %>
+        </ul>
+      </div>
+
     </li>
 
   <% end %>

@@ -170,6 +170,20 @@ td {
   font-size: 1.5em;
 }
 
+.small-item-card {
+  padding:0;
+  -webkit-box-shadow: 7px 6px 24px -12px rgba(0,0,0,0.75);
+  -moz-box-shadow: 7px 6px 24px -12px rgba(0,0,0,0.75);
+  box-shadow: 7px 6px 24px -12px rgba(0,0,0,0.75); 
+}
+
+.long-item-card {
+  margin-bottom: 8px;
+  -webkit-box-shadow: 7px 6px 24px -12px rgba(0,0,0,0.75);
+  -moz-box-shadow: 7px 6px 24px -12px rgba(0,0,0,0.75);
+  box-shadow: 7px 6px 24px -12px rgba(0,0,0,0.75); 
+}
+
 .grey-heart {
   color: grey;
   text-align: center;
@@ -379,12 +393,18 @@ li.fave {
   display: none;
 }
 
-#add-to-btn {
+.add-to-btn {
   margin-right: 30px;
 }
 
+@media (max-width: 793px) {
+  .add-to-btn {
+    margin-bottom: 5px;
+  }
+}
+
 @media (min-width: 600px) and (max-width: 1000px) {
-    #add-to-btn {
+    .add-to-btn {
         margin-right: 47px;
     }
 
@@ -401,7 +421,8 @@ li.fave {
 
 
 @media (min-width: 1000px) and (max-width: 1200px) {
-    #add-to-btn {
+    .add-to-btn {
+        width: 200px;
         margin-right: 50px;
     }
 
@@ -414,4 +435,27 @@ li.fave {
       display: inline-block;
     }
 
+}
+
+@media (min-width: 757px) {
+  .add-or-remove {
+    position: absolute;
+    //display: inline-block;
+    //margin-left: 100px;
+    right: 0;
+  }
+
+  .add-or-remove-wrapper {
+    float: right;
+  }
+}
+
+@media (min-width: 300px) and (max-width: 756px) {
+  .add-or-remove {
+    position: relative;
+    display: inline-block;
+    float: left;
+    margin-left: 100px;
+    left: 0;
+  }
 }
