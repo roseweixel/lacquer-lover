@@ -92,9 +92,9 @@ module ApplicationHelper
         image_tag('generic-polish.png', :size => "360x360", :class => "padded_lacquer_pic_large")
       end
     elsif lacquer.swatches.any?
-      image_tag(lacquer.swatches.sample.image.url(:medium), :width => "360px", :class => "padded_lacquer_pic_large")
+      image_tag(lacquer.swatches.sample.image.url(:medium), :width => "360px", :height => "auto")
     else
-      image_tag('generic-polish.png', :size => "284x400", :class => "padded_lacquer_pic_large")
+      image_tag('generic-polish.png', :size => "360x360", :class => "padded_lacquer_pic_large")
     end
   end
 

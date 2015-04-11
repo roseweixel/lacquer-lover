@@ -55,7 +55,7 @@
 	<div class="row">
 		<% @lacquer.swatches.each do |swatch| %>
 			<% if swatch.image.file? %>
-				<div class="col-md-5" style="margin: 10px;">
+				<div class="col-md-5">
 				<%= image_tag swatch.image.url(:medium)%><br> 
 				<% if current_user %>
 					added by <%= link_to swatch.user.name, user_path(swatch.user), style:"display:inline;" %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %>
