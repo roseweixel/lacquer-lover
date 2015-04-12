@@ -2,9 +2,13 @@
   <div class="panel panel-info small-item-card">
     <div class="panel-heading">
       <div class="panel-title checkbox" lacquer-id="<%=lacquer.id%>">
-        <%= link_to lacquer.formatted_name, lacquer_path(lacquer.id), style: "margin-left: -20px;" %>
+        <% if lacquer.name.length > 17 %>
+          <%= link_to lacquer.formatted_name, lacquer_path(lacquer.id), style: "margin-left: -20px;", title: lacquer.name %>
+        <% else %>
+          <%= link_to lacquer.name, lacquer_path(lacquer.id), style: "margin-left: -20px;" %>
+        <% end %>
+
         <% if user %>
-          
           <%= check_box_tag 'lacquer_ids[]', lacquer.id, false, id: "checkbox#{lacquer.id}" %>
           <label style="margin-left: 28px; top: 7px;" for="checkbox<%= lacquer.id %>" ></label>
           <span id="favorite-<%= lacquer.id %>" class="brand-show-favorite pull-right">
