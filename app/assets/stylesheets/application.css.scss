@@ -459,3 +459,10 @@ li.fave {
     left: 0;
   }
 }
+
+@media (min-width: 900px) and (max-width: 991px) {
+  .container {
+    width: 900px;
+    margin: 0 auto;
+  }
+}

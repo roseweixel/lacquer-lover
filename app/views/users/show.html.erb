@@ -181,7 +181,7 @@
 			<div class="<%=attribute%>-buttons col-xs-4">
 			<% if !items.empty? %>
 			  <% items.each do |item| %>
-			    <%= link_to "#{item}", "#", :class => "btn btn-xs btn-default #{attribute}", :id => "#{item}", :style => "margin: 2px;" %>
+			    <%= link_to "#{item}", "#", :class => "btn btn-xs btn-default #{attribute}", :id => "#{item}", :style => "margin: 2px; max-width: 100%; white-space: normal;" %>
 			  <% end %>
 			<% else %>
 				<h6>No <%= attribute.singularize %> tags in <%= @user.first_name %>'s collection.</h6>
@@ -190,6 +190,7 @@
 		<% end %>
 		<!-- </div> -->
 	</div>
+	<div class="table-responsive">
 	<table class="table table-striped table-hover" id="user-lacquer-collection">
 		<thead>
 			<tr class="selected color-selected finish-selected">
@@ -219,6 +220,7 @@
 		<% end %>
 		</tbody>
 	</table>
+	</div>
 	</section>
 	
 <p style="float: right; font-size: 2em;"><a href='#top'><i class="fa fa-caret-square-o-up fa-4" title="scroll up"></i></a></p>

@@ -101,7 +101,7 @@
               <div class="controls form-inline">
               <%= f.label :due_date, "Add or Change Due Date" %><br>
               <%= f.date_field :due_date, class: "form-control", style:"height: 43px;" %>
-              <%= f.submit :class =>"form-control btn-primary" %>
+              <%= f.submit "Update", :class =>"form-control btn-primary" %>
               </div>
             <% end %> 
             </div>
@@ -168,8 +168,8 @@
           <% user.pending_requested_transactions.each do |transaction| %>
             <% friend = User.find(transaction.owner_id) %>
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <p class="list-group-item" style='padding:5px 0 5px 5px ;'>You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= link_to lacquer.name, lacquer_path(lacquer) %>
-              <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-default btn-xs pull-right", style:"margin:0 3px 0 0;", data: { confirm: "Are you sure you want to cancel this request?" }%>
+            <p class="list-group-item" style='padding:5px 0 5px 5px; margin-right: -5px;'>You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= link_to lacquer.name, lacquer_path(lacquer) %>
+              <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-default btn-xs pull-right", style: "margin-right: 3px;", data: { confirm: "Are you sure you want to cancel this request?" }%>
             </p>
           <% end %>
           </ul>

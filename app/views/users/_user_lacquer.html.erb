@@ -1,24 +1,24 @@
 <% lacquer = Lacquer.find(user_lacquer.lacquer_id) %>
       <tr class="lacquer <%= lacquer.color_tags.join(' ') %> <%= lacquer.finish_tags.join(' ') %>" lacquer-id="<%= lacquer.id %>" user-lacquer-id="<%= user_lacquer.id %>" brand="<%= lacquer.brand.name %>" colors="<%= lacquer.color_tags.join(' ') %>" finishes="<%= lacquer.finish_tags.join(' ') %>">
-        <td style="width: 20%;">
+        <td>
         <% if display_image(user_lacquer) %>
           <%= display_image(user_lacquer) %>
         <% else %>
-            <%= picture_for(lacquer) %>
+            <%= picture_for(lacquer) %><br>
           <% if user == current_user %>
-            <%= form_for lacquer.swatches.new, :html => { :multipart => true } do |f| %>
+            <%= form_for lacquer.swatches.new, :html => { :multipart => true, :style => "display:inline-block; width: 140px;" } do |f| %>
               <h6>Add a Swatch!</h6>
               <span style="font-size:10px;">
               <%= f.hidden_field :user_id, value: current_user.id %>
               <%= f.hidden_field :lacquer_id, value: user_lacquer.lacquer_id %>
-              <%= f.file_field :image, style:"display: inline-block;" %>
+              <%= f.file_field :image, style:"display: inline-block;" %><br>
               <%= f.submit :class => 'btn btn-xs btn-default' %>
               </span>
             <% end %>
           <% end %>
         <% end %>
         </td>
-        <td style="width: 15%;"><%= link_to lacquer.brand.name, brand_path(lacquer.brand.id) %></td>
+        <td style="white-space: normal;"><%= link_to lacquer.brand.name, brand_path(lacquer.brand.id) %></td>
         <td id="favorite-<%= lacquer.id %>">
         <% if lacquer.favorited_by?(current_user) %>
         <%= link_to "<i class='fa fa-heart'></i>".html_safe, destroy_favorite_path(:id => favorite.id, :lacquer_id => lacquer.id, :user_id => current_user.id, user_lacquer_id: user_lacquer.id), action:"destroy", method:"delete", remote: true %>
@@ -26,7 +26,7 @@
         <%= link_to "<i class='fa fa-heart-o'></i>".html_safe, new_favorite_path(:lacquer_id => lacquer.id, :user_id => current_user.id, user_lacquer_id: user_lacquer.id), action:"create", method:"post", remote: true %>
         <% end %>
         </td>
-        <td style="width: 15%;">
+        <td style="white-space: normal;">
         <%= link_to lacquer.name, lacquer_path(lacquer.id)%><br>
         </td>
         <td>
