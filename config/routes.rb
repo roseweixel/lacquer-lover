@@ -48,4 +48,8 @@ Rails.application.routes.draw do
 
   get 'user_search' => 'users#search'
 
+  get 'new_invite' => "users#new_invite"
+
+  post 'invite_friends' => "users#invite_friends"
+
 end

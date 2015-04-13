@@ -93,6 +93,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def new_invite
+  end
+
+  def invite_friends
+    @user = current_user
+    @emails = params[:emails]
+    binding.pry
+  end
+
   private
   def user_params
     params.require(:user).permit(:email)

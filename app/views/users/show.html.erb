@@ -50,7 +50,7 @@
 
 			<div class="col-sm-3">
 	      <% if @user == current_user || @user.accepted_friends.include?(current_user) %>
-	        <h3>Friends</h3>
+	        <h3>Friends</h3> <%= link_to "Invite Friends!", new_invite_path %>
 	        <div class="profile-section">
 	        <% if @user.accepted_friends.count > 0 %>
 	          <ul class='list-group' id="accepted-friends">
@@ -61,6 +61,7 @@
 	        <% end %>
 	        </div>
 	      <% end %>
+	      
 	      <h3>Favorites</h3>
 	      <div class="profile-section">
 	      <% if @user.favorited_lacquers.count > 0 %>
