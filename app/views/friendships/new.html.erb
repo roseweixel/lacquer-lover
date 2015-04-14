@@ -7,8 +7,8 @@
 	<%= form_for @friendship, method: :post do |f| %>
 		<div class="form form-actions">
 			<%= f.hidden_field :friend_id, value: @friend.id %>
-			<%= submit_tag "Yes, Add Friend", class: 'btn btn-primary' %>
-			<%= link_to "Cancel", user_path(@friend), class: 'btn' %>
+			<%= submit_tag "Yes, Add Friend", class: 'btn btn-success' %>
+			<%= link_to "Cancel", user_path(@friend), class: 'btn btn-info' %>
 		</div>
 	<% end %>
   <% elsif current_user.requested_friends_awaiting_approval.include?(@friend) %>

@@ -93,13 +93,17 @@ class UsersController < ApplicationController
   end
 
   def new_invite
+    if !current_user
+      flash[:alert] = "Sign in to start inviting friends!"
+      redirect_to root_path
+    end
   end
 
   def invite_friends
     @user = current_user
     @emails = params[:emails][0].split(/[\W\s]{2,}/).uniq
     UserMailer.invite_email(@user, @emails).deliver
-    flash[:notice] = "You've successfully sent invitations to #{@emails.to_sentence}!"
+    flash[:success] = "You've successfully sent invitations to #{@emails.to_sentence}!"
     redirect_to user_path(@user)
   end
 
