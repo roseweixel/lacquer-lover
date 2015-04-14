@@ -1,6 +1,15 @@
 class FriendshipsController < ApplicationController
   def new
     @user = current_user
+    if !@user
+      session[:intended_uri] = request.env['REQUEST_URI']
+      #binding.pry
+      @friend = User.find("#{session[:intended_uri].scan(/(?<=friend_id=)\d+/)[0]}")
+      flash[:notice] = %Q[ Sign in to #{view_context.link_to("join #{@friend.name}'s lacquer sharing network", login_path, id:"brand-show-sign-in")}! ]
+      flash[:html_safe] = true
+      # binding.pry
+      redirect_to root_path and return true
+    end
     @friend = User.find(params[:friend_id])
     if params[:friend_id]
       @friend = User.find(params[:friend_id])

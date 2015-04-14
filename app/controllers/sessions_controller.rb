@@ -7,7 +7,11 @@ class SessionsController < ApplicationController
       if !existing_user
         flash[:notice] = "Welcome to Lacquer Love&Lend! Start adding lacquers to your collection and finding friends to add to your network!"
       end
-      if request.env["HTTP_REFERER"]
+      if session[:intended_uri]
+        redirect_uri = session[:intended_uri]
+        session[:intended_uri] = nil
+        redirect_to redirect_uri
+      elsif request.env["HTTP_REFERER"]
         if request.env["HTTP_REFERER"].gsub(request.base_url, "") == root_path
           redirect_to user_path(user)
         else

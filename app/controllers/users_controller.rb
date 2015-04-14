@@ -14,7 +14,6 @@ class UsersController < ApplicationController
   end
 
   def live_notifications
-    #binding.pry
     @user = User.find(params[:id])
     respond_to do |format|
       format.js { }
@@ -98,8 +97,10 @@ class UsersController < ApplicationController
 
   def invite_friends
     @user = current_user
-    @emails = params[:emails]
-    binding.pry
+    @emails = params[:emails][0].split(/[\W\s]{2,}/).uniq
+    UserMailer.invite_email(@user, @emails).deliver
+    flash[:notice] = "You've successfully sent invitations to #{@emails.to_sentence}!"
+    redirect_to user_path(@user)
   end
 
   private

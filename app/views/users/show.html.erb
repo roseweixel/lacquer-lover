@@ -50,7 +50,7 @@
 
 			<div class="col-sm-3">
 	      <% if @user == current_user || @user.accepted_friends.include?(current_user) %>
-	        <h3>Friends</h3> <%= link_to "Invite Friends!", new_invite_path %>
+	        <h3>Friends <%= link_to "Invite Friends!", new_invite_path, class: "btn btn-xs btn-primary colors" %></h3> 
 	        <div class="profile-section">
 	        <% if @user.accepted_friends.count > 0 %>
 	          <ul class='list-group' id="accepted-friends">

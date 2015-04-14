@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
+  before_filter -> { flash.now[:notice] = flash[:notice].html_safe if flash[:html_safe] && flash[:notice] }
 
   private
 
