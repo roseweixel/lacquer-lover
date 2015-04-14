@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   has_many :swatches
   has_many :favorites, dependent: :destroy
 
-  #validates_presence_of :name, :provider, :uid, :oauth_token
+  validates_presence_of :name, :provider, :uid, :oauth_token
   validates_presence_of :name
   validates_format_of :email, with: /@/, message: "Must be an email", allow_blank: true
 
