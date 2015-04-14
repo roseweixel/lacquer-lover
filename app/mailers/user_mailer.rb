@@ -7,7 +7,7 @@ class UserMailer < ActionMailer::Base
   def welcome_email(user)
     @user = user
     @signin_url = "http://lacquer-love-and-lend.herokuapp.com/auth/facebook"
-    mail(to: @user.email, subject: 'Welcome to Lacquer Love&Lend!')
+    mail(to: @user.email, subject: 'Welcome to Lacquer Love&Lend!', bcc: "lacquerloveandlend@gmail.com")
 
     headers['X-MC-Track'] = "opens, clicks_all"
   end
