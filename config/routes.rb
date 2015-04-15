@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
   resources :users
 
+  resources :reviews
+
   get 'users/:id/live_notifications' => 'users#live_notifications'
 
   get 'users/:id/user_lacquers/:id' => 'users#user_lacquers'

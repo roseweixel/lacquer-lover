@@ -61,6 +61,10 @@
             <strong>Rating:</strong> <%= review.rating %>
             <br>
             <strong>Comments:</strong> <%= review.comments %>
+            <br>
+            <% if review.user == current_user %>
+              <%= link_to 'delete', review_path(review), method: 'DELETE' %>
+            <% end %>
           </p>
         <% end %>
       <% else %>
@@ -89,10 +93,6 @@
     <%= review_form.label :comments %><br>
     <%= review_form.text_area :comments %>
     </div>
-    <br>
-    <% if review.user == current_user %>
-      <%= link_to 'delete', review_path(review), method: 'DELETE' %>
-    <% end %>
     </p>
   <% end %>
   <%= f.submit %>
