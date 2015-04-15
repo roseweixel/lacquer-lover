@@ -6,13 +6,13 @@
   <% else %>
     <% user_lacquer_id = nil %>
   <% end %>
-  <%= link_to "<i class='fa fa-heart'></i>".html_safe, destroy_favorite_path(:id => favorite.id, :lacquer_id => lacquer.id, :user_id => current_user.id, user_lacquer_id: user_lacquer_id), action:"destroy", method:"delete", remote: true %>
+  <%= link_to "<i class='fa fa-heart'></i>".html_safe, destroy_favorite_path(:id => favorite.id, :lacquer_id => lacquer.id, :user_id => current_user.id, user_lacquer_id: user_lacquer_id), action:"destroy", method:"delete", remote: true, class: "small-heart" %>
 <% else %>
   <% if user_lacquer %>
     <% user_lacquer_id = user_lacquer.id %>
   <% else %>
     <% user_lacquer_id = nil %>
   <% end %>
-  <%= link_to "<i class='fa fa-heart-o'></i>".html_safe, new_favorite_path(:lacquer_id => lacquer.id, :user_id => current_user.id, user_lacquer_id: user_lacquer_id), action:"create", method:"post", remote: true %>
+  <%= link_to "<i class='fa fa-heart-o'></i>".html_safe, new_favorite_path(:lacquer_id => lacquer.id, :user_id => current_user.id, user_lacquer_id: user_lacquer_id), action:"create", method:"post", remote: true, class: "small-heart" %>
 <% end %>
 </td>

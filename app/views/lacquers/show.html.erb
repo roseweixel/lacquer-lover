@@ -57,7 +57,7 @@
 			<% if swatch.image.file? %>
 				<div class="col-md-5">
 				<%= image_tag swatch.image.url(:medium)%><br> 
-				<% if current_user %>
+				<% if current_user && swatch.user %>
 					added by <%= link_to swatch.user.name, user_path(swatch.user), style:"display:inline;" %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %>
 				<% end %>
 				<br>

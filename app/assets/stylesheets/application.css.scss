@@ -394,6 +394,14 @@ li.fave {
   margin-right: 30px;
 }
 
+.small-heart {
+  color: #ff8373;
+}
+
+.small-heart:hover {
+  color: #ff0039;
+}
+
 @media (max-width: 793px) {
   .add-to-btn {
     margin-bottom: 5px;
