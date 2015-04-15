@@ -19,13 +19,7 @@
         <% end %>
         </td>
         <td style="white-space: normal;"><%= link_to lacquer.brand.name, brand_path(lacquer.brand.id) %></td>
-        <td id="favorite-<%= lacquer.id %>">
-        <% if lacquer.favorited_by?(current_user) %>
-        <%= link_to "<i class='fa fa-heart'></i>".html_safe, destroy_favorite_path(:id => favorite.id, :lacquer_id => lacquer.id, :user_id => current_user.id, user_lacquer_id: user_lacquer.id), action:"destroy", method:"delete", remote: true, class: "small-heart" %>
-        <% else %>
-        <%= link_to "<i class='fa fa-heart-o'></i>".html_safe, new_favorite_path(:lacquer_id => lacquer.id, :user_id => current_user.id, user_lacquer_id: user_lacquer.id), action:"create", method:"post", remote: true, class: "small-heart" %>
-        <% end %>
-        </td>
+        <%= render 'favorites/favorite', lacquer: lacquer, user_lacquer: user_lacquer %>
         <td style="white-space: normal;">
         <%= link_to lacquer.name, lacquer_path(lacquer.id)%><br>
         </td>
