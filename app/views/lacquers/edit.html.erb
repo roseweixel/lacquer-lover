@@ -52,13 +52,47 @@
         <% end %>
       <% end %>
       </div>
+      <h3>Reviews for <%= @lacquer.name %></h3>
+      <% if @lacquer.reviews.any? %>
+        <% @lacquer.reviews.each do |review| %>
+          <p>
+            Written by <%= link_to review.user.name, user_path(review.user) %> on <%= review.created_at.strftime("%m/%d/%Y at %I:%M%p")  %> 
+            <br>
+            <strong>Rating:</strong> <%= review.rating %>
+            <br>
+            <strong>Comments:</strong> <%= review.comments %>
+          </p>
+        <% end %>
+      <% else %>
+        No reviews yet!
+      <% end %>
     <% end %>
   <% end %>
+
 	<h3>Upload a Swatch for <%= @lacquer.name %></h3>
 	<%= f.fields_for :swatches, @lacquer.swatches.new, :html => { :multipart => true } do |swatch_form| %>
     <p>
     <%= swatch_form.hidden_field :user_id, value: current_user.id %>
     <%= swatch_form.file_field :image %>
+    </p>
+  <% end %>
+
+  <h3>Write a Review for <%= @lacquer.name %></h3>
+  <%= f.fields_for :reviews, @lacquer.reviews.new do |review_form| %>
+    <p>
+    <%= review_form.hidden_field :user_id, value: current_user.id %>
+    <div class='form-group'>
+    <%= review_form.label :rating %><br>
+    <%= review_form.number_field :rating %>
+    </div>
+    <div class='form-group'>
+    <%= review_form.label :comments %><br>
+    <%= review_form.text_area :comments %>
+    </div>
+    <br>
+    <% if review.user == current_user %>
+      <%= link_to 'delete', review_path(review), method: 'DELETE' %>
+    <% end %>
     </p>
   <% end %>
   <%= f.submit %>

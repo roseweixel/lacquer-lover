@@ -51,23 +51,28 @@ class LacquersController < ApplicationController
   end
 
   def edit
-    @user = current_user
-    @lacquer = Lacquer.find(params[:id])
-    if params[:user_lacquer_id] && UserLacquer.find(params[:user_lacquer_id])
-      @user_lacquer = UserLacquer.find(params[:user_lacquer_id])
-      if @user_lacquer.user_id != @user.id
+    if !current_user
+      flash[:alert] = "You must be signed in to edit a lacquer!"
+      redirect_to root_path
+    else
+      @user = current_user
+      @lacquer = Lacquer.find(params[:id])
+      if params[:user_lacquer_id] && UserLacquer.find(params[:user_lacquer_id])
+        @user_lacquer = UserLacquer.find(params[:user_lacquer_id])
+        if @user_lacquer.user_id != @user.id
+          flash[:alert] = "You cannot edit a lacquer that is not in your collection!"
+          redirect_to root_path
+        end
+      elsif !UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).empty?
+        @user_lacquer = UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).first
+      else
         flash[:alert] = "You cannot edit a lacquer that is not in your collection!"
         redirect_to root_path
       end
-    elsif !UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).empty?
-      @user_lacquer = UserLacquer.where(user_id: @user.id, lacquer_id: @lacquer.id).first
-    else
-      flash[:alert] = "You cannot edit a lacquer that is not in your collection!"
-      redirect_to root_path
-    end
-    if @user_lacquer
-      session[:user_lacquer_id] = params[:user_lacquer_id] || @user_lacquer.id
-      @swatch = Swatch.new
+      if @user_lacquer
+        session[:user_lacquer_id] = params[:user_lacquer_id] || @user_lacquer.id
+        @swatch = Swatch.new
+      end
     end
   end
 
@@ -104,7 +109,7 @@ class LacquersController < ApplicationController
 
   private
     def lacquer_params
-      params.require(:lacquer).permit(:swatches_attributes => [:image, :user_id, :delete_image])
+      params.require(:lacquer).permit(:swatches_attributes => [:image, :user_id, :delete_image], :reviews_attributes => [:rating, :comments, :user_id])
     end
 
     def user_lacquer_params

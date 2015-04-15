@@ -18,9 +18,9 @@ class Lacquer < ActiveRecord::Base
   has_many :colors, through: :user_lacquers
   has_many :finishes, through: :user_lacquers
   has_many :users, through: :user_lacquers
-  has_many :swatches
-  has_many :favorites
-
+  has_many :swatches, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :reviews, dependent: :destroy
   has_many :lacquer_words, dependent: :destroy
   has_many :words, through: :lacquer_words
 
@@ -33,6 +33,7 @@ class Lacquer < ActiveRecord::Base
 
   accepts_nested_attributes_for :user_lacquers
   accepts_nested_attributes_for :swatches, :reject_if => proc { |attributes| attributes['image'].blank? }
+  accepts_nested_attributes_for :reviews, :reject_if => proc { |attributes| attributes['comments'].blank? }
 
   after_save :create_words
 

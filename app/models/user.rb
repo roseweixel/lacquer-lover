@@ -21,8 +21,9 @@ class User < ActiveRecord::Base
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
   has_many :transactions, :foreign_key => "requester_id", dependent: :destroy
-  has_many :swatches
+  has_many :swatches, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :reviews, dependent: :destroy
 
   validates_presence_of :name, :provider, :uid, :oauth_token
   validates_presence_of :name
