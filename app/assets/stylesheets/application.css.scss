@@ -254,7 +254,16 @@ td {
 
 .horizontal-scroll {
     //width: 100%;
-    height:345px;
+    height: 345px;
+    // border: 13px solid #bed5cd;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.horizontal-scroll.small {
+    //width: 100%;
+    height: 260px;
     // border: 13px solid #bed5cd;
     overflow-x: scroll;
     overflow-y: hidden;

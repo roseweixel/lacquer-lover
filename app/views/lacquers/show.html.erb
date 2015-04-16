@@ -27,9 +27,32 @@
 	</legend>
 
 <div class="row" style="margin-top: 20px;">
-	<div class="col-sm-5">
-		<%= large_picture_for(@lacquer) %>  
-	</div>
+	<div class="col-md-12 horizontal-scroll">
+    <% if @lacquer.picture %>
+      <div class="thumbnail list-group" style="display: inline-block; float: left; height: 311px; width: 270px;">
+        <div class="col-md-12" style="padding: 10px;">
+        </div>
+        <%= image_tag @lacquer.picture, style:"height: 255px;" %>
+      </div>
+    <% end %>
+    <% if @lacquer.swatches.any? %>
+      <% @lacquer.swatches.each do |swatch| %>
+        <% if swatch.image.file? %>
+            <div class="thumbnail list-group" style="display: inline-block;">
+              <div class="col-md-12" style="padding: 10px;">
+              </div>
+              <%= image_tag(swatch.image.url, height: "200px") %><br>
+              <div class="caption">
+              added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %><br>
+              <% if swatch.user == current_user %>
+                <%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
+              <% end %>
+              </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
 	<div class="col-sm-1">
 	</div>
 	<div class="col-sm-6">
@@ -51,32 +74,6 @@
 		No finish tags yet!
 	<% end %>
 
-	<h3><strong>Swatches</strong></h3>
-
-	<% if @lacquer.swatches.count > 0 %>
-	<div class="row">
-		<% @lacquer.swatches.each do |swatch| %>
-			<% if swatch.image.file? %>
-				<div class="col-md-5">
-				<%= image_tag swatch.image.url(:medium)%><br> 
-				<% if current_user && swatch.user %>
-					added by <%= link_to swatch.user.name, user_path(swatch.user), style:"display:inline;" %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %>
-				<% end %>
-				<br>
-				<% if swatch.user == current_user %>
-					<%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
-				<% end %>
-				</div>
-			<% end %>
-		<% end %>
-	</div>
-	<% else %>
-		<div class="row">
-			<div class="col-md-5">
-	 		No swatches yet!
-	 		</div>
-	 	</div>
-	<% end %>
 	</div>
 </div>
 </div>
