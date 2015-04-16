@@ -38,7 +38,7 @@
     <% if @lacquer.swatches.any? %>
       <% @lacquer.swatches.each do |swatch| %>
         <% if swatch.image.file? %>
-            <div class="thumbnail list-group" style="display: inline-block;">
+            <div class="thumbnail list-group" style="display: inline-block; height: 311px;">
               <div class="col-md-12" style="padding: 10px;">
               </div>
               <%= image_tag(swatch.image.url, height: "200px") %><br>
