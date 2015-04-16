@@ -28,26 +28,35 @@
       <h3>Pictures & Swatches for <%= @lacquer.name %></h3>
       <div class="menu row">
         <% if !@lacquer.picture && !@lacquer.swatches.any? %>
-          <strong>There are no pictures or swatches yet for this lacquer. Upload one to display on your profile page!</strong>
-        <% else %>
-          <strong>Select the image you'd like displayed on your profile page (if there's only one image available it will display by default).</strong><br>
           <div class="col-md-12">
+            <strong>There are no pictures or swatches yet for this lacquer. Upload one to display on your profile page!</strong>
+          </div>
+        <% else %>
+          <div class="col-md-12">
+          <strong>Select the image you'd like displayed on your profile page (if there's only one image available it will display by default).</strong></div>
+          <div class="col-md-12 horizontal-scroll">
             <% if @lacquer.picture %>
-              <div class="col-md-3">
-                <div class="thumbnail menu-category list-group" style="height: 345px;">
-                  <%= user_lacquer_form.radio_button(:selected_display_image, @lacquer.picture) %><br>
-                  <%= image_tag @lacquer.picture, style:"height: 275px;" %>
-                  <div class="caption">
+              <!-- <div class="col-md-3"> -->
+                <div class="thumbnail list-group" style="display: inline-block; float: left; height: 332px; width: 270px;">
+                  <div class="col-md-12" style="padding: 10px;">
+                    <%= user_lacquer_form.radio_button(:selected_display_image, @lacquer.picture) %>
                   </div>
+                  <%= image_tag @lacquer.picture, style:"height: 255px;" %>
+<!--                   <div class="caption">
+                  Hello<br>
+                  Hello
+                  </div> -->
                 </div>
-              </div>
+              <!-- </div> -->
             <% end %>
             <% if @lacquer.swatches.any? %>
               <% @lacquer.swatches.each do |swatch| %>
                 <% if swatch.image.file? %>
-                  <div class="col-md-3">
-                    <div class="thumbnail menu-category list-group">
-                      <%= user_lacquer_form.radio_button(:selected_display_image, swatch.image) %><br>
+                  <!-- <div class="col-md-3"> -->
+                    <div class="thumbnail list-group" style="display: inline-block;">
+                      <div class="col-md-12" style="padding: 10px;">
+                        <%= user_lacquer_form.radio_button(:selected_display_image, swatch.image) %>
+                      </div>
                       <%= image_tag(swatch.image.url, height: "200px") %><br>
                       <div class="caption">
                       added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %><br>
@@ -55,7 +64,7 @@
                         <%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
                       <% end %>
                       </div>
-                    </div>
+                    <!-- </div> -->
                   </div>
                 <% end %>
               <% end %>
