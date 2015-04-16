@@ -88,7 +88,6 @@ class Lacquer < ActiveRecord::Base
     search_words = search_term.downcase.split(" ")
     closest_lacquers = []
     search_words.each do |search_word|
-      binding.pry
       closest_lacquers << Word.find_closest_lacquers(search_word).uniq
     end
 

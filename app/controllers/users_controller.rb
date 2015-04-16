@@ -83,7 +83,6 @@ class UsersController < ApplicationController
       redirect_to root_path
     else
       @search_term = params[:search_term]
-      #binding.pry
       @results = User.where("lower(name) = ?", params[:search_term].downcase)
       if @results.empty?
         @results = User.where("lower(email) = ?", params[:search_term].downcase)

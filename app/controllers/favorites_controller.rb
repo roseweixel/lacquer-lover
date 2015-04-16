@@ -1,6 +1,5 @@
 class FavoritesController < ApplicationController
   def create
-    #binding.pry
     @current_user = current_user
     @lacquer = Lacquer.find(params[:lacquer_id])
     if params[:user_lacquer_id]

@@ -1,4 +1,5 @@
-<h1>Edit <%= @lacquer.name %></h1>
+<div class="well">
+<legend>Edit <strong><%= @lacquer.name %> (<%= @lacquer.brand.name %>)</strong></legend>
 
 <%= form_for @lacquer do |f| %>
   <%= f.hidden_field :user_lacquer_id, value: @user_lacquer.id %>
@@ -39,9 +40,9 @@
         <% if @lacquer.swatches.any? %>
           <% @lacquer.swatches.each do |swatch| %>
             <% if swatch.image.file? %>
-              <div class="col-md-3">
+              <div class="col-md-3" style="padding: 10px;">
               <%= user_lacquer_form.radio_button(:selected_display_image, swatch.image) %><br>
-              <%= image_tag swatch.image.url(:medium)%><br>
+              <%= image_tag swatch.image.url(:medium), width: '100%' %><br>
               added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y at %I:%M%p")  %><br>
               <% if swatch.user == current_user %>
                 <%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
@@ -52,6 +53,13 @@
         <% end %>
       <% end %>
       </div>
+    	<h3>Upload a Swatch for <%= @lacquer.name %></h3>
+    	<%= f.fields_for :swatches, @lacquer.swatches.new, :html => { :multipart => true } do |swatch_form| %>
+        <p>
+        <%= swatch_form.hidden_field :user_id, value: current_user.id %>
+        <%= swatch_form.file_field :image %>
+        </p>
+      <% end %>
       <h3>Reviews for <%= @lacquer.name %></h3>
       <% if @lacquer.reviews.any? %>
         <% @lacquer.reviews.each do |review| %>
@@ -64,6 +72,7 @@
             <br>
             <% if review.user == current_user %>
               <%= link_to 'delete', review_path(review), method: 'DELETE' %>
+              <%= link_to 'edit', edit_review_path(review) %>
             <% end %>
           </p>
         <% end %>
@@ -73,28 +82,21 @@
     <% end %>
   <% end %>
 
-	<h3>Upload a Swatch for <%= @lacquer.name %></h3>
-	<%= f.fields_for :swatches, @lacquer.swatches.new, :html => { :multipart => true } do |swatch_form| %>
-    <p>
-    <%= swatch_form.hidden_field :user_id, value: current_user.id %>
-    <%= swatch_form.file_field :image %>
-    </p>
-  <% end %>
 
   <h3>Write a Review for <%= @lacquer.name %></h3>
-  <%= f.fields_for :reviews, @lacquer.reviews.new do |review_form| %>
+  <%= f.fields_for :reviews, @lacquer.reviews.new, class: "form-horizontal" do |review_form| %>
     <p>
     <%= review_form.hidden_field :user_id, value: current_user.id %>
     <div class='form-group'>
-    <%= review_form.label :rating %><br>
-    <%= review_form.number_field :rating %>
+    <%= review_form.label :rating, "Rating (1 = 'yuck', 5 = 'love it')" %><br>
+    <%= review_form.number_field :rating, in: 1..5, class: "form-control" %>
     </div>
     <div class='form-group'>
-    <%= review_form.label :comments %><br>
-    <%= review_form.text_area :comments %>
+    <%= review_form.label :comments, class: "control-label" %><br>
+    <%= review_form.text_area :comments, class: "form-control" %>
     </div>
     </p>
   <% end %>
-  <%= f.submit %>
+  <%= f.submit class: "btn btn-default" %>
 <% end %>
-
+</div>

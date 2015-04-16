@@ -18,5 +18,13 @@ class ApplicationController < ActionController::Base
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
     end
     helper_method :current_user
-    
+
+    def redirect_to_originated_from_or_root
+      if session[:originated_from_uri]
+        redirect_to session[:originated_from_uri]
+      else 
+        redirect_to root_path
+      end
+    end
+    helper_method :redirect_to_originated_from_or_root
 end
