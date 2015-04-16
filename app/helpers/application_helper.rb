@@ -27,14 +27,20 @@ module ApplicationHelper
   end
 
   def valid?(url)
-    if url.class == Paperclip::Attachment || !url.start_with?("http")
-      return true
-    else
-      uri = URI(url)
-      request = Net::HTTP.new uri.host
-      response= request.request_head uri.path
+    begin
+      if url.class == Paperclip::Attachment || !url.start_with?("http")
+        return true
+      else
+        uri = URI(url)
+        request = Net::HTTP.new uri.host
 
-      response.code.to_i == 200
+        # rescue SocketError that occurs when offline
+        response= request.request_head uri.path
+
+        response.code.to_i == 200
+      end
+    rescue SocketError
+      return false
     end
   end
 
