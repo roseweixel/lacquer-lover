@@ -51,6 +51,7 @@ class LacquersController < ApplicationController
   end
 
   def edit
+    session[:originated_from_uri] = request.env["HTTP_REFERER"] if request.env["HTTP_REFERER"]
     if !current_user
       flash[:alert] = "You must be signed in to edit a lacquer!"
       redirect_to root_path
@@ -96,7 +97,13 @@ class LacquersController < ApplicationController
         @user_lacquer.update(user_lacquer_params[:user_lacquers_attributes]["0"])
 
         flash[:notice] = "#{@lacquer.name} successfully updated!"
-        redirect_to(:back)
+        if session[:originated_from_uri]
+          redirect_uri = session[:originated_from_uri]
+          session[:originated_from_uri] = nil
+          redirect_to redirect_uri
+        else 
+          redirect_to lacquer_path(@review.lacquer)
+        end
       end
     end
   end

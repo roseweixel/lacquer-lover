@@ -40,7 +40,9 @@ class ReviewsController < ApplicationController
         render :edit and return true
       end
       if session[:originated_from_uri]
-        redirect_to session[:originated_from_uri]
+        redirect_uri = session[:originated_from_uri]
+        session[:originated_from_uri] = nil
+        redirect_to redirect_uri
       else 
         redirect_to lacquer_path(@review.lacquer)
       end
