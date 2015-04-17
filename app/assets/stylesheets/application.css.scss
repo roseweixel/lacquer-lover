@@ -14,7 +14,7 @@
 @import "bootswatch/cosmo/bootswatch";
 @import "awesome-bootstrap-checkbox";
 
-a#brand-show-sign-in {
+a.light-blue-link {
   color: #00FFFF;
 }
 
@@ -46,9 +46,6 @@ h1 {
   margin: 5px 0;
 }
 
-// .navbar-right {
-//   float: right;
-// }
 
 td {
 	font-size: 20px;
@@ -67,7 +64,6 @@ td {
   border-radius: 5px;
   padding: 5px 3px 5px 5px;
   width: 32%;
-  //margin-left: 15px;
 }
 
 .finishes-buttons {
@@ -95,14 +91,6 @@ td {
 .btn.selected {
   background-color: black;
 }
-
-// .favorites-count {
-//   position: relative;
-//   text-align: center;
-//   font-size: 1.25em;
-//   margin: 0 50%;
-//   min-height: 100%;
-// }
 
 .favorites-count.not-favorited {
   min-height: 60px;
@@ -169,7 +157,6 @@ td {
 }
 
 .chunky_image_large {
-  // margin-left: -10px;
   max-width: 100%;
   height: auto;
 }
@@ -220,8 +207,6 @@ td {
 
 .glyphicon-heart {
   padding-top: 5px;
-  // float: right;
-  // display: inline;
 }
 
 .lacquer-show-favorite {
