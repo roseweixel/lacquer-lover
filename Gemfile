@@ -96,3 +96,5 @@ gem 'bootswatch-rails'
 gem 'font-awesome-sass', '~> 4.3.0'
 
 gem 'indefinite_article'
+
+gem "koala", "~> 1.10.0rc" # Facebook API

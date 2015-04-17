@@ -43,6 +43,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  # this will only return friends who have also given the app friend_list permission!
+  # investigate using https://developers.facebook.com/docs/sharing/reference/send-dialog to allow users to invite facebook friends to the app
+  def friendslist 
+    binding.pry
+    facebook {|fb| fb.get_connection("me", "friends")}
+  end
+
   def first_name
     name.split.first
   end
@@ -155,5 +162,10 @@ class User < ActiveRecord::Base
     favorite_lacquers_ids = favorites.pluck(:lacquer_id)
     Lacquer.where(id: favorite_lacquers_ids)
   end
+
+  private    
+    def facebook    
+      @facebook ||= Koala::Facebook::API.new(oauth_token) 
+    end
 
 end
