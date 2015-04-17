@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
       if !existing_user
         flash[:notice] = "Welcome to Lacquer Love&Lend! Start adding lacquers to your collection and finding friends to add to your network!"
       end
+      # TODO: MAKE SURE INTENDED_URI IS CLEARED OUT ONCE THE USER HAS NAVIGATED AWAY FROM THE LANDING PAGE
       if session[:intended_uri]
         redirect_uri = session[:intended_uri]
         session[:intended_uri] = nil
