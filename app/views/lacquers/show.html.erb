@@ -43,7 +43,9 @@
               </div>
               <%= image_tag(swatch.image.url, height: "200px") %><br>
               <div class="caption">
+              <% if current_user %>
               added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %><br>
+              <% end %>
               <% if swatch.user == current_user %>
                 <%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
               <% end %>
