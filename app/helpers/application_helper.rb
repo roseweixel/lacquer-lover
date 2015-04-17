@@ -66,7 +66,7 @@ module ApplicationHelper
         image_tag('generic-polish.png', :size => "45x90", :class => "padded_lacquer_pic")
       end
     elsif lacquer.swatches.any?
-      image_tag(lacquer.swatches.sample.image, :size => "45x90")
+      image_tag(lacquer.swatches.sample.image, :height => "90")
     else
       image_tag('generic-polish.png', :size => "45x90", :class => "padded_lacquer_pic")
     end

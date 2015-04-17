@@ -479,7 +479,7 @@ li.fave {
   .add-or-remove {
     position: absolute;
     //display: inline-block;
-    //margin-left: 100px;
+    //margin-left: 300px;
     right: 0;
   }
 
@@ -488,12 +488,19 @@ li.fave {
   }
 }
 
-@media (min-width: 300px) and (max-width: 756px) {
+@media (max-width: 652px) {
+  .add-or-remove {
+    position: relative;
+    display: inline-block;
+    margin-left: 30.66666667%; 
+  }
+}
+
+@media (min-width: 653px) and (max-width: 756px) {
   .add-or-remove {
     position: relative;
     display: inline-block;
     float: left;
-    margin-left: 100px;
     left: 0;
   }
 }
