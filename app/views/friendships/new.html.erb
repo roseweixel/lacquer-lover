@@ -1,8 +1,6 @@
 <% if @friend %>
-	<h1><%= link_to @friend.name, user_path(@friend) %></h1>
-
   <% if !current_user.friends.include?(@friend) %>
-	<p>Do you really want to friend <%= @friend.first_name %>?</p>
+  <h1>Add <%= link_to @friend.name, user_path(@friend) %> to your network of friends on Lacquer Love&Lend!</h1>
 
 	<%= form_for @friendship, method: :post do |f| %>
 		<div class="form form-actions">
@@ -13,8 +11,19 @@
 	<% end %>
   <% elsif current_user.requested_friends_awaiting_approval.include?(@friend) %>
     <% friendship = Friendship.where(user_id: current_user.id, friend_id: @friend.id, state: 'pending').first %>
+    <h1>Your friendship with <%= link_to @friend.name, user_path(@friend) %> is pending.</h1>
     <div class="form form-actions">
       <%= link_to 'Cancel Pending Request', friendship_path(friendship), method: 'DELETE', :class =>"btn btn-danger btn-xs" %>
     </div>
+  <% elsif current_user.friends_for_your_approval.include?(@friend) %>
+    <h1><%= link_to @friend.name, user_path(@friend) %> has already requested a friendship with you.</h1>
+    <% friendship = Friendship.find_by(friend_id: current_user.id, user_id: @friend.id, state: 'pending') %>
+    <%= link_to "Accept Friendship", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class => "btn btn-success"} %>
+  <% elsif current_user.accepted_friends.include?(@friend) %>
+    <h1>You are already friends with <%= link_to @friend.name, user_path(@friend) %>.</h1>
+
+    <h4><%= link_to "See #{@friend.name}'s collection", user_path(@friend) %> and start exchanging lacquers!</h4>
   <% end %>
+<% else %>
+  <h2>Sorry, friend could not be found. Try using the search box in the navigation bar above to find the Lacquer Lover you are looking for!</h2>
 <% end %>
