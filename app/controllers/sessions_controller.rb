@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
         flash[:notice] = "Welcome to Lacquer Love&Lend! Start adding lacquers to your collection and finding friends to add to your network!"
       end
       if session[:intended_uri]
+        binding.pry
         redirect_uri = session[:intended_uri]
         session[:intended_uri] = nil
         redirect_to redirect_uri

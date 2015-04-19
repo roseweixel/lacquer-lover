@@ -102,7 +102,11 @@ class UsersController < ApplicationController
     @user = current_user
     @emails = params[:emails][0].split(/[\W\s]{2,}/).uniq
     UserMailer.invite_email(@user, @emails).deliver
-    flash[:success] = "You've successfully sent invitations to #{@emails.to_sentence}!"
+    if @emails.count > 1
+      flash[:success] = "You've successfully sent invitations to #{@emails.to_sentence}!"
+    else
+      flash[:success] = "You've successfully sent an invitation to #{@emails[0]}!"
+    end
     redirect_to user_path(@user)
   end
 
