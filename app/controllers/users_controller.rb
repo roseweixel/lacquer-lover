@@ -101,11 +101,15 @@ class UsersController < ApplicationController
   def invite_friends
     @user = current_user
     @emails = params[:emails][0].split(/[\W\s]{2,}/).uniq
-    UserMailer.invite_email(@user, @emails).deliver
-    if @emails.count > 1
-      flash[:success] = "You've successfully sent invitations to #{@emails.to_sentence}!"
+    if @user && @emails.any?
+      UserMailer.invite_email(@user, @emails).deliver
+      if @emails.count > 1
+        flash[:success] = "You've successfully sent invitations to #{@emails.to_sentence}!"
+      else
+        flash[:success] = "You've successfully sent an invitation to #{@emails[0]}!"
+      end
     else
-      flash[:success] = "You've successfully sent an invitation to #{@emails[0]}!"
+      flash[:warning] = "Sorry, there was a problem sending your email invitations!"
     end
     redirect_to user_path(@user)
   end

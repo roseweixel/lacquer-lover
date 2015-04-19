@@ -8,7 +8,7 @@
 
         <%= form_tag invite_friends_path, class:"form-horizontal" do %>
 
-          <%= text_area_tag 'emails[]', nil, placeholder: "jane@example.com, nancy@example.com, barbara@example.com &hellip;".html_safe, class:"form-control" %><br>
+          <%= text_area_tag 'emails[]', nil, :required => true, placeholder: "jane@example.com, nancy@example.com, barbara@example.com &hellip;".html_safe, class:"form-control" %><br>
           <%= submit_tag "Invite Friends!", class:"btn btn-info" %>
 
         <% end %>
