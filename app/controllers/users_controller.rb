@@ -1,8 +1,4 @@
 class UsersController < ApplicationController
-  # def create
-  #   User.create(name: params[:name])
-  # end
-
   def index
     if current_user
       @user = current_user
@@ -55,15 +51,15 @@ class UsersController < ApplicationController
         format.json
       end
     else
-      # temporary for testing purposes!
-      @user = User.find(params[:id])
-      respond_to do |format|
-        format.json
-        format.html do
-          flash[:notice] = "Please sign in to continue!"
-          redirect_to root_path
-        end
+      if request.env['REQUEST_URI']
+        session[:intended_uri] = request.env['REQUEST_URI']
+        @user = User.find(params[:id])
+        flash[:notice] = %Q[ Sign in to #{view_context.link_to("view #{@user.name}'s profile", login_path, id:"brand-show-sign-in", class:'light-blue-link')}! ]
+        flash[:html_safe] = true
+      else
+        flash[:notice] = "Please sign in to continue!"
       end
+      redirect_to root_path
     end
   end
 
@@ -116,7 +112,7 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:email)
+    params.require(:user).permit(:email, :provider, :uid)
   end
 
 end

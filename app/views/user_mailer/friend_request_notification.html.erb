@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3><%= @user.name %> wants to be friends with you on Lacquer Love&Lend!</h3>
+
+    <p>
+      <a href="<%= @friend_url %>">Follow this link</a> to respond to <%= @user.first_name %>'s request (this will only take you to a confirmation page and will not automatically accept the friendship).
+      <br>
+      <br>
+      Once you are friends with <%= @user.first_name %>, you can view each other's lacquer collections and borrow lacquers from each other!
+      <br>
+    </p>
+
+      Have a great day,
+      <br>
+      <br>
+      Your Friends At <a href="http://lacquer-love-and-lend.herokuapp.com/">Lacquer Love&Lend</a>
+  </body>
+</html>

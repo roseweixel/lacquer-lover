@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3>Congratulations, <%= @friend.name %> has accepted your friendship on Lacquer Love&Lend!</h3>
+
+    <p>
+      <a href="<%= @friend_url %>">View <%= @friend.first_name %>'s lacquer collection</a> and start borrowing and loaning lacquers with <%= @friend.first_name %> today!
+      <br>
+      <br>
+    </p>
+
+      Have a great day,
+      <br>
+      <br>
+      Your Friends At <a href="http://lacquer-love-and-lend.herokuapp.com/">Lacquer Love&Lend</a>
+  </body>
+</html>
+

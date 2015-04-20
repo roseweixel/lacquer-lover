@@ -10,7 +10,8 @@
             <p class="list-group-item" style='padding: 0;'>
               <%= image_tag friend.image || 'placeholder-avatar.png', size: '30x30' %>
               <%= link_to friend.name, user_path(friend) %> 
-              <%= link_to "ok", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class => "btn btn-success btn-xs pull-right", :style => "margin:3px 3px 0 0;"} %> <%= link_to "not now", friendship_path(friendship, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs pull-right", :style => "margin:3px 3px 0 0;"} %>
+              <%= link_to "not now", friendship_path(friendship, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs pull-right", :style => "margin:3px 3px 0 0;", :data => {:confirm => "This action will reject #{friend.name}'s request to be friends on Lacquer Love&Lend. Are you sure?"} } %>
+              <%= link_to "accept", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class => "btn btn-success btn-xs pull-right", :style => "margin:3px 3px 0 0;"} %> 
             </p>
           <% end %>
         </ul>
