@@ -54,7 +54,7 @@ class UsersController < ApplicationController
       if request.env['REQUEST_URI']
         session[:intended_uri] = request.env['REQUEST_URI']
         @user = User.find(params[:id])
-        flash[:notice] = %Q[ Sign in to #{view_context.link_to("view #{@user.name}'s profile", login_path, id:"brand-show-sign-in", class:'light-blue-link')}! ]
+        flash[:notice] = %Q[ #{ view_context.link_to("Sign in", login_path, id:"brand-show-sign-in", class:'light-blue-link')} to view #{@user.name}'s profile! ]
         flash[:html_safe] = true
       else
         flash[:notice] = "Please sign in to continue!"
@@ -108,6 +108,31 @@ class UsersController < ApplicationController
       flash[:warning] = "Sorry, there was a problem sending your email invitations!"
     end
     redirect_to user_path(@user)
+  end
+
+  def new_transactional_message
+    @transaction = Transaction.find(params[:transaction_id])
+    @user = current_user
+    if @transaction.requester_id == current_user.id
+      @other_user = User.find(@transaction.owner.id)
+    else
+      @other_user = User.find(@transaction.requester_id)
+    end
+  end
+
+  # params:
+  # {"utf8"=>"✓",
+ # "authenticity_token"=>
+ #  "bvoh1ic8SqGhFs6x0TZ1vgLJHwjP2AJik7N1QN/# MYD9Ni5GSWaicEwnvjqiyN4aOfNxK3yGyDp2gjjRNROwCKQ==",
+ # "reply_address"=>"lacquerloveandlend@gmail.com",
+ # "subject"=>"About our transaction for 12th Street Rag"# ,
+ # "body"=>"Hello this is a test",
+ # "commit"=>"Send",
+ # "controller"=>"users",
+ # "action"=>"send_transactional_message"}
+  def send_transactional_message
+    binding.pry
+    # CREATE MAILER FOR THIS
   end
 
   private

@@ -22,9 +22,7 @@ class LacquersController < ApplicationController
     lacquer.user_added_by_id = params[:lacquer][:user_added_by_id] if params[:lacquer][:user_added_by_id]
     lacquer.save
     if lacquer.errors.any?
-      lacquer.errors.messages.each do |message|
-        flash[:notice] = message
-      end
+      flash[:error] = lacquer.errors.full_messages.to_sentence
     else
       if params[:user_lacquer]
         @user_lacquer = lacquer.user_lacquers.create(user_id: current_user.id)

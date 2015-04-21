@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
       end
     end
     if !existing_user && user.persisted?
-      UserMailer.welcome_email(user).deliver
+      #UserMailer.welcome_email(user).deliver
     end
   end
 

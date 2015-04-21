@@ -54,4 +54,8 @@ Rails.application.routes.draw do
 
   post 'invite_friends' => "users#invite_friends"
 
+  get 'new_transactional_message' => "users#new_transactional_message"
+
+  post 'send_transactional_message' => "users#send_transactional_message"
+
 end

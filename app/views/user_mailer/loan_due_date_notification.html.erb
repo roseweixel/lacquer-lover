@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3><%= @owner.name %> would like you to return <%= @lacquer_name %> by <%= @transaction.due_date.strftime("%A %B %d") %>.</h3>
+
+    <p>
+      The due date for this loan is in <%= pluralize(@days_left, 'day') %>.
+      <br>
+      <br>
+      Coordinate with <%= @owner.first_name %> to make arrangements to give <%= @lacquer_name %> back on time!
+    </p>
+
+      Have a great day,
+      <br>
+      <br>
+      Your Friends At <a href="http://lacquer-love-and-lend.herokuapp.com/">Lacquer Love&Lend</a>
+  </body>
+</html>

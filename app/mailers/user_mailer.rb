@@ -46,7 +46,42 @@ class UserMailer < ActionMailer::Base
   end
 
   # notif of loan request
+  def loan_request_notification(owner, requester, user_lacquer)
+    @owner = owner
+    @requester = requester
+    @user_lacquer = user_lacquer
+    @user_url = "http://localhost:3000/users/#{@owner.id}"
+
+    mail(to: @owner.email, subject: "#{@requester.name} wants to borrow #{@user_lacquer.lacquer.name}")
+
+    headers['X-MC-Track'] = "opens, clicks_all"
+  end
+
   # notif of loan request accepted
+  def loan_request_accepted_notification(transaction)
+    @owner = transaction.owner
+    @requester = transaction.requester
+    @user_lacquer = transaction.user_lacquer
+
+    mail(to: @requester.email, subject: "#{@owner.name} has agreed to loan you #{@user_lacquer.lacquer.name}!")
+
+    headers['X-MC-Track'] = "opens, clicks_all"
+  end
+
+  # notif of loan due date
+  def loan_due_date_notification(transaction)
+    @owner = transaction.owner
+    @requester = transaction.requester
+    @user_lacquer = transaction.user_lacquer
+    @lacquer_name = @user_lacquer.lacquer.name
+    @transaction = transaction
+    @days_left = (transaction.due_date.to_date - Date.today).to_i
+
+    mail(to: @requester.email, subject: "#{@lacquer_name} is due back to #{@owner.name} on #{@transaction.due_date.strftime("%m/%d/%Y")}.")
+
+    headers['X-MC-Track'] = "opens, clicks_all"
+  end
+
   # notif of loan turned into gift?
   
 
