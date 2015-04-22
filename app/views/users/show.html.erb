@@ -1,10 +1,10 @@
 <div class="well">
 	<legend id="top" style="font-size: 2.5em;">
-		<div class="row" id="show"><i class="fa fa-caret-square-o-down pull-right" style="font-size: 20px; margin-top:-15px;" title="show dashboard"></i></div>
 		<%= image_tag @user.image || 'placeholder-avatar.png', size: '50x50' %> 
 		<%= @user.name %>
 		<span class="pull-right" style="font-size: .5em;">Lacquer Lover Since:<br><%= @user.created_at.to_date.strftime("%B %e, %Y") %> (<strong><%= time_ago_in_words(@user.created_at) %></strong> ago)</span>
 	</legend>
+	<div class="row" id="show"><i class="fa fa-caret-square-o-down pull-right" style="font-size: 20px; margin-top:-15px;" title="show dashboard"></i></div>
 	<div class="user-dashboard">
 		<% if (@user != current_user) && (!current_user.accepted_friends.include?(@user)) %>
 			<%= link_to "Add Friend", new_friendship_path(friend_id: @user) %><br>
