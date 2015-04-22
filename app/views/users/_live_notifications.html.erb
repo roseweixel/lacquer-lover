@@ -35,7 +35,13 @@
 
         <!-- TRANSACTIONS AWAITING YOUR APPROVAL -->
         <% if user.transactions_for_your_approval.count > 0 %>
-          <legend class="no-margin-bottom">Transactions Awaiting Your Approval <span class="badge"><%= user.transactions_for_your_approval.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
+          <legend class="no-margin-bottom">Transactions Awaiting Your Approval <span class="badge tracker"><%= user.transactions_for_your_approval.count %></span> 
+
+          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
+
+          <span class="hidden-tracker" id="transactions-for-your-approval-state-array" style="display: none;"><%= user.transactions_for_your_approval.pluck(:state) %></span>
+
+          </legend>
           <ul class="list-group" id="transactions-for-your-approval">
             <%= render 'transactions_for_your_approval', user: user %>
           </ul>
@@ -44,7 +50,13 @@
 
         <!-- TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
         <% if user.transactions_you_accepted.count > 0 %>
-          <legend class="no-margin-bottom">Transactions You Accepted <span class="badge"><%= user.transactions_you_accepted.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
+          <legend class="no-margin-bottom">Transactions You Accepted <span class="badge tracker"><%= user.transactions_you_accepted.count %></span> 
+
+          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
+
+          <span class="hidden-tracker" id="transactions-you-aaccepted-state-array" style="display: none;"><%= user.transactions_you_accepted.pluck(:state) %></span>
+
+          </legend>
           <ul class="list-group" id="transactions-you-accepted">
             <%= render 'transactions_you_accepted', user: user %>
           </ul>
@@ -53,7 +65,13 @@
 
         <!-- CURRENTLY LOANED OUT -->
         <% if user.active_owned_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Lacquers Currently Loaned Out <span class="badge"><%= user.active_owned_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
+          <legend class="no-margin-bottom">Lacquers Currently Loaned Out <span class="badge tracker"><%= user.active_owned_transactions.count %></span> 
+
+          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
+
+          <span class="hidden-tracker" id="active-owned-transactions-state-array" style="display: none;"><%= user.active_owned_transactions.pluck(:state) %></span>
+
+          </legend>
           <ul class="list-group" id="active-owned-transactions">
             <%= render 'active_owned_transactions', user: user %>
           </ul>
@@ -67,7 +85,13 @@
       
         <!-- CURRENTLY LOANED OUT TO YOU -->
         <% if user.active_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Lacquers You're Borrowing <span class="badge"><%= user.active_requested_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
+          <legend class="no-margin-bottom">Lacquers You're Borrowing <span class="badge tracker"><%= user.active_requested_transactions.count %></span> 
+
+          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
+
+          <span class="hidden-tracker" id="active-requested-transactions-state-array" style="display: none;"><%= user.active_requested_transactions.pluck(:state) %></span>
+
+          </legend>
           <ul class="list-group" id="active-requested-transactions">
             <%= render 'active_requested_transactions', user: user %>
           </ul>
@@ -76,7 +100,13 @@
 
         <!-- LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
         <% if user.accepted_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Accepted Loan Requests <span class="badge"><%= user.accepted_requested_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
+          <legend class="no-margin-bottom">Accepted Loan Requests <span class="badge tracker"><%= user.accepted_requested_transactions.count %></span> 
+
+          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
+
+          <span class="hidden-tracker" id="accepted-requested-transactions-state-array" style="display: none;"><%= user.accepted_requested_transactions.pluck(:state) %></span>
+
+          </legend>
           <ul class="list-group" id="accepted-requested-transactions">
             <%= render 'accepted_requested_transactions', user: user %>
           </ul>
@@ -85,7 +115,13 @@
 
         <!-- LOANS REQUESTED PENDING -->
         <% if user.pending_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Pending Loan Requests <span class="badge"><%= user.pending_requested_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
+          <legend class="no-margin-bottom">Pending Loan Requests <span class="badge tracker"><%= user.pending_requested_transactions.count %></span> 
+
+          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
+
+          <span class="hidden-tracker" id="pending-requested-transactions-state-array" style="display: none;"><%= user.pending_requested_transactions.pluck(:state) %></span>
+
+          </legend>
           <ul class="list-group" id="pending-requested-transactions">
             <%= render 'pending_requested_transactions', user: user %>
           </ul>
@@ -94,7 +130,13 @@
 
         <!-- LOAN REQUESTS REJECTED -->
         <% if user.rejected_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Rejected Loan Requests <span class="badge"><%= user.rejected_requested_transactions.count %></span> <i class="fa fa-minus"></i></legend>
+          <legend class="no-margin-bottom">Rejected Loan Requests <span class="badge tracker"><%= user.rejected_requested_transactions.count %></span> 
+
+          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
+
+          <span class="hidden-tracker" id="rejected-requested-transactions-state-array" style="display: none;"><%= user.rejected_requested_transactions.pluck(:state) %></span>
+
+          </legend>
           <ul class="list-group" id="rejected-requested-transactions">
             <%= render 'rejected_requested_transactions', user: user %>
           </ul>
