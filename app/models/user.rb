@@ -25,8 +25,7 @@ class User < ActiveRecord::Base
   has_many :favorites, dependent: :destroy
   has_many :reviews, dependent: :destroy
 
-  # validates_presence_of :name, :provider, :uid, :oauth_token
-  validates_presence_of :name
+  validates_presence_of :name, :provider, :uid, :oauth_token
   validates_format_of :email, with: /@/, message: "Must be an email", allow_blank: true
 
 

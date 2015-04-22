@@ -7,10 +7,8 @@ class TransactionsController < ApplicationController
     owner = User.find(@user_lacquer.user_id)
     lacquer = Lacquer.find(@user_lacquer.lacquer_id)
     @transaction = Transaction.new(user_lacquer_id: params[:transaction][:user_lacquer_id], requester_id: params[:transaction][:requester_id], owner_id: params[:transaction][:owner_id], type: params[:transaction][:type], due_date: params[:transaction][:due_date])
-    #transaction.state = 'pending'
     if @transaction.save
-      #binding.pry
-      UserMailer.loan_request_notification(@transaction.owner, @transaction.requester, @transaction.user_lacquer).deliver_now
+      UserMailer.loan_request_notification(@transaction.owner, @transaction.requester, @transaction.user_lacquer).deliver_now if @transaction.owner.email
       respond_to do |format|
         format.js { flash[:notice] = "You've successfully asked #{owner.first_name} to loan you #{lacquer.name}" }
       end
@@ -29,8 +27,12 @@ class TransactionsController < ApplicationController
     end
     if params[:transaction] && params[:transaction][:due_date]
       if @transaction.update(due_date: params[:transaction][:due_date])
-        UserMailer.loan_due_date_notification(@transaction).deliver_now
-        flash[:notice] = "We've notified #{@transaction.requester.name} that #{@transaction.lacquer.name} is due back by #{@transaction.due_date.strftime("%m/%d/%Y")}!"
+        if @transaction.requester.email
+          UserMailer.loan_due_date_notification(@transaction).deliver_now 
+          flash[:notice] = "We've notified #{@transaction.requester.name} that #{@transaction.lacquer.name} is due back by #{@transaction.due_date.strftime("%m/%d/%Y")}!"
+        else
+          flash[:notice] = "A notification has been posted on #{@transaction.requester.name}'s profile that #{@transaction.lacquer.name} is due back by #{@transaction.due_date.strftime("%m/%d/%Y")}!"
+        end
       elsif @transaction.errors.any?
         flash[:error] = @transaction.errors.full_messages.to_sentence.gsub("Transaction ", "")
       end
@@ -41,7 +43,7 @@ class TransactionsController < ApplicationController
     if @transaction.state == 'accepted'
       @user_lacquer.on_loan = true
       @user_lacquer.save
-      if original_state == 'pending'
+      if original_state == 'pending' && @transaction.requester.email
         UserMailer.loan_request_accepted_notification(@transaction).deliver_now
       end
     elsif @transaction.state == 'completed'

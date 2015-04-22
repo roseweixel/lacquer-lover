@@ -48,14 +48,14 @@
               </li>
               <% end %>
             <% if !current_user %>
-            <li>
-              <%= form_for User.new, :url => sessions_path, :html => { :style => "padding:15px;" } do |f| %>
-                <%= f.text_field :name, placeholder: "your name" %>
-                <%= f.submit "Sign In" %>
+            <!-- <li> -->
+              <%#= form_for User.new, :url => sessions_path, :html => { :style => "padding:15px;" } do |f| %>
+                <%#= f.text_field :name, placeholder: "your name" %>
+                <%#= f.submit "Sign In" %>
 
-              <% end %>
+              <%# end %>
 
-            </li>
+            <!-- </li> -->
             <% end %>
           </ul>
         <%# end %>

@@ -34,8 +34,8 @@ class SessionsController < ApplicationController
         redirect_to root_path
       end
     end
-    if !existing_user && user.persisted?
-      #UserMailer.welcome_email(user).deliver
+    if !existing_user && user.persisted? && user.email
+      UserMailer.welcome_email(user).deliver
     end
   end
 

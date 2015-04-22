@@ -27,7 +27,7 @@ class UserMailer < ActionMailer::Base
   def friend_request_notification(user, friend)
     @user = user
     @friend = friend
-    @friend_url = "http://localhost:3000/friendships/new?friend_id=#{@user.id}"
+    @friend_url = "http://lacquer-love-and-lend.herokuapp.com/friendships/new?friend_id=#{@user.id}"
 
     mail(to: @friend.email, subject: "#{@user.name} wants to be friends with you on Lacquer Love&Lend!")
 
@@ -38,7 +38,7 @@ class UserMailer < ActionMailer::Base
   def friend_request_accepted_notification(user, friend)
     @user = user
     @friend = friend
-    @friend_url = "http://localhost:3000/users/#{@friend.id}"
+    @friend_url = "http://lacquer-love-and-lend.herokuapp.com/users/#{@friend.id}"
 
     mail(to: @user.email, subject: "#{@friend.name} accepted your friendship on Lacquer Love&Lend!")
 
@@ -50,7 +50,7 @@ class UserMailer < ActionMailer::Base
     @owner = owner
     @requester = requester
     @user_lacquer = user_lacquer
-    @user_url = "http://localhost:3000/users/#{@owner.id}"
+    @user_url = "http://lacquer-love-and-lend.herokuapp.com/users/#{@owner.id}"
 
     mail(to: @owner.email, subject: "#{@requester.name} wants to borrow #{@user_lacquer.lacquer.name}")
 
@@ -83,7 +83,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def transactional_message(bcc_email, reply_address, to_address, subject, body, transaction_id)
-    @reply_url = "http://localhost:3000/new_transactional_message?transaction_id=#{transaction_id}"
+    @reply_url = "http://lacquer-love-and-lend.herokuapp.com/new_transactional_message?transaction_id=#{transaction_id}"
     @body = body
     mail(:from => reply_address, :to => to_address, :subject => subject, :bcc => bcc_email)
     
