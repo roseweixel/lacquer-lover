@@ -15,6 +15,14 @@ module ApplicationHelper
     nil
   end
 
+  def is_an_email_address_not_noreply?(string)
+    !!string.match(/[a-zA-Z\d]+\w*(?:\.\w+)*@[a-zA-Z\d-]+\.[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*/) && !string.match(/(noreply|no-reply)/i)
+  end
+
+  def is_an_email_address?(string)
+    !!string.match(/[a-zA-Z\d]+\w*(?:\.\w+)*@[a-zA-Z\d-]+\.[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*/)
+  end
+
   def display_image(user_lacquer)
     if user_lacquer.selected_display_image && user_lacquer.selected_display_image == user_lacquer.lacquer.default_picture
       picture_for(user_lacquer.lacquer)

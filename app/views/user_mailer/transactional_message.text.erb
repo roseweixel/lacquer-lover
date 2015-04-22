@@ -1,6 +1,11 @@
 <%= @body %>
 
 ============================================
-You may reply directly to the sender if a valid reply address was provided. Otherwise, you may follow this link to send a message via Lacquer Love&Lend:
+<% if is_an_email_address_not_noreply?(@reply_address) %>
+Hitting 'reply' to this email will send a message directly to <%= @from_name %> at <%= @reply_address %>.
+
+<% else %>
+Follow this link to send a message via Lacquer Love&Lend:
 
 <%= @reply_url %>
+<% end %>

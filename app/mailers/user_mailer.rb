@@ -1,5 +1,11 @@
 class UserMailer < ActionMailer::Base
+  add_template_helper(ApplicationHelper)
+  
   default from: "Lacquer Love&Lend <lacquerloveandlend@gmail.com>"
+
+  def is_an_email_address_not_noreply?(string)
+    !!string.match(/[a-zA-Z\d]+\w*(?:\.\w+)*@[a-zA-Z\d-]+\.[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*/) && !string.match(/(noreply|no-reply)/i)
+  end
 
   # welcome on first login
   def welcome_email(user)
@@ -80,10 +86,13 @@ class UserMailer < ActionMailer::Base
     headers['X-MC-Track'] = "opens, clicks_all"
   end
 
-  def transactional_message(bcc_email, reply_address, to_address, subject, body, transaction_id)
+  def transactional_message(from_name, bcc_email, reply_address, to_address, subject, body, transaction_id)
+    @reply_address = reply_address
+    @from_name = from_name
     @reply_url = "http://lacquer-love-and-lend.herokuapp.com/new_transactional_message?transaction_id=#{transaction_id}"
     @body = body
-    mail(:from => reply_address, :to => to_address, :subject => subject, :bcc => bcc_email)
+
+    mail(from: "#{from_name} via Lacquer Love&Lend <noreply@lacquer-love-and-lend.herokuapp.com>", :reply_to => reply_address, :to => to_address, :subject => subject, :bcc => bcc_email)
     
     headers['X-MC-Track'] = "opens, clicks_all"
   end

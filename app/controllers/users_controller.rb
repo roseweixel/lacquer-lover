@@ -148,7 +148,7 @@ class UsersController < ApplicationController
         flash[:alert] = "Sorry, it seems #{params[:to_name]} has not provided us with a valid email address."
         redirect_to :back
       else
-        UserMailer.transactional_message(current_user.email, reply_address, to_address, subject, body, transaction_id).deliver_now
+        UserMailer.transactional_message(current_user.name, current_user.email, reply_address, to_address, subject, body, transaction_id).deliver_now
         flash[:success] = "Your message to #{params[:to_name]} has been sent. We sent a copy to you for your convenience."
         redirect_to user_path(current_user)
       end
