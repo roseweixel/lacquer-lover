@@ -29,6 +29,10 @@ class Transaction < ActiveRecord::Base
   validate :user_lacquer_must_not_be_on_loan, :on => :create
   validate :requester_and_user_must_be_friends, :on => :create
 
+  validate :no_due_date_if_state_is_not_active, :on => :update
+
+  validate :due_date_must_be_in_the_future, :on => :update
+
   SECONDS_PER_DAY = 86400
 
   def defaults
@@ -41,6 +45,17 @@ class Transaction < ActiveRecord::Base
     User.find(user_lacquer.user_id)
   end
 
+  def no_due_date_if_state_is_not_active
+    if !['active', 'completed'].include?(self.state) && self.due_date
+      errors.add(:transaction, "you can only assign a due date after you've given #{self.lacquer.name} to #{self.requester.first_name}")
+    end
+  end
+
+  def due_date_must_be_in_the_future
+    if self.due_date && self.due_date < Date.today
+      errors.add(:transaction, "the due date must be in the future")
+    end
+  end
 
   def transaction_must_be_unique
     if !Transaction.where(:user_lacquer_id => user_lacquer_id, :requester_id => requester_id, :state => ['pending', 'accepted', 'active', 'rejected']).empty?

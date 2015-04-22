@@ -31,7 +31,12 @@ class FriendshipsController < ApplicationController
       @friend = User.find(params[:friendship][:friend_id])
       @friendship = Friendship.new(friend: @friend, user: @user, state: 'pending')
       if @friendship.save
-        flash[:notice] = "Your friendship with #{@friend.name} is pending."
+        if @friend.email
+          UserMailer.friend_request_notification(@user, @friend).deliver_now
+          flash[:notice] = "Your friendship with #{@friend.name} is pending and a notification has been sent."
+        else
+          flash[:notice] = "Your friendship with #{@friend.name} is pending."
+        end
       else
         flash[:alert] = "There was an error creating this friendship!"
       end
@@ -46,11 +51,20 @@ class FriendshipsController < ApplicationController
     begin
       @friendship = Friendship.find(params[:id])
       @friendship.update(state: params[:state])
-      flash[:notice] = "This friendship is now #{params[:state]}."
     rescue
       flash[:alert] = "Sorry, we can't seem to find the friendship you were trying to update!"
     end
-    redirect_to(:back)
+    if @friendship.state == "accepted"
+      flash[:success] = "Congratulations, you are now friends with #{@friendship.user.name}! You can now view each other's collections and borrow lacquers from each other."
+      UserMailer.friend_request_accepted_notification(@friendship.user, @friendship.friend).deliver_now if @friendship.user.email
+      redirect_to user_path(@friendship.user)
+    elsif @friendship.state == "rejected"
+      flash[:alert] = "You have rejected #{@friendship.user.name}'s friend request."
+      redirect_to user_path(current_user)
+    else
+      flash[:notice] = "This friendship is now #{params[:state]}."
+      redirect_to(:back)
+    end
   end
 
   def destroy

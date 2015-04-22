@@ -6,7 +6,7 @@
 		<span class="pull-right" style="font-size: .5em;">Lacquer Lover Since:<br><%= @user.created_at.to_date.strftime("%B %e, %Y") %> (<strong><%= time_ago_in_words(@user.created_at) %></strong> ago)</span>
 	</legend>
 	<div class="user-dashboard">
-		<% if (@user != current_user) && (!current_user.all_friends.include?(@user)) %>
+		<% if (@user != current_user) && (!current_user.accepted_friends.include?(@user)) %>
 			<%= link_to "Add Friend", new_friendship_path(friend_id: @user) %><br>
 		<% end %>
 

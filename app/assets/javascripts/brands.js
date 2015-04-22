@@ -33,7 +33,7 @@ function checkboxListener() {
     var $checkBox = $(this).prevAll(":checkbox")
     var $lacquerBox = $checkBox.parents(".col-md-3.lacquer");
     var $panel = $lacquerBox.find(".panel-body");
-    if(!$checkBox[0].checked) {
+    if($checkBox[0] && !$checkBox[0].checked) {
         $panel.css("background-color", "#ede0f3");
     }
     else {

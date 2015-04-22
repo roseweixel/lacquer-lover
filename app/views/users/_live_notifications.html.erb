@@ -10,7 +10,8 @@
             <p class="list-group-item" style='padding: 0;'>
               <%= image_tag friend.image || 'placeholder-avatar.png', size: '30x30' %>
               <%= link_to friend.name, user_path(friend) %> 
-              <%= link_to "ok", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class => "btn btn-success btn-xs pull-right", :style => "margin:3px 3px 0 0;"} %> <%= link_to "not now", friendship_path(friendship, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs pull-right", :style => "margin:3px 3px 0 0;"} %>
+              <%= link_to "not now", friendship_path(friendship, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs pull-right", :style => "margin:3px 3px 0 0;", :data => {:confirm => "This action will reject #{friend.name}'s request to be friends on Lacquer Love&Lend. Are you sure?"} } %>
+              <%= link_to "accept", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class => "btn btn-success btn-xs pull-right", :style => "margin:3px 3px 0 0;"} %> 
             </p>
           <% end %>
         </ul>
@@ -59,7 +60,18 @@
           <% user.transactions_for_your_approval.each do |transaction| %>
             <% friend = User.find(transaction.requester_id) %>
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <p class="list-group-item" style='padding-top: 5px; padding-bottom: 5px;'><%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>. <%= link_to "ok", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs pull-right", :style => "margin:0 0 0 3px;"} %> <%= link_to "not now", transaction_path(transaction, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs pull-right", :style => "margin:0 0 0 3px;"} %></p>
+            <p class="list-group-item clearfix" style='padding-top: 5px; padding-bottom: 5px;'>
+            <span class="col-xs-8" style="padding-left: 0px;">
+            <%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>.
+            </span>
+            <span class="col-xs-4" style="text-align: right; margin-left: 0; padding-left: 0; padding-right: 0;"> 
+            <%= link_to "ok", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs", :style => "width: 59px; margin-bottom: 3%;"} %> 
+            <%= link_to "not now", transaction_path(transaction, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs", :style => "width: 59px; margin-bottom: 3%;"} %>
+            </span>
+            <span class="col-xs-12" style="text-align: left; padding:0;">
+            <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
+            </span>
+            </p>
           <% end %>
           </ul>
         <% end %>
@@ -74,14 +86,9 @@
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
             <div class="list-group-item" style='padding-top: 15px;'>
               <strong>You've agreed to loan <%= link_to lacquer.name, lacquer_path(lacquer) %> out to <%= link_to friend.name, user_path(friend) %></strong>.<br> 
-              <%= link_to "I lent #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %> <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-primary btn-xs" %><br><br>
-              <%= form_for transaction, :html => {:class => "form-horizontal"} do |f| %>
-                <div class="controls form-inline">
-                <%= f.label :due_date, "Add or Change Due Date" %><br>
-                <%= f.date_field :due_date, class: "form-control", style:"height: 43px;" %>
-                <%= f.submit "Update", :class =>"form-control btn-primary" %>
-                </div>
-              <% end %> 
+              <%= link_to "I lent #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %> <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-primary btn-xs" %><br><br> 
+
+                <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
             </div>
           <% end %>
           </ul>
@@ -97,13 +104,15 @@
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
             <div class="list-group-item" style='padding-top: 15px;'>
               <strong>Your <%= link_to lacquer.name, lacquer_path(lacquer) %> is currently loaned out to <%= link_to friend.name, user_path(friend) %>.</strong><br> <%= link_to "#{friend.name} gave #{lacquer.name} back", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %><br><br>
-            <%= form_for transaction, :html => {:class => "form-horizontal"} do |f| %>
+            <%= form_for transaction, :html => {:class => "form-horizontal toggle-form"} do |f| %>
               <div class="controls form-inline">
-              <%= f.label :due_date, "Add or Change Due Date" %><br>
-              <%= f.date_field :due_date, class: "form-control", style:"height: 43px;" %>
-              <%= f.submit "Update", :class =>"form-control btn-primary" %>
+              <%= f.label :due_date, "Add or Change Due Date", class: "toggle-form-label btn btn-primary btn-xs" %><br>
+              <%= f.date_field :due_date, class: "form-control", style:"height: 43px; display: none;", required: true %>
+              <%= f.submit "Update", :class =>"form-control btn-primary", style: "display: none;" %>
               </div>
-            <% end %> 
+            <% end %>
+            
+            <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
             </div>
           <% end %>
           </ul>
@@ -118,13 +127,14 @@
         <!-- CURRENTLY LOANED OUT TO YOU -->
         <% if user.active_requested_transactions.count > 0 %>
           <h3>Lacquers Currently Loaned Out to You</h3>
-          <ul>
+          <ul class="list-group">
             <% user.active_requested_transactions.each do |transaction| %>
               <% friend = User.find(transaction.owner_id) %>
               <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-              <li style='padding-top: 15px;'>
+              <p class="list-group-item" style='padding-top: 15px;'>
                 <%= link_to friend.name, user_path(friend) %> gave you <%= lacquer.name %> on <%= transaction.date_became_active.strftime("%m/%d/%Y") %>.
                 <% if transaction.due_date %>
+                  <br>
                   <% if transaction.overdue? %>
                     <div class="alert alert-danger" role="alert" style="padding: 2px;">
                     You're <%= pluralize(transaction.days_overdue, 'day') %> overdue to return this lacquer. Don't mess with karma - give it back!
@@ -142,7 +152,9 @@
                     The return date for this loan is <%= transaction.due_date.strftime("%m/%d/%Y") %>.
                   <% end %>
                 <% end %>
-              </li>
+                <br>
+                <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
+              </p>
             <% end %>
           </ul>
         <% end %>
@@ -151,11 +163,13 @@
         <!-- LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
         <% if user.accepted_requested_transactions.count > 0 %>
           <h3>Accepted Loan Requests</h3>
-          <ul>
+          <ul class="list-group">
           <% user.accepted_requested_transactions.each do |transaction| %>
             <% friend = User.find(transaction.owner_id) %>
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <li style='padding-top: 15px;'><%= link_to friend.name, user_path(friend) %> has agreed to loan you <%= lacquer.name %>.</li>
+            <p class="list-group-item" style='padding-top: 15px;'>
+            <%= link_to friend.name, user_path(friend) %> has agreed to loan you <%= lacquer.name %>.
+            </p>
           <% end %>
           </ul>
         <% end %>
@@ -168,8 +182,13 @@
           <% user.pending_requested_transactions.each do |transaction| %>
             <% friend = User.find(transaction.owner_id) %>
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <p class="list-group-item" style='padding:5px 0 5px 5px; margin-right: -5px;'>You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= link_to lacquer.name, lacquer_path(lacquer) %>
-              <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-default btn-xs pull-right", style: "margin-right: 3px;", data: { confirm: "Are you sure you want to cancel this request?" }%>
+            <p class="list-group-item clearfix" style='padding:5px 0 5px 5px;'>
+              <span class="col-xs-10">
+              You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= link_to lacquer.name, lacquer_path(lacquer) %>
+              </span>
+              <span class="col-xs-2">
+              <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-primary btn-xs pull-right", style: "margin-right: 3px;", data: { confirm: "Are you sure you want to cancel this request?" }%>
+              </span>
             </p>
           <% end %>
           </ul>

@@ -13,6 +13,16 @@ class ApplicationController < ActionController::Base
   before_filter -> { flash.now[:notice] = flash[:notice].html_safe if flash[:html_safe] && flash[:notice] }
 
   private
+    def is_an_email_address?(string)
+      !!string.match(/[a-zA-Z\d]+\w*(?:\.\w+)*@[a-zA-Z\d-]+\.[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*/)
+    end
+    helper_method :is_an_email_address?
+
+    # return an array of email addresses from a string
+    def parse_list_of_emails(string)
+      string.scan(/[a-zA-Z\d]+\w*(?:\.\w+)*@[a-zA-Z\d-]+\.[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*/)
+    end
+    helper_method :parse_list_of_emails
 
     def current_user
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
