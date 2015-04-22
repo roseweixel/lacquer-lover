@@ -82,6 +82,12 @@ class UserMailer < ActionMailer::Base
     headers['X-MC-Track'] = "opens, clicks_all"
   end
 
+  def transactional_message(bcc_email, reply_address, to_address, subject, body)
+    mail(:from => reply_address, :to => to_address, :subject => subject, :body => body, :bcc => bcc_email)
+    
+    headers['X-MC-Track'] = "opens, clicks_all"
+  end
+
   # notif of loan turned into gift?
   
 

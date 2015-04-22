@@ -131,8 +131,23 @@ class UsersController < ApplicationController
  # "controller"=>"users",
  # "action"=>"send_transactional_message"}
   def send_transactional_message
-    binding.pry
-    # CREATE MAILER FOR THIS
+    if params[:reply_address] == current_user.email
+      reply_address = params[:reply_address]
+    elsif params[:reply_address] == "do not provide a reply address"
+      reply_address = "#{current_user.name} via Lacquer Love&Lend (do not reply)"
+    elsif is_an_email_address?(params[:other_reply_address])
+      reply_address = params[:other_reply_address]
+    end
+    if !reply_address
+      flash[:alert] = "The reply address you entered is not a valid email address."
+      redirect_to :back
+    else
+      subject, body, to_address = params[:subject], params[:body], params[:to_address]
+      binding.pry
+      #UserMailer.transactional_message(current_user.email, reply_address, to_address, subject, body).deliver_now
+      flash[:success] = "Your message to #{params[:to_name]} has been sent. We sent a copy to you for your convenience."
+      redirect_to user_path(current_user)
+    end
   end
 
   private
