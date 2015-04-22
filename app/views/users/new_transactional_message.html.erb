@@ -49,7 +49,7 @@
         <legend style="font-size: 1.25em;">Send an email message to <strong><%= @other_user.name %></strong> about this transaction</legend>
 
         <%= form_tag send_transactional_message_path, class:"form-horizontal" do %>
-          <%= label_tag 'Reply To' %>
+          <%= label_tag 'Your email address' %>
           <%= select_tag 'reply_address', options_for_select([@user.email, "other email address", "do not provide a reply address"]), class:"form-control", id:"email-options" %>
           <%= text_field_tag 'other_reply_address', nil, placeholder: "email address for reply", class:"form-control other-email" %>
           <br>
@@ -61,6 +61,7 @@
 
           <%= hidden_field_tag :to_address, @other_user.email %>
           <%= hidden_field_tag :to_name, @other_user.name %>
+          <%= hidden_field_tag :transaction_id, @transaction.id %>
           <%= submit_tag "Send", class:"btn btn-default" %>
 
         <% end %>

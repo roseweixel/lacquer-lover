@@ -111,42 +111,47 @@ class UsersController < ApplicationController
   end
 
   def new_transactional_message
-    @transaction = Transaction.find(params[:transaction_id])
-    @user = current_user
-    if @transaction.requester_id == current_user.id
-      @other_user = User.find(@transaction.owner.id)
+    if !current_user
+      if request.env['REQUEST_URI']
+        session[:intended_uri] = request.env['REQUEST_URI']
+        flash[:notice] = %Q[ #{ view_context.link_to("Sign in", login_path, id:"brand-show-sign-in", class:'light-blue-link')} to send a message! ]
+        flash[:html_safe] = true
+      else
+        flash[:notice] = "Please sign in to continue!"
+      end
+      redirect_to root_path
     else
-      @other_user = User.find(@transaction.requester_id)
+      @transaction = Transaction.find(params[:transaction_id])
+      @user = current_user
+      if @transaction.requester_id == current_user.id
+        @other_user = User.find(@transaction.owner.id)
+      else
+        @other_user = User.find(@transaction.requester_id)
+      end
     end
   end
 
-  # params:
-  # {"utf8"=>"✓",
- # "authenticity_token"=>
- #  "bvoh1ic8SqGhFs6x0TZ1vgLJHwjP2AJik7N1QN/# MYD9Ni5GSWaicEwnvjqiyN4aOfNxK3yGyDp2gjjRNROwCKQ==",
- # "reply_address"=>"lacquerloveandlend@gmail.com",
- # "subject"=>"About our transaction for 12th Street Rag"# ,
- # "body"=>"Hello this is a test",
- # "commit"=>"Send",
- # "controller"=>"users",
- # "action"=>"send_transactional_message"}
   def send_transactional_message
     if params[:reply_address] == current_user.email
-      reply_address = params[:reply_address]
+      reply_address = "#{current_user.name} via Lacquer Love&Lend <#{params[:reply_address]}>"
     elsif params[:reply_address] == "do not provide a reply address"
-      reply_address = "#{current_user.name} via Lacquer Love&Lend (do not reply)"
+      reply_address = "#{current_user.name} via Lacquer Love&Lend <noreply@lacquer-love-and-lend.herokuapp.com>"
     elsif is_an_email_address?(params[:other_reply_address])
       reply_address = params[:other_reply_address]
     end
     if !reply_address
-      flash[:alert] = "The reply address you entered is not a valid email address."
+      flash[:alert] = "Please enter a valid email address or choose another 'reply to' option from the dropdown menu."
       redirect_to :back
     else
-      subject, body, to_address = params[:subject], params[:body], params[:to_address]
-      binding.pry
-      #UserMailer.transactional_message(current_user.email, reply_address, to_address, subject, body).deliver_now
-      flash[:success] = "Your message to #{params[:to_name]} has been sent. We sent a copy to you for your convenience."
-      redirect_to user_path(current_user)
+      subject, body, to_address, transaction_id = params[:subject], params[:body], params[:to_address], params[:transaction_id]
+      if !is_an_email_address?(to_address)
+        flash[:alert] = "Sorry, it seems #{params[:to_name]} has not provided us with a valid email address."
+        redirect_to :back
+      else
+        UserMailer.transactional_message(current_user.email, reply_address, to_address, subject, body, transaction_id).deliver_now
+        flash[:success] = "Your message to #{params[:to_name]} has been sent. We sent a copy to you for your convenience."
+        redirect_to user_path(current_user)
+      end
     end
   end
 
