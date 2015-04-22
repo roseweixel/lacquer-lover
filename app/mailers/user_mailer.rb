@@ -1,8 +1,6 @@
 class UserMailer < ActionMailer::Base
   default from: "Lacquer Love&Lend <lacquerloveandlend@gmail.com>"
 
-  # Emails to send:
-
   # welcome on first login
   def welcome_email(user)
     @user = user
