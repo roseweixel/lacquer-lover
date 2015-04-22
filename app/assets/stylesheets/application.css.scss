@@ -420,6 +420,47 @@ li.fave {
   margin-right: auto;
 }
 
+.no-margin-bottom {
+  margin-bottom: 0;
+}
+
+.no-margin-bottom .fa {
+  font-size: .6em;
+  float: right;
+  margin-top: 9px;
+}
+
+.badge {
+  padding: 1px 9px 2px;
+  font-size: 12.025px;
+  font-weight: bold;
+  white-space: nowrap;
+  color: #ffffff;
+  background-color: #999999;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.no-margin-bottom {
+    vertical-align:middle;
+}
+
+legend>.badge {
+    vertical-align:middle;
+    margin-top: -0.25em;
+}
+
+legend>.fa {
+    vertical-align:middle;
+    margin-top: -0.25em;
+}
+
+legend>.fa:hover {
+  cursor: pointer;
+  color: grey;
+}
+
 @media (max-width: 793px) {
   .add-to-btn {
     margin-bottom: 5px;

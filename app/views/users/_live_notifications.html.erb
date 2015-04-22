@@ -2,8 +2,9 @@
     <% if user == current_user %>
     <div class="col-sm-5">
       <!-- FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
+      <h3>Friendship Notifications</h3>
       <% if user.friendships_for_your_approval.count > 0 %>
-        <h3>Friendships Awaiting Your Approval</h3>
+        <legend class="no-margin-bottom">Friendships Awaiting Your Approval</legend>
         <ul class="list-group">
           <% user.friendships_for_your_approval.each do |friendship| %>
             <% friend = User.find(friendship.user_id) %>
@@ -20,7 +21,7 @@
 
       <!-- FRIENDSHIPS YOU'VE REQUESTED NOT YET APPROVED -->
       <% if user.requested_friends_awaiting_approval.count > 0 %>
-        <h3>Your Pending Friend Requests</h3>
+        <legend class="no-margin-bottom">Your Pending Friend Requests</legend>
         <ul class="list-group">
           <% user.requested_friends_awaiting_approval.each do |friend| %>
             <% friendship = Friendship.where(user_id: user.id, friend_id: friend.id).first %>
@@ -36,7 +37,7 @@
 
       <!-- RECTED FRIENDSHIPS YOU'VE REQUESTED -->
       <% if user.rejected_friend_requests.count > 0 %>
-        <h3>Sorry, these friend requests were not approved.</h3>
+        <legend class="no-margin-bottom">Sorry, these friend requests were not approved.</legend>
         <ul class="list-group">
           <% user.rejected_friend_requests.each do |friendship| %>
             <% friend = User.find(friendship.friend_id) %>
@@ -51,11 +52,12 @@
       <!-- END OF RECTED FRIENDSHIPS YOU'VE REQUESTED -->
 
       <!-- TRANSACTIONS YOU OWN -->
+      <h3>Transaction Notifications</h3>
       <% if user.owned_transactions.count > 0 %>
 
         <!-- TRANSACTIONS AWAITING YOUR APPROVAL -->
         <% if user.transactions_for_your_approval.count > 0 %>
-          <h3>Transactions Awaiting Your Approval</h3>
+          <legend class="no-margin-bottom">Transactions Awaiting Your Approval <span class="badge"><%= user.transactions_for_your_approval.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
           <ul class="list-group">
           <% user.transactions_for_your_approval.each do |transaction| %>
             <% friend = User.find(transaction.requester_id) %>
@@ -79,7 +81,7 @@
 
         <!-- TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
         <% if user.transactions_you_accepted.count > 0 %>
-          <h3>Transactions You Accepted</h3>
+          <legend class="no-margin-bottom">Transactions You Accepted <span class="badge"><%= user.transactions_you_accepted.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
           <ul class="list-group">
           <% user.transactions_you_accepted.each do |transaction| %>
             <% friend = User.find(transaction.requester_id) %>
@@ -97,7 +99,7 @@
 
         <!-- CURRENTLY LOANED OUT -->
         <% if user.active_owned_transactions.count > 0 %>
-          <h3>Lacquers Currenly on Loan</h3>
+          <legend class="no-margin-bottom">Lacquers Currently Loaned Out <span class="badge"><%= user.active_owned_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
           <ul class="list-group">
           <% user.active_owned_transactions.each do |transaction| %>
             <% friend = User.find(transaction.requester_id) %>
@@ -126,7 +128,7 @@
       
         <!-- CURRENTLY LOANED OUT TO YOU -->
         <% if user.active_requested_transactions.count > 0 %>
-          <h3>Lacquers Currently Loaned Out to You</h3>
+          <legend class="no-margin-bottom">Lacquers You're Borrowing <span class="badge"><%= user.active_requested_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
           <ul class="list-group">
             <% user.active_requested_transactions.each do |transaction| %>
               <% friend = User.find(transaction.owner_id) %>
@@ -162,7 +164,7 @@
 
         <!-- LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
         <% if user.accepted_requested_transactions.count > 0 %>
-          <h3>Accepted Loan Requests</h3>
+          <legend class="no-margin-bottom">Accepted Loan Requests <span class="badge"><%= user.accepted_requested_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
           <ul class="list-group">
           <% user.accepted_requested_transactions.each do |transaction| %>
             <% friend = User.find(transaction.owner_id) %>
@@ -179,7 +181,7 @@
 
         <!-- LOANS REQUESTED PENDING -->
         <% if user.pending_requested_transactions.count > 0 %>
-          <h3>Pending Loan Requests</h3>
+          <legend class="no-margin-bottom">Pending Loan Requests <span class="badge"><%= user.pending_requested_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
           <ul class="list-group">
           <% user.pending_requested_transactions.each do |transaction| %>
             <% friend = User.find(transaction.owner_id) %>
@@ -202,7 +204,7 @@
 
         <!-- LOAN REQUESTS REJECTED -->
         <% if user.rejected_requested_transactions.count > 0 %>
-          <h3>Pending Loan Requests</h3>
+          <legend class="no-margin-bottom">Rejected Loan Requests <span class="badge"><%= user.rejected_requested_transactions.count %></span> <i class="fa fa-minus"></i></legend>
           <ul>
           <% user.rejected_requested_transactions.each do |transaction| %>
             <% friend = User.find(transaction.owner_id) %>

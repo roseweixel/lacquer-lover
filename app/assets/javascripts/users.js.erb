@@ -51,4 +51,20 @@ $(document).ready(function() {
     $('.user-dashboard').slideDown();
     $('#show').hide();
   });
+
+  $('.fa-plus').hide();
+  $('.badge').hide();
+  $('legend').on('click', '.fa-minus', function(){
+    $(this).siblings('.fa-plus').show();
+    $(this).siblings('.badge').show();
+    $(this).hide();
+    $(this).parent().next('ul').slideUp();
+  });
+
+  $('legend').on('click', '.fa-plus', function(){
+    $(this).siblings('.fa-minus').show();
+    $(this).siblings('.badge').hide();
+    $(this).hide();
+    $(this).parent().next('ul').slideDown();
+  });
 });
