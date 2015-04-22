@@ -3,7 +3,7 @@
     <div class="well" style="height: 100%; overflow: scroll;">
     <legend>Transaction Details:</legend>
     <p>
-      <strong>Lacquer:</strong> <%= @transaction.lacquer.name %>
+      <strong>Lacquer:</strong> <%= @transaction.lacquer.name %> (<%= @transaction.lacquer.brand.name %>)
       <p style="text-align: center; background-color: #ccc; padding: 5px 0;">
       <%= picture_for(@transaction.lacquer) %>
       </p>
@@ -54,7 +54,7 @@
           <%= text_field_tag 'other_reply_address', nil, placeholder: "email address for reply", class:"form-control other-email" %>
           <br>
           <%= label_tag 'Subject' %>
-          <%= text_field_tag 'subject', nil, :required => true, value: "About our transaction for #{@transaction.lacquer.name}", class:"form-control" %>
+          <%= text_field_tag 'subject', nil, :required => true, value: "Transaction for #{@transaction.lacquer.name}", class:"form-control" %>
           <br>
           <%= label_tag 'Message' %>
           <%= text_area_tag 'body', nil, :required => true, placeholder: "Your message to #{@other_user.first_name}", class:"form-control", style:"height: 150px;" %><br>

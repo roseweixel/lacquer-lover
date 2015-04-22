@@ -169,6 +169,8 @@
             <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
             <p class="list-group-item" style='padding-top: 15px;'>
             <%= link_to friend.name, user_path(friend) %> has agreed to loan you <%= lacquer.name %>.
+            <br>
+            <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
             </p>
           <% end %>
           </ul>
@@ -188,6 +190,9 @@
               </span>
               <span class="col-xs-2">
               <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-primary btn-xs pull-right", style: "margin-right: 3px;", data: { confirm: "Are you sure you want to cancel this request?" }%>
+              </span>
+              <span class="col-xs-12" style="text-align: left;">
+              <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
               </span>
             </p>
           <% end %>
