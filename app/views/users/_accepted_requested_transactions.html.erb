@@ -1,0 +1,9 @@
+<% user.accepted_requested_transactions.each do |transaction| %>
+  <% friend = User.find(transaction.owner_id) %>
+  <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+  <p class="list-group-item" style='padding-top: 15px;'>
+  <%= link_to friend.name, user_path(friend) %> has agreed to loan you <%= lacquer.name %>.
+  <br>
+  <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
+  </p>
+<% end %>

@@ -1,0 +1,28 @@
+<% user.active_requested_transactions.each do |transaction| %>
+  <% friend = User.find(transaction.owner_id) %>
+  <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+  <p class="list-group-item" style='padding-top: 15px;'>
+    <%= link_to friend.name, user_path(friend) %> gave you <%= lacquer.name %> on <%= transaction.date_became_active.strftime("%m/%d/%Y") %>.
+    <% if transaction.due_date %>
+      <br>
+      <% if transaction.overdue? %>
+        <div class="alert alert-danger" role="alert" style="padding: 2px;">
+        You're <%= pluralize(transaction.days_overdue, 'day') %> overdue to return this lacquer. Don't mess with karma - give it back!
+        </div>
+      <% elsif transaction.due_today? %>
+      <div class="alert alert-dismissable alert-warning" style="padding: 2px;">
+  
+        Remember to give this lacquer back <strong>today</strong>!
+      </div>
+      <% elsif transaction.due_tomorrow? %>
+      <div class="alert alert-dismissable alert-success" style="padding: 2px;">
+        Remember to give this lacquer back <strong>tomorrow</strong>!
+      </div>
+      <% else %>
+        The return date for this loan is <%= transaction.due_date.strftime("%m/%d/%Y") %>.
+      <% end %>
+    <% end %>
+    <br>
+    <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
+  </p>
+<% end %>

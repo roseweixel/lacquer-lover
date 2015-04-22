@@ -1,0 +1,16 @@
+<% user.transactions_for_your_approval.each do |transaction| %>
+  <% friend = User.find(transaction.requester_id) %>
+  <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
+  <p class="list-group-item clearfix" style='padding-top: 5px; padding-bottom: 5px;'>
+  <span class="col-xs-8" style="padding-left: 0px;">
+  <%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>.
+  </span>
+  <span class="col-xs-4" style="text-align: right; margin-left: 0; padding-left: 0; padding-right: 0;"> 
+  <%= link_to "ok", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs", :style => "width: 59px; margin-bottom: 3%;"} %> 
+  <%= link_to "not now", transaction_path(transaction, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs", :style => "width: 59px; margin-bottom: 3%;"} %>
+  </span>
+  <span class="col-xs-12" style="text-align: left; padding:0;">
+  <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
+  </span>
+  </p>
+<% end %>

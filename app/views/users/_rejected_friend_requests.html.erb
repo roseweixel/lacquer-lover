@@ -1,0 +1,8 @@
+<% user.rejected_friend_requests.each do |friendship| %>
+  <% friend = User.find(friendship.friend_id) %>
+  <p class="list-group-item" style='padding: 0;'>
+  <%= image_tag friend.image || 'placeholder-avatar.png', size: '30x30' %>
+  <%= link_to friend.name, user_path(friend) %>
+  <%= link_to "conclude this request", friendship_path(friendship, :state => 'concluded'), {:method => "PATCH", class: "btn btn-default btn-xs pull-right", style:"margin:3px 3px 0 0;"} %>
+  </p>
+<% end %>

@@ -5,16 +5,8 @@
       <h3>Friendship Notifications</h3>
       <% if user.friendships_for_your_approval.count > 0 %>
         <legend class="no-margin-bottom">Friendships Awaiting Your Approval</legend>
-        <ul class="list-group">
-          <% user.friendships_for_your_approval.each do |friendship| %>
-            <% friend = User.find(friendship.user_id) %>
-            <p class="list-group-item" style='padding: 0;'>
-              <%= image_tag friend.image || 'placeholder-avatar.png', size: '30x30' %>
-              <%= link_to friend.name, user_path(friend) %> 
-              <%= link_to "not now", friendship_path(friendship, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs pull-right", :style => "margin:3px 3px 0 0;", :data => {:confirm => "This action will reject #{friend.name}'s request to be friends on Lacquer Love&Lend. Are you sure?"} } %>
-              <%= link_to "accept", friendship_path(friendship, :state => 'accepted'), {:method => "PATCH", :class => "btn btn-success btn-xs pull-right", :style => "margin:3px 3px 0 0;"} %> 
-            </p>
-          <% end %>
+        <ul class="list-group" id="friendships-for-your-approval">
+          <%= render 'friendships_for_your_approval', user: user %>
         </ul>
       <% end %>
       <!-- END OF FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
@@ -22,15 +14,8 @@
       <!-- FRIENDSHIPS YOU'VE REQUESTED NOT YET APPROVED -->
       <% if user.requested_friends_awaiting_approval.count > 0 %>
         <legend class="no-margin-bottom">Your Pending Friend Requests</legend>
-        <ul class="list-group">
-          <% user.requested_friends_awaiting_approval.each do |friend| %>
-            <% friendship = Friendship.where(user_id: user.id, friend_id: friend.id).first %>
-            <p class="list-group-item" style='padding: 0;'>
-            <%= image_tag friend.image || 'placeholder-avatar.png', size: '30x30' %>
-            <%= link_to friend.name, user_path(friend) %>
-            <%= link_to 'cancel', friendship_path(friendship), method: 'DELETE', class: "btn btn-default btn-xs pull-right", style:"margin:3px 3px 0 0;", data: { confirm: "Are you sure you want to cancel this friend request?" } %>
-            </p>
-          <% end %>
+        <ul class="list-group" id="pending-friend-requests">
+          <%= render 'pending_friend_requests', user: user %>
         </ul>
       <% end %>
       <!-- END OF FRIENDSHIPS YOU'VE REQUESTED NOT YET APPROVED -->
@@ -38,15 +23,8 @@
       <!-- RECTED FRIENDSHIPS YOU'VE REQUESTED -->
       <% if user.rejected_friend_requests.count > 0 %>
         <legend class="no-margin-bottom">Sorry, these friend requests were not approved.</legend>
-        <ul class="list-group">
-          <% user.rejected_friend_requests.each do |friendship| %>
-            <% friend = User.find(friendship.friend_id) %>
-            <p class="list-group-item" style='padding: 0;'>
-            <%= image_tag friend.image || 'placeholder-avatar.png', size: '30x30' %>
-            <%= link_to friend.name, user_path(friend) %>
-            <%= link_to "conclude this request", friendship_path(friendship, :state => 'concluded'), {:method => "PATCH", class: "btn btn-default btn-xs pull-right", style:"margin:3px 3px 0 0;"} %>
-            </p>
-          <% end %>
+        <ul class="list-group" id="rejected-friend-requests">
+          <%= render 'rejected_friend_requests', user: user %>
         </ul>
       <% end %>
       <!-- END OF RECTED FRIENDSHIPS YOU'VE REQUESTED -->
@@ -58,23 +36,8 @@
         <!-- TRANSACTIONS AWAITING YOUR APPROVAL -->
         <% if user.transactions_for_your_approval.count > 0 %>
           <legend class="no-margin-bottom">Transactions Awaiting Your Approval <span class="badge"><%= user.transactions_for_your_approval.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
-          <ul class="list-group">
-          <% user.transactions_for_your_approval.each do |transaction| %>
-            <% friend = User.find(transaction.requester_id) %>
-            <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <p class="list-group-item clearfix" style='padding-top: 5px; padding-bottom: 5px;'>
-            <span class="col-xs-8" style="padding-left: 0px;">
-            <%= link_to friend.name, user_path(friend) %> has asked to borrow <%= lacquer.name %>.
-            </span>
-            <span class="col-xs-4" style="text-align: right; margin-left: 0; padding-left: 0; padding-right: 0;"> 
-            <%= link_to "ok", transaction_path(transaction, :state => 'accepted'), {:method => "PATCH", :class =>"btn btn-success btn-xs", :style => "width: 59px; margin-bottom: 3%;"} %> 
-            <%= link_to "not now", transaction_path(transaction, :state => 'rejected'), {:method => "PATCH", :class =>"btn btn-danger btn-xs", :style => "width: 59px; margin-bottom: 3%;"} %>
-            </span>
-            <span class="col-xs-12" style="text-align: left; padding:0;">
-            <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
-            </span>
-            </p>
-          <% end %>
+          <ul class="list-group" id="transactions-for-your-approval">
+            <%= render 'transactions_for_your_approval', user: user %>
           </ul>
         <% end %>
         <!-- END OF TRANSACTIONS AWAITING YOUR APPROVAL -->
@@ -82,17 +45,8 @@
         <!-- TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
         <% if user.transactions_you_accepted.count > 0 %>
           <legend class="no-margin-bottom">Transactions You Accepted <span class="badge"><%= user.transactions_you_accepted.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
-          <ul class="list-group">
-          <% user.transactions_you_accepted.each do |transaction| %>
-            <% friend = User.find(transaction.requester_id) %>
-            <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <div class="list-group-item" style='padding-top: 15px;'>
-              <strong>You've agreed to loan <%= link_to lacquer.name, lacquer_path(lacquer) %> out to <%= link_to friend.name, user_path(friend) %></strong>.<br> 
-              <%= link_to "I lent #{lacquer.name} to #{friend.name}", transaction_path(transaction, :state => 'active', :date_became_active => Date.today), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %> <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-primary btn-xs" %><br><br> 
-
-                <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
-            </div>
-          <% end %>
+          <ul class="list-group" id="transactions-you-accepted">
+            <%= render 'transactions_you_accepted', user: user %>
           </ul>
         <% end %>
         <!-- END OF TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
@@ -100,23 +54,8 @@
         <!-- CURRENTLY LOANED OUT -->
         <% if user.active_owned_transactions.count > 0 %>
           <legend class="no-margin-bottom">Lacquers Currently Loaned Out <span class="badge"><%= user.active_owned_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
-          <ul class="list-group">
-          <% user.active_owned_transactions.each do |transaction| %>
-            <% friend = User.find(transaction.requester_id) %>
-            <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <div class="list-group-item" style='padding-top: 15px;'>
-              <strong>Your <%= link_to lacquer.name, lacquer_path(lacquer) %> is currently loaned out to <%= link_to friend.name, user_path(friend) %>.</strong><br> <%= link_to "#{friend.name} gave #{lacquer.name} back", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %><br><br>
-            <%= form_for transaction, :html => {:class => "form-horizontal toggle-form"} do |f| %>
-              <div class="controls form-inline">
-              <%= f.label :due_date, "Add or Change Due Date", class: "toggle-form-label btn btn-primary btn-xs" %><br>
-              <%= f.date_field :due_date, class: "form-control", style:"height: 43px; display: none;", required: true %>
-              <%= f.submit "Update", :class =>"form-control btn-primary", style: "display: none;" %>
-              </div>
-            <% end %>
-            
-            <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
-            </div>
-          <% end %>
+          <ul class="list-group" id="active-owned-transactions">
+            <%= render 'active_owned_transactions', user: user %>
           </ul>
         <% end %>
         <!-- END OF CURRENTLY LOANED OUT -->
@@ -129,35 +68,8 @@
         <!-- CURRENTLY LOANED OUT TO YOU -->
         <% if user.active_requested_transactions.count > 0 %>
           <legend class="no-margin-bottom">Lacquers You're Borrowing <span class="badge"><%= user.active_requested_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
-          <ul class="list-group">
-            <% user.active_requested_transactions.each do |transaction| %>
-              <% friend = User.find(transaction.owner_id) %>
-              <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-              <p class="list-group-item" style='padding-top: 15px;'>
-                <%= link_to friend.name, user_path(friend) %> gave you <%= lacquer.name %> on <%= transaction.date_became_active.strftime("%m/%d/%Y") %>.
-                <% if transaction.due_date %>
-                  <br>
-                  <% if transaction.overdue? %>
-                    <div class="alert alert-danger" role="alert" style="padding: 2px;">
-                    You're <%= pluralize(transaction.days_overdue, 'day') %> overdue to return this lacquer. Don't mess with karma - give it back!
-                    </div>
-                  <% elsif transaction.due_today? %>
-                  <div class="alert alert-dismissable alert-warning" style="padding: 2px;">
-              
-                    Remember to give this lacquer back <strong>today</strong>!
-                  </div>
-                  <% elsif transaction.due_tomorrow? %>
-                  <div class="alert alert-dismissable alert-success" style="padding: 2px;">
-                    Remember to give this lacquer back <strong>tomorrow</strong>!
-                  </div>
-                  <% else %>
-                    The return date for this loan is <%= transaction.due_date.strftime("%m/%d/%Y") %>.
-                  <% end %>
-                <% end %>
-                <br>
-                <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
-              </p>
-            <% end %>
+          <ul class="list-group" id="active-requested-transactions">
+            <%= render 'active_requested_transactions', user: user %>
           </ul>
         <% end %>
         <!-- END OF CURRENTLY LOANED OUT TO YOU -->
@@ -165,16 +77,8 @@
         <!-- LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
         <% if user.accepted_requested_transactions.count > 0 %>
           <legend class="no-margin-bottom">Accepted Loan Requests <span class="badge"><%= user.accepted_requested_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
-          <ul class="list-group">
-          <% user.accepted_requested_transactions.each do |transaction| %>
-            <% friend = User.find(transaction.owner_id) %>
-            <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <p class="list-group-item" style='padding-top: 15px;'>
-            <%= link_to friend.name, user_path(friend) %> has agreed to loan you <%= lacquer.name %>.
-            <br>
-            <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
-            </p>
-          <% end %>
+          <ul class="list-group" id="accepted-requested-transactions">
+            <%= render 'accepted_requested_transactions', user: user %>
           </ul>
         <% end %>
         <!-- END LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
@@ -182,22 +86,8 @@
         <!-- LOANS REQUESTED PENDING -->
         <% if user.pending_requested_transactions.count > 0 %>
           <legend class="no-margin-bottom">Pending Loan Requests <span class="badge"><%= user.pending_requested_transactions.count %></span> <i class="fa fa-minus"></i><i class="fa fa-plus"></i></legend>
-          <ul class="list-group">
-          <% user.pending_requested_transactions.each do |transaction| %>
-            <% friend = User.find(transaction.owner_id) %>
-            <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <p class="list-group-item clearfix" style='padding:5px 0 5px 5px;'>
-              <span class="col-xs-10">
-              You've asked <%= link_to friend.name, user_path(friend) %> to loan you <%= link_to lacquer.name, lacquer_path(lacquer) %>
-              </span>
-              <span class="col-xs-2">
-              <%= link_to 'cancel', transaction_path(transaction), method: 'DELETE', class: "btn btn-primary btn-xs pull-right", style: "margin-right: 3px;", data: { confirm: "Are you sure you want to cancel this request?" }%>
-              </span>
-              <span class="col-xs-12" style="text-align: left;">
-              <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
-              </span>
-            </p>
-          <% end %>
+          <ul class="list-group" id="pending-requested-transactions">
+            <%= render 'pending_requested_transactions', user: user %>
           </ul>
         <% end %>
         <!-- END LOANS REQUESTED PENDING -->
@@ -205,13 +95,8 @@
         <!-- LOAN REQUESTS REJECTED -->
         <% if user.rejected_requested_transactions.count > 0 %>
           <legend class="no-margin-bottom">Rejected Loan Requests <span class="badge"><%= user.rejected_requested_transactions.count %></span> <i class="fa fa-minus"></i></legend>
-          <ul>
-          <% user.rejected_requested_transactions.each do |transaction| %>
-            <% friend = User.find(transaction.owner_id) %>
-            <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
-            <li style='padding-top: 15px;'>It seems <%= link_to friend.name, user_path(friend) %> isn't able to loan you <%= lacquer.name %> at this time.</li>
-            <%= link_to "conclude this request", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-warning btn-xs"} %>
-          <% end %>
+          <ul class="list-group" id="rejected-requested-transactions">
+            <%= render 'rejected_requested_transactions', user: user %>
           </ul>
         <% end %>
         <!-- END LOAN REQUESTS REJECTED -->
