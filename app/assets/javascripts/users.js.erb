@@ -52,13 +52,15 @@ $(document).ready(function() {
     $('#show').hide();
   });
 
-  $('.fa-plus').hide();
-  $('.badge').hide();
+  $('.fa-minus').hide();
+  $('.list-group.toggleable').hide();
+  $('.badge[value=0]').hide();
   $('legend').on('click', '.fa-minus', function(){
     $(this).siblings('.fa-plus').show();
     $(this).siblings().children('.badge').show();
     $(this).hide();
     $(this).parent().next('ul').slideUp();
+    $('.badge[value=0]').hide();
   });
 
   $('legend').on('click', '.fa-plus', function(){
@@ -66,5 +68,6 @@ $(document).ready(function() {
     $(this).siblings().children('.badge').hide();
     $(this).hide();
     $(this).parent().next('ul').slideDown();
+    $('.badge[value=0]').hide();
   });
 });

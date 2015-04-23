@@ -15,6 +15,10 @@ module ApplicationHelper
     nil
   end
 
+  def transactions_categories
+    [ "transactions_for_your_approval", "transactions_you_accepted", "active_owned_transactions", "active_requested_transactions", "accepted_requested_transactions", "pending_requested_transactions", "rejected_requested_transactions" ]
+  end
+
   def header_text_for_category(trasaction_category)
     header_string_hash = { 
       "transactions_for_your_approval" => "Transactions Awaiting Your Approval",
