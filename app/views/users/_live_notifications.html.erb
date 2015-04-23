@@ -35,7 +35,11 @@
 
         <!-- TRANSACTIONS AWAITING YOUR APPROVAL -->
         <% if user.transactions_for_your_approval.count > 0 %>
-          <legend class="no-margin-bottom">Transactions Awaiting Your Approval <span class="badge tracker"><%= user.transactions_for_your_approval.count %></span> 
+          <legend class="no-margin-bottom">Transactions Awaiting Your Approval 
+          
+          <span class="badge-tracker-wrapper">
+            <%= render 'transactions_count', count: user.transactions_for_your_approval.count %>
+          </span> 
 
           <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
 
@@ -50,7 +54,11 @@
 
         <!-- TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
         <% if user.transactions_you_accepted.count > 0 %>
-          <legend class="no-margin-bottom">Transactions You Accepted <span class="badge tracker"><%= user.transactions_you_accepted.count %></span> 
+          <legend class="no-margin-bottom">Transactions You Accepted 
+
+          <span class="badge-tracker-wrapper">
+            <%= render 'transactions_count', count: user.transactions_you_accepted.count %>
+          </span> 
 
           <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
 
@@ -65,7 +73,11 @@
 
         <!-- CURRENTLY LOANED OUT -->
         <% if user.active_owned_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Lacquers Currently Loaned Out <span class="badge tracker"><%= user.active_owned_transactions.count %></span> 
+          <legend class="no-margin-bottom">Lacquers Currently Loaned Out 
+
+          <span class="badge-tracker-wrapper">
+            <%= render 'transactions_count', count: user.active_owned_transactions.count %>
+          </span> 
 
           <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
 
@@ -85,7 +97,11 @@
       
         <!-- CURRENTLY LOANED OUT TO YOU -->
         <% if user.active_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Lacquers You're Borrowing <span class="badge tracker"><%= user.active_requested_transactions.count %></span> 
+          <legend class="no-margin-bottom">Lacquers You're Borrowing 
+
+          <span class="badge-tracker-wrapper">
+            <%= render 'transactions_count', count: user.active_requested_transactions.count %>
+          </span> 
 
           <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
 
@@ -100,7 +116,11 @@
 
         <!-- LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
         <% if user.accepted_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Accepted Loan Requests <span class="badge tracker"><%= user.accepted_requested_transactions.count %></span> 
+          <legend class="no-margin-bottom">Accepted Loan Requests 
+
+          <span class="badge-tracker-wrapper">
+            <%= render 'transactions_count', count: user.accepted_requested_transactions.count %>
+          </span> 
 
           <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
 
@@ -115,7 +135,11 @@
 
         <!-- LOANS REQUESTED PENDING -->
         <% if user.pending_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Pending Loan Requests <span class="badge tracker"><%= user.pending_requested_transactions.count %></span> 
+          <legend class="no-margin-bottom">Pending Loan Requests 
+
+          <span class="badge-tracker-wrapper">
+            <%= render 'transactions_count', count: user.pending_requested_transactions.count %>
+          </span> 
 
           <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
 
@@ -130,7 +154,11 @@
 
         <!-- LOAN REQUESTS REJECTED -->
         <% if user.rejected_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Rejected Loan Requests <span class="badge tracker"><%= user.rejected_requested_transactions.count %></span> 
+          <legend class="no-margin-bottom">Rejected Loan Requests 
+
+          <span class="badge-tracker-wrapper">
+            <%= render 'transactions_count', count: user.rejected_requested_transactions.count %>
+          </span> 
 
           <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
 
