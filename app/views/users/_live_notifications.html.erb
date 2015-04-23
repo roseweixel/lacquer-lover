@@ -1,179 +1,60 @@
-  <span class="live-notifications">
-    <% if user == current_user %>
-    <div class="col-sm-5">
-      <!-- FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
-      <h3>Friendship Notifications</h3>
-      <% if user.friendships_for_your_approval.count > 0 %>
-        <legend class="no-margin-bottom">Friendships Awaiting Your Approval</legend>
-        <ul class="list-group" id="friendships-for-your-approval">
-          <%= render 'friendships_for_your_approval', user: user %>
-        </ul>
-      <% end %>
-      <!-- END OF FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
+<span class="live-notifications">
+  <% if user == current_user %>
+  <div class="col-sm-5">
+    <!-- FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
+    <h3>Friendship Notifications</h3>
+    <% if user.friendships_for_your_approval.count > 0 %>
+      <legend class="no-margin-bottom">Friendships Awaiting Your Approval</legend>
+      <ul class="list-group" id="friendships-for-your-approval">
+        <%= render 'friendships_for_your_approval', user: user %>
+      </ul>
+    <% end %>
+    <!-- END OF FRIENDSHIPS YOU NEED TO TAKE ACTION ON -->
 
-      <!-- FRIENDSHIPS YOU'VE REQUESTED NOT YET APPROVED -->
-      <% if user.requested_friends_awaiting_approval.count > 0 %>
-        <legend class="no-margin-bottom">Your Pending Friend Requests</legend>
-        <ul class="list-group" id="pending-friend-requests">
-          <%= render 'pending_friend_requests', user: user %>
-        </ul>
-      <% end %>
-      <!-- END OF FRIENDSHIPS YOU'VE REQUESTED NOT YET APPROVED -->
+    <!-- FRIENDSHIPS YOU'VE REQUESTED NOT YET APPROVED -->
+    <% if user.requested_friends_awaiting_approval.count > 0 %>
+      <legend class="no-margin-bottom">Your Pending Friend Requests</legend>
+      <ul class="list-group" id="pending-friend-requests">
+        <%= render 'pending_friend_requests', user: user %>
+      </ul>
+    <% end %>
+    <!-- END OF FRIENDSHIPS YOU'VE REQUESTED NOT YET APPROVED -->
 
-      <!-- RECTED FRIENDSHIPS YOU'VE REQUESTED -->
-      <% if user.rejected_friend_requests.count > 0 %>
-        <legend class="no-margin-bottom">Sorry, these friend requests were not approved.</legend>
-        <ul class="list-group" id="rejected-friend-requests">
-          <%= render 'rejected_friend_requests', user: user %>
-        </ul>
-      <% end %>
-      <!-- END OF RECTED FRIENDSHIPS YOU'VE REQUESTED -->
+    <!-- RECTED FRIENDSHIPS YOU'VE REQUESTED -->
+    <% if user.rejected_friend_requests.count > 0 %>
+      <legend class="no-margin-bottom">Sorry, these friend requests were not approved.</legend>
+      <ul class="list-group" id="rejected-friend-requests">
+        <%= render 'rejected_friend_requests', user: user %>
+      </ul>
+    <% end %>
+    <!-- END OF RECTED FRIENDSHIPS YOU'VE REQUESTED -->
 
-      <!-- TRANSACTIONS YOU OWN -->
-      <h3>Transaction Notifications</h3>
-      <% if user.owned_transactions.count > 0 %>
+    <!-- TRANSACTIONS YOU OWN -->
+    <h3>Transaction Notifications</h3>
+    <% transactions_categories = [ "transactions_for_your_approval", "transactions_you_accepted", "active_owned_transactions", "active_requested_transactions", "accepted_requested_transactions", "pending_requested_transactions", "rejected_requested_transactions" ] %>
 
-        <!-- TRANSACTIONS AWAITING YOUR APPROVAL -->
-        <% if user.transactions_for_your_approval.count > 0 %>
-          <legend class="no-margin-bottom">Transactions Awaiting Your Approval 
+    <% transactions_categories.each do |category| %>
+      <span id="<%= category %>_wrapper">
+        <legend class="no-margin-bottom">
+          <%= header_text_for_category(category) %>
           
           <span class="badge-tracker-wrapper">
-            <%= render 'transactions_count', count: user.transactions_for_your_approval.count %>
+            <%= render 'transactions_count', count: user.send(category).count %>
           </span> 
 
           <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
 
-          <span class="hidden-tracker" id="transactions-for-your-approval-state-array" style="display: none;"><%= user.transactions_for_your_approval.pluck(:state) %></span>
+          <span class="hidden-tracker" id="<%= category %>_state_array" style="display: none;"><%= user.send(category).pluck(:state) %></span>
+        </legend>
 
-          </legend>
-          <ul class="list-group" id="transactions-for-your-approval">
-            <%= render 'transactions_for_your_approval', user: user %>
+        <% if user.send(category).count > 0 %>
+          <ul class="list-group" id="<%= category %>">
+            <%= render category, user: user %>
           </ul>
         <% end %>
-        <!-- END OF TRANSACTIONS AWAITING YOUR APPROVAL -->
-
-        <!-- TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
-        <% if user.transactions_you_accepted.count > 0 %>
-          <legend class="no-margin-bottom">Transactions You Accepted 
-
-          <span class="badge-tracker-wrapper">
-            <%= render 'transactions_count', count: user.transactions_you_accepted.count %>
-          </span> 
-
-          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
-
-          <span class="hidden-tracker" id="transactions-you-aaccepted-state-array" style="display: none;"><%= user.transactions_you_accepted.pluck(:state) %></span>
-
-          </legend>
-          <ul class="list-group" id="transactions-you-accepted">
-            <%= render 'transactions_you_accepted', user: user %>
-          </ul>
-        <% end %>
-        <!-- END OF TRANSACTIONS YOU'VE ACCEPTED BUT NOT GIVEN OUT YET -->
-
-        <!-- CURRENTLY LOANED OUT -->
-        <% if user.active_owned_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Lacquers Currently Loaned Out 
-
-          <span class="badge-tracker-wrapper">
-            <%= render 'transactions_count', count: user.active_owned_transactions.count %>
-          </span> 
-
-          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
-
-          <span class="hidden-tracker" id="active-owned-transactions-state-array" style="display: none;"><%= user.active_owned_transactions.pluck(:state) %></span>
-
-          </legend>
-          <ul class="list-group" id="active-owned-transactions">
-            <%= render 'active_owned_transactions', user: user %>
-          </ul>
-        <% end %>
-        <!-- END OF CURRENTLY LOANED OUT -->
-      <% end %>
-      <!-- END OF TRANSACTIONS YOU OWN -->
-
-      <!-- TRANSACTIONS YOU'VE REQUESTED -->
-      <% if user.requested_transactions.count > 0 %>
-      
-        <!-- CURRENTLY LOANED OUT TO YOU -->
-        <% if user.active_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Lacquers You're Borrowing 
-
-          <span class="badge-tracker-wrapper">
-            <%= render 'transactions_count', count: user.active_requested_transactions.count %>
-          </span> 
-
-          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
-
-          <span class="hidden-tracker" id="active-requested-transactions-state-array" style="display: none;"><%= user.active_requested_transactions.pluck(:state) %></span>
-
-          </legend>
-          <ul class="list-group" id="active-requested-transactions">
-            <%= render 'active_requested_transactions', user: user %>
-          </ul>
-        <% end %>
-        <!-- END OF CURRENTLY LOANED OUT TO YOU -->
-
-        <!-- LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
-        <% if user.accepted_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Accepted Loan Requests 
-
-          <span class="badge-tracker-wrapper">
-            <%= render 'transactions_count', count: user.accepted_requested_transactions.count %>
-          </span> 
-
-          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
-
-          <span class="hidden-tracker" id="accepted-requested-transactions-state-array" style="display: none;"><%= user.accepted_requested_transactions.pluck(:state) %></span>
-
-          </legend>
-          <ul class="list-group" id="accepted-requested-transactions">
-            <%= render 'accepted_requested_transactions', user: user %>
-          </ul>
-        <% end %>
-        <!-- END LOANS REQUESTED ACCEPTED NOT ACTIVE YET -->
-
-        <!-- LOANS REQUESTED PENDING -->
-        <% if user.pending_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Pending Loan Requests 
-
-          <span class="badge-tracker-wrapper">
-            <%= render 'transactions_count', count: user.pending_requested_transactions.count %>
-          </span> 
-
-          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
-
-          <span class="hidden-tracker" id="pending-requested-transactions-state-array" style="display: none;"><%= user.pending_requested_transactions.pluck(:state) %></span>
-
-          </legend>
-          <ul class="list-group" id="pending-requested-transactions">
-            <%= render 'pending_requested_transactions', user: user %>
-          </ul>
-        <% end %>
-        <!-- END LOANS REQUESTED PENDING -->
-
-        <!-- LOAN REQUESTS REJECTED -->
-        <% if user.rejected_requested_transactions.count > 0 %>
-          <legend class="no-margin-bottom">Rejected Loan Requests 
-
-          <span class="badge-tracker-wrapper">
-            <%= render 'transactions_count', count: user.rejected_requested_transactions.count %>
-          </span> 
-
-          <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
-
-          <span class="hidden-tracker" id="rejected-requested-transactions-state-array" style="display: none;"><%= user.rejected_requested_transactions.pluck(:state) %></span>
-
-          </legend>
-          <ul class="list-group" id="rejected-requested-transactions">
-            <%= render 'rejected_requested_transactions', user: user %>
-          </ul>
-        <% end %>
-        <!-- END LOAN REQUESTS REJECTED -->
-
-      <% end %>
-      <!-- END OF TRANSACTIONS YOU'VE REQUESTED -->
-    
-    </div>
+      </span>
     <% end %>
-  </span>
+  
+  </div>
+  <% end %>
+</span>

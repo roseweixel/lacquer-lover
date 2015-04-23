@@ -15,6 +15,20 @@ module ApplicationHelper
     nil
   end
 
+  def header_text_for_category(trasaction_category)
+    header_string_hash = { 
+      "transactions_for_your_approval" => "Transactions Awaiting Your Approval",
+      "transactions_you_accepted" => "Transactions You Accepted", 
+      "active_owned_transactions" => "Lacquers Currently Loaned Out", 
+      "active_requested_transactions" => "Lacquers You're Borrowing", 
+      "accepted_requested_transactions" => "Accepted Loan Requests", 
+      "pending_requested_transactions" => "Pending Loan Requests", 
+      "rejected_requested_transactions" => "Rejected Loan Requests" 
+    }
+
+    header_string_hash[trasaction_category]
+  end
+
   def is_an_email_address_not_noreply?(string)
     !!string.match(/[a-zA-Z\d]+\w*(?:\.\w+)*@[a-zA-Z\d-]+\.[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*/) && !string.match(/(noreply|no-reply)/i)
   end
