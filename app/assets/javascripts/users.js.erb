@@ -16,13 +16,12 @@ $(document).ready(function() {
 
   if ((currentUrl.match(/users\/(?=\d)/) !== null) && (window.currentUser.id === userID) && $('#transaction_due_date.selected').length === 0) {
     setInterval(function(){
-      //debugger;
       if ($('#transaction_due_date.selected').length === 0){
 
-        // $.ajax({
-        //   type: "GET",
-        //   url: "/users/"+userID+"/live_notifications"
-        // });
+        $.ajax({
+          type: "GET",
+          url: "/users/"+userID+"/live_notifications"
+        });
       }
       }, 5000); 
   }
@@ -54,8 +53,11 @@ $(document).ready(function() {
 
   $('.fa-minus').hide();
   $('.list-group.toggleable').hide();
+  $('span[transactions_count=0]').hide();
   $('.badge[value=0]').hide();
   $('legend').on('click', '.fa-minus', function(){
+    $(this).siblings('.due-date-updated').addClass('hidden');
+    $(this).parent().find('.tracker').removeClass("red");
     $(this).siblings('.fa-plus').show();
     $(this).siblings().children('.badge').show();
     $(this).hide();
@@ -64,8 +66,10 @@ $(document).ready(function() {
   });
 
   $('legend').on('click', '.fa-plus', function(){
+    $(this).parent().find('.tracker').removeClass("red");
     $(this).siblings('.fa-minus').show();
     $(this).siblings().children('.badge').hide();
+    $(this).siblings('.due-date-updated').addClass('hidden');
     $(this).hide();
     $(this).parent().next('ul').slideDown();
     $('.badge[value=0]').hide();

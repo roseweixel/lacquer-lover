@@ -444,14 +444,17 @@ li.fave {
 }
 
 .no-margin-bottom {
-    vertical-align:middle;
+    vertical-align: middle;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
+legend>.badge-tracker-wrapper {
+  vertical-align: middle;
+}
+
 legend>.badge {
-    vertical-align: middle;
-    margin-top: -0.5em;
+  vertical-align: middle;
 }
 
 legend>.fa {
@@ -462,6 +465,14 @@ legend>.fa {
 legend>.fa:hover {
   cursor: pointer;
   color: grey;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: #00CC33;
 }
 
 @media (max-width: 793px) {
