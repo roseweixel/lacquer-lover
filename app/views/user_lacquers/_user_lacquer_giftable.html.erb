@@ -1,0 +1,7 @@
+<td class="giftable" id="<%= user_lacquer.id %>">
+  <% if user_lacquer.giftable %>
+    <%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[giftable]" => false}), {:method => "PATCH", :remote => true, :class =>"btn btn-success btn-xs"} %>
+  <% else %>
+    <%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[giftable]" => true}),  {:method => "PATCH", :remote => true, :class =>"btn btn-danger btn-xs"} %>
+  <% end %>
+</td>
