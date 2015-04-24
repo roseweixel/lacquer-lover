@@ -1,2 +1,5 @@
 $('td.loanable#<%=@user_lacquer.id%>').replaceWith('<%= j render :partial => "user_lacquer_loanable", :locals => {:user_lacquer => @user_lacquer} %>');
+
+$('tr[user-lacquer-id=<%=@user_lacquer.id%>]').find('.giftable').replaceWith('<%= j render :partial => "user_lacquer_giftable", :locals => {:user_lacquer => @user_lacquer} %>');
+
 $('td.on-loan#0<%=@user_lacquer.id%>').replaceWith('<%= j render :partial => "user_lacquer_on_loan", :locals => {:user_lacquer => @user_lacquer} %>');

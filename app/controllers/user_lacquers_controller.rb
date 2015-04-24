@@ -58,6 +58,6 @@ class UserLacquersController < ApplicationController
 
   private
     def user_lacquer_params
-      params.require(:user_lacquer).permit(:lacquer_id, :loanable, :on_loan)
+      params.require(:user_lacquer).permit(:lacquer_id, :loanable, :on_loan, :giftable)
     end
 end

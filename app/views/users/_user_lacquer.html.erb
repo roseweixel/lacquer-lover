@@ -35,22 +35,12 @@
         </td>
         <% if user == current_user %>
 
-          <td class="loanable" id="<%= user_lacquer.id %>">
-            <% if user_lacquer.loanable %>
-              <%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[loanable]" => false}), {:method => "PATCH", :remote => true, :class =>"btn btn-success btn-xs"} %>
-            <% else %>
-              <%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[loanable]" => true}),  {:method => "PATCH", :remote => true, :class =>"btn btn-danger btn-xs"} %>
-            <% end %>
-          </td>
-          <td class="on-loan" id="0<%= user_lacquer.id %>">
-            <% if user_lacquer.loanable %>
-              <% if user_lacquer.on_loan %>
-                <%= link_to "✔", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => false}), {:method => "PATCH", :remote => true, :class =>"btn btn-success btn-xs"} %>
-              <% else %>
-                <%= link_to "✕", user_lacquer_path(user_lacquer, params: {"user_lacquer[on_loan]" => true}), {:method => "PATCH", :remote => true, :class =>"btn btn-danger btn-xs"} %>
-              <% end %>
-            <% end %>
-          </td>
+          <%= render 'user_lacquers/user_lacquer_loanable', user_lacquer: user_lacquer %>
+
+          <%= render 'user_lacquers/user_lacquer_giftable', user_lacquer: user_lacquer %>
+
+          <%= render 'user_lacquers/user_lacquer_on_loan', user_lacquer: user_lacquer %>
+
           <td>
           <%= link_to "edit", edit_lacquer_path(lacquer.id, :params => { :user_lacquer_id => user_lacquer.id }), :class => "btn btn-xs btn-default" %>
           <%= link_to "<i class='fa fa-minus'></i>".html_safe, user_lacquer_path(user_lacquer), method: :delete, remote: true, class: "btn btn-danger btn-xs", data: { confirm: "Are you sure you want to remove #{user_lacquer.lacquer.name} from your collection?" } %>
