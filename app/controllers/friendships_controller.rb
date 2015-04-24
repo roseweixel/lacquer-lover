@@ -29,7 +29,7 @@ class FriendshipsController < ApplicationController
     @user = current_user
     if params[:friendship] && params[:friendship].has_key?(:friend_id)
       @friend = User.find(params[:friendship][:friend_id])
-      @friendship = Friendship.new(friend: @friend, user: @user, state: 'pending')
+      @friendship = Friendship.new(friend: @friend, user: @user)
       if @friendship.save
         if @friend.email
           UserMailer.friend_request_notification(@user, @friend).deliver_now

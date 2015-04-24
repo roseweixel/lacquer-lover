@@ -20,29 +20,22 @@ class Transaction < ActiveRecord::Base
   delegate :lacquer, to: :user_lacquer
   delegate :user, to: :user_lacquer
   belongs_to :requester, class_name: 'User', foreign_key: 'requester_id'
-  #belongs_to :user, through: :user_lacquer, dependent: :destroy
+  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
+  
   before_create :defaults
+  
   validates_presence_of :requester, :user_lacquer, :owner
-
   validate :transaction_must_be_unique, :on => :create
   validate :user_lacquer_must_be_loanable, :on => :create
   validate :user_lacquer_must_not_be_on_loan, :on => :create
   validate :requester_and_user_must_be_friends, :on => :create
-
   validate :no_due_date_if_state_is_not_active, :on => :update
-
   validate :due_date_must_be_in_the_future, :on => :update
 
   SECONDS_PER_DAY = 86400
 
   def defaults
     self.owner_id ||= user_lacquer.user_id
-    self.state ||= 'pending'
-    # self.type ||= 'Loan'
-  end
-
-  def owner
-    User.find(user_lacquer.user_id)
   end
 
   def no_due_date_if_state_is_not_active
