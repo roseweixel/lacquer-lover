@@ -95,7 +95,7 @@ class Transaction < ActiveRecord::Base
 
   def days_overdue
     if overdue?
-      Date.today.to_time.to_i / SECONDS_PER_DAY - Transaction.last.due_date.to_time.to_i / SECONDS_PER_DAY
+      Date.today.to_time.to_i / SECONDS_PER_DAY - due_date.to_time.to_i / SECONDS_PER_DAY
     end
   end
 end
