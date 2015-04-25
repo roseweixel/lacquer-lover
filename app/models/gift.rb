@@ -15,8 +15,8 @@ class Gift < ActiveRecord::Base
   def update_user_lacquer_transaction_to_completed
     transaction = Transaction.find_by(user_lacquer_id: user_lacquer_id)
     if state == 'completed' && transaction
-      transaction.update(state: 'completed')
-      transaction.user_lacquer.update(on_loan: 'false')
+      transaction.update(state: 'completed', date_ended: Time.now)
+      transaction.user_lacquer.update(on_loan: false)
     end
   end
 end

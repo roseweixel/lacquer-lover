@@ -6,7 +6,7 @@ class TransactionsController < ApplicationController
     @user_lacquer = UserLacquer.find(params[:transaction][:user_lacquer_id])
     owner = User.find(@user_lacquer.user_id)
     lacquer = Lacquer.find(@user_lacquer.lacquer_id)
-    @transaction = Transaction.new(user_lacquer_id: params[:transaction][:user_lacquer_id], requester_id: params[:transaction][:requester_id], owner_id: params[:transaction][:owner_id], type: params[:transaction][:type], due_date: params[:transaction][:due_date])
+    @transaction = Transaction.new(user_lacquer_id: params[:transaction][:user_lacquer_id], requester_id: params[:transaction][:requester_id], owner_id: params[:transaction][:owner_id], due_date: params[:transaction][:due_date])
     if @transaction.save
       UserMailer.loan_request_notification(@transaction.owner, @transaction.requester, @transaction.user_lacquer).deliver_now if @transaction.owner.email
       respond_to do |format|

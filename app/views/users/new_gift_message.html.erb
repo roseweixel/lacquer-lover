@@ -22,14 +22,14 @@
     </p>
     <% if @transaction.date_completed %>
       <p>
-      <strong><%= @owner.first_name %> gave this lacquer to <%= @requester.first_name %> on:</strong> <%= @transaction.date_completed.strftime("%m/%d/%Y") %>
+      <strong><%= @transaction.owner.first_name %> gave this lacquer to <%= @transaction.requester.first_name %> on:</strong> <%= @transaction.date_completed.strftime("%m/%d/%Y") %>
       </p>
     <% end %>
     <br>
     <br>
     <% if !['completed', 'acknowledged'].include? @transaction.state %>
       <p>
-      <%= @owner.first_name %> has not yet given this lacquer to <%= @requester.first_name %>.
+      <%= @transaction.owner.first_name %> has not yet given this lacquer to <%= @requester.first_name %>.
       </p>
     <% end %>
     </div>

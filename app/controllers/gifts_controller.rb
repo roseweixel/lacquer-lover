@@ -1,7 +1,6 @@
 class GiftsController < ApplicationController
   def create
     @gift = Gift.create(gift_params)
-
     if @gift.state == 'completed'
       @gift.transfer_user_lacquer_from_owner_to_requester
       @gift.update(date_completed: Time.now)
@@ -16,9 +15,9 @@ class GiftsController < ApplicationController
 
   def update
     @gift = Gift.find(params[:id])
-    completed_already? = (@gift.state == 'completed')
+    @gift.state == 'completed' ? completed_already = true : completed_already = false
     @gift.update(gift_params)
-    if !completed_already? && @gift.state == 'completed'
+    if !completed_already && @gift.state == 'completed'
       @gift.update(date_completed: Time.now)
       UserMailer.gift_notification(@gift).deliver_now if @gift.requester.email
     end

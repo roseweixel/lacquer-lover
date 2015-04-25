@@ -103,7 +103,7 @@ class UserMailer < ActionMailer::Base
     @owner = gift.owner
     @lacquer = gift.lacquer
     @user_url = "http://lacquer-love-and-lend.herokuapp.com/users/#{@requester.id}"
-    @thank_you_email_url = "http://lacquer-love-and-lend.herokuapp.com/new_transactional_message?transaction_id=#{gift.id}"
+    @thank_you_email_url = "http://lacquer-love-and-lend.herokuapp.com/new_transactional_message?gift_id=#{gift.id}"
 
     mail(to: @requester.email, subject: "You've received a gift on Lacquer Love&Lend!")
 

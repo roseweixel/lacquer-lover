@@ -131,11 +131,11 @@ class UsersController < ApplicationController
       else
         @other_user = User.find(@transaction.requester_id)
       end
-    end
-    if @transaction.class == Gift
-      render :new_gift_message
-    else
-      render :new_transactional_message
+      if @transaction.class == Gift
+        render :new_gift_message
+      else
+        render :new_transactional_message
+      end
     end
   end
 
