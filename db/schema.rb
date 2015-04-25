@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150424034319) do
+ActiveRecord::Schema.define(version: 20150425214301) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20150424034319) do
     t.string   "state",           default: "pending"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.datetime "date_completed"
   end
 
   create_table "lacquer_words", force: :cascade do |t|
@@ -160,6 +161,7 @@ ActiveRecord::Schema.define(version: 20150424034319) do
     t.boolean  "loanable",                           default: false
     t.boolean  "on_loan",                            default: false
     t.string   "selected_display_image", limit: 255
+    t.boolean  "giftable",                           default: false
   end
 
   create_table "users", force: :cascade do |t|

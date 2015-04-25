@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3>Good news, <%= @requester.first_name %> - <%= @owner.name %> has given you <strong><%= @lacquer.name %></strong>!</h3>
+    <br>
+
+    <p>
+    <%= @lacquer.name %> by <%= @lacquer.brand.name %> has been transfered to your collection on Lacquer Love&Lend and is now yours to enjoy, share, and loan to your friends!
+    </p>
+    <br>
+
+    <p>
+    <a href="<%= @user_url %>">Go straight to your profile page</a> to see your new lacquer in your collection, or <a href="<%= @thank_you_email_url %>">send <%= @owner.first_name %> a thank you note</a> today!
+    </p>
+    <br>
+
+    Enjoy <%= @lacquer.name %> and have a great day,
+    <br>
+    <br>
+    Your Friends At <a href="http://lacquer-love-and-lend.herokuapp.com/">Lacquer Love&Lend</a>
+  </body>
+</html>

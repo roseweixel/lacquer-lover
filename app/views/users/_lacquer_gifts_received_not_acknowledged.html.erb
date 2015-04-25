@@ -6,7 +6,7 @@
 
     <%= link_to "Got it!", gift_path(:id => gift.id, gift: {:state => "acknowledged"}), method: 'patch', class: "btn btn-success btn-xs" %><br><br>
   
-    <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => gift.id) %>
+    <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:gift_id => gift.id) %>
 
   </div>
 <% end %>

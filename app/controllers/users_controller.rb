@@ -120,13 +120,22 @@ class UsersController < ApplicationController
       end
       redirect_to root_path
     else
-      @transaction = Transaction.find(params[:transaction_id])
+      if params[:transaction_id]
+        @transaction = Transaction.find(params[:transaction_id])
+      elsif params[:gift_id]
+        @transaction = Gift.find(params[:gift_id])
+      end
       @user = current_user
       if @transaction.requester_id == current_user.id
         @other_user = User.find(@transaction.owner.id)
       else
         @other_user = User.find(@transaction.requester_id)
       end
+    end
+    if @transaction.class == Gift
+      render :new_gift_message
+    else
+      render :new_transactional_message
     end
   end
 
