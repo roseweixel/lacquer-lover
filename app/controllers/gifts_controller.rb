@@ -10,7 +10,15 @@ class GiftsController < ApplicationController
     end
   end
 
-  def gift_params
-    params.require(:gift).permit(:user_lacquer_id, :requester_id, :owner_id, :state)
+  def update
+    @gift = Gift.find(params[:id])
+    @gift.update(gift_params)
+    flash[:success] = "#{@gift.lacquer.name} is now in your collection!"
+    redirect_to(:back)
   end
+
+  private
+    def gift_params
+      params.require(:gift).permit(:user_lacquer_id, :requester_id, :owner_id, :state)
+    end
 end

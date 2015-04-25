@@ -58,6 +58,6 @@ Rails.application.routes.draw do
 
   post 'send_transactional_message' => "users#send_transactional_message"
 
-  post 'gifts' => "gifts#create", as: 'new_gift'
+  resources :gifts
 
 end

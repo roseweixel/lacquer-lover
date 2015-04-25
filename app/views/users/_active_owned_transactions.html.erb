@@ -4,7 +4,7 @@
   <div class="list-group-item" style='padding-top: 15px;'>
     <strong>Your <%= link_to lacquer.name, lacquer_path(lacquer) %> is currently loaned out to <%= link_to friend.name, user_path(friend) %>.</strong><br> 
       <%= link_to "#{friend.name} gave #{lacquer.name} back", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %> 
-      <%= link_to "turn this into a gift!", new_gift_path(:gift => {:user_lacquer_id => transaction.user_lacquer_id, :owner_id => transaction.owner_id, :requester_id => transaction.requester_id, :state => 'completed'}), method: 'post', remote: true, class: "btn btn-primary btn-xs" %><br><br>
+      <%= link_to "turn this into a gift!", new_gift_path(:gift => {:user_lacquer_id => transaction.user_lacquer_id, :owner_id => transaction.owner_id, :requester_id => transaction.requester_id, :state => 'completed'}), method: 'post', remote: true, :data => {:confirm => "Are you sure you want to transfer #{lacquer.name} to #{friend.name}'s collection?"}, class: "btn btn-primary btn-xs" %><br><br>
     <%= form_for transaction, :html => {:class => "form-horizontal toggle-form"} do |f| %>
       <div class="controls form-inline">
       <%= f.label :due_date, "Add or Change Due Date", class: "toggle-form-label btn btn-primary btn-xs" %>

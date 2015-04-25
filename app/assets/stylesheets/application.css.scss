@@ -356,6 +356,10 @@ li.fave {
   cursor: pointer;
 }
 
+tr.selected {
+  background-color: inherit;
+}
+
 .selected {
   background-color: #ccc;
 }

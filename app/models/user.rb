@@ -22,6 +22,8 @@ class User < ActiveRecord::Base
   has_many :friends, through: :friendships
   has_many :requested_transactions, class_name: 'Transaction', :foreign_key => "requester_id", dependent: :destroy
   has_many :owned_transactions, class_name: 'Transaction', :foreign_key => "owner_id"
+  has_many :requested_gifts, class_name: 'Gift', :foreign_key => "requester_id"
+  has_many :owned_gifts, class_name: 'Gift', :foreign_key => "owner_id"
   has_many :swatches, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :reviews, dependent: :destroy
@@ -29,6 +31,17 @@ class User < ActiveRecord::Base
   validates_presence_of :name, :provider, :uid, :oauth_token
   validates_format_of :email, with: /@/, message: "Must be an email", allow_blank: true
 
+  def lacquer_gifts_given
+    owned_gifts.where(state: ['completed', 'acknowledged'])
+  end
+
+  def lacquer_gifts_received
+    requested_gifts.where(state: ['completed', 'acknowledged'])
+  end
+
+  def lacquer_gifts_received_not_acknowledged
+    requested_gifts.where(state: ['completed'])
+  end
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|

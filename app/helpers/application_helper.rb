@@ -16,7 +16,9 @@ module ApplicationHelper
   end
 
   def transactions_categories
-    [ 'transactions_for_your_approval', 'transactions_you_accepted', 'active_owned_transactions', 'active_requested_transactions', 'accepted_requested_transactions', 'pending_requested_transactions', 'rejected_requested_transactions' ]
+    [ 'transactions_for_your_approval', 'transactions_you_accepted', 'active_owned_transactions', 'active_requested_transactions', 'accepted_requested_transactions', 'pending_requested_transactions', 'rejected_requested_transactions',
+      'lacquer_gifts_received_not_acknowledged' 
+    ]
   end
 
   def header_text_for_category(trasaction_category)
@@ -27,7 +29,8 @@ module ApplicationHelper
       "active_requested_transactions" => "Lacquers You're Borrowing", 
       "accepted_requested_transactions" => "Accepted Loan Requests", 
       "pending_requested_transactions" => "Pending Loan Requests", 
-      "rejected_requested_transactions" => "Rejected Loan Requests" 
+      "rejected_requested_transactions" => "Rejected Loan Requests",
+      "lacquer_gifts_received_not_acknowledged" => "You've Got Gifts!"
     }
 
     header_string_hash[trasaction_category]
