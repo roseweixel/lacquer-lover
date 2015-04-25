@@ -38,7 +38,6 @@ class UsersController < ApplicationController
       end
       @new_user_lacquer = UserLacquer.new
       @user = User.find(params[:id])
-      @transactions = @user.transactions
       @friends = @user.friends
       @friendship = current_user.friendships.new(friend: @user)
       @transaction = Transaction.new

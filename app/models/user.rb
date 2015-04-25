@@ -20,7 +20,8 @@ class User < ActiveRecord::Base
   has_many :brands, -> { uniq }, through: :lacquers
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
-  has_many :transactions, :foreign_key => "requester_id", dependent: :destroy
+  has_many :requested_transactions, class_name: 'Transaction', :foreign_key => "requester_id", dependent: :destroy
+  has_many :owned_transactions, class_name: 'Transaction', :foreign_key => "owner_id"
   has_many :swatches, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :reviews, dependent: :destroy
@@ -90,14 +91,6 @@ class User < ActiveRecord::Base
     accepted_friends + requested_friends_awaiting_approval + friends_for_your_approval
   end
 
-  # def has_blocked?(other_user)
-  #   blocked_friends.include?(other_user)
-  # end
-
-  def requested_transactions
-    Transaction.where(requester_id: self.id)
-  end
-
   def pending_requested_transactions
     requested_transactions.where(state: 'pending')
   end
@@ -116,10 +109,6 @@ class User < ActiveRecord::Base
 
   def concluded_requested_transactions
     requested_transactions.where(state: 'completed')
-  end
-
-  def owned_transactions
-    Transaction.where(owner_id: self.id)
   end
 
   def transactions_for_your_approval
