@@ -45,7 +45,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def due_date_must_be_in_the_future
-    if self.due_date && self.due_date < Date.today
+    if self.due_date && self.due_date < Date.today && self.state != 'completed'
       errors.add(:transaction, "the due date must be in the future")
     end
   end
@@ -88,7 +88,7 @@ class Transaction < ActiveRecord::Base
 
   def days_overdue
     if overdue?
-      Date.today.to_time.to_i / SECONDS_PER_DAY - Transaction.last.due_date.to_time.to_i / SECONDS_PER_DAY
+      Date.today.to_time.to_i / SECONDS_PER_DAY - due_date.to_time.to_i / SECONDS_PER_DAY
     end
   end
 end

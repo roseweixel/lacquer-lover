@@ -6,9 +6,9 @@
     <% if transaction.due_date %>
       <br>
       <% if transaction.overdue? %>
-        <div class="alert alert-danger" role="alert" style="padding: 2px;">
+        <span class="alert alert-danger" role="alert" style="padding: 2px;">
         You're <%= pluralize(transaction.days_overdue, 'day') %> overdue to return this lacquer. Don't mess with karma - give it back!
-        </div>
+        </span>
       <% elsif transaction.due_today? %>
       <span class="alert alert-dismissable alert-warning" style="padding: 2px;">
   
