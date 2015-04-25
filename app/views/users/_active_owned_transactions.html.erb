@@ -2,15 +2,19 @@
   <% friend = User.find(transaction.requester_id) %>
   <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
   <div class="list-group-item" style='padding-top: 15px;'>
-    <strong>Your <%= link_to lacquer.name, lacquer_path(lacquer) %> is currently loaned out to <%= link_to friend.name, user_path(friend) %>.</strong><br> <%= link_to "#{friend.name} gave #{lacquer.name} back", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %><br><br>
-  <%= form_for transaction, :html => {:class => "form-horizontal toggle-form"} do |f| %>
-    <div class="controls form-inline">
-    <%= f.label :due_date, "Add or Change Due Date", class: "toggle-form-label btn btn-primary btn-xs" %><br>
-    <%= f.date_field :due_date, class: "form-control", style:"height: 43px; display: none;", required: true %>
-    <%= f.submit "Update", :class =>"form-control btn-primary", style: "display: none;" %>
-    </div>
-  <% end %>
+    <strong>Your <%= link_to lacquer.name, lacquer_path(lacquer) %> is currently loaned out to <%= link_to friend.name, user_path(friend) %>.</strong><br> 
+      <%= link_to "#{friend.name} gave #{lacquer.name} back", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-info btn-xs"} %> 
+      <%= link_to "turn this into a gift!", new_gift_path(:gift => {:user_lacquer_id => transaction.user_lacquer_id, :owner_id => transaction.owner_id, :requester_id => transaction.requester_id, :state => 'completed'}), method: 'post', remote: true, class: "btn btn-primary btn-xs" %><br><br>
+    <%= form_for transaction, :html => {:class => "form-horizontal toggle-form"} do |f| %>
+      <div class="controls form-inline">
+      <%= f.label :due_date, "Add or Change Due Date", class: "toggle-form-label btn btn-primary btn-xs" %>
+      <br>
+      <%= f.date_field :due_date, class: "form-control", style:"height: 43px; display: none;", required: true %>
+      <%= f.submit "Update", :class =>"form-control btn-primary", style: "display: none;" %>
+      </div>
+    <% end %>
   
-  <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
+    <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
+
   </div>
 <% end %>
