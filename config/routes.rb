@@ -1,13 +1,8 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  # get 'swatches/new'
-  root 'lacquers#index'
 
-  # get 'swatches/create'
-
-  # get 'swatches/destroy'
-  #delete '/transactions/:id', to: 'transactions#destroy', as: :loan
+  root 'static_pages#welcome'
 
   match 'login', to: redirect('/auth/facebook'), via: [:get, :post]
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]

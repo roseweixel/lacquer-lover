@@ -8,14 +8,6 @@ class LacquersController < ApplicationController
     end
   end
 
-  def index
-    if session[:user_id]
-      @user = User.find(session[:user_id])
-    else
-      @user = User.new
-    end
-  end
-
   def create
     @user = current_user
     lacquer = Lacquer.new(name: params[:lacquer][:name], brand_id: params[:lacquer][:brand_id])
