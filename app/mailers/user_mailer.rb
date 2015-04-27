@@ -109,6 +109,13 @@ class UserMailer < ActionMailer::Base
 
     headers['X-MC-Track'] = "opens, clicks_all"
   end
+
+  def user_feedback_email(reply_address, to_address, subject, body, bcc)
+
+    mail(to: to_address, reply_to: reply_address, subject: subject, body: body, bcc: bcc)
+
+    headers['X-MC-Track'] = "opens, clicks_all"
+  end
   
 
 end

@@ -88,7 +88,9 @@ class UsersController < ApplicationController
 
   def new_invite
     if !current_user
-      flash[:alert] = "Sign in to start inviting friends!"
+      session[:intended_uri] = request.env['REQUEST_URI']
+      flash[:notice] = %Q[ #{ view_context.link_to("Sign in", login_path, id:"brand-show-sign-in", class:'light-blue-link')} to start inviting friends! ]
+      flash[:html_safe] = true
       redirect_to root_path
     end
   end

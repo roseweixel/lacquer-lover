@@ -1,0 +1,28 @@
+<div class="col-md-6 col-md-offset-3" style="height: 550px;">
+  <div class="well" style="height: 100%; overflow: scroll;">
+    <fieldset>
+      <legend style="font-size: 1.25em;">We <i class='fa fa-heart small-red-heart'></i> feedback. Send us your suggestions!</legend>
+
+      <%= form_tag send_feedback_email_path, class:"form-horizontal" do %>
+        <% if current_user %>
+          <%= select_tag 'reply_address', options_for_select([current_user.email, "other email address"]), class:"form-control", id:"email-options" %>
+          <%= text_field_tag 'other_reply_address', nil, placeholder: "your email address", class:"form-control other-email" %>
+        <% else %>
+          <%= text_field_tag 'other_reply_address', nil, :required => true, placeholder: 'your email', class: "form-control" %>
+        <% end %>
+        <br>
+        <%#= label_tag 'Subject' %>
+        <%= text_field_tag 'subject', nil, :required => true, placeholder: "subject", class:"form-control" %>
+        <br>
+        <%= text_area_tag 'body', nil, :required => true, class:"form-control", style:"height: 230px;", placeholder: 'your message' %><br>
+
+        <%= hidden_field_tag :to_address, 'lacquerloveandlend@gmail.com' %>
+        <%= submit_tag "Send", class:"btn btn-default" %>
+        <span class="pull-right">
+        <%= label_tag 'send me a copy' %>
+        <%= check_box_tag 'bcc', true, true %>
+        </span>
+      <% end %>
+    </fieldset>
+  </div>
+</div>

@@ -479,6 +479,31 @@ legend>.fa:hover {
   background-color: #00CC33;
 }
 
+.footer {
+  // text-align: center; 
+  padding: 0 15px;
+  position: fixed; 
+  bottom:0; 
+  width: 100%;
+  font-size: 1.4em;
+  color: #ccc;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.highlight:hover, .highlight:active, .highlight:visited, .highlight:link, .highlight:focus {
+  text-decoration: none;
+}
+
+.highlighted {
+  background-color: red;
+}
+
+i.small-red-heart, i.small-red-heart:hover {
+  color: red;
+  font-size: 0.8em;
+  cursor: text;
+}
+
 @media (max-width: 793px) {
   .add-to-btn {
     margin-bottom: 5px;
