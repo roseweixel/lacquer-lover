@@ -112,7 +112,7 @@ class UsersController < ApplicationController
       else
         flash[:warning] = "Sorry, there was a problem sending your email invitations!"
       end
-      redirect_to user_path(@user)
+      redirect_to(:back)
     end
   end
 

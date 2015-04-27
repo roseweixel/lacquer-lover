@@ -1,47 +1,59 @@
-<div class="well">
+<div class="well" id="about">
   <legend>What is Lacquer Love&Lend?</legend>
   <p>
   Built by and for people who love nail polish, Lacquer Love&Lend allows you to organize and share your collection, discover your friends' lacquers, and coordinate lacquer loans!
   <br>
-  <ol>
-  <li>
-  <%= link_to 'Explore the brands', brands_path, class: 'highlight', id: 'see-brands' %> and search for lacquers (use the <%= link_to 'Find a Lacquer', '#', class: 'highlight', id: 'find-lacquer' %> search box in the top navigation bar).
-  </li>
-  <li>
-  <% if !current_user %>
-    <%= link_to 'Sign in with Facebook', login_path, class: 'highlight', id: 'brand-show-sign-in' %> 
-  <% else %>
-    Sign in with Facebook
-  <% end %>
-  to start organizing and sharing your collection (we will not post to your wall or news feed).
-    <ul>
-      <li>
-        From your 
-        <% if current_user %>
-        <%= link_to 'profile page', user_path(current_user), class: 'highlight', id: 'profile-page' %>, 
-        <% else %>
-        profile page,
-        <% end %>
-        add lacquers to your collection from our database of nearly 2,000 lacquers (or input your own).
-      </li>
-      <li>
-        Already have friends on Lacquer Love&Lend? Find them with the <%= link_to 'Find a Lacquer Lover', '#', class: 'highlight', id: 'find-lacquer-lover' %> search box in the top navigation bar.
-      </li>
-      <li>
-        Invite friends to join via email using the <%= link_to 'Invite Friends', new_invite_path, id:"new-invite-link" %> link on your profile page.
-        <a data-toggle="modal" data-target="#inviteModal" style="display: none;" id="hidden-invite-modal-link"></a>
-      </li>
-    </ul>
-  </li>
-  <li>
-  Mark lacquers as 'loanable' to allow your friends to request to borrow them, and view your friends' profiles to see their collections. You'll be able to ask to borrow any of their 'loanable' lacquers, or buy lacquers that are not currently available for loan.  
-  </li>
-  </ol>
+  <ul>
+    <li>
+    <%= link_to 'Explore the brands', brands_path, class: 'highlight', id: 'see-brands' %> and search for lacquers (use the <%= link_to 'Find a Lacquer', '#', class: 'highlight', id: 'find-lacquer' %> search box in the top navigation bar).
+    </li>
+    <li>
+    <% if !current_user %>
+      <%= link_to 'Sign in with Facebook', login_path, class: 'highlight', id: 'brand-show-sign-in' %> 
+    <% else %>
+      Sign in with Facebook 
+    <% end %>
+    (we will not post to your wall or news feed) to start organizing your lacquers and adding your lacquer loving friends to your network:
+        <div class="row">
+          <div class="col-md-6">
+          <p id="add-lacquers" style="margin-top: 10px;">
+            <span class="glyphicon glyphicon-minus" aria-hidden="true" style="font-size: 0.7em;"></span>  From your 
+            <% if current_user %>
+            <%= link_to 'profile page', user_path(current_user), class: 'highlight', id: 'profile-page' %>, 
+            <% else %>
+            profile page,
+            <% end %>
+            add lacquers to your collection from our database of nearly 2,000 lacquers (or input your own).
+          </p>
+          <p>
+            <span class="glyphicon glyphicon-minus" aria-hidden="true" style="font-size: 0.7em;"></span> Already have friends on Lacquer Love&Lend? Find them with the <%= link_to 'Find a Lacquer Lover', '#', class: 'highlight', id: 'find-lacquer-lover' %> search box in the top navigation bar.
+          </p>
+          <p>
+            <span class="glyphicon glyphicon-minus" aria-hidden="true" style="font-size: 0.7em;"></span> Invite friends to join via email using the 
+            <% if current_user %>
+              <%= link_to 'Invite Friends', new_invite_path, id:"new-invite-link" %> 
+            <% else %>
+              'Invite Friends'
+            <% end %>
+            link on your profile page.
+            <a data-toggle="modal" data-target="#inviteModal" style="display: none;" id="hidden-invite-modal-link"></a>
+          </p>
+          </div>
+          <div class="col-md-6">
+            <%= image_tag 'user_profile_screenshot.png', width: '100%', id:'profile' %>
+            <%= image_tag 'profile_screenshot_add_lacquers.png', width: '100%', id:'profile-add-lacquers', style:"display: none;" %>
+          </div>
+        </div>
+    </li>
+    <li>
+    Mark lacquers as 'loanable' to allow your friends to request to borrow them, and view your friends' profiles to see their collections. You'll be able to ask to borrow any of their 'loanable' lacquers, or buy lacquers that are not currently available for loan.  
+    </li>
+  </ul>
   <br>
   </p>
   <legend>Contribute!</legend>
   <p>
-  We want to make Lacquer Love&Lend as fun and useful for the community as it can be. Have suggestions on how we can improve? Please <%= link_to 'let us know', contact_path %>! 
+  We want to make Lacquer Love&Lend as fun and useful for the community as it can be. Have suggestions on how we can improve? Please <%= link_to 'let us know', contact_path, class: "contact-link" %>! 
   <br>
   If you're a developer, <%= link_to 'see the source code', "https://github.com/roseweixel/lacquer-lover", target: "_blank" %> &mdash; pull requests are welcomed!
   </p>

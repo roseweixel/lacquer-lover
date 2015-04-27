@@ -12,6 +12,9 @@
 
     <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">
+            <li>
+              <%= link_to "See The Brands!", brands_path, id: "see-the-brands" %>
+            </li>
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false", id="find-a-lacquer">Find a Lacquer <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -30,9 +33,6 @@
               </ul>
               </li>
             <% end %>
-            <li>
-              <%= link_to "See The Brands!", brands_path, id: "see-the-brands" %>
-            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
               <% if session[:user_id] %>

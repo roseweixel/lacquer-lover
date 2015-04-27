@@ -30,7 +30,7 @@ $(function(){
     }
   });
 
-  $('#contact-link').click(function(e){
+  $('.contact-link').click(function(e){
     e.stopPropagation();
     e.preventDefault();
 
@@ -43,4 +43,10 @@ $(function(){
 
     $('#hidden-invite-modal-link').click();
   });
+
+  $(document).on('mouseenter mouseleave', '#add-lacquers', function(){
+    $('img#profile').toggle();
+    $('img#profile-add-lacquers').toggle();
+
+  })
 });

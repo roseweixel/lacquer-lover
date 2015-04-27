@@ -52,7 +52,8 @@
 	      <% if @user == current_user || @user.accepted_friends.include?(current_user) %>
 	        <h3>Friends 
 	        <% if @user == current_user %>
-	        	<%= link_to "Invite Friends!", new_invite_path, class: "btn btn-xs btn-primary grey-rounded" %>
+	        	<%= link_to "Invite Friends!", new_invite_path, class: "btn btn-xs btn-primary grey-rounded", id:"new-invite-link" %>
+	        	<a data-toggle="modal" data-target="#inviteModal" style="display: none;" id="hidden-invite-modal-link"></a>
 	        <% end %>
 	        </h3> 
 	        <div class="profile-section">

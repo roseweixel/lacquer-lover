@@ -504,6 +504,10 @@ i.small-red-heart, i.small-red-heart:hover {
   cursor: text;
 }
 
+#about li {
+  padding: 10px 0px;
+}
+
 @media (max-width: 793px) {
   .add-to-btn {
     margin-bottom: 5px;
