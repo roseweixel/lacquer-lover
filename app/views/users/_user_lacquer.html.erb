@@ -7,9 +7,8 @@
             <%= picture_for(lacquer) %><br>
           <% if user == current_user %>
             <%= form_for lacquer.swatches.new, :html => { :multipart => true, :style => "display:inline-block; width: 140px;" } do |f| %>
-              <h6>Add a Swatch!</h6>
+              <h6><a href="#">Add a Swatch!</a></h6>
               <span style="font-size:10px;">
-              <%= f.hidden_field :user_id, value: current_user.id %>
               <%= f.hidden_field :lacquer_id, value: user_lacquer.lacquer_id %>
               <%= f.file_field :image, style:"display: inline-block;" %><br>
               <%= f.submit :class => 'btn btn-xs btn-default' %>
