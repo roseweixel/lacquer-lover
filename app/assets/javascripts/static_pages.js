@@ -29,4 +29,18 @@ $(function(){
       }
     }
   });
+
+  $('#contact-link').click(function(e){
+    e.stopPropagation();
+    e.preventDefault();
+
+    $('#hidden-contact-modal-link').click();
+  });
+
+  $('#new-invite-link').click(function(e){
+    e.stopPropagation();
+    e.preventDefault();
+
+    $('#hidden-invite-modal-link').click();
+  });
 });

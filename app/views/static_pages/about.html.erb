@@ -28,7 +28,8 @@
         Already have friends on Lacquer Love&Lend? Find them with the <%= link_to 'Find a Lacquer Lover', '#', class: 'highlight', id: 'find-lacquer-lover' %> search box in the top navigation bar.
       </li>
       <li>
-        Invite friends to join via email using the <%= link_to 'Invite Friends', new_invite_path %> link on your profile page.
+        Invite friends to join via email using the <%= link_to 'Invite Friends', new_invite_path, id:"new-invite-link" %> link on your profile page.
+        <a data-toggle="modal" data-target="#inviteModal" style="display: none;" id="hidden-invite-modal-link"></a>
       </li>
     </ul>
   </li>

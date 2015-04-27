@@ -96,19 +96,24 @@ class UsersController < ApplicationController
   end
 
   def invite_friends
-    @user = current_user
-    @emails = params[:emails][0].split(/[\W\s]{2,}/).uniq
-    if @user && @emails.any?
-      UserMailer.invite_email(@user, @emails).deliver
-      if @emails.count > 1
-        flash[:success] = "You've successfully sent invitations to #{@emails.to_sentence}!"
-      else
-        flash[:success] = "You've successfully sent an invitation to #{@emails[0]}!"
-      end
+    if !current_user
+      flash[:alert] = "You need to be logged in to invite friends!"
+      redirect_to(:back)
     else
-      flash[:warning] = "Sorry, there was a problem sending your email invitations!"
+      @user = current_user
+      @emails = params[:emails][0].split(/[\W\s]{2,}/).uniq
+      if @user && @emails.any?
+        UserMailer.invite_email(@user, @emails).deliver
+        if @emails.count > 1
+          flash[:success] = "You've successfully sent invitations to #{@emails.to_sentence}!"
+        else
+          flash[:success] = "You've successfully sent an invitation to #{@emails[0]}!"
+        end
+      else
+        flash[:warning] = "Sorry, there was a problem sending your email invitations!"
+      end
+      redirect_to user_path(@user)
     end
-    redirect_to user_path(@user)
   end
 
   def new_transactional_message
