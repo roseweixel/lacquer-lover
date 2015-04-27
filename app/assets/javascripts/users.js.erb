@@ -32,7 +32,7 @@ $(document).ready(function() {
       type: "GET",
       url: "/users/"+userID+"/user_lacquers/"+id,
       data: {user_id: userID},
-    });
+    })
   })
 
   $("a[href='#top']").click(function(e) {
@@ -74,4 +74,10 @@ $(document).ready(function() {
     $(this).parent().next('ul').slideDown();
     $('.badge[value=0]').hide();
   });
+
+  $(document).on('click', 'a.addswatch', function(){
+      console.log("hi")
+      $(this).parents('form').children('.swatchfields').removeClass('hidden');
+    })
+
 });
