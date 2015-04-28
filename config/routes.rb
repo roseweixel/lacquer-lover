@@ -4,6 +4,12 @@ Rails.application.routes.draw do
 
   root 'static_pages#welcome'
 
+  get 'about' => 'static_pages#about'
+
+  get 'contact' => 'static_pages#contact'
+
+  post 'send_feedback_email' => 'static_pages#send_feedback_email'
+
   match 'login', to: redirect('/auth/facebook'), via: [:get, :post]
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
