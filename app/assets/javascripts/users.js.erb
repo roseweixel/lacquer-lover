@@ -76,8 +76,7 @@ $(document).ready(function() {
   });
 
   $(document).on('click', 'a.addswatch', function(){
-      console.log("hi")
-      $(this).parents('form').children('.swatchfields').removeClass('hidden');
-    })
+    $(this).parents('form').children('.swatchfields').fadeToggle();
+  });
 
 });
