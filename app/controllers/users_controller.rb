@@ -150,7 +150,7 @@ class UsersController < ApplicationController
     if params[:reply_address] == current_user.email
       reply_address = "#{current_user.name} via Lacquer Love&Lend <#{params[:reply_address]}>"
     elsif params[:reply_address] == "do not provide a reply address"
-      reply_address = "#{current_user.name} via Lacquer Love&Lend <noreply@lacquer-love-and-lend.herokuapp.com>"
+      reply_address = "#{current_user.name} via Lacquer Love&Lend <noreply@lacquerloveandlend.com>"
     elsif is_an_email_address?(params[:other_reply_address])
       reply_address = params[:other_reply_address]
     end
