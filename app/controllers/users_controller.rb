@@ -101,9 +101,9 @@ class UsersController < ApplicationController
       redirect_to(:back)
     else
       @user = current_user
-      @emails = params[:emails][0].split(/[\W\s]{2,}/).uniq
+      @emails = params[:emails][0].split(/[,|\s]{1,}/).uniq
       if @user && @emails.any?
-        UserMailer.invite_email(@user, @emails).deliver
+        UserMailer.invite_email(@user, @emails).deliver_now
         if @emails.count > 1
           flash[:success] = "You've successfully sent invitations to #{@emails.to_sentence}!"
         else
