@@ -508,6 +508,16 @@ i.small-red-heart, i.small-red-heart:hover {
   padding: 10px 0px;
 }
 
+#learn-more-button{
+  margin-top: 25px;
+  border-radius: 50px;
+  background-color: #a1a1a1;
+  // box-shadow:
+  -webkit-box-shadow: 10px 10px 30px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 30px -4px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 30px -4px rgba(0,0,0,0.75);
+}
+
 @media (max-width: 793px) {
   .add-to-btn {
     margin-bottom: 5px;

@@ -48,5 +48,23 @@ $(function(){
     $('img#profile').toggle();
     $('img#profile-add-lacquers').toggle();
 
-  })
+  });
+
+  $(document).on('mouseenter mouseleave', '#add-friends', function(){
+    $('img#profile').toggle();
+    $('img#profile-add-friends').toggle();
+
+  });
+
+  $(document).on('mouseenter mouseleave', '#make-loanable', function(){
+    $('img#profile').toggle();
+    $('img#profile-make-loanable').toggle();
+
+  });
+
+  $(document).on('mouseenter mouseleave', '#borrow-it', function(){
+    $('img#profile').toggle();
+    $('img#profile-borrow-it').toggle();
+
+  });
 });
