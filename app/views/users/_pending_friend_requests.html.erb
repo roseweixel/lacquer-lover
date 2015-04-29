@@ -1,8 +1,0 @@
-<% user.requested_friends_awaiting_approval.each do |friend| %>
-    <% friendship = Friendship.where(user_id: user.id, friend_id: friend.id).first %>
-    <p class="list-group-item" style='padding: 0;'>
-    <%= image_tag friend.image || 'placeholder-avatar.png', size: '30x30' %>
-    <%= link_to friend.name, user_path(friend) %>
-    <%= link_to 'cancel', friendship_path(friendship), method: 'DELETE', class: "btn btn-default btn-xs pull-right", style:"margin:3px 3px 0 0;", data: { confirm: "Are you sure you want to cancel this friend request?" } %>
-    </p>
-  <% end %>

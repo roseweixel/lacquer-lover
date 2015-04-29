@@ -71,6 +71,18 @@ class User < ActiveRecord::Base
     accepted_friends
   end
 
+  def accpeted_friendships_you_requested
+    Friendship.where(user_id: self.id, state: 'accepted')
+  end
+
+  def accepted_friendships_you_accepted
+    Friendship.where(friend_id: self.id, state: 'accepted')
+  end
+
+  def all_accepted_friendships
+    accpeted_friendships_you_requested + accepted_friendships_you_accepted
+  end
+
   def requested_friends_awaiting_approval
     pending_friends = []
     Friendship.where(user_id: self.id, state: 'pending').each do |friendship|
@@ -79,16 +91,16 @@ class User < ActiveRecord::Base
     pending_friends
   end
 
+  def requested_friendships_awaiting_approval
+    Friendship.includes(:friend).where(user_id: self.id, state: 'pending')
+  end
+
   def rejected_friend_requests
-    Friendship.where(user_id: self.id, state: 'rejected')
+    Friendship.includes(:friend).where(user_id: self.id, state: 'rejected')
   end
 
   def friendships_for_your_approval
-    pending_friendships = []
-    Friendship.where(friend_id: self.id, state: 'pending').each do |friendship|
-      pending_friendships << friendship
-    end
-    pending_friendships
+    Friendship.includes(:user).where(friend_id: self.id, state: 'pending')
   end
 
   def friends_for_your_approval

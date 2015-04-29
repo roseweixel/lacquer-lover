@@ -16,12 +16,20 @@ module ApplicationHelper
   end
 
   def transactions_categories
-    [ 'transactions_for_your_approval', 'transactions_you_accepted', 'active_owned_transactions', 'active_requested_transactions', 'accepted_requested_transactions', 'pending_requested_transactions', 'rejected_requested_transactions',
+    [ 
+      'transactions_for_your_approval', 
+      'transactions_you_accepted', 
+      'active_owned_transactions', 
+      'active_requested_transactions', 
+      'accepted_requested_transactions', 
+      'pending_requested_transactions', 
+      'rejected_requested_transactions',
       'lacquer_gifts_received_not_acknowledged' 
     ]
   end
 
-  def header_text_for_category(trasaction_category)
+
+  def header_text_for_transaction_category(trasaction_category)
     header_string_hash = { 
       "transactions_for_your_approval" => "Transactions Awaiting Your Approval",
       "transactions_you_accepted" => "Transactions You Accepted", 
@@ -31,6 +39,24 @@ module ApplicationHelper
       "pending_requested_transactions" => "Pending Loan Requests", 
       "rejected_requested_transactions" => "Rejected Loan Requests",
       "lacquer_gifts_received_not_acknowledged" => "You've Got Gifts!"
+    }
+
+    header_string_hash[trasaction_category]
+  end
+
+  def friendships_categories
+    [ 
+      'friendships_for_your_approval',
+      'requested_friendships_awaiting_approval',
+      'rejected_friend_requests'
+    ]
+  end
+
+  def header_text_for_friendship_category(friendship_category)
+    header_string_hash = { 
+      "friendships_for_your_approval" => "Friendships Awaiting Your Approval",
+      "requested_friends_awaiting_approval" => "Your Pending Friend Requests", 
+      "rejected_friend_requests" => "Sorry, these friend requests were not approved."
     }
 
     header_string_hash[trasaction_category]

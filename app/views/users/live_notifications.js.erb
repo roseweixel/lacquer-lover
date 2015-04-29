@@ -3,7 +3,6 @@
 
   if (currentCategory === 'active_requested_transactions') {
     
-    //debugger;
     var currentDueDates = "<%= current_user.active_requested_transactions.pluck(:due_date).map{|date| date ? date.strftime('%m/%d/%Y') : nil}.to_s %>".replace(/&quot;/g, '"');
 
     if (currentDueDates !== "[nil]") {
@@ -51,5 +50,4 @@
     }
 
   }
-
 <% end %>
