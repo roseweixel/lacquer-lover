@@ -85,10 +85,10 @@ module ApplicationHelper
 
   def valid?(url)
     begin
-      if url.class == Paperclip::Attachment || !url.start_with?("http")
-        return true
-      elsif url.start_with?("lacquers/")
+      if url.start_with?("lacquers/")
         return false
+      elsif url.class == Paperclip::Attachment || !url.start_with?("http")
+        return true
       else
         uri = Addressable::URI.parse(url)
 
