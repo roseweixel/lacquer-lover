@@ -18,7 +18,6 @@ class TransactionsController < ApplicationController
   def update
     @transaction = Transaction.find(params[:id])
     original_state = @transaction.state
-    @user_lacquer = UserLacquer.find(@transaction.user_lacquer_id)
     if params[:state]
       @transaction.update(state: params[:state])
     end
@@ -41,14 +40,10 @@ class TransactionsController < ApplicationController
       @transaction.update(date_became_active: params[:date_became_active])
     end
     if @transaction.state == 'accepted'
-      @user_lacquer.on_loan = true
-      @user_lacquer.save
       if original_state == 'pending' && @transaction.requester.email
         UserMailer.loan_request_accepted_notification(@transaction).deliver_now
       end
     elsif @transaction.state == 'completed'
-      @user_lacquer.on_loan = false
-      @user_lacquer.save
       @transaction.date_ended = Date.today
     end
     redirect_to(:back)
@@ -68,9 +63,9 @@ class TransactionsController < ApplicationController
       flash[:notice] = "The transaction could not be deleted at this time."
     end
     respond_to do |format|
+      format.html { redirect_to(:back) }
       format.js { }
     end
-    #redirect_to(:back)
   end
 
   # private

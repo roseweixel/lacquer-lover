@@ -23,6 +23,7 @@ class Transaction < ActiveRecord::Base
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
   
   before_create :defaults
+  after_save :update_associated_user_lacquer
   
   validates_presence_of :requester, :user_lacquer, :owner
   validate :transaction_must_be_unique, :on => :create
@@ -36,6 +37,15 @@ class Transaction < ActiveRecord::Base
   SECONDS_PER_DAY = 86400
 
   STATES = ['pending', 'accepted', 'rejected', 'active', 'completed']
+
+  def update_associated_user_lacquer
+    case state
+    when 'accepted'
+      user_lacquer.update(on_loan: true)
+    when 'completed'
+      user_lacquer.update(on_loan: false)
+    end
+  end
 
   def defaults
     self.owner_id ||= user_lacquer.user_id
