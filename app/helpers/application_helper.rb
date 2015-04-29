@@ -55,11 +55,11 @@ module ApplicationHelper
   def header_text_for_friendship_category(friendship_category)
     header_string_hash = { 
       "friendships_for_your_approval" => "Friendships Awaiting Your Approval",
-      "requested_friends_awaiting_approval" => "Your Pending Friend Requests", 
+      "requested_friendships_awaiting_approval" => "Your Pending Friend Requests", 
       "rejected_friend_requests" => "Sorry, these friend requests were not approved."
     }
 
-    header_string_hash[trasaction_category]
+    header_string_hash[friendship_category]
   end
 
   def is_an_email_address_not_noreply?(string)

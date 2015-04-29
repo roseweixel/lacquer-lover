@@ -53,11 +53,11 @@ $(document).ready(function() {
 
   $('.fa-minus').hide();
   $('.list-group.toggleable').hide();
-  $('span[transactions_count=0]').hide();
+  $('span[category_count=0]').hide();
   $('.badge[value=0]').hide();
   $('legend').on('click', '.fa-minus', function(){
     $(this).siblings('.due-date-updated').addClass('hidden');
-    $(this).parent().find('.tracker').removeClass("red");
+    $(this).parent().find('.tracker').removeClass("red-background");
     $(this).siblings('.fa-plus').show();
     $(this).siblings().children('.badge').show();
     $(this).hide();
@@ -66,7 +66,7 @@ $(document).ready(function() {
   });
 
   $('legend').on('click', '.fa-plus', function(){
-    $(this).parent().find('.tracker').removeClass("red");
+    $(this).parent().find('.tracker').removeClass("red-background");
     $(this).siblings('.fa-minus').show();
     $(this).siblings().children('.badge').hide();
     $(this).siblings('.due-date-updated').addClass('hidden');

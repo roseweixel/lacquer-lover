@@ -1,4 +1,4 @@
-<% transactions_categories.each do |category| %>
+<% (transactions_categories + friendships_categories).each do |category| %>
   var currentCategory = "<%= category %>";
 
   if (currentCategory === 'active_requested_transactions') {
@@ -36,7 +36,7 @@
 
     $('ul#' + currentCategory).html("<%=  j render category, user: current_user %>");
 
-    $('#'+ currentCategory + '_wrapper').find('.badge-tracker-wrapper').html("<%= j render 'transactions_count', count: current_user.send(category).count %>");
+    $('#'+ currentCategory + '_wrapper').find('.badge-tracker-wrapper').html("<%= j render 'count', count: current_user.send(category).count %>");
 
     if ("<%= current_user.send(category).count %>" > 0) {
       $('#'+ currentCategory + '_wrapper').slideDown();
