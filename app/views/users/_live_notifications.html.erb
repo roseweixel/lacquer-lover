@@ -19,11 +19,10 @@
           </span>
         </legend>
 
-        <%# if user.send(category).count > 0 %>
-          <ul class="list-group toggleable" id="<%= category %>">
-            <%= render category, user: user %>
-          </ul>
-        <%# end %>
+        <ul class="list-group toggleable" id="<%= category %>">
+          <%= render category, user: user %>
+        </ul>
+
       </span>
     <% end %>
 
@@ -49,11 +48,10 @@
           </span>
         </legend>
 
-        <%# if user.send(category).count > 0 %>
-          <ul class="list-group toggleable" id="<%= category %>">
-            <%= render category, user: user %>
-          </ul>
-        <%# end %>
+        <ul class="list-group toggleable" id="<%= category %>">
+          <%= render category, user: user %>
+        </ul>
+
       </span>
     <% end %>
   

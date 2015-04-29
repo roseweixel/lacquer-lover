@@ -1,3 +1,13 @@
+// update accepted friendships
+var previousFriendCount = $('#hidden_friend_count .tracker').attr('value');
+
+var currentFriendCount = "<%= current_user.accepted_friends.count %>";
+
+if (previousFriendCount !== currentFriendCount) {
+  $('#accepted-friends').html("<%= j render partial: 'friends', locals: {user: current_user} %>")
+}
+
+// update all transactions and friendships notifications
 <% (transactions_categories + friendships_categories).each do |category| %>
   var currentCategory = "<%= category %>";
 

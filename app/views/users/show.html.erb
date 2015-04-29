@@ -54,16 +54,15 @@
 	        <% if @user == current_user %>
 	        	<%= link_to "Invite Friends!", new_invite_path, class: "btn btn-xs btn-primary grey-rounded", id:"new-invite-link" %>
 	        	<a data-toggle="modal" data-target="#inviteModal" style="display: none;" id="hidden-invite-modal-link"></a>
+		        <span id="hidden_friend_count" style="display: none;">
+		        <%= render 'count', count: @user.accepted_friends.count %>
+		        </span>
 	        <% end %>
 	        </h3> 
 	        <div class="profile-section">
-	        <% if @user.accepted_friends.count > 0 %>
 	          <ul class='list-group' id="accepted-friends">
-	          <% @user.accepted_friends.each do |friend| %>
-	            <p style="font-size: 20px; padding: 0;"><%= image_tag friend.image || 'placeholder-avatar.png', size: '50x50' %> <%= link_to friend.name, user_path(friend) %></p>
-	          <% end %>
+	          <%= render 'friends', user: @user %>
 	          </ul>
-	        <% end %>
 	        </div>
 	      <% end %>
 	      
