@@ -621,8 +621,8 @@ end
 # clean_lacquer_names
 # save_butter_images
 # save_non_butter_images
-update_all_default_pictures
-# store_all_images_as_paperclip_attachment
+# update_all_default_pictures
+store_all_images_as_paperclip_attachment
 # SeedDatabase.new
 # get_bigger_deborah_images
 # format_butter_names
