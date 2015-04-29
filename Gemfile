@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'addressable'
+
 gem "codeclimate-test-reporter", group: :test, require: nil
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'

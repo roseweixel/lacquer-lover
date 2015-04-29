@@ -1,4 +1,6 @@
 require 'net/http'
+require "addressable/uri"
+
 module ApplicationHelper
  
   def bootstrap_class_for flash_type
@@ -86,7 +88,8 @@ module ApplicationHelper
       if url.class == Paperclip::Attachment || !url.start_with?("http")
         return true
       else
-        uri = URI(url)
+        uri = Addressable::URI.parse(url)
+
         request = Net::HTTP.new uri.host
 
         # rescue SocketError that occurs when offline

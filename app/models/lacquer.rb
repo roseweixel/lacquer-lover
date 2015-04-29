@@ -38,7 +38,9 @@ class Lacquer < ActiveRecord::Base
   after_save :create_words
 
   def picture
-    if self.stored_image_file_size
+    if self.default_picture && self.default_picture.start_with?('https://s3.amazonaws.com/lacquer-love-and-lend-images/lacquers/images')
+      self.default_picture
+    elsif self.stored_image_file_size
       self.stored_image
     else
       self.default_picture

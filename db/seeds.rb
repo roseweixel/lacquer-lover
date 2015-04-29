@@ -1,4 +1,5 @@
 require 'fileutils'
+require "addressable/uri"
 
 class DeborahLippmann
   
@@ -528,23 +529,36 @@ def save_butter_images
   end
 end
 
-SEEDED_BRANDS = ['Butter London', 'Deborah Lippmann', 'OPI', 'Essie', 'Nails Inc.', 'China Glaze', 'I Love Nail Polish (ILNP)', 'Zoya']
+SEEDED_BRANDS = ['Butter London', 'Essie', 'Deborah Lippmann', 'OPI', 'China Glaze', 'Nails Inc.', 'Zoya', 'I Love Nail Polish (ILNP)']
 
 def valid?(url)
   begin
     if url.class == Paperclip::Attachment || !url.start_with?("http")
       return true
     else
-      uri = URI(url)
+      uri = Addressable::URI.parse(url)
+      #(url.gsub('"', "%22").gsub("’", "%E2%80%99").gsub("ñ", "%C3%B1").gsub("…", "%E2%80%A6").gsub("!", "%21").gsub("'", "%27"))
       request = Net::HTTP.new uri.host
 
       # rescue SocketError that occurs when offline
-      response= request.request_head uri.path
+      response = request.request_head uri.path
 
       response.code.to_i == 200
     end
   rescue SocketError
     return false
+  end
+end
+
+def rename_files_to_remove_weird_characters
+  SEEDED_BRANDS.each do |brand|
+    Dir.foreach("app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}") do |item|
+      if item != "." && item != ".." && File.basename(item) && item.gsub('.png', "").match(/(?!-)\W/)
+        new_filename = item.gsub('.png', "").gsub(/(?!-)\W/, "")
+
+        File.rename("app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}/#{item}", "app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}/#{new_filename}.png")
+      end
+    end
   end
 end
 
@@ -572,16 +586,28 @@ def save_non_butter_images
 end
 
 def update_all_default_pictures
-  file = File.open("app/assets/images/lacquers/lacquers_with_invalid_images.txt", 'r')
-  lacquers_without_image_files_string = file.read
+  # file = File.open("app/assets/images/lacquers/lacquers_with_invalid_images.txt", 'r')
+  # lacquers_without_image_files_string = file.read
   SEEDED_BRANDS.each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
     current_brand_lacquers.each do |lacquer|
-      if !lacquers_without_image_files_string.include?(lacquer.default_picture)
-        lacquer.default_picture = "lacquers/#{brand.gsub(" ", "_").downcase}/#{lacquer.name.gsub(" ", "-").downcase}.png"
+      aws_url = "https://s3.amazonaws.com/lacquer-love-and-lend-images/lacquers/images/#{brand.gsub(" ", "_").downcase}/#{lacquer.name.gsub(" ", "-").downcase.gsub(/(?!-)\W/, "")}.png"
+      if valid?(aws_url)
+        lacquer.default_picture = aws_url
         lacquer.save
       end
+    end
+  end
+end
+
+def store_missing_essie_images
+  file = File.open("app/assets/images/lacquers/lacquers_with_invalid_images.txt")
+  file.each_line do |line|
+    url = line.scan(/(?<=new_valid_url: ).+/)[0].strip
+    lacquer_name = line.scan(/.+(?= - )/)[0]
+    File.open("app/assets/images/lacquers/essie/#{lacquer_name.gsub(" ", "-").gsub(/(?!-)\W/, "").downcase}.png", 'wb') do |fo|
+      fo.write open(url).read
     end
   end
 end
@@ -618,10 +644,12 @@ def clean_lacquer_names
   end
 end
 
+# rename_files_to_remove_weird_characters
 # clean_lacquer_names
 # save_butter_images
 # save_non_butter_images
 # update_all_default_pictures
+store_missing_essie_images
 # store_all_images_as_paperclip_attachment
 # SeedDatabase.new
 # get_bigger_deborah_images
