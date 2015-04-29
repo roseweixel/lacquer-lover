@@ -38,7 +38,7 @@
         </div>
       <% end %>
       <div class="col-xs-6 slide-right brand-favorites" style="display: none;">
-        <ul class="row" style="display: inline-block;">
+        <ul class="row">
         <% Lacquer.find(brand.favorites.pluck(:lacquer_id)).each do |lacquer| %>
           <li class="col-sm-6" style="list-style-type: none;">
             <%= link_to lacquer.name, lacquer_path(lacquer) %><br>(<strong><%= lacquer.favorites.count %></strong> <%= 'favorite'.pluralize(lacquer.favorites.count) %>)
