@@ -529,15 +529,12 @@ def save_butter_images
   end
 end
 
-SEEDED_BRANDS = ['Butter London', 'Essie', 'Deborah Lippmann', 'OPI', 'China Glaze', 'Nails Inc.', 'Zoya', 'I Love Nail Polish (ILNP)']
-
 def valid?(url)
   begin
     if url.class == Paperclip::Attachment || !url.start_with?("http")
       return true
     else
       uri = Addressable::URI.parse(url)
-      #(url.gsub('"', "%22").gsub("’", "%E2%80%99").gsub("ñ", "%C3%B1").gsub("…", "%E2%80%A6").gsub("!", "%21").gsub("'", "%27"))
       request = Net::HTTP.new uri.host
 
       # rescue SocketError that occurs when offline
@@ -549,6 +546,8 @@ def valid?(url)
     return false
   end
 end
+
+SEEDED_BRANDS = ['Butter London', 'Essie', 'Deborah Lippmann', 'OPI', 'China Glaze', 'Nails Inc.', 'Zoya', 'I Love Nail Polish (ILNP)']
 
 def rename_files_to_remove_weird_characters
   SEEDED_BRANDS.each do |brand|
@@ -586,8 +585,6 @@ def save_non_butter_images
 end
 
 def update_all_default_pictures
-  # file = File.open("app/assets/images/lacquers/lacquers_with_invalid_images.txt", 'r')
-  # lacquers_without_image_files_string = file.read
   SEEDED_BRANDS.each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
@@ -648,8 +645,8 @@ end
 # clean_lacquer_names
 # save_butter_images
 # save_non_butter_images
-# update_all_default_pictures
-store_missing_essie_images
+update_all_default_pictures
+# store_missing_essie_images
 # store_all_images_as_paperclip_attachment
 # SeedDatabase.new
 # get_bigger_deborah_images
