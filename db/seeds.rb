@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class DeborahLippmann
   
   URL = "http://www.deborahlippmann.com/nail-color/all"
@@ -526,23 +528,77 @@ def save_butter_images
   end
 end
 
-def update_butter_default_pictures
-  butter = Brand.find_by(name: "Butter London")
-  butter_lacquers = Lacquer.where(brand_id: butter.id)
-  butter_lacquers.each do |lacquer|
-    lacquer.default_picture = "lacquers/butter_london/#{lacquer.name.gsub(" ", "-").downcase}.png"
-    lacquer.save
+SEEDED_BRANDS = ['Deborah Lippmann', 'OPI', 'Essie', 'Nails Inc.', 'China Glaze', 'I Love Nail Polish (ILNP)', 'Zoya']
+
+def valid?(url)
+  begin
+    if url.class == Paperclip::Attachment || !url.start_with?("http")
+      return true
+    else
+      uri = URI(url)
+      request = Net::HTTP.new uri.host
+
+      # rescue SocketError that occurs when offline
+      response= request.request_head uri.path
+
+      response.code.to_i == 200
+    end
+  rescue SocketError
+    return false
   end
 end
 
-def store_butter_images_as_paperclip_attachment
-  butter = Brand.find_by(name: "Butter London")
-  butter_lacquers = Lacquer.where(brand_id: butter.id)
-  butter_lacquers.each do |lacquer|
-    file = File.open("app/assets/images/lacquers/butter_london/#{lacquer.name.gsub(" ", "-").downcase}.png")
-    lacquer.stored_image = file
-    file.close
-    lacquer.save
+def save_non_butter_images
+  SEEDED_BRANDS.each do |brand|
+    current_brand = Brand.find_by(name: brand)
+    current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
+    current_brand_lacquers.each do |lacquer|
+      url = lacquer.default_picture
+      if valid?(url)
+        # dirname = File.dirname("app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}/#{lacquer.name.gsub(" ", "-").downcase}.png")
+        # unless File.directory?(dirname)
+        #   FileUtils.mkdir_p(dirname)
+        # end
+        # File.open("app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}/#{lacquer.name.gsub(" ", "-").downcase}.png", 'wb') do |fo|
+        #   fo.write open(url).read
+        # end
+      else
+        file = File.open("app/assets/images/lacquers/lacquers_with_invalid_images.txt", 'a')
+        file << lacquer.name + " - " + lacquer.default_picture + "\n"
+        file.close
+      end
+    end
+  end
+end
+
+def update_all_default_pictures
+  file = File.open("app/assets/images/lacquers/lacquers_with_invalid_images.txt", 'r')
+  lacquers_without_image_files_string = file.read
+  SEEDED_BRANDS.each do |brand|
+    current_brand = Brand.find_by(name: brand)
+    current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
+    current_brand_lacquers.each do |lacquer|
+      if !lacquers_without_image_files_string.include?(lacquer.default_picture)
+        lacquer.default_picture = "lacquers/#{brand.gsub(" ", "_").downcase}/#{lacquer.name.gsub(" ", "-").downcase}.png"
+        lacquer.save
+      end
+    end
+  end
+end
+
+def store_all_images_as_paperclip_attachment
+  SEEDED_BRANDS.each do |brand|
+    current_brand = Brand.find_by(name: brand)
+    current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
+    current_brand_lacquers.each do |lacquer|
+      begin
+        file = File.open("app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}/#{lacquer.name.gsub(" ", "-").downcase}.png")
+        lacquer.stored_image = file
+        file.close
+        lacquer.save
+      rescue
+      end
+    end
   end
 end
 
@@ -562,9 +618,11 @@ def clean_lacquer_names
   end
 end
 
-clean_lacquer_names
+# clean_lacquer_names
 # save_butter_images
-
+# save_non_butter_images
+update_all_default_pictures
+# store_all_images_as_paperclip_attachment
 # SeedDatabase.new
 # get_bigger_deborah_images
 # format_butter_names
