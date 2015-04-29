@@ -10,7 +10,7 @@ class UserMailer < ActionMailer::Base
   # welcome on first login
   def welcome_email(user)
     @user = user
-    @signin_url = "http://lacquer-love-and-lend.herokuapp.com/auth/facebook"
+    @signin_url = "http://www.lacquerloveandlend.com/auth/facebook"
     
     mail(to: @user.email, subject: 'Welcome to Lacquer Love&Lend!', bcc: "lacquerloveandlend@gmail.com")
 
@@ -20,7 +20,7 @@ class UserMailer < ActionMailer::Base
   # email to invite other people who are not yet users
   def invite_email(user, emails)
     @user = user
-    @friend_url = "http://lacquer-love-and-lend.herokuapp.com/friendships/new?friend_id=#{@user.id}"
+    @friend_url = "http://www.lacquerloveandlend.com/friendships/new?friend_id=#{@user.id}"
 
     mail(to: emails, subject: "#{user.name} wants to share with you on Lacquer Love&Lend!", bcc: "lacquerloveandlend@gmail.com")
 
@@ -31,7 +31,7 @@ class UserMailer < ActionMailer::Base
   def friend_request_notification(user, friend)
     @user = user
     @friend = friend
-    @friend_url = "http://lacquer-love-and-lend.herokuapp.com/friendships/new?friend_id=#{@user.id}"
+    @friend_url = "http://www.lacquerloveandlend.com/friendships/new?friend_id=#{@user.id}"
 
     mail(to: @friend.email, subject: "#{@user.name} wants to be friends with you on Lacquer Love&Lend!")
 
@@ -42,7 +42,7 @@ class UserMailer < ActionMailer::Base
   def friend_request_accepted_notification(user, friend)
     @user = user
     @friend = friend
-    @friend_url = "http://lacquer-love-and-lend.herokuapp.com/users/#{@friend.id}"
+    @friend_url = "http://www.lacquerloveandlend.com/users/#{@friend.id}"
 
     mail(to: @user.email, subject: "#{@friend.name} accepted your friendship on Lacquer Love&Lend!")
 
@@ -54,7 +54,7 @@ class UserMailer < ActionMailer::Base
     @owner = owner
     @requester = requester
     @user_lacquer = user_lacquer
-    @user_url = "http://lacquer-love-and-lend.herokuapp.com/users/#{@owner.id}"
+    @user_url = "http://www.lacquerloveandlend.com/users/#{@owner.id}"
 
     mail(to: @owner.email, subject: "#{@requester.name} wants to borrow #{@user_lacquer.lacquer.name}")
 
@@ -89,10 +89,10 @@ class UserMailer < ActionMailer::Base
   def transactional_message(from_name, bcc_email, reply_address, to_address, subject, body, transaction_id)
     @reply_address = reply_address
     @from_name = from_name
-    @reply_url = "http://lacquer-love-and-lend.herokuapp.com/new_transactional_message?transaction_id=#{transaction_id}"
+    @reply_url = "http://www.lacquerloveandlend.com/new_transactional_message?transaction_id=#{transaction_id}"
     @body = body
 
-    mail(from: "#{from_name} via Lacquer Love&Lend <noreply@lacquer-love-and-lend.herokuapp.com>", :reply_to => reply_address, :to => to_address, :subject => subject, :bcc => bcc_email)
+    mail(from: "#{from_name} via Lacquer Love&Lend <noreply@lacquerloveandlend.com>", :reply_to => reply_address, :to => to_address, :subject => subject, :bcc => bcc_email)
     
     headers['X-MC-Track'] = "opens, clicks_all"
   end
@@ -102,10 +102,17 @@ class UserMailer < ActionMailer::Base
     @requester = gift.requester
     @owner = gift.owner
     @lacquer = gift.lacquer
-    @user_url = "http://lacquer-love-and-lend.herokuapp.com/users/#{@requester.id}"
-    @thank_you_email_url = "http://lacquer-love-and-lend.herokuapp.com/new_transactional_message?gift_id=#{gift.id}"
+    @user_url = "http://www.lacquerloveandlend.com/users/#{@requester.id}"
+    @thank_you_email_url = "http://www.lacquerloveandlend.com/new_transactional_message?gift_id=#{gift.id}"
 
     mail(to: @requester.email, subject: "You've received a gift on Lacquer Love&Lend!")
+
+    headers['X-MC-Track'] = "opens, clicks_all"
+  end
+
+  def user_feedback_email(reply_address, to_address, subject, body, bcc)
+
+    mail(to: to_address, reply_to: reply_address, subject: subject, body: body, bcc: bcc)
 
     headers['X-MC-Track'] = "opens, clicks_all"
   end

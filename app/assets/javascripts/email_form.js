@@ -1,10 +1,10 @@
 $(function(){
-  $('input.other-email').hide();
+  // $('#other_reply_address').hide();
   $('form').on('change', '#email-options', function(){
     if ($(this).val() === "other email address") {
-      $('input.other-email').show();
+      $('input#other_reply_address').show();
     } else {
-      $('input.other-email').hide();
+      $('input#other_reply_address').hide();
     }
   })
 })

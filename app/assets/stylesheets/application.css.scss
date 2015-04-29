@@ -14,6 +14,10 @@
 @import "bootswatch/cosmo/bootswatch";
 @import "awesome-bootstrap-checkbox";
 
+.modal-dialog {
+  padding-top: 5%;
+}
+
 a.light-blue-link {
   color: #00FFFF;
 }
@@ -477,6 +481,49 @@ legend>.fa:hover {
 
 .green-background {
   background-color: #00CC33;
+}
+
+.footer {
+  // text-align: center; 
+  padding: 0 15px;
+  position: fixed; 
+  bottom:0; 
+  width: 100%;
+  font-size: 1.4em;
+  color: #ccc;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.highlight:hover, .highlight:active, .highlight:visited, .highlight:link, .highlight:focus {
+  text-decoration: none;
+}
+
+.highlighted {
+  background-color: #ff0039;
+}
+
+i.small-red-heart, i.small-red-heart:hover {
+  color: red;
+  font-size: 0.8em;
+  cursor: text;
+}
+
+#about li {
+  padding: 10px 0px;
+}
+
+#learn-more-button{
+  margin-top: 25px;
+  border-radius: 50px;
+  background-color: #a1a1a1;
+  // box-shadow:
+  -webkit-box-shadow: 10px 10px 30px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 30px -4px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 30px -4px rgba(0,0,0,0.75);
+}
+
+.footer a {
+  color: white;
 }
 
 @media (max-width: 793px) {

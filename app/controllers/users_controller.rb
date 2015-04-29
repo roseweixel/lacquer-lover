@@ -88,25 +88,32 @@ class UsersController < ApplicationController
 
   def new_invite
     if !current_user
-      flash[:alert] = "Sign in to start inviting friends!"
+      session[:intended_uri] = request.env['REQUEST_URI']
+      flash[:notice] = %Q[ #{ view_context.link_to("Sign in", login_path, id:"brand-show-sign-in", class:'light-blue-link')} to start inviting friends! ]
+      flash[:html_safe] = true
       redirect_to root_path
     end
   end
 
   def invite_friends
-    @user = current_user
-    @emails = params[:emails][0].split(/[\W\s]{2,}/).uniq
-    if @user && @emails.any?
-      UserMailer.invite_email(@user, @emails).deliver
-      if @emails.count > 1
-        flash[:success] = "You've successfully sent invitations to #{@emails.to_sentence}!"
-      else
-        flash[:success] = "You've successfully sent an invitation to #{@emails[0]}!"
-      end
+    if !current_user
+      flash[:alert] = "You need to be logged in to invite friends!"
+      redirect_to(:back)
     else
-      flash[:warning] = "Sorry, there was a problem sending your email invitations!"
+      @user = current_user
+      @emails = params[:emails][0].split(/[,|\s]{1,}/).uniq
+      if @user && @emails.any?
+        UserMailer.invite_email(@user, @emails).deliver_now
+        if @emails.count > 1
+          flash[:success] = "You've successfully sent invitations to #{@emails.to_sentence}!"
+        else
+          flash[:success] = "You've successfully sent an invitation to #{@emails[0]}!"
+        end
+      else
+        flash[:warning] = "Sorry, there was a problem sending your email invitations!"
+      end
+      redirect_to(:back)
     end
-    redirect_to user_path(@user)
   end
 
   def new_transactional_message
@@ -143,7 +150,7 @@ class UsersController < ApplicationController
     if params[:reply_address] == current_user.email
       reply_address = "#{current_user.name} via Lacquer Love&Lend <#{params[:reply_address]}>"
     elsif params[:reply_address] == "do not provide a reply address"
-      reply_address = "#{current_user.name} via Lacquer Love&Lend <noreply@lacquer-love-and-lend.herokuapp.com>"
+      reply_address = "#{current_user.name} via Lacquer Love&Lend <noreply@lacquerloveandlend.com>"
     elsif is_an_email_address?(params[:other_reply_address])
       reply_address = params[:other_reply_address]
     end
