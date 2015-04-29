@@ -87,6 +87,8 @@ module ApplicationHelper
     begin
       if url.class == Paperclip::Attachment || !url.start_with?("http")
         return true
+      elsif url.start_with?("lacquers/")
+        return false
       else
         uri = Addressable::URI.parse(url)
 
