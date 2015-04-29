@@ -18,7 +18,15 @@ class Friendship < ActiveRecord::Base
 
   validate :is_not_duplicate, :on => :create
   validate :is_not_self, :on => :create
-  #validates_uniqueness_of :buddy_one, scope: :buddy_two
+  validate :valid_state, :on => :save
+
+  STATES = ["pending", "accepted", "rejected", "concluded"]
+
+  def valid_state
+    if !Friendship::STATES.include?(state)
+      errors.add(:friendship, "That is not a valid state for a Friendship!")
+    end
+  end
 
   def user
     User.find(self[:user_id])

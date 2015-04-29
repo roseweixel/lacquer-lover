@@ -31,11 +31,20 @@ class Transaction < ActiveRecord::Base
   validate :requester_and_user_must_be_friends, :on => :create
   validate :no_due_date_if_state_is_not_active, :on => :update
   validate :due_date_must_be_in_the_future, :on => :update
+  validate :valid_state, :on => :save
 
   SECONDS_PER_DAY = 86400
 
+  STATES = ['pending', 'accepted', 'rejected', 'active', 'completed']
+
   def defaults
     self.owner_id ||= user_lacquer.user_id
+  end
+
+  def valid_state
+    if !Transaction::STATES.include?(state)
+      errors.add(:transaction, "That is not a valid state for a Transaction!")
+    end
   end
 
   def no_due_date_if_state_is_not_active
