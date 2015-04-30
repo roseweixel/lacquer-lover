@@ -1,100 +1,127 @@
-<%#= picture_for(@lacquer) %>  
 <div class="row">
-<div class="well">
-	<legend id="top" style="font-size: 2em;" class="row">
-		<div class="col-sm-7">
-		<%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %>
-		</div>
-		<div class="col-md-5">
-		<span class="pull-right" style="font-size: .5em; padding-bottom: 5px; margin-right:-10px;">
-			<span class="lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
-			<%= render partial: 'favorite', locals: {result: @lacquer} %>
-			</span><br>
-		<% if current_user  %>
-			<span class="pull-right">
-		  <% if current_user.lacquers.include? @lacquer %>
-			  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
-		    <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
-			<% else %>
-			  <%= render 'user_lacquers/add_button', lacquer: @lacquer %>
-			<% end %>
-			</span>
-		<% else %>
-		 <%= link_to "Sign in to favorite & add<br>this lacquer to your collection!".html_safe, "/auth/facebook", class: "btn btn-primary btn-xs pull-right", id: "brand-show-sign-in" %>
-		<% end %>
-		</span>
-		</div>
-	</legend>
+  <div class="well">
+  	<legend id="top" style="font-size: 2em;" class="row">
+  		<div class="col-sm-7">
+  		<%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %>
+  		</div>
+  		<div class="col-md-5">
+  		<span class="pull-right" style="font-size: .5em; padding-bottom: 5px; margin-right:-10px;">
+  			<span class="lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
+  			<%= render partial: 'favorite', locals: {result: @lacquer} %>
+  			</span><br>
+  		<% if current_user  %>
+  			<span class="pull-right">
+  		  <% if current_user.lacquers.include? @lacquer %>
+  			  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
+  		    <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
+  			<% else %>
+  			  <%= render 'user_lacquers/add_button', lacquer: @lacquer %>
+  			<% end %>
+  			</span>
+  		<% else %>
+  		 <%= link_to "Sign in to favorite & add<br>this lacquer to your collection!".html_safe, "/auth/facebook", class: "btn btn-primary btn-xs pull-right", id: "brand-show-sign-in" %>
+  		<% end %>
+  		</span>
+  		</div>
+  	</legend>
 
-<div class="row" style="margin-top: 20px;">
-	<div class="col-md-12 horizontal-scroll">
-    <% if @lacquer.picture %>
-      <div class="thumbnail list-group" style="display: inline-block; float: left; height: 311px; width: 270px;">
-        <div class="col-md-12" style="padding: 10px;">
-        </div>
-        <%= image_tag @lacquer.picture, style:"height: 255px;" %>
-      </div>
-    <% end %>
-    <% if @lacquer.swatches.any? %>
-      <% @lacquer.swatches.each do |swatch| %>
-        <% if swatch.image.file? %>
-            <div class="thumbnail list-group" style="display: inline-block; height: 311px;">
-              <div class="col-md-12" style="padding: 10px;">
-              </div>
-              <%= image_tag(swatch.image.url, height: "200px") %><br>
-              <div class="caption">
-              <% if current_user %>
-              added by <%= link_to swatch.user.name, user_path(swatch.user) if swatch.user %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %><br>
-              <% end %>
-              <% if swatch.user == current_user %>
-                <%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
-              <% end %>
-              </div>
+    <div class="row" style="margin-top: 20px;">
+    	<div class="col-md-12 horizontal-scroll">
+        <% if @lacquer.picture %>
+          <div class="thumbnail list-group" style="display: inline-block; float: left; height: 311px; width: 270px;">
+            <div class="col-md-12" style="padding: 10px;">
+            </div>
+            <%= image_tag @lacquer.picture, style:"height: 255px;" %>
           </div>
         <% end %>
-      <% end %>
+        <% if @lacquer.swatches.any? %>
+          <% @lacquer.swatches.each.with_index do |swatch, index| %>
+            <% if swatch.image.file? %>
+                <div class="<%='fl' if index == 0 || index == 1 %> swatch thumbnail list-group" style="display: inline-block; height: 311px;">
+                  <div class="col-md-12" style="padding: 10px;">
+                  </div>
+                  <%= image_tag(swatch.image.url, height: "200px") %><br>
+                  <div class="caption">
+                  <% if current_user && swatch.user %>
+                  added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %><br>
+                  <% end %>
+                  <% if swatch.user == current_user %>
+                    <%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
+                  <% end %>
+                  </div>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% if @lacquer.swatches.count < 5 %>
+          <% (5 - @lacquer.swatches.count).times do %>
+            <div class="thumbnail list-group" style="display: inline-block; height: 311px;">
+              <div class="col-md-12" style="padding: 10px;">
+                </div>
+              <%= image_tag('swatch-placeholder-image.png', height: "200px") %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    	<!-- <div class="col-sm-1"> -->
+    	<!-- </div> -->
+    	<div class="col-sm-3">
+    	<h3><strong>Color Tags</strong></h3>
+    	<% if @lacquer.color_tags.count > 0 %>
+    		<% @lacquer.color_tags.each do |color_tag| %>
+    			<span style="font-size:20px;">#<%= color_tag %></span>
+    		<% end %>
+    	<% else %>
+    		No color tags yet!
+    	<% end %>
+
+    	<h3><strong>Finish Tags</strong></h3>
+    	<% if @lacquer.color_tags.count > 0 %>
+    		<% @lacquer.finish_tags.each do |finish_tag| %>
+    			<span style="font-size:20px;">#<%= finish_tag %></span>
+    		<% end %>
+    	<% else %>
+    		No finish tags yet!
+    	<% end %>
+
+    	</div>
+
+      <div class="col-sm-9">
+        <h3 style="margin-left: 2.5px;">
+        <strong>Reviews for <%= @lacquer.name %></strong><br>
+        <% if !@lacquer.reviews.any? %>
+          No reviews yet!
+        <% else %>
+          average rating: <%= @lacquer.average_rating %>/5
+        <% end %>
+        </h3>
+          <div class="weird-row">
+          <% @lacquer.reviews.each do |review| %>
+            <div class="menu-category panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-title" style="font-size: 1em;">
+                  Rating:
+                  <% review.rating.times do %>
+                  <i class='fa fa-heart small-red-heart'></i>
+                  <% end %>
+                  <br>
+                  by <%= review.user.name %> on <%= review.created_at.strftime("%m/%d/%Y") %>
+                </div>
+              </div>
+              <div class="panel-body">
+                <%= review.comments %>
+              </div>
+            </div>
+          <% end %>
+          </div>
+      </div>
+
+    </div>
+
+    <% if current_user && user_lacquer = UserLacquer.find_by(:user_id => current_user.id, :lacquer_id => @lacquer.id) %>
+      <div class="row" style="margin: 10px 0px 0 0;">
+        <%= link_to "Edit #{@lacquer.name}", edit_lacquer_path(@lacquer.id, :params => { :user_lacquer_id => user_lacquer.id }), :class => "btn btn-xs btn-default pull-right" %>
+      </div>
     <% end %>
   </div>
-	<div class="col-sm-1">
-	</div>
-	<div class="col-sm-5">
-	<h3><strong>Color Tags</strong></h3>
-	<% if @lacquer.color_tags.count > 0 %>
-		<% @lacquer.color_tags.each do |color_tag| %>
-			<span style="font-size:20px;">#<%= color_tag %></span>
-		<% end %>
-	<% else %>
-		No color tags yet!
-	<% end %>
-
-	<h3><strong>Finish Tags</strong></h3>
-	<% if @lacquer.color_tags.count > 0 %>
-		<% @lacquer.finish_tags.each do |finish_tag| %>
-			<span style="font-size:20px;">#<%= finish_tag %></span>
-		<% end %>
-	<% else %>
-		No finish tags yet!
-	<% end %>
-
-	</div>
-  <div class="col-sm-7">
-  <h3>Reviews</h3>
-  <%= @lacquer.reviews.each do |review| %>
-    <div class="panel panel-info small-item-card">
-      <div class="panel-heading">
-        <div class="panel-title">
-        </div>
-        <div class="panel-body">
-        </div>
-      </div>
-    </div>
-  <% end %>
-  </div>
-</div>
-  <% if current_user && user_lacquer = UserLacquer.find_by(:user_id => current_user.id, :lacquer_id => @lacquer.id) %>
-    <p>
-      <%= link_to "Edit #{@lacquer.name}", edit_lacquer_path(@lacquer.id, :params => { :user_lacquer_id => user_lacquer.id }), :class => "btn btn-xs btn-default pull-right" %>
-    </p>
-  <% end %>
-</div>
 </div>

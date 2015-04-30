@@ -47,6 +47,15 @@ class Lacquer < ActiveRecord::Base
     end
   end
 
+  def average_rating
+    ratings = reviews.pluck(:rating)
+    if ratings.any?
+      ratings.inject(:+)/ratings.count.to_f
+    else
+      nil
+    end
+  end
+
   def create_words
     words_in_name = (name.split(" ") + name_with_no_non_word_chars.split(" ")).uniq
 
