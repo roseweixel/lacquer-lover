@@ -536,7 +536,11 @@ i.small-red-heart, i.small-red-heart:hover {
   padding: 10px 0px;
 }
 
-#learn-more-button{
+#learn-more-button:hover {
+  background-color: dimgrey;
+}
+
+#learn-more-button {
   margin-top: 25px;
   border-radius: 50px;
   background-color: #a1a1a1;
