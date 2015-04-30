@@ -20,7 +20,7 @@ class Lacquer < ActiveRecord::Base
   has_many :users, through: :user_lacquers
   has_many :swatches, dependent: :destroy
   has_many :favorites, dependent: :destroy
-  has_many :reviews, dependent: :destroy
+  has_many :reviews, -> { order(:updated_at => :desc)}, dependent: :destroy 
   has_many :lacquer_words, dependent: :destroy
   has_many :words, through: :lacquer_words
 

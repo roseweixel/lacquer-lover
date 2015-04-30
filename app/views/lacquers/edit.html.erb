@@ -1,5 +1,5 @@
 <div class="well">
-<legend>Edit <strong><%= @lacquer.name %> (<%= @lacquer.brand.name %>)</strong></legend>
+<legend>Edit <strong><%= link_to @lacquer.name, lacquer_path(@lacquer) %></strong> (<%= @lacquer.brand.name %>)</legend>
 
 <%= form_for @lacquer do |f| %>
   <%= f.hidden_field :user_lacquer_id, value: @user_lacquer.id %>
@@ -82,7 +82,7 @@
             <strong>Comments:</strong> <%= review.comments %>
             <br>
             <% if review.user == current_user %>
-              <%= link_to 'delete', review_path(review), method: 'DELETE' %>
+              <%= link_to 'delete', review_path(review), method: 'DELETE' %> | 
               <%= link_to 'edit', edit_review_path(review) %>
             <% end %>
           </p>

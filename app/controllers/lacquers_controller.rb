@@ -37,7 +37,7 @@ class LacquersController < ApplicationController
   end
 
   def show
-    @lacquer = Lacquer.find(params[:id])
+    @lacquer = Lacquer.includes(:reviews, :swatches).find(params[:id])
   end
 
   def edit
