@@ -15,7 +15,7 @@
 #
 
 class User < ActiveRecord::Base
-  has_many :user_lacquers, -> { order(:updated_at => :desc)}, dependent: :destroy
+  has_many :user_lacquers, -> { order(:updated_at => :desc) }, dependent: :destroy
   has_many :lacquers, through: :user_lacquers
   has_many :brands, -> { uniq }, through: :lacquers
   has_many :friendships, dependent: :destroy

@@ -8,7 +8,7 @@
       <div class="row">
         <%= ul_form.submit "Add to My Collection", class: "col-md-2 pull-right btn btn-default add-to-btn", style: "margin-top: 25px;" %>
       </div>  
-      <% @lacquers.each do |lacquer| %>
+      <% @brand.lacquers.each do |lacquer| %>
         <div class="col-md-3 lacquer" id="<%=lacquer.id%>">
         </div>
       <% end %>
@@ -19,7 +19,7 @@
       <%= link_to "Sign In To Favorite & Add Lacquers to Your Collection!", "/auth/facebook", class: "col-md-5 pull-right btn btn-primary add-to-btn", id: "brand-show-sign-in", style: "margin-top: 25px;" %>
     </div>  
     <div class="row-fluid">
-    <% @lacquers.each do |lacquer| %>
+    <% @brand.lacquers.each do |lacquer| %>
       <div class="col-md-3 lacquer long-item-card" id="<%=lacquer.id%>">
       </div>
     <% end %>
