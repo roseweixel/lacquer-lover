@@ -37,7 +37,7 @@
             Borrow this lacquer from <%= name_links(@friends_you_can_borrow_this_lacquer_from_right_now).to_sentence(:last_word_connector => ' or ') %> 
           <% end %>
           <% if @lacquer.item_url %>
-            | <%= link_to 'buy it', @lacquer.item_url  %>
+            | <%= link_to 'buy it', @lacquer.item_url, target: '_blank'  %>
           <% end %>
           </div>
         </div>
