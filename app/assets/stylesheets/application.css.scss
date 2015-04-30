@@ -550,6 +550,15 @@ i.small-red-heart, i.small-red-heart:hover {
   color: white;
 }
 
+@media (max-width: 658px) {
+  .footer>.col-md-8, .footer>.col-md-4 {
+    width: 100%;
+    display: block;
+    float: left !important;
+    text-align: center !important;
+  }
+}
+
 @media (max-width: 793px) {
   .add-to-btn {
     margin-bottom: 5px;
