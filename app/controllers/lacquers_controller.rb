@@ -38,6 +38,10 @@ class LacquersController < ApplicationController
 
   def show
     @lacquer = Lacquer.includes(:reviews, :swatches).find(params[:id])
+    if current_user
+      @friends_you_can_borrow_this_lacquer_from_right_now = @lacquer.users_who_friend_can_borrow_from(current_user).uniq
+      @friends_who_have_this_lacquer = @lacquer.users_who_are_friends_with(current_user)
+    end
   end
 
   def edit

@@ -61,14 +61,8 @@ class User < ActiveRecord::Base
   end
 
   def accepted_friends
-    accepted_friends = []
-    Friendship.where(user_id: self.id, state: 'accepted').each do |friendship|
-      accepted_friends << User.find(friendship.friend_id)
-    end
-    Friendship.where(friend_id: self.id, state: 'accepted').each do |friendship|
-      accepted_friends << User.find(friendship.user_id)
-    end
-    accepted_friends
+    ids = Friendship.where(user_id: self.id, state: 'accepted').pluck(:friend_id) + Friendship.where(friend_id: self.id, state: 'accepted').pluck(:user_id)
+    User.where(id: ids)
   end
 
   def accpeted_friendships_you_requested

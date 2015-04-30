@@ -17,6 +17,10 @@ module ApplicationHelper
     nil
   end
 
+  def name_links(users)
+    users.collect{|user| link_to user.name, user_path(user)}
+  end
+
   def transactions_categories
     [ 
       'transactions_for_your_approval', 

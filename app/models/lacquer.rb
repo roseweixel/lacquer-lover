@@ -37,6 +37,14 @@ class Lacquer < ActiveRecord::Base
 
   after_save :create_words
 
+  def users_who_are_friends_with(user)
+    users.where(id: user.accepted_friends.pluck(:id))
+  end
+
+  def users_who_friend_can_borrow_from(friend)
+    users_who_are_friends_with(friend).includes(:user_lacquers).where(user_lacquers: {lacquer_id: self.id, loanable: true, on_loan: false})
+  end
+
   def picture
     if self.default_picture && self.default_picture.start_with?('https://s3.amazonaws.com/lacquer-love-and-lend-images/lacquers/images')
       self.default_picture

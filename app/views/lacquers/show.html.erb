@@ -1,27 +1,35 @@
 <div class="row">
   <div class="well">
   	<legend id="top" style="font-size: 2em;" class="row">
-  		<div class="col-sm-7">
+  		<div class="col-sm-5">
   		<%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %>
   		</div>
-  		<div class="col-md-5">
-  		<span class="pull-right" style="font-size: .5em; padding-bottom: 5px; margin-right:-10px;">
-  			<span class="lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
-  			<%= render partial: 'favorite', locals: {result: @lacquer} %>
-  			</span><br>
-  		<% if current_user  %>
-  			<span class="pull-right">
-  		  <% if current_user.lacquers.include? @lacquer %>
-  			  <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
-  		    <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
-  			<% else %>
-  			  <%= render 'user_lacquers/add_button', lacquer: @lacquer %>
-  			<% end %>
-  			</span>
-  		<% else %>
-  		 <%= link_to "Sign in to favorite & add<br>this lacquer to your collection!".html_safe, "/auth/facebook", class: "btn btn-primary btn-xs pull-right", id: "brand-show-sign-in" %>
-  		<% end %>
-  		</span>
+      <div class="col-md-7">
+      <span class="pull-right" style="font-size: 14.5px; padding: 10px 0px 0px 5px; margin-left: 10px; margin-bottom: 3px; border-left: 1px solid #ccc; min-height: 61px; max-width: 260px; white-space: wrap;">
+      <%= name_links(@friends_who_have_this_lacquer).to_sentence.html_safe %> <%= I18n.t('has', count: @friends_who_have_this_lacquer.count) %> this lacquer<br>
+      <% if @friends_you_can_borrow_this_lacquer_from_right_now.any? %>
+        Borrow this lacquer from <%= name_links(@friends_you_can_borrow_this_lacquer_from_right_now).to_sentence(:last_word_connector => ' or ') %>
+      <% else %>
+        This lacquer is not available for loan at the moment.
+      <% end %>
+      </span>
+      <span class="pull-right" style="font-size: .5em; padding-bottom: 5px;">
+        <span class="lacquer-show-favorite" id="favorite-wrapper" lacquer_id = "<%= @lacquer.id %>">
+        <%= render partial: 'favorite', locals: {result: @lacquer} %>
+        </span><br>
+        <% if current_user  %>
+          <span class="pull-right" style="width: 100%; text-align: right;">
+          <% if current_user.lacquers.include? @lacquer %>
+            <% user_lacquer = current_user.user_lacquers.find_by(lacquer: @lacquer) %>
+            <%= render 'user_lacquers/remove_button', lacquer: @lacquer, user_lacquer: user_lacquer %>
+          <% else %>
+            <%= render 'user_lacquers/add_button', lacquer: @lacquer %>
+          <% end %>
+          </span>
+        <% else %>
+         <%= link_to "Sign in to favorite & add<br>this lacquer to your collection!".html_safe, "/auth/facebook", class: "btn btn-primary btn-xs pull-right", id: "brand-show-sign-in" %>
+        <% end %>
+      </span>
   		</div>
   	</legend>
 
