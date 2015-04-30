@@ -220,7 +220,7 @@
 			</tr>
 		</thead>
 		<tbody>
-		<% @user_lacquers.each do |user_lacquer| %>
+		<% @user.user_lacquers.each do |user_lacquer| %>
   		<tr class="user-lacquer-partial" lacquer-id="<%= user_lacquer.lacquer.id %>" user-lacquer-id="<%= user_lacquer.id %>" id="<%=user_lacquer.id%>">
   		</tr>
 		<% end %>

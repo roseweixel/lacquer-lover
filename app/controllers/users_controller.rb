@@ -37,12 +37,9 @@ class UsersController < ApplicationController
         end
       end
       @new_user_lacquer = UserLacquer.new
-      @user = User.find(params[:id])
-      @friends = @user.friends
+      @user = User.includes(:friends, user_lacquers: [:lacquer]).find(params[:id])
       @friendship = current_user.friendships.new(friend: @user)
       @transaction = Transaction.new
-
-      @user_lacquers = @user.user_lacquers.order("updated_at desc")
       
       respond_to do |format|
         format.js
