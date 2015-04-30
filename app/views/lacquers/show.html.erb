@@ -111,6 +111,11 @@
               <div class="panel-body">
                 <%= review.comments %>
               </div>
+              <% if current_user && current_user == review.user %>
+                <div class="delete-review">
+                <%= link_to 'delete', review_path(review), method:'delete' %>
+                </div>
+              <% end %>
             </div>
           <% end %>
           </div>

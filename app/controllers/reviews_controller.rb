@@ -1,7 +1,7 @@
 class ReviewsController < ApplicationController
   def destroy
     review = Review.find(params[:id])
-    if current_user && current_user.id == review.id
+    if current_user && current_user.id == review.user_id
       flash[:notice] = "Your review for #{review.lacquer.name} has been deleted."
       review.destroy
       redirect_to :back
