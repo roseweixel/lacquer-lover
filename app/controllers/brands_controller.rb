@@ -11,7 +11,7 @@ class BrandsController < ApplicationController
   def lacquer
     @lacquer = Lacquer.find(params[:id])
     @brand = @lacquer.brand
-    @user = current_user
+    @user = current_user ? User.includes(:lacquers).find(current_user.id) : nil
     respond_to do |format|
       format.js { }
     end
