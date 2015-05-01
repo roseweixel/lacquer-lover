@@ -1,6 +1,60 @@
 require 'fileutils'
 require "addressable/uri"
 
+class Nars
+  
+  URL = "http://www.narscosmetics.com/USA/nails"
+  attr_accessor :item_urls, :images, :names, :num_pages
+
+  def initialize
+    self.item_urls, self.images, self.names = [], [], []
+    scrape
+  end
+
+  def scrape
+    doc = nokogiri_doc
+    polishes = get_polishes(doc)
+    process_polishes(polishes)
+  end
+
+
+  private
+  
+  def nokogiri_doc
+    f = File.open('db/nars.html')
+    Nokogiri::HTML(f)
+  end
+
+  def get_polishes(doc)
+    doc.css('.product-tile').select{|tile| tile.text.include?('Nail Polish')}
+  end
+
+  def process_polishes(polishes)
+    polishes.each do |polish|
+      save_data(polish)
+    end
+  end
+
+  def name(polish)
+    polish.css('.name-link').text.strip.scan(/.+(?= \n)/).first
+  end
+
+  def save_data(polish)
+    self.names << name(polish)
+    self.item_urls << polish_url(polish)
+    self.images << image_url(polish)
+  end
+
+  def polish_url(polish)
+    polish.css('.name-link').first.attributes["href"].value
+  end
+
+  def image_url(polish)
+    polish.css('img').first.attributes["src"].value
+  end
+
+end
+
 class DeborahLippmann
   
   URL = "http://www.deborahlippmann.com/nail-color/all"
@@ -445,8 +499,8 @@ end
 
 class SeedDatabase
   def initialize
-    create_brands_colors_finishes
-    #seed_brands
+    #create_brands_colors_finishes
+    seed_brands
   end
 
   BRAND_NAMES = ['Essie', 'OPI', 'Butter London', 'Deborah Lippmann', 'Zoya', 'China Glaze', 'I Love Nail Polish (ILNP)', 'Dior', 'Chanel', 'Formula X by Sephora', 'Sephora', 'Nails Inc.', 'Lancome', 'Nars', 'Mac', 'Nicole by OPI', 'Sally Hansen', 'Color Club', 'Orly', 'CND', 'Maybelline', "L’Oreal Paris", 'Revlon', 'CoverGirl', 'Sinful Colors', 'L.A. Colors', 'L.A. Girl', 'Wet N Wild', 'Brucci', 'Milani', 'Seche', 'New York Color', 'Stila', 'Obsessive Compulsive Cosmetics']
@@ -474,11 +528,12 @@ class SeedDatabase
     # "OPI" => {class_name: Object.const_get("Opi")},
     # "Essie" => {class_name: Object.const_get("Essie")},
     # "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
-    "Butter London" => {class_name: Object.const_get("ButterLondon")}
+    # "Butter London" => {class_name: Object.const_get("ButterLondon")},
     # "Zoya" => {class_name: Object.const_get("Zoya")},
     # "China Glaze" => {class_name: Object.const_get("ChinaGlaze")},
     # "Nails Inc." => {class_name: Object.const_get("NailsInc")},
-    # 'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")}
+    # 'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")},
+    "Nars" => {class_name: Object.const_get("Nars")}
   }
 
   def seed_brands
@@ -646,7 +701,7 @@ def create_links_to_buy_on_amazon
   end
 end
 
-create_links_to_buy_on_amazon
+# create_links_to_buy_on_amazon
 # rename_files_to_remove_weird_characters
 # clean_lacquer_names
 # save_butter_images
@@ -654,7 +709,6 @@ create_links_to_buy_on_amazon
 # update_all_default_pictures
 # store_missing_essie_images
 # store_all_images_as_paperclip_attachment
-# SeedDatabase.new
 # get_bigger_deborah_images
 # format_butter_names
 # create_all_the_words
@@ -662,4 +716,5 @@ create_links_to_buy_on_amazon
 # update_butter_default_pictures
 # store_butter_images_as_paperclip_attachment
 # get_correct_butter_urls
+SeedDatabase.new
 
