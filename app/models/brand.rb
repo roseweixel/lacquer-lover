@@ -19,5 +19,9 @@ class Brand < ActiveRecord::Base
   def abbreviation
     "#{name.split.first.gsub(/\W/, "").downcase}#{id}"
   end
+
+  SEEDED_BRAND_NAMES = ['OPI', 'China Glaze', 'Butter London', 'Deborah Lippmann', 'Nails Inc.', 'Zoya', 'Essie', 'I Love Nail Polish (ILNP)']
+
+  BRANDS_WITH_ITEM_URL_AS_BUY_IT_URL = SEEDED_BRAND_NAMES - ['OPI', 'China Glaze']
 end
 

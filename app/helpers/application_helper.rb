@@ -18,7 +18,7 @@ module ApplicationHelper
   end
 
   def name_links(users)
-    users.collect{|user| link_to user.name, user_path(user)}
+    users.any? ? users.collect{|user| link_to user.name, user_path(user)} : []
   end
 
   def transactions_categories

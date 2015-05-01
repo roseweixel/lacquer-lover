@@ -1,4 +1,5 @@
 $('tbody').prepend('<%= j render :partial => "users/user_lacquer", :locals => {:user_lacquer => @user_lacquer, :user => @user, :favorite => @favorite} %>');
+
 $('.add-lacquer.btn').blur();
 
 $('#add-button').replaceWith('<%= j render :partial => "remove_button", :locals => {:user_lacquer => @user_lacquer} %>')

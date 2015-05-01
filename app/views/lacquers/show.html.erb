@@ -29,16 +29,14 @@
         <div class="row" style="font-size: 0.5em; line-height: -0.5em; width: 100%; padding: 0; margin: 0; white-space: nowrap;">
           <div class="col-lg-12">
           <%= @lacquer.users.count %> lacquer <%= 'lover'.pluralize(@lacquer.users.count) %> 
-          <% if @friends_who_have_this_lacquer.any? %>
-           including <%= name_links(@friends_who_have_this_lacquer).to_sentence.html_safe %>
-          <% end %>
            <%= I18n.t('has', count: @lacquer.users.count) %> this lacquer
+          <% if @friends_who_have_this_lacquer.any? || current_user.lacquers.include?(@lacquer) %>
+           including <%= (name_links(@friends_who_have_this_lacquer)+ (['<strong>you</strong>'.html_safe] if current_user.lacquers.include?(@lacquer))).to_sentence.html_safe %>
+          <% end %>
           <% if @friends_you_can_borrow_this_lacquer_from_right_now.any? %> | 
             Borrow this lacquer from <%= name_links(@friends_you_can_borrow_this_lacquer_from_right_now).to_sentence(:last_word_connector => ' or ') %> 
-          <% end %>
-          <% if @lacquer.item_url %>
-            | <%= link_to 'buy it', @lacquer.item_url, target: '_blank'  %>
-          <% end %>
+          <% end %> 
+          | <%= link_to 'buy it', @lacquer.url_for_buy_it_link, target: '_blank'  %>
           </div>
         </div>
   	</legend>

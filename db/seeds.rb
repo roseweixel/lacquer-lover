@@ -547,10 +547,8 @@ def valid?(url)
   end
 end
 
-SEEDED_BRANDS = ['Butter London', 'Essie', 'Deborah Lippmann', 'OPI', 'China Glaze', 'Nails Inc.', 'Zoya', 'I Love Nail Polish (ILNP)']
-
 def rename_files_to_remove_weird_characters
-  SEEDED_BRANDS.each do |brand|
+  Brand::SEEDED_BRAND_NAMES.each do |brand|
     Dir.foreach("app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}") do |item|
       if item != "." && item != ".." && File.basename(item) && item.gsub('.png', "").match(/(?!-)\W/)
         new_filename = item.gsub('.png', "").gsub(/(?!-)\W/, "")
@@ -562,7 +560,7 @@ def rename_files_to_remove_weird_characters
 end
 
 def save_non_butter_images
-  SEEDED_BRANDS.each do |brand|
+  Brand::SEEDED_BRAND_NAMES.each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
     current_brand_lacquers.each do |lacquer|
@@ -585,7 +583,7 @@ def save_non_butter_images
 end
 
 def update_all_default_pictures
-  SEEDED_BRANDS.each do |brand|
+  Brand::SEEDED_BRAND_NAMES.each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
     current_brand_lacquers.each do |lacquer|
@@ -610,7 +608,7 @@ def store_missing_essie_images
 end
 
 def store_all_images_as_paperclip_attachment
-  SEEDED_BRANDS.each do |brand|
+  Brand::SEEDED_BRAND_NAMES.each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
     current_brand_lacquers.each do |lacquer|
@@ -641,11 +639,19 @@ def clean_lacquer_names
   end
 end
 
+def create_links_to_buy_on_amazon
+  base_url = "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dbeauty&field-keywords="
+  Lacquer.all.each do |lacquer|
+    lacquer.update(buy_url: base_url + "#{lacquer.brand.name.gsub(" ", "+")}+#{lacquer.name.gsub(" ", "+")}")
+  end
+end
+
+create_links_to_buy_on_amazon
 # rename_files_to_remove_weird_characters
 # clean_lacquer_names
 # save_butter_images
 # save_non_butter_images
-update_all_default_pictures
+# update_all_default_pictures
 # store_missing_essie_images
 # store_all_images_as_paperclip_attachment
 # SeedDatabase.new
