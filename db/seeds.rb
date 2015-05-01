@@ -544,7 +544,12 @@ class SeedDatabase
       urls = b.item_urls
       images = b.images
       names.each_with_index do |name, index|
-        Lacquer.create(name: name, brand_id: brand.id, item_url: urls[index], default_picture: images[index])
+        existing_lacquer = Lacquer.find_by(name: name, brand_id: brand.id)
+        if existing_lacquer
+          existing_lacquer.update(item_url: urls[index], default_picture: images[index])
+        else
+          Lacquer.create(name: name, brand_id: brand.id, item_url: urls[index], default_picture: images[index])
+        end
       end
     end
   end
@@ -603,7 +608,7 @@ def valid?(url)
 end
 
 def rename_files_to_remove_weird_characters
-  Brand::SEEDED_BRAND_NAMES.each do |brand|
+  ['Nars'].each do |brand|
     Dir.foreach("app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}") do |item|
       if item != "." && item != ".." && File.basename(item) && item.gsub('.png', "").match(/(?!-)\W/)
         new_filename = item.gsub('.png', "").gsub(/(?!-)\W/, "")
@@ -615,7 +620,7 @@ def rename_files_to_remove_weird_characters
 end
 
 def save_non_butter_images
-  Brand::SEEDED_BRAND_NAMES.each do |brand|
+  ['Nars'].each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
     current_brand_lacquers.each do |lacquer|
@@ -638,7 +643,7 @@ def save_non_butter_images
 end
 
 def update_all_default_pictures
-  Brand::SEEDED_BRAND_NAMES.each do |brand|
+  ['Nars'].each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
     current_brand_lacquers.each do |lacquer|
