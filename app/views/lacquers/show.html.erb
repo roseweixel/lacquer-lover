@@ -3,9 +3,6 @@
   	<legend id="top" style="font-size: 2em;" class="row">
   		<div class="col-sm-7" style="vertical-align: bottom; margin-top: 15px;">
   		<%= @lacquer.name %> - <%= link_to @lacquer.brand.name, brand_path(@lacquer.brand) %>
-      <% if current_user %>
-        <br>
-      <% end %>
       </div>
       <div class="col-md-5">
       <span class="pull-right" style="font-size: .5em; padding-bottom: 5px;">
@@ -32,7 +29,7 @@
           <%= @lacquer.users.count %> lacquer <%= 'lover'.pluralize(@lacquer.users.count) %> 
            <%= I18n.t('has', count: @lacquer.users.count) %> this lacquer
           <% if @friends_who_have_this_lacquer.any? || current_user.lacquers.include?(@lacquer) %>
-           including <%= (name_links(@friends_who_have_this_lacquer)+ (['<strong>you</strong>'.html_safe] if current_user.lacquers.include?(@lacquer))).to_sentence.html_safe %>
+           including <%= (name_links(@friends_who_have_this_lacquer)+ (current_user.lacquers.include?(@lacquer) ? ['<strong>you</strong>'.html_safe] : [])).to_sentence.html_safe %>
           <% end %>
           <% if @friends_you_can_borrow_this_lacquer_from_right_now.any? %> | 
             Borrow this lacquer from <%= name_links(@friends_you_can_borrow_this_lacquer_from_right_now).to_sentence(:last_word_connector => ' or ') %> 
