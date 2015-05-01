@@ -711,7 +711,7 @@ end
 # clean_lacquer_names
 # save_butter_images
 # save_non_butter_images
-# update_all_default_pictures
+update_all_default_pictures
 # store_missing_essie_images
 # store_all_images_as_paperclip_attachment
 # get_bigger_deborah_images
@@ -721,5 +721,5 @@ end
 # update_butter_default_pictures
 # store_butter_images_as_paperclip_attachment
 # get_correct_butter_urls
-SeedDatabase.new
+# SeedDatabase.new
 
