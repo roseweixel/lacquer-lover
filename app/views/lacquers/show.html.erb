@@ -26,6 +26,7 @@
         <% end %>
       </span>
       </div>
+        <% if current_user %>
         <div class="row" style="font-size: 0.5em; line-height: -0.5em; width: 100%; padding: 0; margin: 0; white-space: nowrap;">
           <div class="col-lg-12">
           <%= @lacquer.users.count %> lacquer <%= 'lover'.pluralize(@lacquer.users.count) %> 
@@ -39,6 +40,7 @@
           | <%= link_to 'buy it', @lacquer.url_for_buy_it_link, target: '_blank'  %>
           </div>
         </div>
+        <% end %>
   	</legend>
 
     <div class="row" style="margin-top: 20px;">
