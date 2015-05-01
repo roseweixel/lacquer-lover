@@ -9,7 +9,7 @@
 #
 
 class Brand < ActiveRecord::Base
-  has_many :lacquers, -> { order(:name) }
+  has_many :lacquers
   has_many :user_lacquers, through: :lacquers
   has_many :favorites, through: :lacquers
   has_many :users, -> { uniq }, through: :user_lacquers
