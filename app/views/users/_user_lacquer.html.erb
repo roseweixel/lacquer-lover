@@ -67,9 +67,7 @@
         </td>
       <% else %>
         <td>
-        <% if user_lacquer.lacquer.item_url %>
-        <%= link_to "Buy it!", user_lacquer.lacquer.item_url, :target => "_blank", class: "btn btn-primary", style:"width: 104px;" %>
-        <% end %>
+        <%= link_to "Buy it!", user_lacquer.lacquer.url_for_buy_it_link, :target => "_blank", class: "btn btn-primary", style:"width: 104px;" %>
         </td>
       <% end %>
     <% end %>
