@@ -1,6 +1,49 @@
 require 'fileutils'
 require "addressable/uri"
 
+class FormulaXbySephora
+  
+  URL = "http://www.sephora.com/formula-x-colors?icid2=brand_button_Formula%20X_The%20Colors"
+  attr_accessor :item_urls, :images, :names, :num_pages
+
+  def initialize
+    self.item_urls, self.images, self.names = [], [], []
+    scrape
+  end
+
+  def scrape
+    doc = nokogiri_doc
+    sku_ids = get_sku_ids(doc)
+    get_polishes(sku_ids)
+  end
+
+  private
+  
+  def nokogiri_doc
+    f = File.open('db/sephora.html')
+    Nokogiri::HTML(f)
+  end
+
+  def get_sku_ids(doc)
+    doc.css('.SkuItem-photo').collect{|item| item.children.css('a').first.attributes["href"].value.scan(/(?<=skuId=)\d+/)}.flatten
+  end
+
+  def get_polishes(sku_ids)
+    sku_ids.each do |sku_id|
+      url = "http://www.sephora.com/the-colors-P382111?skuId=#{sku_id}&icid2=Formula_X_the_colors_sku_grid_P382111_image"
+      polish = Nokogiri::HTML(open(url))
+      self.names << name(polish)
+      self.item_urls << url
+      self.images << "http://www.sephora.com/productimages/sku/s#{sku_id}-main-Lhero.jpg"
+    end
+  end
+
+  def name(polish)
+    polish.css('script[seph-json-to-js=sku]').text.split(",")[5].split(":")[1].scan(/\w+/).join(" ")
+  end
+
+end
+
 class Nars
   
   URL = "http://www.narscosmetics.com/USA/nails"
@@ -16,7 +59,6 @@ class Nars
     polishes = get_polishes(doc)
     process_polishes(polishes)
   end
-
 
   private
   
@@ -533,7 +575,8 @@ class SeedDatabase
     # "China Glaze" => {class_name: Object.const_get("ChinaGlaze")},
     # "Nails Inc." => {class_name: Object.const_get("NailsInc")},
     # 'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")},
-    "Nars" => {class_name: Object.const_get("Nars")}
+    # "Nars" => {class_name: Object.const_get("Nars")},
+    "Formula X by Sephora" => {class_name: Object.const_get("FormulaXbySephora")}
   }
 
   def seed_brands
@@ -546,7 +589,8 @@ class SeedDatabase
       names.each_with_index do |name, index|
         existing_lacquer = Lacquer.find_by(name: name, brand_id: brand.id)
         if existing_lacquer
-          existing_lacquer.update(item_url: urls[index], default_picture: images[index])
+          image = existing_lacquer.default_picture || images[index]
+          existing_lacquer.update(item_url: urls[index], default_picture: image)
         else
           Lacquer.create(name: name, brand_id: brand.id, item_url: urls[index], default_picture: images[index])
         end
@@ -711,7 +755,7 @@ end
 # clean_lacquer_names
 # save_butter_images
 # save_non_butter_images
-update_all_default_pictures
+# update_all_default_pictures
 # store_missing_essie_images
 # store_all_images_as_paperclip_attachment
 # get_bigger_deborah_images
@@ -721,5 +765,5 @@ update_all_default_pictures
 # update_butter_default_pictures
 # store_butter_images_as_paperclip_attachment
 # get_correct_butter_urls
-# SeedDatabase.new
+SeedDatabase.new
 

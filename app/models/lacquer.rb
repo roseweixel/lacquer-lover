@@ -46,7 +46,7 @@ class Lacquer < ActiveRecord::Base
   end
 
   def url_for_buy_it_link
-    if Brand::BRANDS_WITH_ITEM_URL_AS_BUY_IT_URL.include? brand.name && item_url
+    if (Brand::BRANDS_WITH_ITEM_URL_AS_BUY_IT_URL.include? brand.name) && !!item_url
       item_url
     else
       buy_url

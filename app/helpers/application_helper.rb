@@ -125,6 +125,8 @@ module ApplicationHelper
           image_tag(lacquer.picture, :size => "51x90", :class => "padded_lacquer_pic")
         elsif lacquer.brand.name == "I Love Nail Polish (ILNP)"
           image_tag(lacquer.picture, :size => "90x90", :class => "chunky_image")
+        elsif lacquer.brand.name == "Formula X by Sephora"
+          image_tag(lacquer.picture, :size => "90x90", :class => "chunky_image")
         else
           image_tag(lacquer.picture, :size => "45x90", :class => "padded_lacquer_pic")
         end
@@ -148,6 +150,8 @@ module ApplicationHelper
         elsif lacquer.brand.name == "Butter London"
           image_tag(lacquer.picture, :size => "360x360", :class => "padded_lacquer_pic_large butter")
         elsif lacquer.brand.name == "I Love Nail Polish (ILNP)"
+          image_tag(lacquer.picture, :size => "360x360", :class => "chunky_image_large")
+        elsif lacquer.brand.name == "Formula X by Sephora"
           image_tag(lacquer.picture, :size => "360x360", :class => "chunky_image_large")
         elsif lacquer.brand.name == "Nars"
           image_tag(lacquer.picture, :size => "360x360", :class => "chunky_image_large")
@@ -184,6 +188,8 @@ module ApplicationHelper
         elsif lacquer.brand.name == "I Love Nail Polish (ILNP)"
           image_tag(lacquer.picture, :size => "50x50", :class => "chunky_image_small")
         elsif lacquer.brand.name == "Nars"
+          image_tag(lacquer.picture, :size => "50x50", :class => "chunky_image_small")
+        elsif lacquer.brand.name == "Formula X by Sephora"
           image_tag(lacquer.picture, :size => "50x50", :class => "chunky_image_small")
         elsif lacquer.brand.name == "Zoya"
           image_tag(lacquer.picture, :size => "50x50", :class => "chunky_image_small")
