@@ -24,9 +24,6 @@ class Lacquer < ActiveRecord::Base
   has_many :lacquer_words, dependent: :destroy
   has_many :words, through: :lacquer_words
 
-  has_attached_file :stored_image
-  validates_attachment_content_type :stored_image, :content_type => /\Aimage\/.*\Z/
-
   validates :name, :brand, presence: true, :on => :create
   validates_length_of :name, :minimum => 1
   validates_uniqueness_of :name, scope: :brand
@@ -61,13 +58,7 @@ class Lacquer < ActiveRecord::Base
   end
 
   def picture
-    if self.default_picture && self.default_picture.start_with?('https://s3.amazonaws.com/lacquer-love-and-lend-images/lacquers/images')
-      self.default_picture
-    elsif self.stored_image_file_size
-      self.stored_image
-    else
-      self.default_picture
-    end
+    self.default_picture
   end
 
   def average_rating
