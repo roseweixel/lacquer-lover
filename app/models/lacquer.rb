@@ -32,7 +32,7 @@ class Lacquer < ActiveRecord::Base
   accepts_nested_attributes_for :swatches, :reject_if => proc { |attributes| attributes['image'].blank? }
   accepts_nested_attributes_for :reviews, :reject_if => proc { |attributes| attributes['comments'].blank? }
 
-  after_save :set_buy_url
+  before_validation :set_buy_url
   after_save :create_words
 
   def set_buy_url
