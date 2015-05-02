@@ -174,6 +174,7 @@ class ButterLondon
       nokogiri_doc = Nokogiri::HTML(open(page))
       polish_url = nokogiri_doc.css('a.mini_category_cell_img')
       polish_url.each do |item|
+        binding.pry
         url = item.attributes["href"].value
         @polish_urls << url
       end
@@ -701,7 +702,6 @@ def update_all_default_pictures
     current_brand_lacquers.each do |lacquer|
       aws_url = "https://s3.amazonaws.com/lacquer-love-and-lend-images/lacquers/images/#{brand.gsub(" ", "_").downcase}/#{lacquer.name.gsub(" ", "-").downcase.gsub(/(?!-)\W/, "")}.png"
       if valid?(aws_url)
-        # binding.pry
         lacquer.default_picture = aws_url
         lacquer.save
       else
@@ -754,17 +754,18 @@ def find_duplicate_ilnps
   end
 end
 
+get_correct_butter_urls
 # save_butter_images
 # rename_files_to_remove_weird_characters
 # save_non_butter_images
-SeedDatabase.new
-update_all_default_pictures
+# SeedDatabase.new
+# update_all_default_pictures
 # brands with new lacquers when recently seeding:
 # Deborah (+4)
 # OPI (+16)
 # Essie (X)
-# Butter (+17)
 
 ### FINISHED UPDATING FOR NEW COLLECTIONS
+# Butter (+17)
 # ILNP (+41) - holographics had been getting skipped b/c of `clean_name` method
 # Nars (initially seeded recently)
