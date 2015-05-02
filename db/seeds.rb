@@ -134,7 +134,6 @@ class FormulaXbySephora
     (sku_ids + ["1547785", "1547397"]).each do |sku_id|
       url = "http://www.sephora.com/the-colors-P382111?skuId=#{sku_id}&icid2=Formula_X_the_colors_sku_grid_P382111_image"
       polish = Nokogiri::HTML(open(url))
-      binding.pry
       if sku_id == "1662923"
         self.names << 'Lively'
       elsif sku_id == "1612944"
