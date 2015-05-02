@@ -174,8 +174,7 @@ class ButterLondon
       nokogiri_doc = Nokogiri::HTML(open(page))
       polish_url = nokogiri_doc.css('a.mini_category_cell_img')
       polish_url.each do |item|
-        binding.pry
-        url = item.attributes["href"].value
+        url = "http://www.butterlondon.com" + item.attributes["href"].value
         @polish_urls << url
       end
     end
@@ -722,15 +721,6 @@ def store_missing_essie_images
   end
 end
 
-def get_correct_butter_urls
-  butter = Brand.find_by(name: "Butter London")
-  butter_lacquers = Lacquer.where(brand_id: butter.id)
-  butter_lacquers.each do |lacquer|
-    url = "http://www.butterlondon.com"+ lacquer.item_url
-    lacquer.update(item_url: url)
-  end
-end
-
 def clean_lacquer_names
   Lacquer.all.each do |lacquer|
     new_name = HTMLEntities.new.decode lacquer.name
@@ -754,13 +744,8 @@ def find_duplicate_ilnps
   end
 end
 
-get_correct_butter_urls
-# save_butter_images
-# rename_files_to_remove_weird_characters
-# save_non_butter_images
-# SeedDatabase.new
-# update_all_default_pictures
-# brands with new lacquers when recently seeding:
+
+### brands with new lacquers when recently seeding:
 # Deborah (+4)
 # OPI (+16)
 # Essie (X)
