@@ -579,11 +579,11 @@ class SeedDatabase
     # "OPI" => {class_name: Object.const_get("Opi")},
     # "Essie" => {class_name: Object.const_get("Essie")}
     # "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
-    # "Butter London" => {class_name: Object.const_get("ButterLondon")},
+    "Butter London" => {class_name: Object.const_get("ButterLondon")}
     # "Zoya" => {class_name: Object.const_get("Zoya")},
     # "China Glaze" => {class_name: Object.const_get("ChinaGlaze")},
     # "Nails Inc." => {class_name: Object.const_get("NailsInc")},
-    'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")}
+    # 'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")},
     # "Nars" => {class_name: Object.const_get("Nars")},
     # "Formula X by Sephora" => {class_name: Object.const_get("FormulaXbySephora")}
   }
@@ -598,8 +598,8 @@ class SeedDatabase
       names.each_with_index do |name, index|
         existing_lacquer = Lacquer.find_by(name: name, brand_id: brand.id)
         if existing_lacquer
-          # image = existing_lacquer.default_picture || images[index]
-          existing_lacquer.update(item_url: urls[index], default_picture: images[index])
+          image = existing_lacquer.default_picture || images[index]
+          existing_lacquer.update(item_url: urls[index], default_picture: image)
         else
           Lacquer.create(name: name, brand_id: brand.id, item_url: urls[index], default_picture: images[index])
         end
@@ -634,9 +634,9 @@ end
 def save_butter_images
   butter = Brand.find_by(name: "Butter London")
   butter_lacquers = Lacquer.where(brand_id: butter.id)
-  butter_lacquers.each do |lacquer|
+  butter_lacquers.select{|l| l.default_picture && l.default_picture.include?('www.butterlondon.com')}.each do |lacquer|
     url = lacquer.default_picture
-    File.open("app/assets/images/lacquers/butter_london/#{lacquer.name.gsub(" ", "-").downcase}.png", 'wb') do |fo|
+    File.open("app/assets/images/lacquers/butter_london/#{lacquer.name.gsub(" ", "-").downcase.gsub(/(?!-)\W/, "")}.png", 'wb') do |fo|
       fo.write open(url).read
     end
   end
@@ -695,14 +695,17 @@ def save_non_butter_images
 end
 
 def update_all_default_pictures
-  ['I Love Nail Polish (ILNP)'].each do |brand|
+  ['Butter London'].each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
     current_brand_lacquers.each do |lacquer|
       aws_url = "https://s3.amazonaws.com/lacquer-love-and-lend-images/lacquers/images/#{brand.gsub(" ", "_").downcase}/#{lacquer.name.gsub(" ", "-").downcase.gsub(/(?!-)\W/, "")}.png"
       if valid?(aws_url)
+        # binding.pry
         lacquer.default_picture = aws_url
         lacquer.save
+      else
+        binding.pry
       end
     end
   end
@@ -751,12 +754,17 @@ def find_duplicate_ilnps
   end
 end
 
+# save_butter_images
 # rename_files_to_remove_weird_characters
 # save_non_butter_images
-#SeedDatabase.new
+SeedDatabase.new
 update_all_default_pictures
 # brands with new lacquers when recently seeding:
 # Deborah (+4)
 # OPI (+16)
 # Essie (X)
+# Butter (+17)
+
+### FINISHED UPDATING FOR NEW COLLECTIONS
 # ILNP (+41) - holographics had been getting skipped b/c of `clean_name` method
+# Nars (initially seeded recently)
