@@ -21,19 +21,25 @@
         <div class="row">
           <div class="col-md-6">
           <p style="margin-top: 10px;">
-            <span class="glyphicon glyphicon-minus" aria-hidden="true" style="font-size: 0.7em;"></span>  From your 
+            <h5><strong>Organize</strong></h5>
+            <p>
+            From your 
             <% if current_user %>
             <%= link_to 'profile page', user_path(current_user), class: 'highlight', id: 'profile-page' %>, 
             <% else %>
             profile page,
             <% end %>
-            <%= link_to 'add lacquers to your collection', '#', id: 'add-lacquers', class: 'highlight' %> from our database of nearly 2,000 lacquers (or input your own).
+            <%= link_to 'add lacquers to your collection', '#', id: 'add-lacquers', class: 'highlight' %> from our database of nearly 2,000 lacquers (or input your own). 
+            </p>
+            <p>
+            Want to see just your reds or your glitters? Tag your lacquers with colors and finishes for easy filtering.
+            </p>
           </p>
+          <h5><strong>Connect</strong></h5>
           <p>
-            <span class="glyphicon glyphicon-minus" aria-hidden="true" style="font-size: 0.7em;"></span> Already have friends on Lacquer Love&Lend? Find them with the <%= link_to 'Find a Lacquer Lover', '#', class: 'highlight', id: 'find-lacquer-lover' %> search box in the top navigation bar.
+            Already have friends on Lacquer Love&Lend? Find them with the <%= link_to 'Find a Lacquer Lover', '#', class: 'highlight', id: 'find-lacquer-lover' %> search box in the top navigation bar.
           </p>
-          <p>
-            <span class="glyphicon glyphicon-minus" aria-hidden="true" style="font-size: 0.7em;"></span> 
+          <p> 
             <% if current_user %>
               <span id="add-friends">
               <%= link_to 'Invite friends to join via email', new_invite_path, id:"new-invite-link" %> 
@@ -44,11 +50,12 @@
             if they're not already on Lacquer Love&Lend.
             <a data-toggle="modal" data-target="#inviteModal" style="display: none;" id="hidden-invite-modal-link"></a>
           </p>
+          <h5><strong>Share</strong></h5> 
           <p>
-            <span class="glyphicon glyphicon-minus" aria-hidden="true" style="font-size: 0.7em;"></span> <%= link_to "Mark lacquers as 'loanable'", '#', id: 'make-loanable', class: 'highlight' %> to allow your friends to request to borrow them.
+            <%= link_to "Mark lacquers as 'loanable'", '#', id: 'make-loanable', class: 'highlight' %> to allow your friends to request to borrow them.
           </p>
           <p>
-            <span class="glyphicon glyphicon-minus" aria-hidden="true" style="font-size: 0.7em;"></span> View your friends' profiles to see their lacquers - you can <%= link_to 'request to borrow those that are available for loan', '#', id: 'borrow-it', class: 'highlight' %>.  
+            View your friends' profiles to see their lacquers - you can <%= link_to 'request to borrow those that are available for loan', '#', id: 'borrow-it', class: 'highlight' %>.  
           <p>
           </div>
           <div class="col-md-6">
