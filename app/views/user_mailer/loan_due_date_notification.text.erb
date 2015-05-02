@@ -1,0 +1,8 @@
+<%= @owner.name %> would like you to return <%= @lacquer_name %> by <%= @transaction.due_date.strftime("%A %B %d") %>.
+
+The due date for this loan is in <%= pluralize(@days_left, 'day') %>. Coordinate with <%= @owner.first_name %> to make arrangements to give <%= @lacquer_name %> back on time!
+
+Have a great day,
+
+Your Friends At Lacquer Love&Lend
+www.lacquerloveandlend.com
