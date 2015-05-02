@@ -13,109 +13,7 @@ class FormulaXbySephora
 
   def scrape
     doc = nokogiri_doc
-    sku_ids = ["1547454",
- "1546852",
- "1547041",
- "1547702",
- "1547678",
- "1546811",
- "1547090",
- "1662956",
- "1547538",
- "1547660",
- "1546969",
- "1547066",
- "1547504",
- "1546837",
- "1579820",
- "1547280",
- "1547108",
- "1547462",
- "1546944",
- "1546936",
- "1547173",
- "1546993",
- "1547082",
- "1546829",
- "1547140",
- "1547496",
- "1662899",
- "1546761",
- "1547165",
- "1547298",
- "1546928",
- "1547488",
- "1547371",
- "1547330",
- "1547272",
- "1612944",
- "1547231",
- "1547637",
- "1547785",
- "1547447",
- "1547652",
- "1546951",
- "1547611",
- "1547603",
- "1662915",
- "1662923",
- "1547181",
- "1547710",
- "1547306",
- "1546977",
- "1547389",
- "1546753",
- "1547512",
- "1547033",
- "1546845",
- "1662931",
- "1547009",
- "1547561",
- "1547074",
- "1547769",
- "1546985",
- "1547215",
- "1662949",
- "1547645",
- "1547249",
- "1547207",
- "1547058",
- "1547587",
- "1547421",
- "1547348",
- "1546886",
- "1547223",
- "1547132",
- "1546860",
- "1547256",
- "1547363",
- "1547470",
- "1547355",
- "1547579",
- "1546878",
- "1547546",
- "1547686",
- "1547553",
- "1547595",
- "1546910",
- "1546894",
- "1547199",
- "1547322",
- "1547744",
- "1547413",
- "1662857",
- "1662840",
- "1662865",
- "1547736",
- "1547629",
- "1547520",
- "1547157",
- "1547025",
- "1547017",
- "1547751",
- "1547264",
- "1547405",
- "1547439"]
+    sku_ids = get_sku_ids(doc) + ["1547785", "1547397"]
     get_polishes(sku_ids)
   end
 
@@ -131,7 +29,7 @@ class FormulaXbySephora
   end
 
   def get_polishes(sku_ids)
-    (sku_ids + ["1547785", "1547397"]).each do |sku_id|
+    sku_ids.each do |sku_id|
       url = "http://www.sephora.com/the-colors-P382111?skuId=#{sku_id}&icid2=Formula_X_the_colors_sku_grid_P382111_image"
       polish = Nokogiri::HTML(open(url))
       if sku_id == "1662923"
@@ -845,28 +743,3 @@ def create_links_to_buy_on_amazon
     lacquer.update(buy_url: base_url + "#{lacquer.brand.name.gsub(" ", "+")}+#{lacquer.name.gsub(" ", "+")}")
   end
 end
-
-# create_links_to_buy_on_amazon
-# clean_lacquer_names
-# save_butter_images
-# save_non_butter_images
-# rename_files_to_remove_weird_characters
-update_all_default_pictures
-# store_missing_essie_images
-# get_bigger_deborah_images
-# format_butter_names
-# create_all_the_words
-# save_butter_images
-# update_butter_default_pictures
-# store_butter_images_as_paperclip_attachment
-# get_correct_butter_urls
-# SeedDatabase.new
-
-####
-# Missing / Wrong Sephoras
-
-# missing:
-# Push The Limits
-# http://www.sephora.com/the-colors-P382111?skuId=1547785&icid2=Formula_X_the_colors_sku_grid_P382111_image
-# Pyrotechnic
-# http://www.sephora.com/the-colors-P382111?skuId=1547397
