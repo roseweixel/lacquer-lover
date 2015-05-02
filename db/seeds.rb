@@ -751,10 +751,10 @@ def find_duplicate_ilnps
   end
 end
 
-# update_all_default_pictures
 # rename_files_to_remove_weird_characters
 # save_non_butter_images
-SeedDatabase.new
+#SeedDatabase.new
+update_all_default_pictures
 # brands with new lacquers when recently seeding:
 # Deborah (+4)
 # OPI (+16)
