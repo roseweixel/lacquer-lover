@@ -35,14 +35,13 @@ class Lacquer < ActiveRecord::Base
   accepts_nested_attributes_for :swatches, :reject_if => proc { |attributes| attributes['image'].blank? }
   accepts_nested_attributes_for :reviews, :reject_if => proc { |attributes| attributes['comments'].blank? }
 
-  after_create :set_buy_url
+  after_save :set_buy_url
   after_save :create_words
 
   def set_buy_url
     base_url = "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dbeauty&field-keywords="
     query_string = "#{self.brand.name.gsub(' ', '+')}+#{self.name.gsub(' ', '+')}"
-    self.buy_url ||= base_url + query_string
-    self.save
+    self.buy_url = base_url + query_string
   end
 
   def url_for_buy_it_link

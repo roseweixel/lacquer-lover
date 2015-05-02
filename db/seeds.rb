@@ -30,9 +30,18 @@ class FormulaXbySephora
 
   def get_polishes(sku_ids)
     sku_ids.each do |sku_id|
+      binding.pry
       url = "http://www.sephora.com/the-colors-P382111?skuId=#{sku_id}&icid2=Formula_X_the_colors_sku_grid_P382111_image"
       polish = Nokogiri::HTML(open(url))
-      self.names << name(polish)
+      if sku_id == "1662923"
+        self.names << 'Lively'
+      elsif sku_id == "1612944"
+        self.names << 'Rouge'
+      elsif name(polish) == 'A'
+        self.names << 'A+'
+      else
+        self.names << name(polish)
+      end
       self.item_urls << url
       self.images << "http://www.sephora.com/productimages/sku/s#{sku_id}-main-Lhero.jpg"
     end
@@ -589,8 +598,8 @@ class SeedDatabase
       names.each_with_index do |name, index|
         existing_lacquer = Lacquer.find_by(name: name, brand_id: brand.id)
         if existing_lacquer
-          image = existing_lacquer.default_picture || images[index]
-          existing_lacquer.update(item_url: urls[index], default_picture: image)
+          # image = existing_lacquer.default_picture || images[index]
+          existing_lacquer.update(item_url: urls[index], default_picture: images[index])
         else
           Lacquer.create(name: name, brand_id: brand.id, item_url: urls[index], default_picture: images[index])
         end
@@ -753,8 +762,8 @@ end
 # create_links_to_buy_on_amazon
 # clean_lacquer_names
 # save_butter_images
-save_non_butter_images
-rename_files_to_remove_weird_characters
+# save_non_butter_images
+# rename_files_to_remove_weird_characters
 # update_all_default_pictures
 # store_missing_essie_images
 # store_all_images_as_paperclip_attachment
@@ -765,5 +774,13 @@ rename_files_to_remove_weird_characters
 # update_butter_default_pictures
 # store_butter_images_as_paperclip_attachment
 # get_correct_butter_urls
-# SeedDatabase.new
+SeedDatabase.new
 
+####
+# Missing / Wrong Sephoras
+
+# missing:
+# Push The Limits
+# http://www.sephora.com/the-colors-P382111?skuId=1547785&icid2=Formula_X_the_colors_sku_grid_P382111_image
+# Pyrotechnic
+# http://www.sephora.com/the-colors-P382111?skuId=1547397
