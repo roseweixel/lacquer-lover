@@ -368,28 +368,27 @@ end
 
 class ILNP
   
-  URL = "http://www.ilnp.com/nail-polish.html?limit=20&p="
+  # URL = "http://www.ilnp.com/nail-polish.html?limit=20&p="
   attr_accessor :item_urls, :images, :names, :num_pages
 
   def initialize
     self.item_urls, self.images, self.names = [], [], []
-    self.num_pages = 4
+    # self.num_pages = 4
     scrape
   end
 
   def scrape
-    1.upto num_pages do |page|
-      doc = nokogiri_doc(page)
-      polishes = get_polishes(doc)
-      process_polishes(polishes)
-    end
+    doc = nokogiri_doc
+    polishes = get_polishes(doc)
+    process_polishes(polishes)
   end
 
 
   private
   
-  def nokogiri_doc(page)
-    Nokogiri::HTML(open(URL + page.to_s))
+  def nokogiri_doc
+    f = File.open('db/ilnp.html')
+    Nokogiri::HTML(f)
   end
 
   def get_polishes(doc)
@@ -409,14 +408,14 @@ class ILNP
   end
 
   def save_data(polish)
-    self.names << clean_name(polish)
+    self.names << name(polish)
     self.item_urls << polish_url(polish)
     self.images << image_url(polish)
   end
 
-  def clean_name(polish)
-    name(polish).sub(/\s\(.+\)\z/, "")
-  end
+  # def clean_name(polish)
+  #   name(polish).sub(/\s\(.+\)\z/, "")
+  # end
 
   def polish_url(polish)
     polish.css("h2 a").first.attributes["href"].value
@@ -578,13 +577,13 @@ class SeedDatabase
 
   BRAND_ATTRIBUTES_HASH = {
     # "OPI" => {class_name: Object.const_get("Opi")},
-    # "Essie" => {class_name: Object.const_get("Essie")},
+    # "Essie" => {class_name: Object.const_get("Essie")}
     # "Deborah Lippmann" => {class_name: Object.const_get("DeborahLippmann")},
     # "Butter London" => {class_name: Object.const_get("ButterLondon")},
     # "Zoya" => {class_name: Object.const_get("Zoya")},
     # "China Glaze" => {class_name: Object.const_get("ChinaGlaze")},
     # "Nails Inc." => {class_name: Object.const_get("NailsInc")},
-    # 'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")},
+    'I Love Nail Polish (ILNP)' => {class_name: Object.const_get("ILNP")}
     # "Nars" => {class_name: Object.const_get("Nars")},
     # "Formula X by Sephora" => {class_name: Object.const_get("FormulaXbySephora")}
   }
@@ -599,8 +598,8 @@ class SeedDatabase
       names.each_with_index do |name, index|
         existing_lacquer = Lacquer.find_by(name: name, brand_id: brand.id)
         if existing_lacquer
-          image = existing_lacquer.default_picture || images[index]
-          existing_lacquer.update(item_url: urls[index], default_picture: image)
+          # image = existing_lacquer.default_picture || images[index]
+          existing_lacquer.update(item_url: urls[index], default_picture: images[index])
         else
           Lacquer.create(name: name, brand_id: brand.id, item_url: urls[index], default_picture: images[index])
         end
@@ -662,11 +661,10 @@ def valid?(url)
 end
 
 def rename_files_to_remove_weird_characters
-  Brand::SEEDED_BRAND_NAMES.each do |brand|
+  ['I Love Nail Polish (ILNP)'].each do |brand|
     Dir.foreach("app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}") do |item|
       if item != "." && item != ".." && File.basename(item) && item.gsub('.png', "").match(/(?!-)\W/)
         new_filename = item.gsub('.png', "").gsub(/(?!-)\W/, "")
-
         File.rename("app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}/#{item}", "app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}/#{new_filename}.png")
       end
     end
@@ -674,7 +672,7 @@ def rename_files_to_remove_weird_characters
 end
 
 def save_non_butter_images
-  Brand::SEEDED_BRAND_NAMES.each do |brand|
+  ['I Love Nail Polish (ILNP)'].each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
     current_brand_lacquers.each do |lacquer|
@@ -697,7 +695,7 @@ def save_non_butter_images
 end
 
 def update_all_default_pictures
-  Brand::SEEDED_BRAND_NAMES.each do |brand|
+  ['I Love Nail Polish (ILNP)'].each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
     current_brand_lacquers.each do |lacquer|
@@ -743,3 +741,22 @@ def create_links_to_buy_on_amazon
     lacquer.update(buy_url: base_url + "#{lacquer.brand.name.gsub(" ", "+")}+#{lacquer.name.gsub(" ", "+")}")
   end
 end
+
+def find_duplicate_ilnps
+  ilnp = Brand.find_by(name:"I Love Nail Polish (ILNP)")
+  lacquers = ilnp.lacquers
+  ilnp_item_urls = lacquers.pluck(:item_url)
+  lacquers.select do |l|
+    ilnp_item_urls.count(l.item_url) > 1
+  end
+end
+
+# update_all_default_pictures
+# rename_files_to_remove_weird_characters
+# save_non_butter_images
+SeedDatabase.new
+# brands with new lacquers when recently seeding:
+# Deborah (+4)
+# OPI (+16)
+# Essie (X)
+# ILNP (+41) - holographics had been getting skipped b/c of `clean_name` method
