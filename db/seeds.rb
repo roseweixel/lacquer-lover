@@ -851,7 +851,7 @@ end
 # save_butter_images
 # save_non_butter_images
 # rename_files_to_remove_weird_characters
-# update_all_default_pictures
+update_all_default_pictures
 # store_missing_essie_images
 # get_bigger_deborah_images
 # format_butter_names
@@ -860,7 +860,7 @@ end
 # update_butter_default_pictures
 # store_butter_images_as_paperclip_attachment
 # get_correct_butter_urls
-SeedDatabase.new
+# SeedDatabase.new
 
 ####
 # Missing / Wrong Sephoras
