@@ -652,7 +652,7 @@ def valid?(url)
 end
 
 def rename_files_to_remove_weird_characters
-  ['Nars'].each do |brand|
+  ['Formula X by Sephora'].each do |brand|
     Dir.foreach("app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}") do |item|
       if item != "." && item != ".." && File.basename(item) && item.gsub('.png', "").match(/(?!-)\W/)
         new_filename = item.gsub('.png', "").gsub(/(?!-)\W/, "")
@@ -664,7 +664,7 @@ def rename_files_to_remove_weird_characters
 end
 
 def save_non_butter_images
-  ['Nars'].each do |brand|
+  ['Formula X by Sephora'].each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
     current_brand_lacquers.each do |lacquer|
@@ -687,7 +687,7 @@ def save_non_butter_images
 end
 
 def update_all_default_pictures
-  ['Nars'].each do |brand|
+  ['Formula X by Sephora'].each do |brand|
     current_brand = Brand.find_by(name: brand)
     current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
     current_brand_lacquers.each do |lacquer|
@@ -751,10 +751,10 @@ def create_links_to_buy_on_amazon
 end
 
 # create_links_to_buy_on_amazon
-# rename_files_to_remove_weird_characters
 # clean_lacquer_names
 # save_butter_images
-# save_non_butter_images
+save_non_butter_images
+rename_files_to_remove_weird_characters
 # update_all_default_pictures
 # store_missing_essie_images
 # store_all_images_as_paperclip_attachment
@@ -765,5 +765,5 @@ end
 # update_butter_default_pictures
 # store_butter_images_as_paperclip_attachment
 # get_correct_butter_urls
-SeedDatabase.new
+# SeedDatabase.new
 
