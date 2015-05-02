@@ -721,22 +721,6 @@ def store_missing_essie_images
   end
 end
 
-def store_all_images_as_paperclip_attachment
-  Brand::SEEDED_BRAND_NAMES.each do |brand|
-    current_brand = Brand.find_by(name: brand)
-    current_brand_lacquers = Lacquer.where(brand_id: current_brand.id)
-    current_brand_lacquers.each do |lacquer|
-      begin
-        file = File.open("app/assets/images/lacquers/#{brand.gsub(" ", "_").downcase}/#{lacquer.name.gsub(" ", "-").downcase}.png")
-        lacquer.stored_image = file
-        file.close
-        lacquer.save
-      rescue
-      end
-    end
-  end
-end
-
 def get_correct_butter_urls
   butter = Brand.find_by(name: "Butter London")
   butter_lacquers = Lacquer.where(brand_id: butter.id)
@@ -767,7 +751,6 @@ end
 # rename_files_to_remove_weird_characters
 # update_all_default_pictures
 # store_missing_essie_images
-# store_all_images_as_paperclip_attachment
 # get_bigger_deborah_images
 # format_butter_names
 # create_all_the_words
