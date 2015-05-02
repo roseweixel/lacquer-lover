@@ -1,5 +1,7 @@
-<h1>Brands</h1>
-
+<div class="row">
+<h1 class="col-sm-5" style="display: inline;">All the Brands</h1>
+<h2 style="display: inline; text-align: right;" class="col-sm-7">(<span id='all-lacquers-count'><%= Lacquer.count %></span> lacquers and counting!)</h2>
+</div>
 <ul class="list-group">
 
   <% @brands.order(:name).each do |brand| %>
