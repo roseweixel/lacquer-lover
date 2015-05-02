@@ -95,8 +95,8 @@ class LacquersController < ApplicationController
           redirect_uri = session[:originated_from_uri]
           session[:originated_from_uri] = nil
           redirect_to redirect_uri
-        else 
-          redirect_to lacquer_path(@review.lacquer)
+        else
+          redirect_to lacquer_path(@lacquer)
         end
       end
     end

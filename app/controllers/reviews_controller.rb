@@ -1,4 +1,21 @@
 class ReviewsController < ApplicationController
+  def new
+    @lacquer = Lacquer.find(params[:lacquer_id])
+    @review = @lacquer.reviews.build
+    if request.env["HTTP_REFERER"]
+      session[:originated_from_uri] = request.env["HTTP_REFERER"]
+    end
+  end
+
+  def create
+    @review = Review.create(review_params)
+    if session[:originated_from_uri]
+      redirect_to session[:originated_from_uri]
+    else
+      redirect_to lacquer_path(@review.lacquer)
+    end
+  end
+
   def destroy
     review = Review.find(params[:id])
     if current_user && current_user.id == review.user_id
@@ -27,6 +44,10 @@ class ReviewsController < ApplicationController
         flash[:warning] = "You cannot edit a review you didn't create!"
         redirect_to_originated_from_or_root
       end
+    end
+    respond_to do |f|
+      f.html
+      f.js { }
     end
   end
 
@@ -57,6 +78,6 @@ class ReviewsController < ApplicationController
 
   private
     def review_params
-      params.require(:review).permit(:rating, :comments, :user_id)
+      params.require(:review).permit(:rating, :comments, :user_id, :lacquer_id)
     end
 end

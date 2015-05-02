@@ -29,7 +29,7 @@
           <%= @lacquer.users.count %> lacquer <%= 'lover'.pluralize(@lacquer.users.count) %> 
            <%= I18n.t('has', count: @lacquer.users.count) %> this lacquer
           <% if @friends_who_have_this_lacquer.any? || current_user.lacquers.include?(@lacquer) %>
-           including <%= (name_links(@friends_who_have_this_lacquer)+ (current_user.lacquers.include?(@lacquer) ? ['<strong>you</strong>'.html_safe] : [])).to_sentence.html_safe %>
+           including <%= ((current_user.lacquers.include?(@lacquer) ? ['<strong>you</strong>'.html_safe] : []) + name_links(@friends_who_have_this_lacquer)).to_sentence.html_safe %>
           <% end %>
           <% if @friends_you_can_borrow_this_lacquer_from_right_now.any? %> | 
             Borrow this lacquer from <%= name_links(@friends_you_can_borrow_this_lacquer_from_right_now).to_sentence(:last_word_connector => ' or ') %> 
@@ -103,7 +103,10 @@
 
       <div class="col-sm-9">
         <h3 style="margin-left: 2.5px;">
-        <strong>Reviews for <%= @lacquer.name %></strong><br>
+        <strong>Reviews for <%= @lacquer.name %></strong> <%= link_to 'write a review', new_review_path(lacquer_id: @lacquer.id), class: "btn btn-xs btn-primary grey-rounded", id:"new-review-link" if current_user.lacquers.include? @lacquer %>
+          <%= link_to "", "#newReviewModal", :style => "display: none;", :id => "hidden-review-modal-link", "data-toggle" => "modal" %>
+          <!-- <a data-toggle="modal" data-target="#newReviewModal" style="display: none;" id="hidden-review-modal-link"></a> -->
+        <br>
         <% if !@lacquer.reviews.any? %>
           No reviews yet!
         <% else %>
@@ -128,7 +131,10 @@
               </div>
               <% if current_user && current_user == review.user %>
                 <div class="delete-review">
-                <%= link_to 'delete', review_path(review), method:'delete' %>
+                <%= link_to 'delete', review_path(review), method:'delete' %> | 
+                <%= link_to 'edit', edit_review_path(review), remote: true %>
+                <%= render 'reviews/form_modal', review: review, id: review.id %>
+                <%= link_to "", "#newReviewModal#{review.id}", :style => "display: none;", :id => "hidden-review-modal-link-#{review.id}", "data-toggle" => "modal" %>
                 </div>
               <% end %>
             </div>
@@ -145,3 +151,5 @@
     <% end %>
   </div>
 </div>
+
+<%= render 'reviews/form_modal', review: @lacquer.reviews.new, id: nil %>
