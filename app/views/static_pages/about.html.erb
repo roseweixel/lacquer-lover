@@ -29,7 +29,7 @@
             <% else %>
             profile page,
             <% end %>
-            <%= link_to 'add lacquers to your collection', '#', id: 'add-lacquers', class: 'highlight' %> from our database of nearly 2,000 lacquers (or input your own). 
+            <%= link_to 'add lacquers to your collection', '#', id: 'add-lacquers', class: 'highlight' %> from our catalog of nearly 2,000 lacquers (or enter your own). 
             </p>
             <p>
             Want to see just your reds or your glitters? Tag your lacquers with colors and finishes for <%= link_to 'easy filtering', '#', id: 'filter-lacquers', class: 'highlight' %>.
@@ -42,20 +42,20 @@
           <p> 
             <% if current_user %>
               <span id="add-friends">
-              <%= link_to 'Invite friends to join', new_invite_path, id:"new-invite-link" %> 
+              <%= link_to 'Invite friends', new_invite_path, id:"new-invite-link" %> 
               </span>
             <% else %>
-              <%= link_to 'Invite friends to join', '#', id: "add-friends", class: "highlight" %>
+              <%= link_to 'Invite friends', '#', id: "add-friends", class: "highlight" %>
             <% end %>
-            if they're not already on Lacquer Love&Lend.
+            with the click of a button from your profile page.
             <a data-toggle="modal" data-target="#inviteModal" style="display: none;" id="hidden-invite-modal-link"></a>
           </p>
           <h5><strong>Share</strong></h5> 
           <p>
-            <%= link_to "Mark lacquers as 'loanable'", '#', id: 'make-loanable', class: 'highlight' %> to allow your friends to request to borrow them.
+            <%= link_to "Mark lacquers 'loanable'", '#', id: 'make-loanable', class: 'highlight' %> to allow your friends to borrow them.
           </p>
           <p>
-            View your friends' profiles to see their lacquers - you can <%= link_to 'request to borrow those that are available for loan', '#', id: 'borrow-it', class: 'highlight' %>.  
+            View your friends' profiles to see their lacquers - you can <%= link_to 'request to borrow those that are available', '#', id: 'borrow-it', class: 'highlight' %>, and buy those that are not.  
           <p>
           </div>
           <div class="col-md-6">

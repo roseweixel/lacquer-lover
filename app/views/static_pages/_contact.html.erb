@@ -6,8 +6,9 @@
     <%= text_field_tag 'other_reply_address', nil, :required => true, placeholder: 'your email', class: "form-control" %>
   <% end %>
   <br>
-  <%#= label_tag 'Subject' %>
-  <%= text_field_tag 'subject', nil, :required => true, placeholder: "subject", class:"form-control" %>
+  <%= label_tag 'Subject' %>
+  <%= select_tag 'subject', options_for_select(["feature request", "something is broken", "other"]), class:"form-control", id:"subject-options" %>
+  <%= text_field_tag 'subject', nil, placeholder: "message subject", class:"form-control", id:"other_subject", style:"display:none;" %>
   <br>
   <%= text_area_tag 'body', nil, :required => true, class:"form-control", style:"height: 260px;", placeholder: 'your message' %><br>
 
