@@ -42,10 +42,10 @@
           <p> 
             <% if current_user %>
               <span id="add-friends">
-              <%= link_to 'Invite friends to join via email', new_invite_path, id:"new-invite-link" %> 
+              <%= link_to 'Invite friends to join', new_invite_path, id:"new-invite-link" %> 
               </span>
             <% else %>
-              <%= link_to 'Invite friends to join via email', '#', id: "add-friends", class: "highlight" %>
+              <%= link_to 'Invite friends to join', '#', id: "add-friends", class: "highlight" %>
             <% end %>
             if they're not already on Lacquer Love&Lend.
             <a data-toggle="modal" data-target="#inviteModal" style="display: none;" id="hidden-invite-modal-link"></a>
