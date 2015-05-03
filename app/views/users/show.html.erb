@@ -217,7 +217,7 @@
 			<div class="<%=attribute%>-buttons col-xs-4">
 			<% if !items.empty? %>
 			  <% items.each do |item| %>
-			    <%= link_to "#{item}", "#", :class => "btn btn-xs btn-default #{attribute}", :id => "#{item}", :style => "margin: 2px; max-width: 100%; white-space: normal;" %>
+			    <%= link_to "#{item}", "#", :class => "btn btn-xs btn-default #{attribute} grey-rounded", :id => "#{item}", :style => "margin: 2px; max-width: 100%; white-space: normal;" %>
 			  <% end %>
 			<% else %>
 				<h6>No <%= attribute.singularize %> tags in <%= @user.first_name %>'s collection.</h6>

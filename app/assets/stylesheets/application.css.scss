@@ -114,6 +114,12 @@ td {
   border-radius: 2px;
 }
 
+.btn.finishes:hover,
+.btn.colors:hover,
+.btn.brands:hover   {
+  background-color: #111;
+}
+
 .grey-rounded {
   background-color: #808080;
   border: #282828;
