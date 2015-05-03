@@ -10,6 +10,8 @@ brandNames.forEach(function(name, index){
 })
 
 $(function(){
+    $('.main-color-dropdown').hide();
+    $('.main-finish-dropdown').hide();
 	$('.lacquer-dropdown').hide();
     $('.other-lacquer').hide();
     $('#brand-selection').change(function(event){
@@ -41,10 +43,35 @@ $(function(){
             });
             $('.add-lacquer').addClass("disabled");
         } else {
+            // debugger;
             $('.add-lacquer').removeClass("disabled");
             $('.add-lacquer').show();
+            $('.main-color-dropdown').show();
+            $('.main-finish-dropdown').show();
         }
     });
+
+    $('.page-header').on("click", '.main-finish-dropdown', function(event){
+        event.stopPropagation();
+        //debugger;
+        $(this).siblings().toggle();
+        // $(this).siblings().removeClass('disabled');
+        $(this).siblings().css({"background-color": "white", "color": "black"});
+        // debugger;
+        // $('this').show();
+
+    });
+
+    $('.page-header').on("click", '.main-color-dropdown', function(event){
+        event.stopPropagation();
+        //debugger;
+        $(this).siblings().toggle();
+        $(this).siblings().css({"background-color": "white", "color": "black"});
+        // debugger;
+        // $('this').show();
+
+    });
+
 
     $('.page-header').on("click", '.dropdown-menu', function(event){
         event.stopPropagation();

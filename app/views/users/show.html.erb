@@ -111,10 +111,41 @@
 			<% Brand.all.each do |brand| %>
 				<div class="lacquer-dropdown dropdown btn" id="<%= brand.abbreviation %>-dropdown">
 				  <%= form_for @new_user_lacquer, :url => url_for(:controller => 'user_lacquers', :action => 'create'), remote: true do |f| %>
+				  	<%= f.hidden_field :user_id, value: current_user.id %>
 
 				  	<%= f.select(:lacquer_id, brand.lacquers.order(:name).collect {|p| [ p.name, p.id ] } + [ [ 'Other', 'new' ] ], {:prompt => "Select #{brand.name.indefinitize} lacquer"}, :class => "btn-default") %>
 
-				    <%= f.submit value: "add this polish", :class => "add-lacquer btn disabled" %>
+				  	<div class="btn-group">
+				    	<button type="button" class="btn btn-default dropdown-toggle main-color-dropdown" data-toggle="dropdown" aria-expanded="false">
+					    	Select Colors <span class="caret"></span>
+	  					</button>
+		 					<ul class="dropdown-menu" role="menu" id="main-color-dropdown" style="padding: 10px;">
+		 					<div class="row" style="width: 255px;">
+		 					<%= f.collection_check_boxes :color_ids, Color.all.order(:name), :id, :name do |b| %>
+		 						<div class="col-xs-6">
+	  							<%= b.check_box %> <%= b.label %>
+	  						</div>
+							<% end %>
+							</div>
+		    			</ul>
+	    			</div>
+	    			<div class="btn-group">
+				    	<button type="button" class="btn btn-default dropdown-toggle main-finish-dropdown" data-toggle="dropdown" aria-expanded="false">
+					    	Select Finishes <span class="caret"></span>
+	  					</button>
+		 					<ul class="dropdown-menu" role="menu" id="main-finish-dropdown" style="padding: 10px;">
+		 					<div class="row" style="width: 335px;">
+		    			<%= f.collection_check_boxes :finish_ids, Finish.all.order(:description), :id, :description do |b| %>
+		    					<div class="col-xs-6">
+	  							<%= b.check_box %> <%= b.label %>
+	  							</div>
+							<% end %>
+							</div>
+		    			</ul>
+		 
+	    			</div>
+
+				    <%= f.submit value: "add this lacquer", :class => "add-lacquer btn disabled" %>
 				  <% end %>
 				</div>
 			<% end %>

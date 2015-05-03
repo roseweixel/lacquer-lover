@@ -1,10 +1,9 @@
 class UserLacquersController < ApplicationController
 
   def create
-    lacquer = Lacquer.find(params[:user_lacquer][:lacquer_id])
-    @user_lacquer = UserLacquer.create(lacquer: lacquer, user: current_user)
+    @user_lacquer = UserLacquer.create(user_lacquer_params)
     @user = current_user
-    @favorite = Favorite.find_by(user_id: current_user.id, lacquer_id: lacquer.id)
+    @favorite = Favorite.find_by(user_id: current_user.id, lacquer_id: @user_lacquer.lacquer.id)
     respond_to do |format|
       format.html { 
         flash[:notice] = "#{lacquer.name} has been added to your collection!"
@@ -58,6 +57,6 @@ class UserLacquersController < ApplicationController
 
   private
     def user_lacquer_params
-      params.require(:user_lacquer).permit(:lacquer_id, :loanable, :on_loan, :giftable)
+      params.require(:user_lacquer).permit(:user_id, :lacquer_id, :loanable, :on_loan, :giftable, :color_ids => [], :finish_ids => [])
     end
 end
