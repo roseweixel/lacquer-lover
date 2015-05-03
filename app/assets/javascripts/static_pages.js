@@ -50,6 +50,12 @@ $(function(){
 
   });
 
+  $(document).on('mouseenter mouseleave', '#filter-lacquers', function(){
+    $('img#profile').toggle();
+    $('img#profile-filter-lacquers').toggle();
+
+  });
+
   $(document).on('mouseenter mouseleave', '#add-friends', function(){
     $('img#profile').toggle();
     $('img#profile-add-friends').toggle();

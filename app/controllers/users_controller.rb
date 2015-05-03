@@ -50,7 +50,7 @@ class UsersController < ApplicationController
       if request.env['REQUEST_URI']
         session[:intended_uri] = request.env['REQUEST_URI']
         @user = User.find(params[:id])
-        flash[:notice] = %Q[ #{ view_context.link_to("Sign in", login_path, id:"brand-show-sign-in", class:'light-blue-link')} to view #{@user.name}'s profile! ]
+        flash[:notice] = %Q[ #{ view_context.link_to("Sign in", login_path, id:"brand-show-sign-in", class:'light-blue-link')} to view #{@user.first_name}'s profile! ]
         flash[:html_safe] = true
       else
         flash[:notice] = "Please sign in to continue!"

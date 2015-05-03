@@ -32,7 +32,7 @@
             <%= link_to 'add lacquers to your collection', '#', id: 'add-lacquers', class: 'highlight' %> from our database of nearly 2,000 lacquers (or input your own). 
             </p>
             <p>
-            Want to see just your reds or your glitters? Tag your lacquers with colors and finishes for easy filtering.
+            Want to see just your reds or your glitters? Tag your lacquers with colors and finishes for <%= link_to 'easy filtering', '#', id: 'filter-lacquers', class: 'highlight' %>.
             </p>
           </p>
           <h5><strong>Connect</strong></h5>
@@ -60,6 +60,7 @@
           </div>
           <div class="col-md-6">
             <%= image_tag 'profile_screenshot.png', width: '100%', id:'profile' %>
+            <%= image_tag 'profile_screenshot_filter_lacquers.png', width: '100%', id:'profile-filter-lacquers', style:"display: none;" %>
             <%= image_tag 'profile_screenshot_add_lacquers.png', width: '100%', id:'profile-add-lacquers', style:"display: none;" %>
             <%= image_tag 'profile_screenshot_add_friends.png', width: '100%', id:'profile-add-friends', style:"display: none;" %>
             <%= image_tag 'profile_screenshot_make_loanable.png', width: '100%', id:'profile-make-loanable', style:"display: none;" %>
