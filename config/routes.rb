@@ -61,4 +61,5 @@ Rails.application.routes.draw do
 
   resources :gifts
 
+  match '*a', :to => 'errors#routing', via: :get
 end

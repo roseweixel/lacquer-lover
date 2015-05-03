@@ -10,11 +10,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
-  rescue_from ActionController::RoutingError do |exception|
-    flash[:alert] = "Oops! The page you were looking for does not exist. You may have mistyped the address or the page may have moved."
-    redirect_to root_path
-  end
-
   before_filter -> { flash.now[:notice] = flash[:notice].html_safe if flash[:html_safe] && flash[:notice] }
 
   private
