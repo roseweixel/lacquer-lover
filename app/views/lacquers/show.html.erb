@@ -42,7 +42,7 @@
 
     <div class="row" style="margin-top: 20px;">
     	<div class="col-md-12 horizontal-scroll">
-        <% if @lacquer.picture %>
+        <% if @lacquer.picture && valid?(@lacquer.picture) %>
           <div class="thumbnail list-group" style="display: inline-block; float: left; height: 311px; width: 270px;">
             <div class="col-md-12" style="padding: 10px;">
             </div>
