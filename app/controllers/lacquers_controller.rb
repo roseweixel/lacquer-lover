@@ -1,5 +1,6 @@
 class LacquersController < ApplicationController
   autocomplete :lacquer, :name
+  skip_before_action :clear_intended_uri, only: [:autocomplete_name]
 
   def autocomplete_name
     @lacquers = Lacquer.order(:name).where('lower(name) LIKE ?', "#{params[:term].downcase}%").limit(10)

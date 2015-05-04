@@ -1,4 +1,5 @@
 class StaticPagesController < ApplicationController
+  skip_before_action :clear_intended_uri, only: [:welcome]
   def welcome
     if session[:user_id]
       @user = User.find(session[:user_id])

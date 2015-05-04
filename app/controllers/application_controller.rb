@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  before_action :clear_intended_uri
+  skip_before_action :clear_intended_uri, only: [:is_an_email_address?, :parse_list_of_emails, :current_user, :redirect_to_originated_from_or_root]
 
   rescue_from ActionView::MissingTemplate do |exception|
     # use exception.path to extract the path information
@@ -10,9 +12,22 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    # use exception.path to extract the path information
+    # This does not work for partials
+    flash[:alert] = "Sorry! We could not find what you were looking for."
+    redirect_to root_path
+  end
+
   before_filter -> { flash.now[:notice] = flash[:notice].html_safe if flash[:html_safe] && flash[:notice] }
 
   private
+    def clear_intended_uri
+      if session[:intended_uri]
+        session[:intended_uri] = nil
+      end
+    end
+
     def is_an_email_address?(string)
       !!string.match(/[a-zA-Z\d]+\w*(?:\.\w+)*@[a-zA-Z\d-]+\.[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*/)
     end

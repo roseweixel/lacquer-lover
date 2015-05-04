@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  skip_before_action :clear_intended_uri, only: [:create]
+  
   def create
     if request.env['omniauth.auth'].present?
       existing_user = User.find_by(uid: request.env['omniauth.auth']['uid'])
