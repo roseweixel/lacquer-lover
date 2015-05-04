@@ -43,7 +43,7 @@
     </div>
   </div>
   
-  <div class="col-md-6" style="height: 550px;">
+  <div class="col-md-7" style="height: 560px;">
     <div class="well" style="height: 100%; overflow: scroll;">
       <fieldset>
         <legend style="font-size: 1.25em;">Send an email message to <strong><%= @other_user.name %></strong> about this transaction</legend>
@@ -51,7 +51,7 @@
         <%= form_tag send_transactional_message_path, class:"form-horizontal" do %>
           <%= label_tag 'Your email address' %>
           <%= select_tag 'reply_address', options_for_select([@user.email, "other email address", "do not provide a reply address"]), class:"form-control", id:"email-options" %>
-          <%= text_field_tag 'other_reply_address', nil, placeholder: "email address for reply", class:"form-control other-email" %>
+          <%= text_field_tag 'other_reply_address', nil, placeholder: "email address for reply", class:"form-control other-email", style:"display: none;" %>
           <br>
           <%= label_tag 'Subject' %>
           <%= text_field_tag 'subject', nil, :required => true, value: "Transaction for #{@transaction.lacquer.name}", class:"form-control" %>

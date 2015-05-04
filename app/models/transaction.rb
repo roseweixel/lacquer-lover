@@ -24,15 +24,18 @@ class Transaction < ActiveRecord::Base
   
   before_create :defaults
   after_save :update_associated_user_lacquer
+  before_save :set_date_became_active
+  before_destroy :set_associated_user_lacquer_on_loan_to_false
   
   validates_presence_of :requester, :user_lacquer, :owner
   validate :transaction_must_be_unique, :on => :create
   validate :user_lacquer_must_be_loanable, :on => :create
   validate :user_lacquer_must_not_be_on_loan, :on => :create
   validate :requester_and_user_must_be_friends, :on => :create
+  validate :user_lacquer_must_belong_to_owner, :on => :create
   validate :no_due_date_if_state_is_not_active, :on => :update
   validate :due_date_must_be_in_the_future, :on => :update
-  validate :valid_state, :on => :save
+  validate :valid_state, :on => [:create, :update]
 
   SECONDS_PER_DAY = 86400
 
@@ -45,6 +48,16 @@ class Transaction < ActiveRecord::Base
     when 'completed'
       user_lacquer.update(on_loan: false)
     end
+  end
+
+  def set_date_became_active
+    if state == 'active' && !date_became_active
+      date_became_active = Date.today
+    end
+  end
+
+  def set_associated_user_lacquer_on_loan_to_false
+    user_lacquer.update(on_loan: false)
   end
 
   def defaults
@@ -78,6 +91,12 @@ class Transaction < ActiveRecord::Base
   def requester_and_user_must_be_friends
     if !User.find(user_lacquer.user_id).accepted_friends.include?(requester)
       errors.add(:transaction, "You must be friends with the person you would like a transaction with!")
+    end
+  end
+
+  def user_lacquer_must_belong_to_owner
+    if user_lacquer.user_id != owner_id
+      errors.add(:transaction, "You can only borrow a lacquer from the person who owns it!")
     end
   end
 

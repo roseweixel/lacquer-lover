@@ -14,7 +14,7 @@
       <%= form_for(transaction, method: 'DELETE', remote: true) do |f| %>
         <%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
         <%= f.hidden_field :owner_id, value: user.id %>
-        <%= f.submit 'cancel request', class:"btn btn-danger btn-sm", style:"width: 104px;" %>
+        <%= f.submit 'cancel request', class:"btn btn-danger btn-sm", style:"width: 110px;" %>
       <% end %>
     <% end %>
   <% end %>

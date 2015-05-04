@@ -55,10 +55,10 @@ class TransactionsController < ApplicationController
     elsif params[:transaction]
       @user_lacquer = UserLacquer.find(params[:transaction][:user_lacquer_id])
     end
-    @user = User.find(params[:transaction][:owner_id])
+    @user = User.find(params[:transaction][:owner_id]) if params[:transaction]
     @transaction = Transaction.find(params[:id])
-    if @transaction.state == 'pending' && @transaction.requester == current_user
-      @transaction.destroy
+    if @transaction.destroy
+      flash[:notice] = "The transaction was successfully deleted."
     else
       flash[:notice] = "The transaction could not be deleted at this time."
     end

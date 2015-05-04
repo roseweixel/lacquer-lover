@@ -18,7 +18,7 @@ class Friendship < ActiveRecord::Base
 
   validate :is_not_duplicate, :on => :create
   validate :is_not_self, :on => :create
-  validate :valid_state, :on => :save
+  validate :valid_state, :on => [:create, :update]
 
   STATES = ["pending", "accepted", "rejected", "concluded"]
 
