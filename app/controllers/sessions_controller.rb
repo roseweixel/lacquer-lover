@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
       existing_user = User.find_by(uid: request.env['omniauth.auth']['uid'])
       user = User.from_omniauth(request.env['omniauth.auth'])
       session[:user_id] = user.id
+      Login.create(user_id: user.id)
       if !existing_user
         flash[:notice] = "Welcome to Lacquer Love&Lend! Start adding lacquers to your collection and finding friends to add to your network!"
       end
@@ -37,7 +38,7 @@ class SessionsController < ApplicationController
       end
     end
     if !existing_user && user.persisted? && user.email
-      UserMailer.welcome_email(user).deliver
+      UserMailer.welcome_email(user).deliver_now
     end
   end
 

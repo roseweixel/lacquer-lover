@@ -21,6 +21,7 @@ module LacquerLover
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     config.time_zone = 'Eastern Time (US & Canada)'
+    config.active_record.default_timezone = :local
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
 
