@@ -49,7 +49,7 @@ module ApplicationHelper
       "rejected_requested_transactions" => "Rejected Loan Requests",
       "lacquer_gifts_received_not_acknowledged" => "You've Got Gifts!",
       "requested_returned_unconfirmed_transactions" => "Lacquers You've Returned",
-      "owned_returned_unconfirmed_transactions" => "Returned Lacquers Awaiting Confirmation",
+      "owned_returned_unconfirmed_transactions" => "Returns to Confirm",
       "disputed_transactions" => "Disputed Transactions"
     }
 
