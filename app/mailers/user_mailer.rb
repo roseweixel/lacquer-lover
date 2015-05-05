@@ -86,6 +86,18 @@ class UserMailer < ActionMailer::Base
     headers['X-MC-Track'] = "opens, clicks_all"
   end
 
+  def lacquer_returned_notification(transaction)
+    @transaction = transaction
+    @owner = transaction.owner
+    @requester = transaction.requester
+    @lacquer_name = @transaction.lacquer.name
+    @owner_url = "http://www.lacquerloveandlend.com/users/#{@owner.id}"
+    
+    mail(to: @owner.email, subject: "Please confirm that #{@requester.name} has returned #{@lacquer_name}.")
+
+    headers['X-MC-Track'] = "opens, clicks_all"
+  end
+
   def transactional_message(from_name, bcc_email, reply_address, to_address, subject, body, transaction_id)
     @reply_address = reply_address
     @from_name = from_name

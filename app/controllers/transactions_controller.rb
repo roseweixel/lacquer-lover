@@ -43,6 +43,8 @@ class TransactionsController < ApplicationController
       if original_state == 'pending' && @transaction.requester.email
         UserMailer.loan_request_accepted_notification(@transaction).deliver_now
       end
+    elsif @transaction.state == 'returned_unconfirmed' && transaction.owner.email
+      UserMailer.lacquer_returned_notification(@transaction).deliver_now
     elsif @transaction.state == 'completed'
       @transaction.date_ended = Date.today
     end
