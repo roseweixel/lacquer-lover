@@ -129,4 +129,10 @@ class Transaction < ActiveRecord::Base
       Date.today.to_time.to_i / SECONDS_PER_DAY - due_date.to_time.to_i / SECONDS_PER_DAY
     end
   end
+
+  def state_string
+    if state = 'returned_unconfirmed'
+      "returned - awaiting confirmation from #{owner.first_name}"
+    end
+  end
 end

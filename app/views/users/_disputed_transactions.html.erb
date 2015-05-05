@@ -1,0 +1,17 @@
+<% user.owned_disputed_transactions.each do |transaction| %>
+  <p class="list-group-item" style='padding-top: 15px;'><%= link_to transaction.requester.name, user_path(transaction.requester) %> said <%= link_to transaction.lacquer.name, lacquer_path(transaction.lacquer) %> has been returned, but you said it has not been given back.
+  <br>
+  <%= link_to "this dispute has been resolved", transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class =>"btn btn-success btn-xs"} %>
+  <br>
+  <br>
+  <%= link_to "send #{transaction.requester.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
+  </p>
+<% end %>
+
+<% user.requested_disputed_transactions.each do |transaction| %>
+  <p class="list-group-item" style='padding-top: 15px;'>You said you gave <%= transaction.lacquer.name %> back to <%= link_to transaction.owner.name, user_path(transaction.requester) %>, but <%= transaction.owner.first_name %> said it has not been returned.
+  <br>
+  <br>
+  <%= link_to "send #{transaction.requester.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
+  </p>
+<% end %>

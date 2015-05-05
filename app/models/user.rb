@@ -151,6 +151,10 @@ class User < ActiveRecord::Base
     owned_transactions.where(state: 'returned_unconfirmed')
   end
 
+  def disputed_transactions
+    Transaction.where("(owner_id = #{id} OR requester_id = #{id}) AND state = 'disputed'")
+  end
+
   def owned_disputed_transactions
     owned_transactions.where(state: 'disputed')
   end

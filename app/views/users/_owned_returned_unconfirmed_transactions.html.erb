@@ -1,9 +1,9 @@
 <% user.owned_returned_unconfirmed_transactions.each do |transaction| %>
   <div class="list-group-item" style='padding-top: 15px;'>
-    <%= transaction.requester.name %> would like you to confirm that <%= transaction.lacquer.name %> has been returned!
+    <%= link_to transaction.requester.name, user_path(transaction.requester) %> would like you to confirm that <%= link_to transaction.lacquer.name, lacquer_path(transaction.lacquer) %> has been returned!
     <br>
     <%= link_to 'confirm', transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class => "btn btn-success btn-xs"} %>
-    <%= link_to 'deny', transaction_path(transaction, :state => 'disputed'), {:method => "PATCH", :class => "btn btn-danger btn-xs"} %>
+    <%= link_to 'dispute', transaction_path(transaction, :state => 'disputed'), {:method => "PATCH", :class => "btn btn-danger btn-xs", data: {confirm: "Continue only if #{transaction.requester.first_name} has not returned #{transaction.lacquer.name} to you. Are you sure you want to dispute this?"}} %>
     <br>
     <br>
     <%= link_to "send #{transaction.requester.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>

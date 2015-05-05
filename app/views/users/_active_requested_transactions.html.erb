@@ -2,7 +2,7 @@
   <% friend = User.find(transaction.owner_id) %>
   <% lacquer = Lacquer.find(transaction.user_lacquer.lacquer_id) %>
   <p class="list-group-item" style='padding-top: 15px;'>
-    <%= link_to friend.name, user_path(friend) %> gave you <%= lacquer.name %> on <%= transaction.date_became_active.strftime("%m/%d/%Y") %>.
+    <%= link_to friend.name, user_path(friend) %> gave you <%= link_to lacquer.name, lacquer_path(lacquer) %> on <%= transaction.date_became_active.strftime("%m/%d/%Y") %>.
     <% if transaction.due_date %>
       <br>
       <% if transaction.overdue? %>
@@ -25,7 +25,9 @@
       </span>
     <% end %>
     <br>
-    <%= link_to 'I gave it back', transaction_path(transaction, :state => 'returned_unconfirmed'), {:method => "PATCH", :class => "btn btn-success btn-xs"} %><br>
+    <%= link_to 'I gave it back', transaction_path(transaction, :state => 'returned_unconfirmed'), {:method => "PATCH", class: "btn btn-success btn-xs", data: {confirm: "Continue only if you have given #{transaction.lacquer.name} back to #{transaction.owner.first_name}. Are you sure?"}} %>
+    <br>
+    <br>
     <%= link_to "send #{friend.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
   </p>
 <% end %>

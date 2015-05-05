@@ -33,8 +33,7 @@ module ApplicationHelper
       'lacquer_gifts_received_not_acknowledged',
       'requested_returned_unconfirmed_transactions',
       'owned_returned_unconfirmed_transactions',
-      'owned_disputed_transactions',
-      'requested_disputed_transactions' 
+      'disputed_transactions' 
     ]
   end
 
@@ -51,8 +50,7 @@ module ApplicationHelper
       "lacquer_gifts_received_not_acknowledged" => "You've Got Gifts!",
       "requested_returned_unconfirmed_transactions" => "Lacquers You've Returned",
       "owned_returned_unconfirmed_transactions" => "Returned Lacquers Awaiting Confirmation",
-      "owned_disputed_transactions" => "Oh no she didn't!",
-      "requested_disputed_transactions" => "Oh yes I did!"
+      "disputed_transactions" => "Disputed Transactions"
     }
 
     header_string_hash[trasaction_category]
