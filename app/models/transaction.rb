@@ -131,7 +131,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def state_string
-    if state = 'returned_unconfirmed'
+    if state == 'returned_unconfirmed'
       "returned - awaiting confirmation from #{owner.first_name}"
     end
   end
