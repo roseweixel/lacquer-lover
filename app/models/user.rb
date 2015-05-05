@@ -143,6 +143,22 @@ class User < ActiveRecord::Base
     owned_transactions.where(state: 'active')
   end
 
+  def requested_returned_unconfirmed_transactions
+    requested_transactions.where(state: 'returned_unconfirmed')
+  end
+
+  def owned_returned_unconfirmed_transactions
+    owned_transactions.where(state: 'returned_unconfirmed')
+  end
+
+  def owned_disputed_transactions
+    owned_transactions.where(state: 'disputed')
+  end
+
+  def requested_disputed_transactions
+    requested_transactions.where(state: 'disputed')
+  end
+
   def concluded_owned_transactions
     owned_transactions.where(state: 'completed')
   end

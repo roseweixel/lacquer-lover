@@ -1,0 +1,11 @@
+<% user.owned_returned_unconfirmed_transactions.each do |transaction| %>
+  <div class="list-group-item" style='padding-top: 15px;'>
+    <%= transaction.requester.name %> would like you to confirm that <%= transaction.lacquer.name %> has been returned!
+    <br>
+    <%= link_to 'confirm', transaction_path(transaction, :state => 'completed'), {:method => "PATCH", :class => "btn btn-success btn-xs"} %>
+    <%= link_to 'deny', transaction_path(transaction, :state => 'disputed'), {:method => "PATCH", :class => "btn btn-danger btn-xs"} %>
+    <br>
+    <br>
+    <%= link_to "send #{transaction.requester.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
+  </div>
+<% end %>

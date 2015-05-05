@@ -30,7 +30,11 @@ module ApplicationHelper
       'accepted_requested_transactions', 
       'pending_requested_transactions', 
       'rejected_requested_transactions',
-      'lacquer_gifts_received_not_acknowledged' 
+      'lacquer_gifts_received_not_acknowledged',
+      'requested_returned_unconfirmed_transactions',
+      'owned_returned_unconfirmed_transactions',
+      'owned_disputed_transactions',
+      'requested_disputed_transactions' 
     ]
   end
 
@@ -44,7 +48,11 @@ module ApplicationHelper
       "accepted_requested_transactions" => "Accepted Loan Requests", 
       "pending_requested_transactions" => "Pending Loan Requests", 
       "rejected_requested_transactions" => "Rejected Loan Requests",
-      "lacquer_gifts_received_not_acknowledged" => "You've Got Gifts!"
+      "lacquer_gifts_received_not_acknowledged" => "You've Got Gifts!",
+      "requested_returned_unconfirmed_transactions" => "Lacquers You've Returned",
+      "owned_returned_unconfirmed_transactions" => "Returned Lacquers Awaiting Confirmation",
+      "owned_disputed_transactions" => "Oh no she didn't!",
+      "requested_disputed_transactions" => "Oh yes I did!"
     }
 
     header_string_hash[trasaction_category]

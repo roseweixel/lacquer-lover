@@ -1,0 +1,8 @@
+<% user.requested_returned_unconfirmed_transactions.each do |transaction| %>
+  <div class="list-group-item" style='padding-top: 15px;'>
+    We're waiting for <%= link_to transaction.owner.name, user_path(transaction.owner) %> to confirm that you returned <%= link_to transaction.lacquer.name, lacquer_path(transaction.lacquer) %>.
+    <br>
+    <br>
+    <%= link_to "send #{transaction.owner.first_name} a message", new_transactional_message_path(:transaction_id => transaction.id) %>
+  </div>
+<% end %>

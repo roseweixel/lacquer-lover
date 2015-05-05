@@ -39,7 +39,7 @@ class Transaction < ActiveRecord::Base
 
   SECONDS_PER_DAY = 86400
 
-  STATES = ['pending', 'accepted', 'rejected', 'active', 'completed']
+  STATES = ['pending', 'accepted', 'rejected', 'active', 'returned_unconfirmed', 'completed', 'disputed']
 
   def update_associated_user_lacquer
     case state
