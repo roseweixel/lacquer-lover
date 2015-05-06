@@ -6,7 +6,7 @@
 
 ## Screenshots
 
-[Lacquer Love&Lend](http://i.imgur.com/1lgJ5N1.png)
+![Lacquer Love&Lend](http://i.imgur.com/1lgJ5N1.png)
 
 ## License
 
