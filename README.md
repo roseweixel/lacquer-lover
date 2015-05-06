@@ -1,39 +1,12 @@
-# Lacquer Lover
+# Lacquer Love&Lend
 [![Test Coverage](https://codeclimate.com/github/roseweixel/lacquer-lover/badges/coverage.svg)](https://codeclimate.com/github/roseweixel/lacquer-lover)
 ## Description
 
-Add a short description of your app.
+[Lacquer Love&Lend](http://www.lacquerloveandlend.com) is an app that allows people who love nail lacquer to catalog and show off their collections, connect with other lacquer loving people, discover new brands and lacquers to love, and arrange lacquer loans with friends.
 
 ## Screenshots
 
-Add some spiffy screenshots of your app here.
-
-## Background
-
-Why did you want to make this app? What was your development process
-like?
-
-## Features
-
-Bullet point some of the key features of your app here.
-
-## Usage
-
-How do users use your app?
-
-## Development/Contribution
-
-Explain how people can contribute to your app. How should they write tests?
-Any things in particular you'd like to see in pull requests?
-
-## Future
-
-What features are you currently working on? Only mention things that you
-actually are implementing. No pie-in-the-sky-never-gonna-happen stuff.
-
-## Author
-
-Link to your blog, twitter, etc!
+[Lacquer Love&Lend](http://i.imgur.com/1lgJ5N1.png)
 
 ## License
 
