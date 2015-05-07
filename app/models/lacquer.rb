@@ -53,12 +53,12 @@ class Lacquer < ActiveRecord::Base
 
   def actually_works?(link)
     begin
-      if url.start_with?("lacquers/")
+      if link.start_with?("lacquers/")
         return false
-      elsif url.class == Paperclip::Attachment || !url.start_with?("http")
+      elsif link.class == Paperclip::Attachment || !link.start_with?("http")
         return true
       else
-        uri = Addressable::URI.parse(url)
+        uri = Addressable::URI.parse(link)
 
         request = Net::HTTP.new uri.host
 
