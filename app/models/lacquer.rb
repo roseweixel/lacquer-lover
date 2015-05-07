@@ -81,7 +81,7 @@ class Lacquer < ActiveRecord::Base
   end
 
   def picture
-    self.default_picture
+    default_picture == "" ? nil : default_picture
   end
 
   def average_rating
