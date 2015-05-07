@@ -651,3 +651,9 @@ i.small-red-heart, i.small-red-heart:hover {
     margin: 0 auto;
   }
 }
+
+@media screen and (max-width: 500px) /* Mobile */ {
+  .footer a {
+    font-size: 2em;
+  }
+}
