@@ -520,7 +520,6 @@ legend>.fa:hover {
 }
 
 .footer {
-  // text-align: center; 
   padding: 0 15px;
   position: fixed; 
   bottom:0; 
@@ -528,6 +527,11 @@ legend>.fa:hover {
   font-size: 1.4em;
   color: #ccc;
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+.footer a {
+  color: white;
+  z-index: 10000;
 }
 
 .highlight:hover, .highlight:active, .highlight:visited, .highlight:link, .highlight:focus {
@@ -560,10 +564,6 @@ i.small-red-heart, i.small-red-heart:hover {
   -webkit-box-shadow: 10px 10px 30px -4px rgba(0,0,0,0.75);
   -moz-box-shadow: 10px 10px 30px -4px rgba(0,0,0,0.75);
   box-shadow: 10px 10px 30px -4px rgba(0,0,0,0.75);
-}
-
-.footer a {
-  color: white;
 }
 
 @media (max-width: 658px) {
