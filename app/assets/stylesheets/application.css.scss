@@ -532,6 +532,7 @@ legend>.fa:hover {
 .footer a {
   color: white;
   z-index: 10000;
+  position: relative;
 }
 
 .highlight:hover, .highlight:active, .highlight:visited, .highlight:link, .highlight:focus {
