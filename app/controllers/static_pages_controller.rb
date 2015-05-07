@@ -18,7 +18,8 @@ class StaticPagesController < ApplicationController
       flash[:alert] = "Your message requires a valid reply address."
       redirect_to :back
     else
-      subject, body, to_address = params[:subject], params[:body], params[:to_address]
+      subject = (params[:subject] == "other" ? params[:other_subject] : params[:subject])
+      body, to_address = params[:body], params[:to_address]
       params[:bcc] ? bcc = reply_address : bcc = nil
       UserMailer.user_feedback_email(reply_address, to_address, subject, body, bcc).deliver_now
       flash[:success] = "Your message has been sent. Thank you for your feedback!"

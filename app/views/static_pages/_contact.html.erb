@@ -8,7 +8,7 @@
   <br>
   <%= label_tag 'Subject' %>
   <%= select_tag 'subject', options_for_select(["feature request", "something is broken", "other"]), class:"form-control", id:"subject-options", :include_blank => 'Please select a subject', required: true %>
-  <%= text_field_tag 'subject', nil, placeholder: "message subject", class:"form-control", id:"other_subject", style:"display:none;" %>
+  <%= text_field_tag 'other_subject', nil, placeholder: "message subject", class:"form-control", id:"other_subject", style:"display:none;" %>
   <br>
   <%= text_area_tag 'body', nil, :required => true, class:"form-control", style:"height: 260px;", placeholder: 'your message' %><br>
 
