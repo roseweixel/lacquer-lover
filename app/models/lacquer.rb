@@ -43,11 +43,32 @@ class Lacquer < ActiveRecord::Base
 
   def url_for_buy_it_link
     if item_url
-      if (Brand::BRANDS_WITH_ITEM_URL_AS_BUY_IT_URL.include? brand.name)
+      if (Brand::BRANDS_WITH_ITEM_URL_AS_BUY_IT_URL.include? brand.name) && actually_works?(item_url)
         item_url
       end
     else
       buy_url
+    end
+  end
+
+  def actually_works?(link)
+    begin
+      if url.start_with?("lacquers/")
+        return false
+      elsif url.class == Paperclip::Attachment || !url.start_with?("http")
+        return true
+      else
+        uri = Addressable::URI.parse(url)
+
+        request = Net::HTTP.new uri.host
+
+        # rescue SocketError that occurs when offline
+        response= request.request_head uri.path
+
+        response.code.to_i == 200
+      end
+    rescue SocketError
+      return false
     end
   end
 
