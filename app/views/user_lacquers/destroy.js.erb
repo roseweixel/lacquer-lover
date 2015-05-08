@@ -3,4 +3,6 @@ $lacquer_row.remove();
 
 $('#remove-button').replaceWith('<%= j render :partial => "add_button", :locals => {:lacquer => @lacquer} %>')
 
-$('.toggle-remove').hide();
+$('#edit_user_lacquer_wrapper').html('<%= j render partial: "lacquers/edit_user_lacquer", locals: { lacquer: @user_lacquer.lacquer } %>');
+
+$('#new_review_link_wrapper').html('<%= j render partial: "lacquers/new_review", locals: { lacquer: @user_lacquer.lacquer } %>');

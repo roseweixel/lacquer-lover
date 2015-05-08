@@ -5,6 +5,14 @@ class ApplicationController < ActionController::Base
   before_action :clear_intended_uri
   skip_before_action :clear_intended_uri, only: [:is_an_email_address?, :parse_list_of_emails, :current_user, :redirect_to_originated_from_or_root]
 
+  before_filter :set_cache_buster
+
+  def set_cache_buster
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+  end
+
   rescue_from ActionView::MissingTemplate do |exception|
     # use exception.path to extract the path information
     # This does not work for partials

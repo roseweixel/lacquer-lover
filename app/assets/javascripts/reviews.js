@@ -1,5 +1,5 @@
 $(function(){
-  $('#new-review-link').click(function(e){
+  $('#new_review_link_wrapper').on('click', '#new-review-link', function(e){
     e.stopPropagation();
     e.preventDefault();
 

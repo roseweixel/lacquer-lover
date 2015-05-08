@@ -1,0 +1,1 @@
+<%= link_to 'write a review', new_review_path(lacquer_id: lacquer.id), class: "btn btn-xs btn-primary grey-rounded", id: "new-review-link" if (current_user && current_user.lacquers.include?(lacquer)) %>
