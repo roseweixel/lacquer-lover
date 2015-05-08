@@ -3,3 +3,5 @@ $('tbody').prepend('<%= j render :partial => "users/user_lacquer", :locals => {:
 $('.add-lacquer.btn').blur();
 
 $('#add-button').replaceWith('<%= j render :partial => "remove_button", :locals => {:user_lacquer => @user_lacquer} %>')
+
+$('.toggle-remove').show();
