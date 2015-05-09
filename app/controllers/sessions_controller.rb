@@ -27,15 +27,6 @@ class SessionsController < ApplicationController
           redirect_to request.env["action_dispatch.request.unsigned_session_cookie"]["omniauth.origin"].gsub(request.base_url, "")
         end
       end
-    elsif params[:user][:name].present?
-      user = User.find_or_create_by(:name => params[:user][:name])
-      if user.save
-        session[:user_id] = user.id
-        redirect_to user_path(user)
-      else
-        flash[:notice] = "Sorry, there was a problem signing you in!"
-        redirect_to root_path
-      end
     end
     if !existing_user && user.persisted? && user.email
       UserMailer.welcome_email(user).deliver_now
