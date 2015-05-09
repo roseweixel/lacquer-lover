@@ -11,57 +11,43 @@
     </div>
 
     <div class="navbar-collapse collapse" id="navbar-main">
-          <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav">
+        <li>
+          <%= link_to "See The Brands!", brands_path, id: "see-the-brands" %>
+        </li>
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false", id="find-a-lacquer">Find a Lacquer <span class="caret"></span></a>
+          <ul class="dropdown-menu">
             <li>
-              <%= link_to "See The Brands!", brands_path, id: "see-the-brands" %>
+              <%= render 'layouts/lacquer_search_form' %>
             </li>
-            <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false", id="find-a-lacquer">Find a Lacquer <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li>
-                  <%= render 'layouts/lacquer_search_form' %>
-                </li>
-              </ul>
-            </li>
-            <% if current_user %>
-              <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false", id="find-a-lacquer-lover">Find a Lacquer Lover <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li>
-                  <%= render 'layouts/friend_search_form' %>
-                </li>
-              </ul>
-              </li>
-            <% end %>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-              <% if session[:user_id] %>
+        </li>
+        <% if current_user %>
+          <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false", id="find-a-lacquer-lover">Find a Lacquer Lover <span class="caret"></span></a>
+            <ul class="dropdown-menu">
               <li>
-                <%= link_to("Hi, #{current_user.first_name}! See your profile.", user_path(current_user)) %>
+                <%= render 'layouts/friend_search_form' %>
               </li>
-              <li>
-                <%= link_to("Sign Out", signout_path, id:"sign_out") %>
-              </li>
-              <% else %>
-              <li>
-                <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
-              </li>
-              <% end %>
-            <% if !current_user %>
-            <!-- <li> -->
-              <%#= form_for User.new, :url => sessions_path, :html => { :style => "padding:15px;" } do |f| %>
-                <%#= f.text_field :name, placeholder: "your name" %>
-                <%#= f.submit "Sign In" %>
-
-              <%# end %>
-
-            <!-- </li> -->
-            <% end %>
-          </ul>
-        <%# end %>
-
-            
-
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <% if current_user %>
+          <li>
+            <%= link_to("Hi, #{current_user.first_name}! See your profile.", user_path(current_user)) %>
+          </li>
+          <li>
+            <%= link_to("Sign Out", signout_path, id:"sign_out") %>
+          </li>
+        <% else %>
+          <li>
+            <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </nav>
