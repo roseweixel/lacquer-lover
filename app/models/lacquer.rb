@@ -42,12 +42,10 @@ class Lacquer < ActiveRecord::Base
   end
 
   def url_for_buy_it_link
-    if item_url
-      if (Brand::BRANDS_WITH_ITEM_URL_AS_BUY_IT_URL.include? brand.name) && actually_works?(item_url)
-        item_url
-      end
+    if item_url && Brand::BRANDS_WITH_ITEM_URL_AS_BUY_IT_URL.include?(brand.name) && actually_works?(item_url)
+      return item_url
     else
-      buy_url
+      return buy_url
     end
   end
 
