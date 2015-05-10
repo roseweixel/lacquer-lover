@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :clear_intended_uri
+  before_action :redirect_to_lacquerloveandlend if Rails.env.production?
   skip_before_action :clear_intended_uri, only: [:is_an_email_address?, :parse_list_of_emails, :current_user, :redirect_to_originated_from_or_root]
 
   before_filter :set_cache_buster
@@ -30,6 +31,15 @@ class ApplicationController < ActionController::Base
   before_filter -> { flash.now[:notice] = flash[:notice].html_safe if flash[:html_safe] && flash[:notice] }
 
   private
+
+    def redirect_to_lacquerloveandlend
+      domain_to_redirect_to = 'lacquerloveandlend.com'
+      domain_exceptions = ['lacquerloveandlend.com', 'www.lacquerloveandlend.com']
+      should_redirect = !(domain_exceptions.include? request.host)
+      new_url = "#{request.protocol}#{domain_to_redirect_to}#{request.fullpath}"
+      redirect_to new_url, status: :moved_permanently if should_redirect
+    end
+
     def clear_intended_uri
       if session[:intended_uri]
         session[:intended_uri] = nil

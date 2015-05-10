@@ -13,7 +13,6 @@ class LacquersController < ApplicationController
     @user = current_user
     lacquer = Lacquer.new(name: params[:lacquer][:name], brand_id: params[:lacquer][:brand_id])
     lacquer.user_added_by_id = params[:lacquer][:user_added_by_id] if params[:lacquer][:user_added_by_id]
-    # binding.pry
     lacquer.save
     if lacquer.errors.any?
       flash[:error] = lacquer.errors.full_messages.to_sentence
