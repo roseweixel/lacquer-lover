@@ -2,7 +2,6 @@ $(document).ready(function() {
   var currentUrl = window.location.href;
   var userID = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
   if (userID.match("top") !== null) {
-    //alert(currentUrl.match(/\d*(?=#top)/));
     userID = currentUrl.match(/\d*(?=#top)/)
   }
 
@@ -23,7 +22,7 @@ $(document).ready(function() {
           url: "/users/"+userID+"/live_notifications"
         });
       }
-      }, 5000); 
+    }, 5000); 
   }
   var userLacquerRows = $('.user-lacquer-partial')
   userLacquerRows.each(function(){
