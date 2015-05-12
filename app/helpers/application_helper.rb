@@ -124,7 +124,7 @@ module ApplicationHelper
         elsif lacquer.brand.name == "OPI"
           image_tag(lacquer.picture, :size => "40x90", :class => "padded_lacquer_pic")
         elsif lacquer.brand.name == "China Glaze"
-          image_tag(lacquer.picture, :size => "35x90", :class => "padded_lacquer_pic")
+          image_tag(lacquer.picture, :size => "39x90", :class => "padded_lacquer_pic")
         elsif lacquer.brand.name == "Deborah Lippmann"
           image_tag(lacquer.picture, :size => "55x90", :class => "padded_lacquer_pic")
         elsif lacquer.brand.name == "Butter London"
