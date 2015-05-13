@@ -413,10 +413,6 @@ class ILNP
     self.images << image_url(polish)
   end
 
-  # def clean_name(polish)
-  #   name(polish).sub(/\s\(.+\)\z/, "")
-  # end
-
   def polish_url(polish)
     polish.css("h2 a").first.attributes["href"].value
   end
