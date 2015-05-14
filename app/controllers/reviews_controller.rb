@@ -1,4 +1,5 @@
 class ReviewsController < ApplicationController
+  before_action :set_review, only: [:edit, :update, :destroy]
   def new
     @lacquer = Lacquer.find(params[:lacquer_id])
     @review = @lacquer.reviews.build
@@ -17,10 +18,9 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    review = Review.find(params[:id])
-    if current_user && current_user.id == review.user_id
-      flash[:notice] = "Your review for #{review.lacquer.name} has been deleted."
-      review.destroy
+    if current_user && current_user.id == @review.user_id
+      flash[:notice] = "Your review for #{@review.lacquer.name} has been deleted."
+      @review.destroy
       redirect_to :back
     elsif !current_user
       flash[:alert] = "You must be signed in to delete a review!"
@@ -39,7 +39,6 @@ class ReviewsController < ApplicationController
       flash[:alert] = "You must be signed in to edit a review!"
       redirect_to_originated_from_or_root
     else
-      @review = Review.find(params[:id])
       if @review.user.id != current_user.id
         flash[:warning] = "You cannot edit a review you didn't create!"
         redirect_to_originated_from_or_root
@@ -52,7 +51,6 @@ class ReviewsController < ApplicationController
   end
 
   def update
-    @review = Review.find(params[:id])
     if current_user && @review.user.id == current_user.id
       if @review.update(review_params)
         flash[:notice] = "Your review for #{@review.lacquer.name} was successfully updated!"
@@ -79,5 +77,9 @@ class ReviewsController < ApplicationController
   private
     def review_params
       params.require(:review).permit(:rating, :comments, :user_id, :lacquer_id)
+    end
+
+    def set_review
+      @review = Review.find(params[:id])
     end
 end
