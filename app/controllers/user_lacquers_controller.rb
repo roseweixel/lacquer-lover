@@ -1,4 +1,5 @@
 class UserLacquersController < ApplicationController
+  before_action :set_user_lacquer, only: [:update, :destroy]
 
   def create
     @user_lacquer = UserLacquer.create(user_lacquer_params)
@@ -14,7 +15,6 @@ class UserLacquersController < ApplicationController
   end
 
   def update
-    @user_lacquer = UserLacquer.find(params[:id])
     if current_user == User.find(@user_lacquer.user_id)
       @user_lacquer.update(user_lacquer_params)
       if @user_lacquer.on_loan == false
@@ -30,7 +30,6 @@ class UserLacquersController < ApplicationController
   end
 
   def destroy
-    @user_lacquer = UserLacquer.find(params[:id])
     user = User.find(@user_lacquer.user_id)
     @lacquer = Lacquer.find(@user_lacquer.lacquer_id)
     if user == current_user
@@ -58,5 +57,9 @@ class UserLacquersController < ApplicationController
   private
     def user_lacquer_params
       params.require(:user_lacquer).permit(:user_id, :lacquer_id, :loanable, :on_loan, :giftable, :color_ids => [], :finish_ids => [])
+    end
+
+    def set_user_lacquer
+      @user_lacquer = UserLacquer.find(params[:id])
     end
 end
