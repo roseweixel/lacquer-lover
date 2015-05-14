@@ -32,6 +32,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+    def set_current_user
+      @user = current_user
+    end
+
     def redirect_to_lacquerloveandlend
       domain_to_redirect_to = 'lacquerloveandlend.com'
       domain_exceptions = ['lacquerloveandlend.com', 'www.lacquerloveandlend.com']

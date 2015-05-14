@@ -1,6 +1,7 @@
 class FavoritesController < ApplicationController
+  before_action :set_current_user
+  
   def create
-    @current_user = current_user
     @lacquer = Lacquer.find(params[:lacquer_id])
     if params[:user_lacquer_id]
       @user_lacquer = UserLacquer.find(params[:user_lacquer_id])
@@ -13,7 +14,6 @@ class FavoritesController < ApplicationController
   end
 
   def destroy
-    @current_user = current_user
     @lacquer = Lacquer.find(params[:lacquer_id])
     if params[:user_lacquer_id]
       @user_lacquer = UserLacquer.find(params[:user_lacquer_id])

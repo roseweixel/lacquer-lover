@@ -1,6 +1,7 @@
 class SwatchesController < ApplicationController
+  before_action :set_current_user, only: [:create]
+
   def create
-    @user = current_user
     @swatch = Swatch.create(swatch_params)
     @swatch.user = @user
     if @swatch.save

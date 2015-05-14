@@ -1,6 +1,8 @@
 class LacquersController < ApplicationController
   autocomplete :lacquer, :name
   skip_before_action :clear_intended_uri, only: [:autocomplete_name]
+  before_action :set_lacquer, only: [:edit, :update]
+  before_action :set_current_user, only: [:create, :edit, :update]
 
   def autocomplete_name
     @lacquers = Lacquer.order(:name).where('lower(name) LIKE ?', "#{params[:term].downcase}%").limit(10)
@@ -10,7 +12,6 @@ class LacquersController < ApplicationController
   end
 
   def create
-    @user = current_user
     lacquer = Lacquer.new(name: params[:lacquer][:name], brand_id: params[:lacquer][:brand_id])
     lacquer.user_added_by_id = params[:lacquer][:user_added_by_id] if params[:lacquer][:user_added_by_id]
     lacquer.save
@@ -51,8 +52,6 @@ class LacquersController < ApplicationController
       flash[:alert] = "You must be signed in to edit a lacquer!"
       redirect_to root_path
     else
-      @user = current_user
-      @lacquer = Lacquer.find(params[:id])
       if params[:user_lacquer_id] && UserLacquer.find(params[:user_lacquer_id])
         @user_lacquer = UserLacquer.find(params[:user_lacquer_id])
         if @user_lacquer.user_id != @user.id
@@ -73,8 +72,6 @@ class LacquersController < ApplicationController
   end
 
   def update
-    @user = current_user
-    @lacquer = Lacquer.find(params[:id])
     @user_lacquer = UserLacquer.find(params[:lacquer][:user_lacquer_id])
 
     if @lacquer.user_added_by_id != @user.id && params[:lacquer][:name] || params[:lacquer][:brand_id]
@@ -116,6 +113,10 @@ class LacquersController < ApplicationController
 
     def user_lacquer_params
       params.require(:lacquer).permit(:user_lacquers_attributes => [:selected_display_image, :color_ids => [], :finish_ids => []])
+    end
+
+    def set_lacquer
+      @lacquer = Lacquer.find(params[:id])
     end
 
 end

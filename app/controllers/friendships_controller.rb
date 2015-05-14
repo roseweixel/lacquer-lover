@@ -1,6 +1,8 @@
 class FriendshipsController < ApplicationController
+  before_action :set_friendship, only: [:update, :destroy]
+  before_action :set_current_user, only: [:new, :create]
+  
   def new
-    @user = current_user
     if !@user && request.env['REQUEST_URI']
       if request.env['REQUEST_URI'].scan(/(?<=friend_id=)\d+/)[0]
         session[:intended_uri] = request.env['REQUEST_URI']
@@ -26,7 +28,6 @@ class FriendshipsController < ApplicationController
   end
 
   def create
-    @user = current_user
     if params[:friendship] && params[:friendship].has_key?(:friend_id)
       @friend = User.find(params[:friendship][:friend_id])
       @friendship = Friendship.new(friend: @friend, user: @user)
@@ -49,7 +50,6 @@ class FriendshipsController < ApplicationController
 
   def update
     begin
-      @friendship = Friendship.find(params[:id])
       @friendship.update(state: params[:state])
     rescue
       flash[:alert] = "Sorry, we can't seem to find the friendship you were trying to update!"
@@ -68,7 +68,6 @@ class FriendshipsController < ApplicationController
   end
 
   def destroy
-    @friendship = Friendship.find(params[:id])
     if @friendship.state == 'pending' && current_user == @friendship.user
       @friendship.destroy
       flash[:notice] = "Pending request deleted."
@@ -78,4 +77,10 @@ class FriendshipsController < ApplicationController
       redirect_to(:back)
     end
   end
+
+  private
+
+    def set_friendship
+      @friendship = Friendship.find(params[:id])
+    end
 end

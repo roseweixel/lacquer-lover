@@ -1,24 +1,24 @@
 class BrandsController < ApplicationController
+  before_action :set_current_user, except: [:index]
+
   def index
     @brands = Brand.includes(:lacquers, :favorites, :users).all
   end
 
   def show
     @brand = Brand.includes(:lacquers).order('lacquers.name').find(params[:id])
-    @user = current_user
   end
 
   def lacquer
     @lacquer = Lacquer.find(params[:id])
     @brand = @lacquer.brand
-    @user = current_user ? User.includes(:lacquers).find(current_user.id) : nil
+    @user ? User.includes(:lacquers).find(current_user.id) : nil
     respond_to do |format|
       format.js { }
     end
   end
 
   def update
-    @user = current_user
     if params[:lacquer_ids]
       @lacquer_ids = params[:lacquer_ids]
       @lacquer_count = params[:lacquer_ids].count
