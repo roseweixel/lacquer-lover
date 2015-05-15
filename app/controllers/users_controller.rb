@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
+  before_action :set_current_user, only: [:index, :update, :invite_friends, :new_transactional_message]
+  
   def index
-    if current_user
-      @user = current_user
+    if @user
       @users = User.all
     else
       flash[:notice] = "Please sign in to continue!"
@@ -60,7 +61,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = current_user
     if @user.update(user_params)
       flash[:notice] = "Thanks! Your info has been saved."
     else
@@ -93,11 +93,10 @@ class UsersController < ApplicationController
   end
 
   def invite_friends
-    if !current_user
+    if !@user
       flash[:alert] = "You need to be logged in to invite friends!"
       redirect_to(:back)
     else
-      @user = current_user
       @emails = params[:emails][0].split(/[,|\s]{1,}/).uniq
       if @user && @emails.any?
         UserMailer.invite_email(@user, @emails).deliver_now
@@ -114,7 +113,7 @@ class UsersController < ApplicationController
   end
 
   def new_transactional_message
-    if !current_user
+    if !@user
       if request.env['REQUEST_URI']
         session[:intended_uri] = request.env['REQUEST_URI']
         flash[:notice] = %Q[ #{ view_context.link_to("Sign in", login_path, id:"brand-show-sign-in", class:'light-blue-link')} to send a message! ]
@@ -129,7 +128,6 @@ class UsersController < ApplicationController
       elsif params[:gift_id]
         @transaction = Gift.find(params[:gift_id])
       end
-      @user = current_user
       if @transaction.requester_id == current_user.id
         @other_user = User.find(@transaction.owner.id)
       else

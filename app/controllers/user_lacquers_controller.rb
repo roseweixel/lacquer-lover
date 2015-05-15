@@ -1,9 +1,9 @@
 class UserLacquersController < ApplicationController
   before_action :set_user_lacquer, only: [:update, :destroy]
-
+  before_action :set_current_user, only: [:create, :random]
+  
   def create
     @user_lacquer = UserLacquer.create(user_lacquer_params)
-    @user = current_user
     @favorite = Favorite.find_by(user_id: current_user.id, lacquer_id: @user_lacquer.lacquer.id)
     respond_to do |format|
       format.html { 
@@ -50,7 +50,6 @@ class UserLacquersController < ApplicationController
   end
 
   def random
-    @user = current_user
     @lacquer = @user.lacquers.sample
   end
 
