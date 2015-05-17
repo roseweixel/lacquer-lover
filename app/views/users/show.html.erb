@@ -82,8 +82,11 @@
 
 
 			<!-- BEGINNING OF YOUR ALERTS & FRIENDSHIPS (IF YOU ARE THE CURRENT USER) -->
-
-				<%= render partial: 'live_notifications', locals: {user: @user} %>
+			<% if @user == current_user %>
+				<span class="live-notifications">
+					<%= render 'live_notifications', user: @user %>
+				</span>
+			<% end %>
 
 		</div>
 		<div class="row" id="hide"><i class="fa fa-caret-square-o-up pull-right" style="font-size: 20px; margin-bottom:-15px;" title="hide dashboard"></i></div>
