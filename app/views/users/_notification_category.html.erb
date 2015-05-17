@@ -1,0 +1,24 @@
+<span id="<%= category %>_wrapper" category_count="<%= user.send(category).count %>" style="display:inline-block; width: 100%;">
+  <legend class="no-margin-bottom">
+    <%= header_text_for_notification_category(category) %>
+    
+    <span class="badge-tracker-wrapper">
+      <%= render 'count', count: user.send(category).count %>
+    </span> 
+
+    <span class="green-background badge due-date-updated hidden" style="vertical-align: middle; margin-top: -3px;">
+      Due date updated!
+    </span>
+
+    <i class="fa fa-minus"></i><i class="fa fa-plus"></i>
+
+    <span class="hidden-tracker" id="<%= category %>_state_array" style="display: none;">
+      <%= render 'hidden_tracker', user: user, category: category %>
+    </span>
+  </legend>
+
+  <ul class="list-group toggleable" id="<%= category %>">
+    <%= render category, user: user %>
+  </ul>
+
+</span>

@@ -37,8 +37,23 @@ module ApplicationHelper
     ]
   end
 
+  def friendships_categories
+    [ 
+      'friendships_for_your_approval',
+      'requested_friendships_awaiting_approval',
+      'rejected_friend_requests'
+    ]
+  end
 
-  def header_text_for_transaction_category(trasaction_category)
+  def notification_types
+    ['friendship', 'transaction']
+  end
+
+  def notification_categories
+    transactions_categories + friendships_categories
+  end
+
+  def header_text_for_notification_category(notification_category)
     header_string_hash = { 
       "transactions_for_your_approval" => "Transactions Awaiting Your Approval",
       "transactions_you_accepted" => "Transactions You Accepted", 
@@ -50,28 +65,13 @@ module ApplicationHelper
       "lacquer_gifts_received_not_acknowledged" => "You've Got Gifts!",
       "requested_returned_unconfirmed_transactions" => "Lacquers You've Returned",
       "owned_returned_unconfirmed_transactions" => "Returns to Confirm",
-      "disputed_transactions" => "Disputed Transactions"
-    }
-
-    header_string_hash[trasaction_category]
-  end
-
-  def friendships_categories
-    [ 
-      'friendships_for_your_approval',
-      'requested_friendships_awaiting_approval',
-      'rejected_friend_requests'
-    ]
-  end
-
-  def header_text_for_friendship_category(friendship_category)
-    header_string_hash = { 
+      "disputed_transactions" => "Disputed Transactions",
       "friendships_for_your_approval" => "Friendships Awaiting Your Approval",
       "requested_friendships_awaiting_approval" => "Your Pending Friend Requests", 
       "rejected_friend_requests" => "Sorry, these friend requests were not approved."
     }
 
-    header_string_hash[friendship_category]
+    header_string_hash[notification_category]
   end
 
   def is_an_email_address_not_noreply?(string)

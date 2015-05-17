@@ -8,7 +8,7 @@ if (previousFriendCount !== currentFriendCount) {
 }
 
 // update all transactions and friendships notifications
-<% (transactions_categories + friendships_categories).each do |category| %>
+<% (notification_categories).each do |category| %>
   var currentCategory = "<%= category %>";
 
   if (currentCategory === 'active_requested_transactions') {
@@ -36,8 +36,8 @@ if (previousFriendCount !== currentFriendCount) {
     }
   }
 
-  currentCategoryArray = "<%= current_user.send(category).pluck(:state) %>"
-  
+  var currentCategoryArray = "<%= current_user.send(category).pluck(:state) %>";
+
   if ($(".hidden-tracker#"+ currentCategory +"_state_array").html().trim() !== currentCategoryArray.replace(/&quot;/g, '"')) {
 
     var addedToCategory = "<%= current_user.send(category).count %>" > $('#'+ currentCategory + '_wrapper').find('.tracker').attr('value');
