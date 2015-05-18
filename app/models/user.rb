@@ -18,8 +18,12 @@ class User < ActiveRecord::Base
   has_many :user_lacquers, -> { order(:updated_at => :desc) }, dependent: :destroy
   has_many :lacquers, through: :user_lacquers
   has_many :brands, -> { uniq }, through: :lacquers
+  
   has_many :friendships, dependent: :destroy
+  has_many :friendships_initiated_by_others, class_name: 'Friendship', :foreign_key => "friend_id", dependent: :destroy
   has_many :friends, through: :friendships
+  has_many :follower_friends, through: :friendships_initiated_by_others
+  
   has_many :requested_transactions, class_name: 'Transaction', :foreign_key => "requester_id", dependent: :destroy
   has_many :owned_transactions, class_name: 'Transaction', :foreign_key => "owner_id"
   has_many :requested_gifts, class_name: 'Gift', :foreign_key => "requester_id"
@@ -31,6 +35,18 @@ class User < ActiveRecord::Base
 
   validates_presence_of :name, :provider, :uid, :oauth_token
   validates_format_of :email, with: /@/, message: "Must be an email", allow_blank: true
+
+  def transactions_and_friendships_data_array
+    all_friendships.pluck(:state) + transactions.pluck(:state)
+  end
+
+  def all_friendships
+    friendships + friendships_initiated_by_others
+  end
+
+  def all_friends
+    friends + follower_friends
+  end
 
   def lacquer_gifts_given
     owned_gifts.where(state: ['completed', 'acknowledged'])
