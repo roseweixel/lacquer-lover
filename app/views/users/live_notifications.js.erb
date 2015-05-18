@@ -1,63 +1,89 @@
 // update accepted friendships
 var previousFriendCount = $('#hidden_friend_count .tracker').attr('value');
-
 var currentFriendCount = "<%= current_user.accepted_friends.count %>";
 
+// re-render friends only if the friend count has changed
 if (previousFriendCount !== currentFriendCount) {
-  $('#accepted-friends').html("<%= j render partial: 'friends', locals: {user: current_user} %>")
+    $('#accepted-friends').html("<%= j render partial: 'friends', locals: {user: current_user} %>");
 }
 
 // update all transactions and friendships notifications
 <% (notification_categories).each do |category| %>
-  var currentCategory = "<%= category %>";
+    var currentCategory = "<%= category %>";
 
-  if (currentCategory === 'active_requested_transactions') {
-    
-    var currentDueDates = "<%= current_user.active_requested_transactions.pluck(:due_date).map{|date| date ? date.strftime('%m/%d/%Y') : nil}.to_s %>".replace(/&quot;/g, '"');
+    // DEAL WITH ANY CHANGES IN COUNT OR STATE
 
-    if (currentDueDates !== "[nil]") {
-      currentDueDates = JSON.parse(currentDueDates);
-    } else {
-      currentDueDates = "";
+    // get and format the current and previous category arrays (e.g. ['active', 'pending'])
+    var currentCategoryArray = JSON.parse("<%= current_category_array = current_user.send(category).pluck(:state) %>".replace(/&quot;/g, '"'));
+
+    var previousCategoryArray = JSON.parse($(".hidden-tracker#"+ currentCategory +"_state_array").html().trim());
+
+    // if there's been a change for this category
+    if (currentCategoryArray.toString() !== previousCategoryArray.toString()) {
+
+        // see if something new was added to this category
+        var addedToCategory = currentCategoryArray.length > previousCategoryArray.length;
+
+        var previousCount = previousCategoryArray.length;
+        var currentCount = currentCategoryArray.length;
+
+        // update the hidden tracker
+        $(".hidden-tracker#"+ currentCategory +"_state_array").html("<%= j render partial: 'hidden_tracker', locals: {user: current_user, category: category} %>");
+
+        // render the category again
+        $('ul#' + currentCategory).html("<%=  j render category, user: current_user %>");
+
+        // update the counter badge
+        $('#'+ currentCategory + '_wrapper').find('.badge-tracker-wrapper').html("<%= j render 'count', count: current_category_array.count %>");
+
+        // if there are any notifications for this category
+        if (currentCount > 0) {
+            // show the category heading and counter badge
+            $('#'+ currentCategory + '_wrapper').slideDown();
+            $('#'+ currentCategory + '_wrapper').find('.badge-tracker-wrapper').slideDown();
+
+            // make the badge red if any new notifications were added
+            if (addedToCategory) {
+                $('#'+ currentCategory + '_wrapper').find('.tracker').addClass('red-background');
+            }
+        } else {
+            // hide the category heading and counter badge if the count for this category is 0
+            $('#'+ currentCategory + '_wrapper').find('.badge-tracker-wrapper').slideUp();
+            $('#'+ currentCategory + '_wrapper').slideUp();
+        }
     }
 
-    var previousDueDates = [];
-    if ($('#'+currentCategory+'_wrapper').html().match(/The return date for this loan is \d+\/\d+\/\d+/g)) {
+    // DEAL WITH CHANGED DUE DATES FOR TRANSACTIONS:
 
-      $('#'+currentCategory+'_wrapper').html().match(/The return date for this loan is \d+\/\d+\/\d+/g).forEach(function(dateString){
-        previousDueDates.push(dateString.match(/\d+\/\d+\/\d+/)[0])
-      });
+    // if it's possible for the category to have an associated due date
+    if (currentCategory === 'active_requested_transactions') {
+        
+        // get and format the current due dates
+        var currentDueDates = "<%= current_user.active_requested_transactions.pluck(:due_date).map{|date| date ? date.strftime('%m/%d/%Y') : nil}.to_s %>".replace(/&quot;/g, '"');
+
+        if (currentDueDates !== "[nil]") {
+            currentDueDates = JSON.parse(currentDueDates);
+        } else {
+            currentDueDates = "";
+        }
+
+        // get and format the previous due dates
+        var previousDueDates = [];
+        var dueDateStrings = $('#'+currentCategory+'_wrapper').html().match(/The return date for this loan is \d+\/\d+\/\d+/g);
+        
+        if (dueDateStrings) {
+            dueDateStrings.forEach(function(dateString){
+                previousDueDates.push(dateString.match(/\d+\/\d+\/\d+/)[0])
+            });
+        }
+
+        // if any due date has changed
+        if (currentDueDates.toString() !== previousDueDates.toString()) {
+            // render the category again
+            $('ul#' + currentCategory).html("<%=  j render category, user: current_user %>");
+
+            // show the 'due date updated' alert badge
+            $('#'+ currentCategory + '_wrapper').find('.due-date-updated').removeClass('hidden');
+        }
     }
-
-    if (currentDueDates.toString() !== previousDueDates.toString()) {
-      $('ul#' + currentCategory).html("<%=  j render category, user: current_user %>");
-
-      $('#'+ currentCategory + '_wrapper').find('.due-date-updated').removeClass('hidden');
-    }
-  }
-
-  var currentCategoryArray = "<%= current_user.send(category).pluck(:state) %>";
-
-  if ($(".hidden-tracker#"+ currentCategory +"_state_array").html().trim() !== currentCategoryArray.replace(/&quot;/g, '"')) {
-
-    var addedToCategory = "<%= current_user.send(category).count %>" > $('#'+ currentCategory + '_wrapper').find('.tracker').attr('value');
-
-    $(".hidden-tracker#"+ currentCategory +"_state_array").html("<%= j render partial: 'hidden_tracker', locals: {user: current_user, category: category} %>");
-
-    $('ul#' + currentCategory).html("<%=  j render category, user: current_user %>");
-
-    $('#'+ currentCategory + '_wrapper').find('.badge-tracker-wrapper').html("<%= j render 'count', count: current_user.send(category).count %>");
-
-    if ("<%= current_user.send(category).count %>" > 0) {
-      $('#'+ currentCategory + '_wrapper').slideDown();
-      $('#'+ currentCategory + '_wrapper').find('.badge-tracker-wrapper').slideDown();
-      if (addedToCategory) {
-        $('#'+ currentCategory + '_wrapper').find('.tracker').addClass('red-background');
-      }
-    } else {
-      $('#'+ currentCategory + '_wrapper').find('.badge-tracker-wrapper').slideUp();
-      $('#'+ currentCategory + '_wrapper').slideUp();
-    }
-
-  }
 <% end %>

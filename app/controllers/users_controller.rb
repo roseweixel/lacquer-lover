@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def live_notifications
-    @user = User.find(params[:id])
+    @user = User.includes(:requested_transactions, :owned_transactions, :friendships).find(params[:id])
     respond_to do |format|
       format.js { }
     end
