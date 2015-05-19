@@ -36,8 +36,25 @@ class User < ActiveRecord::Base
   validates_presence_of :name, :provider, :uid, :oauth_token
   validates_format_of :email, with: /@/, message: "Must be an email", allow_blank: true
 
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
+      user.provider = auth.provider
+      user.uid = auth.uid
+      user.name = auth.info.name
+      user.email = auth.info.email
+      user.image = auth.info.image
+      user.oauth_token = auth.credentials.token
+      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+      user.save!
+    end
+  end
+
   def transactions_and_friendships_data_array
-    all_friendships.pluck(:state) + transactions.pluck(:state)
+    friendships.pluck(:state) + friendships_initiated_by_others.pluck(:state) + owned_transactions.pluck(:state) + requested_transactions.pluck(:state)
+  end
+
+  def due_date_list
+    active_requested_transactions.pluck(:due_date).map { |date| date.strftime('%m/%d/%Y') if date }.compact
   end
 
   def all_friendships
@@ -60,18 +77,6 @@ class User < ActiveRecord::Base
     requested_gifts.where(state: ['completed'])
   end
 
-  def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.name = auth.info.name
-      user.email = auth.info.email
-      user.image = auth.info.image
-      user.oauth_token = auth.credentials.token
-      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
-      user.save!
-    end
-  end
 
   def first_name
     name.split.first

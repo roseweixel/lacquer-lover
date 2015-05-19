@@ -71,7 +71,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def no_due_date_if_state_is_not_active
-    if !['active', 'completed'].include?(self.state) && self.due_date
+    if !['active', 'returned_unconfirmed', 'completed'].include?(self.state) && self.due_date
       errors.add(:transaction, "you can only assign a due date after you've given #{self.lacquer.name} to #{self.requester.first_name}")
     end
   end

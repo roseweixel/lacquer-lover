@@ -1,14 +1,12 @@
-<div class="col-sm-5">
+<span id="all-categories-tracker", style="display: none;"><%= @user.transactions_and_friendships_data_array %></span>
 
-  <% notification_types.each do |type| %>
-    <h3><%= type.capitalize %> Notifications</h3>
+<% notification_types.each do |type| %>
+  <h3><%= type.capitalize %> Notifications</h3>
 
-    <% send("#{type}s_categories").each do |category| %>
+  <% send("#{type}s_categories").each do |category| %>
 
-      <%= render 'notification_category', category: category, user: current_user %>
-
-    <% end %>
+    <%= render 'notification_category', category: category, user: @user %>
 
   <% end %>
 
-</div>
+<% end %>

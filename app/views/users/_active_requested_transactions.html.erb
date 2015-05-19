@@ -21,7 +21,7 @@
       <% end %>
       <br>
       <span>
-      The return date for this loan is <%= transaction.due_date.strftime("%m/%d/%Y") %>.
+      The return date for this loan is <span class="due-date"><%= transaction.due_date.strftime("%m/%d/%Y") %></span>.
       </span>
     <% end %>
     <br>

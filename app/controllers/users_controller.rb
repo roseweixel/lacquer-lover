@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def live_notifications
-    @user = User.includes(:requested_transactions, :owned_transactions, :friendships).find(params[:id])
+    @user = User.includes(:requested_transactions, :owned_transactions, :friendships, :friendships_initiated_by_others).find(params[:id])
     respond_to do |format|
       format.js { }
     end
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       flash[:notice] = "Thanks! Your info has been saved."
     else
-      flash[:notice] = "Uh oh, something went wrong."
+      flash[:notice] = @user.errors.full_messages.to_sentence
     end
     redirect_to :back
   end

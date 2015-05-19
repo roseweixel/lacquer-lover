@@ -83,9 +83,9 @@
 
 			<!-- BEGINNING OF YOUR ALERTS & FRIENDSHIPS (IF YOU ARE THE CURRENT USER) -->
 			<% if @user == current_user %>
-				<span class="live-notifications">
+				<div id="live-notifications" class="col-sm-5">
 					<%= render 'live_notifications', user: @user %>
-				</span>
+				</div>
 			<% end %>
 
 		</div>
