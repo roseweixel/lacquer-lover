@@ -47,6 +47,8 @@ class Transaction < ActiveRecord::Base
       user_lacquer.update(on_loan: true)
     when 'completed'
       user_lacquer.update(on_loan: false)
+    when 'rejected'
+      user_lacquer.update(on_loan: false)
     end
   end
 

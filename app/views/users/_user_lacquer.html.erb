@@ -46,25 +46,7 @@
       </td>
     <% else %>
       <% if user_lacquer.available? %>
-        <td class="transaction-request" id="transaction-<%=user_lacquer.id%>">
-          <% if Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id, state:['pending', 'accepted']).empty? %>
-            <%= form_for(transaction, remote: true) do |f| %>
-              <%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
-              <%= f.hidden_field :requester_id, value: current_user.id %>
-              <%= f.hidden_field :owner_id, value: user.id %>
-              <%= f.submit 'Borrow it!', class: "btn btn-info" %>
-            <% end %>
-          <% else %>
-            <% transaction = Transaction.where(requester_id: current_user.id, user_lacquer_id: user_lacquer.id).first %>
-            <% if transaction.state == 'pending' %>
-              <%= form_for(transaction, method: 'DELETE', remote: true) do |f| %>
-                <%= f.hidden_field :user_lacquer_id, value: user_lacquer.id %>
-                <%= f.hidden_field :owner_id, value: user.id %>
-                <%= f.submit 'cancel request', class:"btn btn-danger btn-sm", style:"width: 110px;" %>
-              <% end %>
-            <% end %>
-          <% end %>
-        </td>
+        <%= render 'transactions/user_lacquer_transaction_request', user_lacquer: user_lacquer, user: user %>
       <% else %>
         <td>
         <%= link_to "Buy it!", user_lacquer.lacquer.url_for_buy_it_link, :target => "_blank", class: "btn btn-primary", style:"width: 104px;" %>
