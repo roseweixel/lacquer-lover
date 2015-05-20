@@ -14,6 +14,7 @@ $(function(){
     $('.main-finish-dropdown').hide();
 	$('.lacquer-dropdown').hide();
     $('.other-lacquer').hide();
+    
     $('#brand-selection').change(function(event){
         event.stopPropagation();
         var brand = $(this).val();
@@ -21,14 +22,14 @@ $(function(){
         $('.other-lacquer').hide();
         $('.add-lacquer').hide();
         $('.add-lacquer').addClass("disabled");
+        $('.lacquer-dropdown').find('select').val($("#target option:first").val());
+        $('.main-color-dropdown').hide();
+        $('.main-finish-dropdown').hide();
         $.each(BRANDS, function(key, value){
             if(brand === key){
                 $(value).show();
             }
         });
-        $('.lacquer-dropdown').find('select').val($("#target option:first").val())
-        $('.main-color-dropdown').hide();
-        $('.main-finish-dropdown').hide();
     });
 
     $('.lacquer-dropdown').change(function(event){
