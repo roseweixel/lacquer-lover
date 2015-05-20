@@ -51,10 +51,10 @@ class UserLacquer < ActiveRecord::Base
     if lacquer.swatches.any?
       lacquer.swatches.each do |swatch|
         if swatch.image.file? && swatch.user_id == user.id
-          return swatch.image.url(:thumb)
+          return swatch.image.url(:medium)
         end
       end
-      return lacquer.swatches.first.image.url(:thumb) if lacquer.swatches.first.image.file?
+      return lacquer.swatches.first.image.url(:medium) if lacquer.swatches.first.image.file?
     end
   end
 
