@@ -58,17 +58,17 @@
                 <div class="<%='fl' if index == 0 || index == 1 %> swatch thumbnail list-group" style="display: inline-block; height: 311px;">
                   <div style="padding: 10px;">
                     <a data-toggle="modal" href="#imageModal-<%= index + 1 %>">
-                      <%= image_tag(swatch.image.url, height: "200px") %>
+                      <%= image_tag(swatch.image.url, style: "height: 220px;") %>
                     </a>
                     <%= render 'image_modal', id: index + 1, image: swatch.image.url %> 
                   </div>
                   <div class="caption col-md-12">
-                  <% if current_user && swatch.user %>
-                  added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %><br>
-                  <% end %>
-                  <% if swatch.user == current_user %>
-                    <%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
-                  <% end %>
+                    <% if current_user && swatch.user %>
+                    added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %><br>
+                    <% end %>
+                    <% if swatch.user == current_user %>
+                      <%= link_to 'delete this swatch', swatch_path(swatch), method: 'DELETE' %>
+                    <% end %>
                   </div>
               </div>
             <% end %>
@@ -77,9 +77,9 @@
         <% if @lacquer.swatches.count < 5 %>
           <% (5 - @lacquer.swatches.count).times do %>
             <div class="thumbnail list-group" style="display: inline-block; height: 311px;">
-              <div class="col-md-12" style="padding: 10px;">
-                </div>
-              <%= image_tag('swatch-placeholder-image.png', height: "200px") %>
+              <div style="padding: 10px;">
+                <%= image_tag('swatch-placeholder-image.png', height: "220px") %>
+              </div>
             </div>
           <% end %>
         <% end %>
