@@ -26,11 +26,16 @@ $(function(){
                 $(value).show();
             }
         });
+        $('.lacquer-dropdown').find('select').val($("#target option:first").val())
+        $('.main-color-dropdown').hide();
+        $('.main-finish-dropdown').hide();
     });
 
     $('.lacquer-dropdown').change(function(event){
         event.stopPropagation();
         $('.other-lacquer').hide();
+        $('.main-color-dropdown').hide();
+        $('.main-finish-dropdown').hide();
         var brand = $('#brand-selection').val();
         var lacquerID = $(this).find("select").val();
         if(lacquerID === "") {
