@@ -19,6 +19,7 @@ $(function(){
         var brand = $(this).val();
         $('.lacquer-dropdown').hide();
         $('.other-lacquer').hide();
+        $('.add-lacquer').hide();
         $('.add-lacquer').addClass("disabled");
         $.each(BRANDS, function(key, value){
             if(brand === key){
@@ -34,7 +35,10 @@ $(function(){
         var lacquerID = $(this).find("select").val();
         if(lacquerID === "") {
             $('.add-lacquer').addClass("disabled");
+            $('.add-lacquer').hide();
         } else if(lacquerID === "new") {
+            $('.main-color-dropdown').hide();
+            $('.main-finish-dropdown').hide();
             $('.add-lacquer').hide();
             $.each(BRANDS_SHORT, function(key, value){
                 if(brand === key){
