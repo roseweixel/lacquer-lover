@@ -48,17 +48,21 @@
           <div class="thumbnail list-group" style="display: inline-block; float: left; height: 311px; width: 270px;">
             <div class="col-md-12" style="padding: 10px;">
             </div>
-            <%= image_tag @lacquer.picture, style:"height: 255px;" %>
+            <a data-toggle="modal" href="#imageModal-0"><%= image_tag @lacquer.picture, style:"height: 255px;" %></a>
+            <%= render 'image_modal', id: 0, image: @lacquer.picture %>
           </div>
         <% end %>
         <% if @lacquer.swatches.any? %>
           <% @lacquer.swatches.each.with_index do |swatch, index| %>
             <% if swatch.image.file? %>
                 <div class="<%='fl' if index == 0 || index == 1 %> swatch thumbnail list-group" style="display: inline-block; height: 311px;">
-                  <div class="col-md-12" style="padding: 10px;">
+                  <div style="padding: 10px;">
+                    <a data-toggle="modal" href="#imageModal-<%= index + 1 %>">
+                      <%= image_tag(swatch.image.url, height: "200px") %>
+                    </a>
+                    <%= render 'image_modal', id: index + 1, image: swatch.image.url %> 
                   </div>
-                  <%= image_tag(swatch.image.url, height: "200px") %><br>
-                  <div class="caption">
+                  <div class="caption col-md-12">
                   <% if current_user && swatch.user %>
                   added by <%= link_to swatch.user.name, user_path(swatch.user) %> on <%= swatch.created_at.strftime("%m/%d/%Y")  %><br>
                   <% end %>
@@ -80,8 +84,7 @@
           <% end %>
         <% end %>
       </div>
-    	<!-- <div class="col-sm-1"> -->
-    	<!-- </div> -->
+
     	<div class="col-sm-3">
     	<h3><strong>Color Tags</strong></h3>
     	<% if @lacquer.color_tags.count > 0 %>
@@ -110,7 +113,6 @@
           <%= render 'new_review', lacquer: @lacquer %>
         </span>
           <%= link_to "", "#newReviewModal", :style => "display: none;", :id => "hidden-review-modal-link", "data-toggle" => "modal" %>
-          <!-- <a data-toggle="modal" data-target="#newReviewModal" style="display: none;" id="hidden-review-modal-link"></a> -->
         <br>
         <% if !@lacquer.reviews.any? %>
           No reviews yet!
