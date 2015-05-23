@@ -19,3 +19,6 @@
 # Ignore application configuration
 /config/application.yml
 coverage
+
+# Ignore secrets
+/config/secrets.yml

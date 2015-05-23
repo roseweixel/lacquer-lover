@@ -87,7 +87,7 @@ class User < ActiveRecord::Base
     User.where(id: ids)
   end
 
-  def accpeted_friendships_you_requested
+  def accepted_friendships_you_requested
     Friendship.where(user_id: self.id, state: 'accepted')
   end
 
@@ -96,7 +96,7 @@ class User < ActiveRecord::Base
   end
 
   def all_accepted_friendships
-    accpeted_friendships_you_requested + accepted_friendships_you_accepted
+    accepted_friendships_you_requested + accepted_friendships_you_accepted
   end
 
   def requested_friends_awaiting_approval
