@@ -14,15 +14,13 @@ class BrandsController < ApplicationController
     @brand = @lacquer.brand
     @user ? User.includes(:lacquers).find(current_user.id) : nil
     respond_to do |format|
-      format.js { }
+      format.js
     end
   end
 
   def update
-    if params[:lacquer_ids]
-      @lacquer_ids = params[:lacquer_ids]
-      @lacquer_count = params[:lacquer_ids].count
-      params[:lacquer_ids].each do |id|
+    if @lacquer_ids = params[:lacquer_ids]
+      @lacquer_ids.each do |id|
         UserLacquer.create(lacquer_id: id, user_id: @user.id)
       end
     else
@@ -31,10 +29,10 @@ class BrandsController < ApplicationController
     end
     respond_to do |format|
       format.html {
-        flash[:notice] = "You've successfully added #{params[:lacquer_ids].count} lacquers to your collection!"
+        flash[:notice] = "You've successfully added #{@lacquer_ids.count} lacquers to your collection!"
         redirect_to :back
       }
-      format.js { }
+      format.js
     end
   end
 end
