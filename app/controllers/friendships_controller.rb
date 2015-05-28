@@ -15,9 +15,7 @@ class FriendshipsController < ApplicationController
         redirect_to root_path and return true
       end
     end
-    @friend = User.find(params[:friend_id])
-    if params[:friend_id]
-      @friend = User.find(params[:friend_id])
+    if params[:friend_id] && (@friend = User.find(params[:friend_id]))
       @friendship = current_user.friendships.new(friend: @friend)
     else
       flash[:notice] = "Friend required"
@@ -63,7 +61,7 @@ class FriendshipsController < ApplicationController
       redirect_to user_path(current_user)
     else
       flash[:notice] = "This friendship is now #{params[:state]}."
-      redirect_to(:back)
+      redirect_to :back
     end
   end
 
@@ -71,10 +69,10 @@ class FriendshipsController < ApplicationController
     if @friendship.state == 'pending' && current_user == @friendship.user
       @friendship.destroy
       flash[:notice] = "Pending request deleted."
-      redirect_to(:back)
+      redirect_to :back
     else
       flash[:alert] = "This request could not be deleted!"
-      redirect_to(:back)
+      redirect_to :back
     end
   end
 
