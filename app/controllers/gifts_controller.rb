@@ -9,7 +9,7 @@ class GiftsController < ApplicationController
 
     respond_to do |f|
       f.html { redirect_to :back }
-      f.js { }
+      f.js
     end
   end
 
@@ -24,7 +24,7 @@ class GiftsController < ApplicationController
     if ['acknowledged', 'completed'].include?(@gift.state) && @gift.requester == current_user
       flash[:success] = "#{@gift.lacquer.name} is now in your collection!"
     end
-    redirect_to(:back)
+    redirect_to :back
   end
 
   private
