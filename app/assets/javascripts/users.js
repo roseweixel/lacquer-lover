@@ -1,3 +1,8 @@
+// This is necessary just for Safari and other incompatible browsers
+String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
+
 $(function() {
     var currentUrl = window.location.href;
     var userID = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
