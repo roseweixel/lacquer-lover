@@ -9,7 +9,7 @@ class SwatchesController < ApplicationController
     else
       flash[:notice] = "This swatch upload was unsuccessful."
     end
-    redirect_to(:back)
+    redirect_to :back
   end
 
   def destroy
@@ -17,7 +17,7 @@ class SwatchesController < ApplicationController
     @lacquer = Lacquer.find(@swatch.lacquer_id)
     @swatch.destroy
     flash[:notice] = "The swatch for #{@lacquer.name} has been deleted."
-    redirect_to(:back) 
+    redirect_to :back 
   end
 
   private

@@ -48,7 +48,7 @@ class TransactionsController < ApplicationController
     elsif @transaction.state == 'completed'
       @transaction.date_ended = Date.today
     end
-    redirect_to(:back)
+    redirect_to :back 
   end
 
   def destroy
@@ -65,8 +65,8 @@ class TransactionsController < ApplicationController
       flash[:notice] = "The transaction could not be deleted at this time."
     end
     respond_to do |format|
-      format.html { redirect_to(:back) }
-      format.js { }
+      format.html { redirect_to :back }
+      format.js
     end
   end
 

@@ -8,9 +8,9 @@ class UserLacquersController < ApplicationController
     respond_to do |format|
       format.html { 
         flash[:notice] = "#{lacquer.name} has been added to your collection!"
-        redirect_to(:back)
+        redirect_to :back
       }
-      format.js { }
+      format.js
     end
   end
 
@@ -25,7 +25,7 @@ class UserLacquersController < ApplicationController
       flash[:alert] = "You are trying to update a lacquer that is not yours!"
     end
     respond_to do |format|
-      format.js { }
+      format.js
     end
   end
 
@@ -40,12 +40,12 @@ class UserLacquersController < ApplicationController
       else
         respond_to do |format|
           format.html { redirect_to :back }
-          format.js { }
+          format.js
         end
       end
     else
       flash[:notice] = "You can't delete another user's lacquer!"
-      redirect_to(:back)
+      redirect_to :back
     end
   end
 

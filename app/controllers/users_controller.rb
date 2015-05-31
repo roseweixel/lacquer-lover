@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   def live_notifications
     @user = User.includes(:requested_transactions, :owned_transactions, :friendships, :friendships_initiated_by_others).find(params[:id])
     respond_to do |format|
-      format.js { }
+      format.js
     end
   end
 
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:user_id])
     @favorite = Favorite.find_by(lacquer_id: @user_lacquer.lacquer_id, user_id: @user.id)
     respond_to do |format|
-      format.js { }
+      format.js
     end
   end
 
@@ -95,7 +95,7 @@ class UsersController < ApplicationController
   def invite_friends
     if !@user
       flash[:alert] = "You need to be logged in to invite friends!"
-      redirect_to(:back)
+      redirect_to :back
     else
       @emails = params[:emails][0].split(/[,|\s]{1,}/).uniq
       if @user && @emails.any?
@@ -108,7 +108,7 @@ class UsersController < ApplicationController
       else
         flash[:warning] = "Sorry, there was a problem sending your email invitations!"
       end
-      redirect_to(:back)
+      redirect_to :back
     end
   end
 
