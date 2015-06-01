@@ -29,6 +29,7 @@ if (countOrStatusChanged || dueDatesChanged) {
 
     // re-render friends only if the friend count has changed
     if (previousFriendCount !== currentFriendCount) {
+        $('#hidden_friend_count').html("<%= j render 'count', count: @user.accepted_friends.count %>");
         $('#accepted-friends').html("<%= j render partial: 'friends', locals: {user: @user} %>");
     }
 

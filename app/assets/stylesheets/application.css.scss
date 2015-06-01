@@ -571,6 +571,10 @@ i.small-red-heart, i.small-red-heart:hover {
   box-shadow: 10px 10px 30px -4px rgba(0,0,0,0.75);
 }
 
+.sign-in-to-btn {
+  margin-right: 2.5%;
+}
+
 @media (max-width: 658px) {
   .footer>.col-md-8, .footer>.col-md-4 {
     width: 100%;
@@ -596,7 +600,7 @@ i.small-red-heart, i.small-red-heart:hover {
         margin-left: 0;
     }
     .col-md-3 {
-      width: 48.6178453038674%;
+      width: 49.7%;
       display: inline-block;
     }
 
@@ -614,7 +618,7 @@ i.small-red-heart, i.small-red-heart:hover {
         margin-left: 0;
     }
     .col-md-3 {
-      width: 32.6178453038674%;
+      width: 33.333333333333%;
       display: inline-block;
     }
 
