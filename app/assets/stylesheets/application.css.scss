@@ -575,6 +575,12 @@ i.small-red-heart, i.small-red-heart:hover {
   margin-right: 2.5%;
 }
 
+@media (max-width: 703px) {
+  .sign-in-to-btn {
+    display: none;
+  }
+}
+
 @media (max-width: 658px) {
   .footer>.col-md-8, .footer>.col-md-4 {
     width: 100%;

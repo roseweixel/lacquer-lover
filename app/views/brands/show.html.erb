@@ -1,5 +1,5 @@
 <div class="row">
-<h1 class="col-md-6 pull-left"><%= @brand.name %></h1>
+<h1 class="col-sm-6 pull-left"><%= @brand.name %></h1>
 
 <% if @brand.lacquers.any? %>
   <% if current_user %>
@@ -16,7 +16,9 @@
   <% end %>
   <% else %>
     <div class="row">
-      <%= link_to "Sign In To Favorite & Add Lacquers to Your Collection!", "/auth/facebook", class: "col-md-5 pull-right btn btn-primary sign-in-to-btn", id: "brand-show-sign-in", style: "margin-top: 25px;" %>
+      <div class="col-sm-5 pull-right">
+      <%= link_to "Sign In To Favorite & Add Lacquers to Your Collection!", "/auth/facebook", class: "pull-right btn btn-primary sign-in-to-btn", id: "brand-show-sign-in", style: "margin-top: 25px;" %>
+      </div>
     </div>  
     <div class="row-fluid">
     <% @brand.lacquers.each do |lacquer| %>
