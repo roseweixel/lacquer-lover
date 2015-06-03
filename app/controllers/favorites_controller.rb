@@ -9,7 +9,7 @@ class FavoritesController < ApplicationController
     @favorite = Favorite.create(user_id: params[:user_id], lacquer_id: params[:lacquer_id])
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js { }
+      format.js
     end
   end
 
@@ -21,7 +21,7 @@ class FavoritesController < ApplicationController
     Favorite.find_by(user_id: params[:user_id], lacquer_id: params[:lacquer_id]).destroy
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js { }
+      format.js
     end
   end
 end

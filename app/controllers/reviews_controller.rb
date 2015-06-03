@@ -46,7 +46,7 @@ class ReviewsController < ApplicationController
     end
     respond_to do |f|
       f.html
-      f.js { }
+      f.js
     end
   end
 
