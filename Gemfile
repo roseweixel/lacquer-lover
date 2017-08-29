@@ -85,7 +85,7 @@ end
 
 gem "bootstrap-sass", '~> 3.3.3'
 gem 'omniauth'
-gem 'omniauth-facebook', '1.4.0'
+gem 'omniauth-facebook', '4.0.0'
 gem 'figaro'
 gem 'state_machine'
 gem "paperclip", "~> 4.2"
